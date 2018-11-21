@@ -9,13 +9,6 @@
 #include "ncurses.h"
 #include "panel.h"
 
-/*
- * Class: Canvas
- *
- * Canvases are Window/Panel pairs that carry with them metadata about their size, initial color,
- * and location on the screen. They serve as a drawing board where elements can render their contents
- * onto and can be easily hidden when not in use.
- */
 class Canvas {
 
 public:
