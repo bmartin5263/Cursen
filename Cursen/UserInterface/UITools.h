@@ -26,6 +26,8 @@ public:
     static void AddColor(std::string key, short foreground, short background);
     static const TextColor& GetColor(std::string key);
 
+    static void DrawText(std::string, int x, int y);
+
 private:
 
     static std::unordered_map<std::string, TextColor> colorMap;

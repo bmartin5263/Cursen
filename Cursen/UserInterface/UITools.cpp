@@ -3,7 +3,7 @@
 //
 
 #include "UITools.h"
-#include "curses.h"
+#include "ncurses.h"
 
 std::unordered_map<std::string, TextColor> UITools::colorMap;
 
@@ -19,4 +19,11 @@ const TextColor& UITools::GetColor(std::string key) {
         throw std::exception();
     }
     return colorMap[key];
+}
+
+void UITools::DrawText(std::string text, int x, int y) {
+    attron(GetColor("white").colorPair);
+    mvaddstr(y, x, text.c_str());
+    attroff(GetColor("white").colorPair);
+    refresh();
 }

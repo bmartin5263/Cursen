@@ -14,6 +14,8 @@ public:
 
 private:
 
+    void userInitialization();
+
     static Engine* engineInstance;
 
     static Engine& Instance() {

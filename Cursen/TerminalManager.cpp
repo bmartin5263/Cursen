@@ -6,7 +6,6 @@
 #include "TerminalManager.h"
 #include "Canvas.h"
 #include "SFML/Graphics.hpp"
-#include "UITools.h"
 
 TerminalManager* TerminalManager::managerInstance = nullptr;
 
@@ -19,14 +18,6 @@ void TerminalManager::privInitialize()
 {
     initializeCurses();
     initializeCanvas();
-
-    // Placing color initializing here for now
-    UITools::AddColor("white", 15, COLOR_BLACK);
-    UITools::AddColor("blue", 39, COLOR_BLACK);
-    UITools::AddColor("red", 199, COLOR_BLACK);
-    UITools::AddColor("green", 82, COLOR_BLACK);
-    UITools::AddColor("white", 226, COLOR_BLACK);
-    UITools::AddColor("gray", 8, COLOR_BLACK);
 }
 
 void TerminalManager::initializeCurses() {
