@@ -3,6 +3,7 @@
     <words>
       <w>cursen</w>
       <w>priv</w>
+      <w>stdscr</w>
     </words>
   </dictionary>
 </component>

@@ -6,11 +6,13 @@
 #define CURSEN_TERMINALMANAGER_H
 
 #include <string>
-#include "Canvas.h"
 
 class Canvas;
 
 class TerminalManager {
+
+    const static int WIN_COLS = 33;
+    const static int WIN_ROWS = 70;
 
 public:
 
@@ -24,7 +26,9 @@ private:
 
     Canvas& privGetCanvas();
     void privInitialize();
+
     void initializeCurses();
+    void initializeCanvas();
 
     static TerminalManager* managerInstance;
 

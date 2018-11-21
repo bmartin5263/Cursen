@@ -4,7 +4,7 @@ project(Cursen)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "-lncurses -lpanel")
 
-add_executable(Cursen main.cpp Cursen/Engine.cpp Cursen/Engine.h Cursen/TerminalManager.cpp Cursen/TerminalManager.h Cursen/UserInterface/Canvas.cpp Cursen/UserInterface/Canvas.h Cursen/UserInterface/CursesSprite.cpp Cursen/UserInterface/CursesSprite.h)
+add_executable(Cursen main.cpp Cursen/Engine.cpp Cursen/Engine.h Cursen/TerminalManager.cpp Cursen/TerminalManager.h Cursen/UserInterface/Canvas.cpp Cursen/UserInterface/Canvas.h Cursen/UserInterface/CursesSprite.cpp Cursen/UserInterface/CursesSprite.h Cursen/UserInterface/UITools.cpp Cursen/UserInterface/UITools.h)
 
 target_include_directories(Cursen PRIVATE Cursen)
 target_include_directories(Cursen PRIVATE Cursen/UserInterface)
