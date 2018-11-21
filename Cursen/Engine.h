@@ -5,6 +5,8 @@
 #ifndef CURSEN_ENGINE_H
 #define CURSEN_ENGINE_H
 
+#include "EngineClock.h"
+
 class Engine {
 
 public:
@@ -13,6 +15,8 @@ public:
     static void Terminate();
 
 private:
+
+    EngineClock clock;
 
     void userInitialization();
 

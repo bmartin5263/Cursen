@@ -5,6 +5,7 @@
 #include <thread>
 #include <curses.h>
 #include "Engine.h"
+#include "SceneManager.h"
 #include "TerminalManager.h"
 #include "SFML/Window.hpp"
 #include "UITools.h"
@@ -16,23 +17,10 @@ void Engine::Run() {
     TerminalManager::Initialize();
     Instance().userInitialization();
 
-    // Load Resources
-
-    int x = 0;
-    int y = 0;
-
     while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
-        clear();
-        refresh();
-        UITools::DrawText("X", x, y);
-        UITools::DrawText("Y", x+1, y);
-        UITools::DrawText("Z", x+2, y);
-        x++;
-        y++;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        //Instance().gameclock.ProcessTime();
-        //SceneManager::ProcessOneFrame();
+        Instance().clock.processTime();
+        SceneManager::ProcessOneFrame();
     }
 
     Instance().Terminate();
