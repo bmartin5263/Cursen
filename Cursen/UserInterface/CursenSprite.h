@@ -13,12 +13,12 @@ class CursesSprite {
 
 public:
 
-    CursesSprite();
-    CursesSprite(const CursesSprite&);
-    CursesSprite& operator = (const CursesSprite& other);
-    virtual ~CursesSprite();
+    CursesSprite() = default;
+    CursesSprite(const CursesSprite&) = default;
+    CursesSprite& operator = (const CursesSprite& other) = default;
+    virtual ~CursesSprite() = default;
 
-    virtual void draw(Canvas& canvas);
+    virtual void draw() = 0;
 
 protected:
 

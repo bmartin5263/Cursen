@@ -9,13 +9,19 @@
 #include "TerminalManager.h"
 #include "SFML/Window.hpp"
 #include "UITools.h"
+#include "CursenObject.h"
 
 Engine* Engine::engineInstance = nullptr;
 
+/*
+ * Main Loop of the engine
+ */
 void Engine::Run() {
 
     TerminalManager::Initialize();
     Instance().userInitialization();
+
+    CursenObject o(true);
 
     while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
@@ -27,6 +33,9 @@ void Engine::Run() {
 
 }
 
+/*
+ * Current location for custome user initialization
+ */
 void Engine::userInitialization() {
     UITools::AddColor("white", 15, COLOR_BLACK);
     UITools::AddColor("blue", 39, COLOR_BLACK);

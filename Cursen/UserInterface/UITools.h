@@ -26,6 +26,9 @@ public:
     static void AddColor(std::string key, short foreground, short background);
     static const TextColor& GetColor(std::string key);
 
+    static void Flash();
+    static void Beep();
+
     static void DrawText(std::string, int x, int y);
 
 private:

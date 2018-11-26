@@ -9,15 +9,13 @@
 
 TerminalManager* TerminalManager::managerInstance = nullptr;
 
-TerminalManager::TerminalManager() :
-    mainCanvas(nullptr)
+TerminalManager::TerminalManager()
 {
 }
 
 void TerminalManager::privInitialize()
 {
     initializeCurses();
-    initializeCanvas();
 }
 
 void TerminalManager::initializeCurses() {
@@ -40,14 +38,13 @@ void TerminalManager::initializeCurses() {
     refresh();
 }
 
-void TerminalManager::initializeCanvas() {
-    mainCanvas = new Canvas(sf::Vector2i(0,0), sf::Vector2i(WIN_COLS, WIN_ROWS));
+void TerminalManager::privClearScreen() {
+    erase();
+    box(stdscr, 0, 0);
 }
 
-
-Canvas& TerminalManager::privGetCanvas()
-{
-    return *mainCanvas;
+void TerminalManager::privRefreshScreen() {
+    refresh();
 }
 
 void TerminalManager::Terminate() {
@@ -57,8 +54,6 @@ void TerminalManager::Terminate() {
 
 TerminalManager::~TerminalManager()
 {
-    delete mainCanvas;
-
     flushinp();     // Flush any remaining curses input
     endwin();       // End curses
     printf("[Terminal Manager] Deconstructed\n");

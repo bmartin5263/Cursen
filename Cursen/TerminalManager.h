@@ -16,19 +16,18 @@ class TerminalManager {
 
 public:
 
-    static Canvas& GetCanvas() { return Instance().privGetCanvas(); };
+    static void ClearScreen() { Instance().privClearScreen(); };
+    static void RefreshScreen() { Instance().privRefreshScreen(); }
     static void Initialize() { Instance().privInitialize(); };
     static void Terminate();
 
 private:
 
-    Canvas* mainCanvas;
-
-    Canvas& privGetCanvas();
     void privInitialize();
+    void privClearScreen();
+    void privRefreshScreen();
 
     void initializeCurses();
-    void initializeCanvas();
 
     static TerminalManager* managerInstance;
 

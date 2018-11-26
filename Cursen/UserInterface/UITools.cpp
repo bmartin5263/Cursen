@@ -25,5 +25,12 @@ void UITools::DrawText(std::string text, int x, int y) {
     attron(GetColor("white").colorPair);
     mvaddstr(y, x, text.c_str());
     attroff(GetColor("white").colorPair);
-    refresh();
+}
+
+void UITools::Beep() {
+    beep();
+}
+
+void UITools::Flash() {
+    flash();
 }

@@ -14,6 +14,8 @@ public:
     static void Run();
     static void Terminate();
 
+    static float GetFrameTime() { return Instance().clock.getFrameTime(); };
+
 private:
 
     EngineClock clock;
