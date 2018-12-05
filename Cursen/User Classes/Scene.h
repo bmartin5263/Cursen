@@ -20,7 +20,8 @@ public:
     virtual ~Scene() = default;
 
 
-    virtual void initialize() {};
+    virtual void initialize();
+
     virtual void terminate() {};
 
     void finalize();

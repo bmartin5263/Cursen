@@ -23,11 +23,6 @@ void Engine::Run() {
     TerminalManager::Initialize();
     Instance().UserInitialization();
 
-    CursenObject o;
-    CursenObject o2;
-    CursenObject o3;
-    CursenObject o4;
-
     while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
         Instance().clock.processTime();
@@ -49,6 +44,7 @@ void Engine::UserInitialization() {
     UITools::AddColor("green", 82, COLOR_BLACK);
     UITools::AddColor("yellow", 226, COLOR_BLACK);
     UITools::AddColor("gray", 8, COLOR_BLACK);
+    SceneManager::SetStartScene(new Scene);
 }
 
 void Engine::Terminate() {

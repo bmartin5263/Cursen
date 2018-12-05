@@ -23,6 +23,18 @@ void Scene::processFrame() {
     deleteMarkedObjects();
 }
 
+void Scene::initialize() {
+    CursenObject* o = new CursenObject();
+    CursenObject* o2 = new CursenObject();
+    CursenObject* o3 = new CursenObject();
+    CursenObject* o4 = new CursenObject();
+    CursenObject* o5 = new CursenObject();
+    CursenObject* o6 = new CursenObject();
+    CursenObject* o7 = new CursenObject();
+    CursenObject* o8 = new CursenObject();
+    CursenObject* o9 = new CursenObject();
+}
+
 void Scene::draw()
 {
     for(auto mapPair = drawnObjects.begin(); mapPair != drawnObjects.end(); ++mapPair)

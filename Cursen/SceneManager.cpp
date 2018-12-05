@@ -3,6 +3,7 @@
 //
 
 #include <ncurses.h>
+#include <UserInterface/UITools.h>
 #include "SceneManager.h"
 #include "Scene.h"
 
@@ -24,6 +25,12 @@ void SceneManager::privProcessOneFrame() {
         nextScene = nullptr;
     }
     currentScene->processFrame();
+}
+
+void SceneManager::privSetStartScene(Scene* scene)
+{
+    currentScene = nullptr;
+    nextScene = scene;
 }
 
 SceneManager::~SceneManager() {

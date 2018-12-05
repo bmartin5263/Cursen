@@ -13,10 +13,12 @@ public:
 
     static void ProcessOneFrame() { Instance().privProcessOneFrame(); };
     static Scene* GetCurrentScene() { return Instance().currentScene; };
+    static void SetStartScene(Scene* scene) { Instance().privSetStartScene(scene); };
 
 private:
 
     void privProcessOneFrame();
+    void privSetStartScene(Scene* scene);
 
     Scene* currentScene;
     Scene* nextScene;
