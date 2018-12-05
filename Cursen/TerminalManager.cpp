@@ -18,11 +18,15 @@ void TerminalManager::privInitialize()
     initializeCurses();
 }
 
-void TerminalManager::initializeCurses() {
-    // Attempt to resize terminal
-    std::string resizeString = "\e[8;" + std::to_string(WIN_COLS) + ";" + std::to_string(WIN_ROWS) + "t";
+void TerminalManager::Resize(int rows, int columns) {
+    std::string resizeString = "\e[8;" + std::to_string(rows) + ";" + std::to_string(columns) + "t";
     printf("%s", resizeString.c_str());
     fflush(stdout);
+}
+
+void TerminalManager::initializeCurses() {
+    // Attempt to resize terminal
+    Resize(WIN_ROWS, WIN_COLS);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));    // slight delay for change to take effect
 
     // Initialize Curses

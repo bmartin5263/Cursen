@@ -20,7 +20,7 @@ private:
 
     EngineClock clock;
 
-    void userInitialization();
+    static void UserInitialization();
 
     static Engine* engineInstance;
 

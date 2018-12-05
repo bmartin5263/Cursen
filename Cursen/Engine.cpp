@@ -18,15 +18,21 @@ Engine* Engine::engineInstance = nullptr;
  */
 void Engine::Run() {
 
-    TerminalManager::Initialize();
-    Instance().userInitialization();
+    srand((unsigned)time(0));
 
-    CursenObject o(true);
+    TerminalManager::Initialize();
+    Instance().UserInitialization();
+
+    CursenObject o;
+    CursenObject o2;
+    CursenObject o3;
+    CursenObject o4;
 
     while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
         Instance().clock.processTime();
         SceneManager::ProcessOneFrame();
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
     Instance().Terminate();
@@ -34,9 +40,9 @@ void Engine::Run() {
 }
 
 /*
- * Current location for custome user initialization
+ * Current location for custom user initialization
  */
-void Engine::userInitialization() {
+void Engine::UserInitialization() {
     UITools::AddColor("white", 15, COLOR_BLACK);
     UITools::AddColor("blue", 39, COLOR_BLACK);
     UITools::AddColor("red", 199, COLOR_BLACK);

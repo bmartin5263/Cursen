@@ -11,8 +11,8 @@ class Canvas;
 
 class TerminalManager {
 
-    const static int WIN_COLS = 33;
-    const static int WIN_ROWS = 70;
+    const static int WIN_COLS = 70;
+    const static int WIN_ROWS = 33;
 
 public:
 
@@ -20,6 +20,9 @@ public:
     static void RefreshScreen() { Instance().privRefreshScreen(); }
     static void Initialize() { Instance().privInitialize(); };
     static void Terminate();
+    static void Resize(int rows, int columns);
+    static int GetColumns() { return WIN_COLS; };
+    static int GetRows() { return WIN_ROWS; };
 
 private:
 
