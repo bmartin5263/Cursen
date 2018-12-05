@@ -7,28 +7,12 @@
 #include <SFML/System.hpp>
 #include "CursenObject.h"
 
-//CursenObject::CursenObject() :
-//        updateOrder(0), drawOrder(0), externallyManaged(false)
-//{
-//    registerToCurrentScene(true, true);
-//}
-
 /*
  * Automatically registers for draws and updates in the current scene.
  */
-
-std::vector<std::string> CursenObject::colors {"red", "blue", "green", "yellow"};
-
 CursenObject::CursenObject() :
     updateOrder(0), drawOrder(0), externallyManaged(false), markedForDestruction(false)
 {
-    vertical = 1;
-    horizontal = 1;
-    color = rand() % 4;
-    registerToCurrentScene(true, true);
-    int y = rand() % (TerminalManager::GetRows()-3);
-    int x = rand() % (TerminalManager::GetColumns()-(int)strlen("XXXXXXXXXX"));
-    boundingBox = sf::IntRect(x, y, (int)strlen("XXXXXXXXXX"), 3);
 }
 
 CursenObject::CursenObject(CursenObject::Registration registration) :

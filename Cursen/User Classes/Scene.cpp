@@ -8,6 +8,7 @@
 #include "Engine.h"
 #include "ncurses.h"
 #include "UITools.h"
+#include "../../Demo/BouncyBox.h"
 
 void Scene::processFrame() {
     //MyAlarmManager.ProcessTimeEvents();
@@ -24,15 +25,15 @@ void Scene::processFrame() {
 }
 
 void Scene::initialize() {
-    CursenObject* o = new CursenObject();
-    CursenObject* o2 = new CursenObject();
-    CursenObject* o3 = new CursenObject();
-    CursenObject* o4 = new CursenObject();
-    CursenObject* o5 = new CursenObject();
-    CursenObject* o6 = new CursenObject();
-    CursenObject* o7 = new CursenObject();
-    CursenObject* o8 = new CursenObject();
-    CursenObject* o9 = new CursenObject();
+    BouncyBox* o = new BouncyBox();
+    //BouncyBox* o2 = new BouncyBox();
+    //BouncyBox* o3 = new BouncyBox();
+    //BouncyBox* o4 = new BouncyBox();
+    //BouncyBox* o5 = new BouncyBox();
+    //BouncyBox* o6 = new BouncyBox();
+    //BouncyBox* o7 = new BouncyBox();
+    //BouncyBox* o8 = new BouncyBox();
+    //BouncyBox* o9 = new BouncyBox();
 }
 
 void Scene::draw()

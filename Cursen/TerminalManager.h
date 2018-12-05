@@ -11,8 +11,10 @@ class Canvas;
 
 class TerminalManager {
 
-    const static int WIN_COLS = 70;
-    const static int WIN_ROWS = 33;
+    //const static int WIN_COLS = 70;
+    //const static int WIN_ROWS = 33;
+    const static int WIN_COLS = 20;
+    const static int WIN_ROWS = 20;
 
 public:
 

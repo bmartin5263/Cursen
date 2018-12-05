@@ -28,32 +28,10 @@ public:
 
     virtual ~CursenObject();
 
-    virtual void update() {
-        color = (color + 1) % 4;
-        sf::IntRect originalPos = boundingBox;
-        move(sf::Vector2i(horizontal, vertical));
-        if (UITools::IsHorizontallyOffscreen(boundingBox)) {
-            horizontal = -horizontal;
-            boundingBox = originalPos;
-            move(sf::Vector2i(horizontal, vertical));
-        }
-        if (UITools::IsVerticallyOffscreen(boundingBox)) {
-            vertical = -vertical;
-            boundingBox = originalPos;
-            move(sf::Vector2i(horizontal, vertical));
-        }
-        //if (position.y >= TerminalManager::GetRows()) position.y = 0;
-    };
-
-    virtual void draw() {
-        attron(UITools::GetColor(colors[color]).colorPair);
-        mvaddstr(boundingBox.top, boundingBox.left,   "XXXXXXXXXX");
-        mvaddstr(boundingBox.top+1, boundingBox.left, "X        X");
-        mvaddstr(boundingBox.top+2, boundingBox.left, "XXXXXXXXXX");
-        attroff(UITools::GetColor(colors[color]).colorPair);
-    };
-
+    virtual void update() {};
+    virtual void draw() {};
     virtual void destroy() {};
+
     void markForDestroy();
 
     void registerToCurrentScene(bool draw = true, bool update = true);
@@ -72,15 +50,11 @@ public:
     sf::Vector2i getPosition();
     void setPosition(const sf::Vector2i& pos);
 
-private:
+protected:
 
-    static std::vector<std::string> colors;
     sf::IntRect boundingBox;
     int updateOrder;
     int drawOrder;
-    int vertical;
-    int horizontal;
-    int color;
     bool externallyManaged;
     bool markedForDestruction;
 
