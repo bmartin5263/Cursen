@@ -84,23 +84,5 @@ void CursenObject::markForDestroy() {
     }
 }
 
-sf::Vector2i CursenObject::getPosition() {
-    return sf::Vector2i(boundingBox.left, boundingBox.top);
-}
-
-void CursenObject::move(const sf::Vector2i& pos) {
-    this->boundingBox.left += pos.x;
-    this->boundingBox.top += pos.y;
-}
-
-void CursenObject::setBoundingBox(const sf::IntRect &box) {
-    this->boundingBox = box;
-}
-
-void CursenObject::setPosition(const sf::Vector2i &pos) {
-    this->boundingBox.left = pos.x;
-    this->boundingBox.top = pos.y;
-}
-
 CursenObject::~CursenObject() {
 }

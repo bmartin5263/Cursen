@@ -7,6 +7,7 @@
 
 #include <unordered_set>
 #include <unordered_map>
+#include <set>
 
 class CursenObject;
 
@@ -19,9 +20,8 @@ public:
     Scene& operator = (const Scene& other) = default;
     virtual ~Scene() = default;
 
-
+    // User Method Templates
     virtual void initialize();
-
     virtual void terminate() {};
 
     void finalize();

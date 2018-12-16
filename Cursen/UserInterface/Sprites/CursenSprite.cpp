@@ -4,18 +4,22 @@
 
 #include <TerminalManager.h>
 #include "CursenSprite.h"
+#include "SpriteFrame.h"
 
 CursesSprite::CursesSprite() :
-    position(sf::Vector2i(0,0))
+    position(sf::Vector2i(1,1)), currentFrame(0), totalFrames(0)
 {
-    int y = rand() % TerminalManager::GetRows();
-    position = sf::Vector2i(1, y);
+    frames.push_back(SpriteFrame());
 }
 
 void CursesSprite::setPosition(const sf::Vector2i &position) {
     this->position = position;
 }
 
-sf::Vector2i CursesSprite::getPosition() {
+sf::Vector2i CursesSprite::getPosition() const {
     return this->position;
+}
+
+SpriteFrame CursesSprite::getCurrentFrame() const {
+    return frames[currentFrame];
 }

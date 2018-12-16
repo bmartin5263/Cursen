@@ -3,8 +3,8 @@
 //
 
 #include <thread>
+#include <UserInterface/Sprites/SpriteFrame.h>
 #include "TerminalManager.h"
-#include "Canvas.h"
 #include "SFML/Graphics.hpp"
 
 TerminalManager* TerminalManager::managerInstance = nullptr;
@@ -16,6 +16,19 @@ TerminalManager::TerminalManager()
 void TerminalManager::privInitialize()
 {
     initializeCurses();
+}
+
+void TerminalManager::Draw(const CursesSprite &sprite) {
+    SpriteFrame frame = sprite.getCurrentFrame();
+    sf::Vector2i pos = sprite.getPosition();
+
+    auto body = frame.getBody();
+    int verticalOffset = 0;
+
+    for (std::string line : body) {
+        mvaddstr(pos.y + verticalOffset, pos.x, line.c_str());
+        verticalOffset++;
+    }
 }
 
 void TerminalManager::Resize(int rows, int columns) {

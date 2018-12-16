@@ -11,7 +11,7 @@ class BouncyBox : public CursenObject {
 
 public:
 
-    BouncyBox();
+    BouncyBox(int);
     ~BouncyBox() = default;
 
     void draw() override;
@@ -20,9 +20,11 @@ public:
 private:
 
     static std::vector<std::string> colors;
+    CursesSprite sprite;
     int vertical;
     int horizontal;
     int color;
+    int count;
 
 };
 

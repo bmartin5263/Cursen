@@ -45,14 +45,8 @@ public:
     int getDrawOrder() { return drawOrder; };
     bool isExternallyManaged() { return externallyManaged; };
 
-    void move(const sf::Vector2i& pos);
-    void setBoundingBox(const sf::IntRect &box);
-    sf::Vector2i getPosition();
-    void setPosition(const sf::Vector2i& pos);
-
 protected:
 
-    sf::IntRect boundingBox;
     int updateOrder;
     int drawOrder;
     bool externallyManaged;

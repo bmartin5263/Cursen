@@ -11,29 +11,25 @@
 #include "../../Demo/BouncyBox.h"
 
 void Scene::processFrame() {
+    static long long frames = 0;
+    static long long total = 0;
     //MyAlarmManager.ProcessTimeEvents();
     //MyInputEventMgr.ProcessInputEvents();
 
     update();
 
     TerminalManager::ClearScreen();
-    UITools::DrawText(("FPS " + std::to_string(1/Engine::GetFrameTime())).c_str(), 0, 0);
     draw();
+    frames++;
+    total += 1/Engine::GetFrameTime();
+    UITools::DrawText(("FPS " + std::to_string(total/frames)).c_str(), 0, 0);
     TerminalManager::RefreshScreen();
 
     deleteMarkedObjects();
 }
 
 void Scene::initialize() {
-    BouncyBox* o = new BouncyBox();
-    //BouncyBox* o2 = new BouncyBox();
-    //BouncyBox* o3 = new BouncyBox();
-    //BouncyBox* o4 = new BouncyBox();
-    //BouncyBox* o5 = new BouncyBox();
-    //BouncyBox* o6 = new BouncyBox();
-    //BouncyBox* o7 = new BouncyBox();
-    //BouncyBox* o8 = new BouncyBox();
-    //BouncyBox* o9 = new BouncyBox();
+    BouncyBox* b = new BouncyBox(0);
 }
 
 void Scene::draw()
@@ -49,7 +45,7 @@ void Scene::draw()
 
 void Scene::update()
 {
-    for(auto mapPair = drawnObjects.begin(); mapPair != drawnObjects.end(); ++mapPair)
+    for(auto mapPair = updatedObjects.begin(); mapPair != updatedObjects.end(); ++mapPair)
     {
         for(auto cursenObject = mapPair->second.begin(); cursenObject != mapPair->second.end(); ++cursenObject)
         {
