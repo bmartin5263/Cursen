@@ -4,6 +4,7 @@
 
 #include <thread>
 #include "SpriteFrame.h"
+#include "DebugConsole.h"
 #include "TerminalManager.h"
 #include "SFML/Graphics.hpp"
 
@@ -53,6 +54,8 @@ void TerminalManager::initializeCurses() {
     // Draw A box onto main window 'stdscr'
     box(stdscr, 0, 0);
     refresh();
+
+    DebugConsole::Out("Curses Initialized");
 }
 
 void TerminalManager::privClearScreen() {

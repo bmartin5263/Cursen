@@ -4,6 +4,7 @@
 
 #include <thread>
 #include <curses.h>
+#include "DebugConsole.h"
 #include "Engine.h"
 #include "SceneManager.h"
 #include "TerminalManager.h"
@@ -20,6 +21,8 @@ void Engine::Run() {
 
     srand((unsigned)time(0));
 
+    DebugConsole::Connect();
+    DebugConsole::Out("Connected!");
     TerminalManager::Initialize();
     Instance().UserInitialization();
 
@@ -52,8 +55,11 @@ void Engine::Terminate() {
 
     delete engineInstance;
     engineInstance = nullptr;
+
+    // Terminate Console Last
+    DebugConsole::Terminate();
 }
 
 Engine::~Engine() {
-    printf("[Engine] Deconstructed\n");
+    DebugConsole::Out("Engine Deconstructed");
 }

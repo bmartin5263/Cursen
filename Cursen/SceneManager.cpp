@@ -6,6 +6,7 @@
 #include "UITools.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "DebugConsole.h"
 
 SceneManager* SceneManager::manager = nullptr;
 
@@ -34,5 +35,5 @@ void SceneManager::privSetStartScene(Scene* scene)
 }
 
 SceneManager::~SceneManager() {
-    printf("[Scene Manager] Deconstructed\n");
+    DebugConsole::Out("Scene Manager Deconstructed");
 }

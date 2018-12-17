@@ -29,7 +29,6 @@ void Scene::processFrame() {
 }
 
 void Scene::initialize() {
-    BouncyBox* b = new BouncyBox(0);
 }
 
 void Scene::draw()
