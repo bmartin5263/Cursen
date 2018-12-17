@@ -3,7 +3,7 @@
 //
 
 #include <thread>
-#include <UserInterface/Sprites/SpriteFrame.h>
+#include "SpriteFrame.h"
 #include "TerminalManager.h"
 #include "SFML/Graphics.hpp"
 
@@ -18,7 +18,7 @@ void TerminalManager::privInitialize()
     initializeCurses();
 }
 
-void TerminalManager::Draw(const CursesSprite &sprite) {
+void TerminalManager::Draw(const CursenSprite &sprite) {
     SpriteFrame frame = sprite.getCurrentFrame();
     sf::Vector2i pos = sprite.getPosition();
 

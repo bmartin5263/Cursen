@@ -6,7 +6,7 @@
 #define CURSEN_TERMINALMANAGER_H
 
 #include <string>
-#include <UserInterface/Sprites/CursenSprite.h>
+#include "CursenSprite.h"
 
 class Canvas;
 
@@ -24,7 +24,7 @@ public:
     static void Resize(int rows, int columns);
     static int GetColumns() { return WIN_COLS; };
     static int GetRows() { return WIN_ROWS; };
-    static void Draw(const CursesSprite& sprite);
+    static void Draw(const CursenSprite& sprite);
 
 private:
 

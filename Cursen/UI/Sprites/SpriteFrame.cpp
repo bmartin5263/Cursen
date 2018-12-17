@@ -5,8 +5,6 @@
 #include "SpriteFrame.h"
 
 SpriteFrame::SpriteFrame() {
-    body.push_back("Hello");
-    body.push_back("World!");
 }
 
 std::vector<std::string> SpriteFrame::getBody() const {

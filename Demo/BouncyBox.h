@@ -20,7 +20,7 @@ public:
 private:
 
     static std::vector<std::string> colors;
-    CursesSprite sprite;
+    CursenSprite sprite;
     int vertical;
     int horizontal;
     int color;

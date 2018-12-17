@@ -12,24 +12,27 @@
 
 class Canvas;
 
-class CursesSprite {
+class CursenSprite {
 
 
 public:
 
-    CursesSprite();
-    CursesSprite(const CursesSprite&) = default;
-    CursesSprite& operator = (const CursesSprite& other) = default;
-    virtual ~CursesSprite() = default;
+    CursenSprite();
+    CursenSprite(const CursenSprite&) = default;
+    CursenSprite& operator = (const CursenSprite& other) = default;
+    virtual ~CursenSprite() = default;
 
     void setPosition(const sf::Vector2i& position);
     sf::Vector2i getPosition() const;
 
 private:
 
+    // To help abstract away methods that the user needs vs methods Cursen needs
     friend class TerminalManager;
+    friend class SpriteManager;
 
     SpriteFrame getCurrentFrame() const;
+    void addFrame(SpriteFrame frame);
 
     sf::Vector2i position;
     std::vector<SpriteFrame> frames;

@@ -3,7 +3,7 @@
 //
 
 #include <ncurses.h>
-#include <UserInterface/UITools.h>
+#include "UITools.h"
 #include "SceneManager.h"
 #include "Scene.h"
 

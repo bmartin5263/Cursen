@@ -6,20 +6,23 @@
 #include "CursenSprite.h"
 #include "SpriteFrame.h"
 
-CursesSprite::CursesSprite() :
+CursenSprite::CursenSprite() :
     position(sf::Vector2i(1,1)), currentFrame(0), totalFrames(0)
 {
-    frames.push_back(SpriteFrame());
 }
 
-void CursesSprite::setPosition(const sf::Vector2i &position) {
+void CursenSprite::setPosition(const sf::Vector2i &position) {
     this->position = position;
 }
 
-sf::Vector2i CursesSprite::getPosition() const {
+sf::Vector2i CursenSprite::getPosition() const {
     return this->position;
 }
 
-SpriteFrame CursesSprite::getCurrentFrame() const {
+void CursenSprite::addFrame(SpriteFrame frame) {
+    frames.push_back(frame);
+}
+
+SpriteFrame CursenSprite::getCurrentFrame() const {
     return frames[currentFrame];
 }

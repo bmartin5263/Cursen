@@ -9,7 +9,7 @@
 #include "TerminalManager.h"
 #include "SFML/Graphics.hpp"
 #include <ncurses.h>
-#include <UserInterface/UITools.h>
+#include "UITools.h"
 
 class CursenObject {
 
