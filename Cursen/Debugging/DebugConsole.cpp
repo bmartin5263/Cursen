@@ -29,7 +29,10 @@ void DebugConsole::privDisconnect() {
 
 void DebugConsole::privOut(const char* message, const long& length) {
     if (connected) {
-        clientSocket.send(message, (size_t)length);
+        size_t sent = 0;
+        while (sent != length) {
+            clientSocket.send(message, (size_t)length, sent);
+        }
     }
 }
 

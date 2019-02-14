@@ -9,6 +9,7 @@
 #include "ncurses.h"
 #include "UITools.h"
 #include "../../Demo/BouncyBox.h"
+#include <thread>
 
 void Scene::processFrame() {
     static long long frames = 0;
@@ -29,6 +30,9 @@ void Scene::processFrame() {
 }
 
 void Scene::initialize() {
+    for (int i = 0; i < 100; i++) {
+        auto b = new BouncyBox(0);
+    }
 }
 
 void Scene::draw()

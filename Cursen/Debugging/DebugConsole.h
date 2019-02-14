@@ -23,11 +23,11 @@ public:
     };
 
     static void Out(std::string& message) {
-        Instance().privOut(message.c_str(), message.length());
+        Instance().privOut(message.c_str(), message.length()+1);
     };
 
     static void Out(const char* message) {
-        Instance().privOut(message, strlen(message));
+        Instance().privOut(message, strlen(message)+1);
     };
 
 private:

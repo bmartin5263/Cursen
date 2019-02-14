@@ -16,15 +16,19 @@ public:
 
     void draw() override;
     void update() override;
+    void move(sf::Vector2i p);
 
 private:
 
     static std::vector<std::string> colors;
+    sf::IntRect boundingBox;
     CursenSprite sprite;
+    chtype body[2];
     int vertical;
     int horizontal;
     int color;
     int count;
+    bool dirty;
 
 };
 
