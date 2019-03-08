@@ -39,3 +39,8 @@ void Component::onDeletePress(std::function<void(const Event &)> f) {
     EventManager::Register(*this, Event::DeletePressed);
     f_deletePress = f;
 }
+
+void Component::onArrowPress(std::function<void(const Event &)> f) {
+    EventManager::Register(*this, Event::ArrowPressed);
+    f_arrowPress = f;
+}

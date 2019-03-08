@@ -5,16 +5,19 @@
 #ifndef CURSEN_CURSESMANAGER_H
 #define CURSEN_CURSESMANAGER_H
 
+#include <ncurses.h>
 
 class CursesManager {
 
 public:
 
-    enum Keys {
-        KEY_ESCAPE = 27,
-        KEY_ENTER = 10,
-        KEY_BACKSPACE = 127,
-    };
+    static const int ESCAPE = 27;
+    static const int ENTER = 10;
+    static const int BACKSPACE = 127;
+    static const int UP = KEY_UP;
+    static const int DOWN = KEY_DOWN;
+    static const int LEFT = KEY_LEFT;
+    static const int RIGHT = KEY_RIGHT;
 
     static void Initialize() { Instance().initializeCurses(); };
     static void Terminate() { Instance().terminateCurses(); };

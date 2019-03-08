@@ -6,6 +6,7 @@
 #define CURSEN_COMPONENT_H
 
 #include <functional>
+#include <Events/Event.h>
 
 class Component {
 
@@ -19,6 +20,7 @@ public:
     void onSocketConnect(std::function<void(const Event &)> f);
     void onSocketDisconnect(std::function<void(const Event &)> f);
     void onDeletePress(std::function<void(const Event &)> f);
+    void onArrowPress(std::function<void(const Event &)> f);
 
     // Cursor Functions
     /**
@@ -50,6 +52,7 @@ private:
     std::function<void(const Event&)> f_socketConnect;
     std::function<void(const Event&)> f_socketDisconnect;
     std::function<void(const Event&)> f_deletePress;
+    std::function<void(const Event&)> f_arrowPress;
 
 };
 

@@ -17,15 +17,30 @@ public:
         int code;
     };
 
+    struct ArrowEvent
+    {
+        ArrowEvent() {
+            left = false;
+            up = false;
+            right = false;
+            down = false;
+        }
+        bool left;
+        bool up;
+        bool right;
+        bool down;
+    };
+
     enum EventType
     {
         KeyPressed = 1,
         EscPressed = 2,
         DeletePressed = 4,
         EnterPressed = 8,
-        SocketConnected = 16,
-        SocketDisconnected = 32,
-        SocketMessage = 64,
+        ArrowPressed = 16,
+        SocketConnected = 32,
+        SocketDisconnected = 64,
+        SocketMessage = 128,
     };
 
     EventType type;
@@ -33,7 +48,13 @@ public:
     union
     {
         KeyEvent key;
+        ArrowEvent arrowPress;
     };
+
+    Event() {
+        key = KeyEvent();
+        arrowPress = ArrowEvent();
+    }
 
 };
 
