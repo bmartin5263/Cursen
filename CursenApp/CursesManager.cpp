@@ -43,3 +43,11 @@ CursesManager::~CursesManager() {
     flushinp();     // Flush any remaining curses input
     endwin();       // End curses
 }
+
+void CursesManager::doBeep() {
+    beep();
+}
+
+void CursesManager::doFlash() {
+    flash();
+}

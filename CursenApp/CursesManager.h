@@ -20,6 +20,9 @@ public:
     static void PutCharacter(int c) { instance->putCharacter(c); }
     static int GetCharacter() { return instance->getCharacter(); };
 
+    static void Beep() { instance->doBeep(); }
+    static void Flash() { instance->doFlash(); }
+
 private:
 
     // Instance Data
@@ -32,6 +35,8 @@ private:
     // Static to Instance Methods
     int getCharacter();
     void putCharacter(int c);
+    void doBeep();
+    void doFlash();
 
     // Static Data
 
