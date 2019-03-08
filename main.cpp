@@ -8,6 +8,7 @@
 #include <StopWatch.h>
 #include "Engine.h"
 #include "SFML/Network.hpp"
+#include "CursenApplication.h"
 
 void speedTest() {
 
@@ -94,16 +95,7 @@ void speedTest() {
 }
 
 int main() {
-    Engine::Run();
 
-    //chtype x = ACS_VLINE;
-//
-    //TerminalManager::Initialize();
-////
-    //init_pair(1, COLOR_BLUE, COLOR_BLACK);
-////
-    ////clear();
-    //speedTest();
-////
-    //TerminalManager::Terminate();
+    CursenApplication::Run(new Form());
+
 }

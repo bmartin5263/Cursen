@@ -16,7 +16,6 @@ ResourceManager::ResourceManager()
 }
 
 void ResourceManager::LoadAllResources() {
-    LoadSpriteFile("Hello");
 }
 
 void ResourceManager::LoadSpriteFile(const char *filePath) {
