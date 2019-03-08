@@ -13,7 +13,9 @@ class Form {
 public:
 
     void init();
-    void buttonClick(const Event& event);
+    void keyPress(const Event& event);
+    void deletePress(const Event& event);
+    void enterPress(const Event& event);
 
 };
 

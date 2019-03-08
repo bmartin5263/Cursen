@@ -11,7 +11,9 @@ class CursesManager {
 public:
 
     enum Keys {
-        KEY_ESCAPE = 27
+        KEY_ESCAPE = 27,
+        KEY_ENTER = 10,
+        KEY_BACKSPACE = 127,
     };
 
     static void Initialize() { Instance().initializeCurses(); };

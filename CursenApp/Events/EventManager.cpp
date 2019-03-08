@@ -15,7 +15,20 @@ Event EventManager::pollEvent() {
 
     if (key == CursesManager::KEY_ESCAPE) {
         event.type = Event::EscPressed;
-    } else {
+        event.key.code = key;
+    }
+    else if (key == CursesManager::KEY_BACKSPACE)
+    {
+        event.type = Event::DeletePressed;
+        event.key.code = key;
+    }
+    else if (key == CursesManager::KEY_ENTER)
+    {
+        event.type = Event::EnterPressed;
+        event.key.code = key;
+    }
+    else
+    {
         event.type = Event::KeyPressed;
         event.key.code = key;
     }
@@ -28,21 +41,41 @@ void EventManager::processEvent(Event &event) {
         case Event::KeyPressed:
             componentList = dispatchMap[Event::KeyPressed];
             for( ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
-                (*listItem)->onKeyPress(event);
+                (*listItem)->f_keyPress(event);
             }
             break;
         case Event::EscPressed:
             CursenApplication::Quit();
             break;
         case Event::DeletePressed:
+            componentList = dispatchMap[Event::KeyPressed];
+            for( ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
+                (*listItem)->f_deletePress(event);
+            }
             break;
         case Event::EnterPressed:
+            componentList = dispatchMap[Event::KeyPressed];
+            for( ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
+                (*listItem)->f_enterPress(event);
+            }
             break;
         case Event::SocketConnected:
+            componentList = dispatchMap[Event::KeyPressed];
+            for( ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
+                (*listItem)->f_socketConnect(event);
+            }
             break;
         case Event::SocketDisconnected:
+            componentList = dispatchMap[Event::KeyPressed];
+            for( ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
+                (*listItem)->f_socketDisconnect(event);
+            }
             break;
         case Event::SocketMessage:
+            componentList = dispatchMap[Event::KeyPressed];
+            for( ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
+                (*listItem)->f_socketMessage(event);
+            }
             break;
     }
 }

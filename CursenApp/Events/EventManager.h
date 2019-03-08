@@ -53,7 +53,7 @@ private:
     EventManager(EventManager&& other) noexcept = delete;
     EventManager& operator = (const EventManager& other) = delete;
     EventManager& operator = (EventManager&& other) = delete;
-    ~EventManager();
+    ~EventManager() = default;
 
 };
 

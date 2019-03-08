@@ -11,13 +11,45 @@ class Component {
 
 public:
 
-    void ForKeyPress(std::function<void(const Event&)> fun);
+    // Event Functions
+    void onKeyPress(std::function<void(const Event &)> f);
+    void onEscapePress(std::function<void(const Event &)> f);
+    void onEnterPress(std::function<void(const Event &)> f);
+    void onSocketMessage(std::function<void(const Event &)> f);
+    void onSocketConnect(std::function<void(const Event &)> f);
+    void onSocketDisconnect(std::function<void(const Event &)> f);
+    void onDeletePress(std::function<void(const Event &)> f);
+
+    // Cursor Functions
+    /**
+     * Called when a virtual Cursor hovers over this component
+     * @param f
+     */
+    void onCursor(std::function<void(const Event &)> f) {};
+
+    /**
+     * Called when a virtual Cursor hovers away from this component
+     * @param f
+     */
+    void offCursor(std::function<void(const Event &)> f) {};
+
+    /**
+     * Called when a virtual Cursor clicks on this component
+     * @param f
+     */
+    void onClick(std::function<void(const Event &)> f) {};
 
 private:
 
     friend class EventManager;
 
-    std::function<void(const Event&)> onKeyPress;
+    std::function<void(const Event&)> f_keyPress;
+    std::function<void(const Event&)> f_escapePress;
+    std::function<void(const Event&)> f_enterPress;
+    std::function<void(const Event&)> f_socketMessage;
+    std::function<void(const Event&)> f_socketConnect;
+    std::function<void(const Event&)> f_socketDisconnect;
+    std::function<void(const Event&)> f_deletePress;
 
 };
 
