@@ -5,6 +5,12 @@
 #include "Events/EventManager.h"
 #include "Component.h"
 
+Component::Component() :
+    enabled(true)
+{
+
+}
+
 void Component::onKeyPress(std::function<void(const Event &)> f) {
     EventManager::Register(*this, Event::KeyPressed);
     f_keyPress = f;
@@ -43,4 +49,123 @@ void Component::onDeletePress(std::function<void(const Event &)> f) {
 void Component::onArrowPress(std::function<void(const Event &)> f) {
     EventManager::Register(*this, Event::ArrowPressed);
     f_arrowPress = f;
+}
+
+void Component::setEnabled(bool value) {
+    enabled = value;
+}
+
+bool Component::isEnabled() {
+    return enabled;
+}
+
+void Component::onCursor(std::function<void()> f) {
+    f_onCursor = f;
+}
+
+void Component::offCursor(std::function<void()> f) {
+    f_offCursor = f;
+}
+
+void Component::onClick(std::function<void()> f) {
+    f_onClick = f;
+}
+
+void Component::CallKeyPress(const Event& e) {
+    try {
+        f_keyPress(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallEscapePress(const Event& e) {
+    try {
+        f_escapePress(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallEnterPress(const Event& e) {
+    try {
+        f_enterPress(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallSocketMessage(const Event& e) {
+    try {
+        f_socketMessage(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallSocketDisconnect(const Event& e) {
+    try {
+        f_socketDisconnect(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallSocketConnect(const Event& e) {
+    try {
+        f_socketConnect(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallDeletePress(const Event& e) {
+    try {
+        f_deletePress(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallArrowPress(const Event& e) {
+    try {
+        f_arrowPress(e);
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallOnCursor() {
+    try {
+        f_onCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallOffCursor() {
+    try {
+        f_offCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallOnClick() {
+    try {
+        f_onClick();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
 }

@@ -12,6 +12,12 @@ class Component {
 
 public:
 
+    Component();
+
+    // Attributes
+    virtual void setEnabled(bool value);
+    virtual bool isEnabled();
+
     // Event Functions
     void onKeyPress(std::function<void(const Event &)> f);
     void onEscapePress(std::function<void(const Event &)> f);
@@ -22,28 +28,40 @@ public:
     void onDeletePress(std::function<void(const Event &)> f);
     void onArrowPress(std::function<void(const Event &)> f);
 
-    // Cursor Functions
     /**
      * Called when a virtual Cursor hovers over this component
      * @param f
      */
-    void onCursor(std::function<void(const Event &)> f) {};
+    void onCursor(std::function<void()> f);
 
     /**
      * Called when a virtual Cursor hovers away from this component
      * @param f
      */
-    void offCursor(std::function<void(const Event &)> f) {};
+    void offCursor(std::function<void()> f);
 
     /**
      * Called when a virtual Cursor clicks on this component
      * @param f
      */
-    void onClick(std::function<void(const Event &)> f) {};
+    void onClick(std::function<void()> f);
 
 private:
 
     friend class EventManager;
+    friend class Cursor;
+
+    void CallKeyPress(const Event&);
+    void CallEscapePress(const Event&);
+    void CallEnterPress(const Event&);
+    void CallSocketMessage(const Event&);
+    void CallSocketDisconnect(const Event&);
+    void CallSocketConnect(const Event&);
+    void CallDeletePress(const Event&);
+    void CallArrowPress(const Event&);
+    void CallOnCursor();
+    void CallOffCursor();
+    void CallOnClick();
 
     std::function<void(const Event&)> f_keyPress;
     std::function<void(const Event&)> f_escapePress;
@@ -53,6 +71,14 @@ private:
     std::function<void(const Event&)> f_socketDisconnect;
     std::function<void(const Event&)> f_deletePress;
     std::function<void(const Event&)> f_arrowPress;
+
+    std::function<void()> f_onCursor;
+    std::function<void()> f_offCursor;
+    std::function<void()> f_onClick;
+
+protected:
+
+    bool enabled;
 
 };
 
