@@ -16,7 +16,9 @@ public:
     void keyPress(const Event& event);
     void deletePress(const Event& event);
     void enterPress(const Event& event);
-    void arrowPress(const Event& event);
+    void hoverComponent();
+    void hoverawayComponent();
+    void clickComponent();
 
 };
 
