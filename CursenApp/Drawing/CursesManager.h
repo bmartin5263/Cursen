@@ -6,6 +6,9 @@
 #define CURSEN_CURSESMANAGER_H
 
 #include <ncurses.h>
+#include <queue>
+#include <string>
+#include "Drawing/DrawRequest.h"
 
 class CursesManager {
 
@@ -19,19 +22,29 @@ public:
     static const int LEFT = KEY_LEFT;
     static const int RIGHT = KEY_RIGHT;
 
-    static void Initialize() { Instance().initializeCurses(); };
-    static void Terminate() { Instance().terminateCurses(); };
+    static void Initialize() { Instance().initializeCurses(); }
+    static void Terminate() { Instance().terminateCurses(); }
 
-    static void PutCharacter(int c) { instance->putCharacter(c); }
-    static int GetCharacter() { return instance->getCharacter(); };
+    static void EnqueueDraw(DrawRequest request) { Instance().enqueueDraw(request); };
+    static DrawRequest GetDrawRequest() { return Instance().getDrawRequest(); };
+
+    static void DrawChar(int c) { instance->putCharacter(c); }
+    static void DrawString(const std::string &string) { instance->drawString(string.c_str()); }
+    static void DrawString(const char *string) { instance->drawString(string); }
+    static void DrawString(const std::string &string, int x, int y) { instance->drawString(string.c_str(), x, y); }
+    static void DrawString(const char *string, int x, int y) { instance->drawString(string, x, y); }
+    static int GetChar() { return instance->getCharacter(); }
 
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
+
+    static void ProcessDrawEvents() { Instance().processDrawEvents(); };
 
 private:
 
     // Instance Data
     int inputTimeout;
+    std::queue<DrawRequest> drawQueue;
 
     // Methods
     void initializeCurses();
@@ -40,8 +53,13 @@ private:
     // Static to Instance Methods
     int getCharacter();
     void putCharacter(int c);
+    void drawString(const char *string);
+    void drawString(const char *string, int x, int y);
     void doBeep();
     void doFlash();
+    void processDrawEvents();
+    DrawRequest getDrawRequest();
+    void enqueueDraw(DrawRequest);
 
     // Static Data
 
@@ -61,7 +79,6 @@ private:
     ~CursesManager();
 
 };
-
 
 
 #endif //CURSEN_CURSESMANAGER_H

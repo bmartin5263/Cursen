@@ -2,13 +2,49 @@
 // Created by Brandon Martin on 3/8/19.
 //
 
+#include <Drawing/DrawRequest.h>
+#include <Drawing/CursesManager.h>
 #include "Events/EventManager.h"
 #include "Component.h"
 
 Component::Component() :
     enabled(true)
 {
+    this->body.clear();
+    this->position = Position(IntRect(0,0,12,1));
+    std::vector<chtype> userContent = {'H','e','l','l','o',' ','W','o','r','l','d','\0'};
+    body.push_back(userContent);
+    refresh();
+}
 
+void Component::move(IntRect movement) {
+    CursesManager::DrawChar(movement.x);
+    this->position.next.x += movement.x;
+    this->position.next.y += movement.y;
+    refresh();
+}
+
+
+void Component::draw() {
+    for (Component* c : children) {
+        c->draw();
+    }
+    body.clear();
+    std::vector<chtype> userContent = {'H','e','l','l','o',' ','W','o','r','l','d','\0'};
+    body.push_back(userContent);
+}
+
+void Component::invalidate() {
+    // Request Redraw
+    DrawRequest drawRequest = CursesManager::GetDrawRequest();
+    drawRequest.setBody(&this->body);
+    drawRequest.setPosition(&this->position);
+    CursesManager::EnqueueDraw(drawRequest);
+}
+
+void Component::refresh() {
+    draw();
+    invalidate();
 }
 
 void Component::onKeyPress(std::function<void(const Event &)> f) {

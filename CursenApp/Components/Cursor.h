@@ -57,12 +57,12 @@ public:
 
     Cursor();
     Cursor(Component* start);
-    ~Cursor();
 
     // Override
     void setEnabled(bool value);
 
     void addComponent(Component* component, ArrowMap arrowMap);
+    void removeComponent(Component* component);
 
 private:
 
@@ -73,6 +73,5 @@ private:
     std::unordered_map<Component*, ArrowMap> componentMap;
 
 };
-
 
 #endif //CURSEN_CURSOR_H

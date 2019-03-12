@@ -5,10 +5,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <thread>
-#include "SFML/Window.hpp"
 #include "CursenApplication.h"
 #include "Events/EventManager.h"
-#include "CursesManager.h"
+#include "Drawing/CursesManager.h"
 
 
 CursenApplication* CursenApplication::engineInstance = nullptr;
@@ -23,11 +22,13 @@ void CursenApplication::run(Form* form) {
 
     CursesManager::Initialize();
 
-    form->init();
+    form->Initialize();
+    CursesManager::ProcessDrawEvents();
 
     while (running) {
         Event e = EventManager::PollEvent();
         EventManager::ProcessEvent(e);
+        CursesManager::ProcessDrawEvents();
     }
 
     CursesManager::Terminate();

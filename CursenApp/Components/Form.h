@@ -7,18 +7,18 @@
 
 #include <string>
 #include "Events/Event.h"
+#include "Component.h"
 
 class Form {
 
 public:
 
-    void init();
-    void keyPress(const Event& event);
-    void deletePress(const Event& event);
-    void enterPress(const Event& event);
-    void hoverComponent();
-    void hoverawayComponent();
+    void Initialize();
+    void Destroy();
     void clickComponent();
+    void arrowPress(const Event& e);
+
+    Component* c;
 
 };
 

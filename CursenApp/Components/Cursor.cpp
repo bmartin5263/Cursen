@@ -3,7 +3,7 @@
 //
 
 #include <Events/EventManager.h>
-#include <CursesManager.h>
+#include <Drawing/CursesManager.h>
 #include "Cursor.h"
 
 Cursor::Cursor() :
@@ -17,10 +17,6 @@ Cursor::Cursor(Component* start) :
 }
 
 void Cursor::addComponent(Component* component, ArrowMap arrowMap) {
-    //if (arrowMap.up == nullptr) CursesManager::Flash();
-    //if (arrowMap.down == nullptr) CursesManager::Flash();
-    //if (arrowMap.left == nullptr) CursesManager::Flash();
-    //if (arrowMap.right == nullptr) CursesManager::Flash();
     componentMap[component] = arrowMap;
 }
 
@@ -79,6 +75,12 @@ void Cursor::moveCursor(const Event &event) {
     currentComponent->CallOnCursor();
 }
 
-Cursor::~Cursor() {
 
+void Cursor::removeComponent(Component *component) {
+    if (componentMap.find(component) != componentMap.end()) {
+        componentMap.erase(component);
+        if (component == currentComponent) {
+
+        }
+    }
 }

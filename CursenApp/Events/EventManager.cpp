@@ -5,14 +5,14 @@
 #include <CursenApplication.h>
 #include <Components/Component.h>
 #include "EventManager.h"
-#include "CursesManager.h"
+#include "Drawing/CursesManager.h"
 
 EventManager* EventManager::instance = nullptr;
 
 Event EventManager::pollEvent() {
     Event event;
 
-    int key = CursesManager::GetCharacter();
+    int key = CursesManager::GetChar();
 
     if (key == CursesManager::ESCAPE) {
         event.type = Event::EscPressed;

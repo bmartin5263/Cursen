@@ -7,16 +7,30 @@
 
 #include <functional>
 #include <Events/Event.h>
+#include <vector>
+#include <Drawing/Position.h>
+#include <ncurses.h>
 
 class Component {
 
 public:
 
+    // Initialize
     Component();
+    ~Component();
+
+    void Initialize();
+    void Destroy();
 
     // Attributes
     virtual void setEnabled(bool value);
     virtual bool isEnabled();
+
+    // Methods
+    virtual void move(IntRect movement);
+    virtual void draw();
+    virtual void invalidate();
+    void refresh();
 
     // Event Functions
     void onKeyPress(std::function<void(const Event &)> f);
@@ -78,6 +92,9 @@ private:
 
 protected:
 
+    std::vector<std::vector<chtype>> body;
+    std::vector<Component*> children;
+    Position position;
     bool enabled;
 
 };
