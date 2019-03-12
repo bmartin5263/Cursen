@@ -10,6 +10,8 @@
 #include <vector>
 #include <Drawing/Position.h>
 #include <ncurses.h>
+#include <Drawing/TextBody.h>
+#include <Drawing/ClearRequest.h>
 
 class Component {
 
@@ -27,7 +29,7 @@ public:
     virtual bool isEnabled();
 
     // Methods
-    virtual void move(IntRect movement);
+    virtual void move(const Vect2d& movement);
     virtual void draw();
     virtual void invalidate();
     void refresh();
@@ -92,9 +94,10 @@ private:
 
 protected:
 
-    std::vector<std::vector<chtype>> body;
+    ClearRequest clearRequest;
+    TextBody body;
     std::vector<Component*> children;
-    Position position;
+    Vect2d position;
     bool enabled;
 
 };

@@ -8,19 +8,15 @@
 #include "Component.h"
 
 Component::Component() :
-    enabled(true)
+    enabled(true), body(TextBody()), position(Vect2d()), clearRequest(CursesManager::GetClearRequest())
 {
-    this->body.clear();
-    this->position = Position(IntRect(0,0,12,1));
-    std::vector<chtype> userContent = {'H','e','l','l','o',' ','W','o','r','l','d','\0'};
-    body.push_back(userContent);
+    body.resize(Vect2d(1,1));
     refresh();
 }
 
-void Component::move(IntRect movement) {
-    CursesManager::DrawChar(movement.x);
-    this->position.next.x += movement.x;
-    this->position.next.y += movement.y;
+void Component::move(const Vect2d& movement) {
+    position.x += movement.x;
+    position.y += movement.y;
     refresh();
 }
 
@@ -29,17 +25,19 @@ void Component::draw() {
     for (Component* c : children) {
         c->draw();
     }
-    body.clear();
-    std::vector<chtype> userContent = {'H','e','l','l','o',' ','W','o','r','l','d','\0'};
-    body.push_back(userContent);
+
 }
 
 void Component::invalidate() {
     // Request Redraw
+    CursesManager::EnqueueClear(clearRequest);
     DrawRequest drawRequest = CursesManager::GetDrawRequest();
     drawRequest.setBody(&this->body);
-    drawRequest.setPosition(&this->position);
+    drawRequest.setPosition(this->position);
     CursesManager::EnqueueDraw(drawRequest);
+    clearRequest = CursesManager::GetClearRequest();
+    clearRequest.setPosition(position);
+    clearRequest.setDimensions(body.getDimensions());
 }
 
 void Component::refresh() {

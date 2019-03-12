@@ -6,7 +6,7 @@
 #define CURSEN_POSITION_H
 
 
-#include <Drawing/IntRect.h>
+#include <Drawing/Vect2d.h>
 
 struct Position {
 
@@ -15,18 +15,18 @@ public:
     Position() {
     };
 
-    Position(IntRect current) :
+    Position(Vect2d current) :
         current(current), next(current)
     {
     }
 
-    Position(IntRect current, IntRect next) :
+    Position(Vect2d current, Vect2d next) :
         current(current), next(next)
     {
     }
 
-    IntRect current;
-    IntRect next;
+    Vect2d current;
+    Vect2d next;
 
 };
 

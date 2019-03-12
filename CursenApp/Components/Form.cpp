@@ -20,22 +20,22 @@ void Form::Initialize() {
 }
 
 void Form::clickComponent() {
-    c->move(IntRect(0,1));
+    c->move(Vect2d(0,1));
     c->refresh();
 }
 
 void Form::arrowPress(const Event& e) {
     if (e.arrowPress.left) {
-        c->move(IntRect(-1,0));
+        c->move(Vect2d(-1,0));
     }
     if (e.arrowPress.right) {
-        c->move(IntRect(1,0));
+        c->move(Vect2d(1,0));
     }
     if (e.arrowPress.down) {
-        c->move(IntRect(0,1));
+        c->move(Vect2d(0,1));
     }
     if (e.arrowPress.up) {
-        c->move(IntRect(0,-1));
+        c->move(Vect2d(0,-1));
     }
 }
 
