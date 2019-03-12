@@ -4,6 +4,7 @@
 
 #include "CursesManager.h"
 #include "ncurses.h"
+#include "Drawing/TextBody.h"
 
 CursesManager* CursesManager::instance = nullptr;
 
@@ -58,27 +59,39 @@ void CursesManager::drawString(const char *string) {
 
 void CursesManager::processDrawEvents() {
     DrawRequest drawRequest;
+    ClearRequest clearRequest;
+
+    while(!clearQueue.empty()) {
+        clearRequest = clearQueue.front();
+        clearQueue.pop();
+
+        Vect2d position = clearRequest.getPosition();
+        Vect2d dimensions = clearRequest.getDimensions();
+
+        for (int i = 0; i < dimensions.y; i++) {
+            for (int j = 0; j < dimensions.x; j++) {
+                mvaddch(position.y + i, position.x + j, ' ');
+            }
+        }
+    }
+
     while (!drawQueue.empty()) {
         drawRequest = drawQueue.front();
         drawQueue.pop();
-        std::vector<std::vector<chtype>>* body = drawRequest.getBody();
+
+        // Get Text Body
+        TextBody* body = drawRequest.getBody();
+        chtype** content = body->getContent();
+        Vect2d dimensions = body->getDimensions();
 
         // Get Position of Component
-        Position* position = drawRequest.getPosition();
+        Vect2d position = drawRequest.getPosition();
 
-        // Clear old area
-        for (int i = 0; i < position->current.rows; i++) {
-            for (int j = 0; j < position->current.cols; j++) {
-                mvaddch(position->current.y + i, position->current.x + j, ' ');
-            }
+        for (int i = 0; i < dimensions.y; i++) {
+            chtype* row = content[i];
+            mvaddchstr(position.y + i, position.x, &row[0]);
         }
 
-        for (int i = 0; i < position->next.rows; i++) {
-            std::vector<chtype> line = (*body)[i];
-            mvaddchstr(position->next.y + i, position->next.x, &line[0]);
-        }
-
-        position->current = position->next;
     }
     refresh();
 }
@@ -93,4 +106,12 @@ void CursesManager::enqueueDraw(DrawRequest request) {
 
 DrawRequest CursesManager::getDrawRequest() {
     return DrawRequest();
+}
+
+ClearRequest CursesManager::getClearRequest() {
+    return ClearRequest();
+}
+
+void CursesManager::enqueueClear(ClearRequest request) {
+    clearQueue.push(request);
 }

@@ -3,21 +3,22 @@
 //
 
 #include "DrawRequest.h"
+#include "TextBody.h"
 
 
-void DrawRequest::setPosition(Position *position){
+void DrawRequest::setPosition(Vect2d position){
     this->position = position;
 }
 
-void DrawRequest::setBody(std::vector<std::vector<chtype>> *body) {
+void DrawRequest::setBody(TextBody *body) {
     this->body = body;
 }
 
-std::vector<std::vector<chtype>> *DrawRequest::getBody(){
+TextBody *DrawRequest::getBody(){
     return body;
 }
 
-Position *DrawRequest::getPosition() {
+Vect2d DrawRequest::getPosition() {
     return position;
 }
 

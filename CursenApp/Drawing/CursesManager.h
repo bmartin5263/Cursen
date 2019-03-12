@@ -9,6 +9,7 @@
 #include <queue>
 #include <string>
 #include "Drawing/DrawRequest.h"
+#include "ClearRequest.h"
 
 class CursesManager {
 
@@ -26,7 +27,9 @@ public:
     static void Terminate() { Instance().terminateCurses(); }
 
     static void EnqueueDraw(DrawRequest request) { Instance().enqueueDraw(request); };
+    static void EnqueueClear(ClearRequest request) { Instance().enqueueClear(request); };
     static DrawRequest GetDrawRequest() { return Instance().getDrawRequest(); };
+    static ClearRequest GetClearRequest() { return Instance().getClearRequest(); };
 
     static void DrawChar(int c) { instance->putCharacter(c); }
     static void DrawString(const std::string &string) { instance->drawString(string.c_str()); }
@@ -45,6 +48,7 @@ private:
     // Instance Data
     int inputTimeout;
     std::queue<DrawRequest> drawQueue;
+    std::queue<ClearRequest> clearQueue;
 
     // Methods
     void initializeCurses();
@@ -60,6 +64,8 @@ private:
     void processDrawEvents();
     DrawRequest getDrawRequest();
     void enqueueDraw(DrawRequest);
+    ClearRequest getClearRequest();
+    void enqueueClear(ClearRequest);
 
     // Static Data
 
