@@ -8,7 +8,6 @@
 #include <functional>
 #include <Events/Event.h>
 #include <vector>
-#include <Drawing/Position.h>
 #include <ncurses.h>
 #include <Drawing/TextBody.h>
 #include <Drawing/ClearRequest.h>
@@ -21,18 +20,12 @@ public:
     Component();
     ~Component();
 
-    void Initialize();
-    void Destroy();
+    virtual void Initialize() = 0;
+    virtual void Destroy() = 0;
 
     // Attributes
     virtual void setEnabled(bool value);
     virtual bool isEnabled();
-
-    // Methods
-    virtual void move(const Vect2d& movement);
-    virtual void draw();
-    virtual void invalidate();
-    void refresh();
 
     // Event Functions
     void onKeyPress(std::function<void(const Event &)> f);
@@ -94,10 +87,6 @@ private:
 
 protected:
 
-    ClearRequest clearRequest;
-    TextBody body;
-    std::vector<Component*> children;
-    Vect2d position;
     bool enabled;
 
 };

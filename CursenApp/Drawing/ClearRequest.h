@@ -8,6 +8,8 @@
 
 #include "Vect2d.h"
 
+using namespace cursen;
+
 class ClearRequest {
 
 public:

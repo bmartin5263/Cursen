@@ -8,41 +8,12 @@
 #include "Component.h"
 
 Component::Component() :
-    enabled(true), body(TextBody()), position(Vect2d()), clearRequest(CursesManager::GetClearRequest())
+    enabled(true)
 {
-    body.resize(Vect2d(1,1));
-    refresh();
 }
 
-void Component::move(const Vect2d& movement) {
-    position.x += movement.x;
-    position.y += movement.y;
-    refresh();
-}
+Component::~Component() {
 
-
-void Component::draw() {
-    for (Component* c : children) {
-        c->draw();
-    }
-
-}
-
-void Component::invalidate() {
-    // Request Redraw
-    CursesManager::EnqueueClear(clearRequest);
-    DrawRequest drawRequest = CursesManager::GetDrawRequest();
-    drawRequest.setBody(&this->body);
-    drawRequest.setPosition(this->position);
-    CursesManager::EnqueueDraw(drawRequest);
-    clearRequest = CursesManager::GetClearRequest();
-    clearRequest.setPosition(position);
-    clearRequest.setDimensions(body.getDimensions());
-}
-
-void Component::refresh() {
-    draw();
-    invalidate();
 }
 
 void Component::onKeyPress(std::function<void(const Event &)> f) {

@@ -4,16 +4,29 @@
 
 #include <cassert>
 #include "TextBody.h"
+#include "CursesManager.h"
 
 TextBody::TextBody() :
-    dimensions(Vect2d()), body(nullptr)
+    dimensions(cursen::Vect2d(0,0)), body(nullptr)
 {
+    initializeBody();
 }
 
-TextBody::TextBody(Vect2d dimensions) :
+TextBody::TextBody(const Vect2d& dimensions) :
     dimensions(dimensions), body(nullptr)
 {
     initializeBody();
+}
+
+void TextBody::initializeBody() {
+    body = new chtype*[dimensions.y + 1];           // +1 for NULL
+    for (int i = 0; i < dimensions.y; i++) {
+        body[i] = new chtype[dimensions.x + 1];         // +1 for NULL
+        for (int j = 0; j < dimensions.x; j++) {
+            body[i][j] = '$';
+        }
+        body[i][dimensions.x] = NULL_CHAR;
+    }
 }
 
 void TextBody::clear() {
@@ -31,20 +44,9 @@ void TextBody::resize(Vect2d dimensions) {
     initializeBody();
 }
 
-void TextBody::initializeBody() {
-    body = new chtype*[dimensions.y + 1];           // +1 for NULL
-    for (int i = 0; i < dimensions.y; i++) {
-        body[i] = new chtype[dimensions.x + 1];         // +1 for NULL
-        for (int j = 0; j < dimensions.x; j++) {
-            body[i][j] = '$';
-        }
-        body[i][dimensions.x] = NULL_CHAR;
-    }
-}
-
 void TextBody::deleteBody() {
     if (body != nullptr) {
-        for (int i = 0; i < dimensions.x; i++) {
+        for (int i = 0; i < dimensions.y; i++) {
             delete[] body[i];
         }
         delete[] body;
@@ -101,6 +103,16 @@ void TextBody::writeLine(const chtype *line, const int y) {
     writeLine(line, Vect2d(0, y));
 }
 
+void TextBody::writeLine(const char *line, const int y) {
+    size_t len = strlen(line);
+    chtype converted[len + 1];
+    for (int i = 0; i < len; i++) {
+        converted[i] = (chtype)line[i];
+    }
+    converted[len] = NULL_CHAR;
+    writeLine(converted, Vect2d(0, y));
+}
+
 void TextBody::writeColumn(const chtype *column, const int x) {
     writeColumn(column, Vect2d(x, 0));
 }
@@ -138,4 +150,3 @@ void TextBody::assertY(const int y) {
 TextBody::~TextBody() {
     if (body != nullptr) deleteBody();
 }
-

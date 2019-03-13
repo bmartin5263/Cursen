@@ -84,6 +84,9 @@ void CursesManager::processDrawEvents() {
         chtype** content = body->getContent();
         Vect2d dimensions = body->getDimensions();
 
+        //if (dimensions.x == 0) Flash();
+        //if (dimensions.y == 0) Flash();
+
         // Get Position of Component
         Vect2d position = drawRequest.getPosition();
 

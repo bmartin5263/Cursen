@@ -13,12 +13,8 @@ class Form {
 
 public:
 
-    void Initialize();
-    void Destroy();
-    void clickComponent();
-    void arrowPress(const Event& e);
-
-    Component* c;
+    virtual void Initialize() = 0;
+    virtual void Destroy() = 0;
 
 };
 

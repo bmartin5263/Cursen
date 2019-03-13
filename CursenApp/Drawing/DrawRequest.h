@@ -6,7 +6,9 @@
 #define CURSEN_DRAWREQUEST_H
 
 #include <ncurses.h>
-#include <Drawing/Position.h>
+#include "Vect2d.h"
+
+using namespace cursen;
 
 class TextBody;
 

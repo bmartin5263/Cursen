@@ -5,32 +5,36 @@
 #ifndef CURSEN_VECT2D_H
 #define CURSEN_VECT2D_H
 
-struct Vect2d {
+namespace cursen {
 
-    Vect2d() :
-            x(0), y(0)
-    {
-    }
+    struct Vect2d {
 
-    Vect2d(int x, int y) :
-            x(x), y(y)
-    {
-    }
+        Vect2d() :
+                x(0), y(0)
+        {
+        }
 
-    Vect2d(const Vect2d& other) :
-            x(other.x), y(other.y)
-    {
-    }
+        Vect2d(int x, int y) :
+                x(x), y(y)
+        {
+        }
 
-    Vect2d& operator = (const Vect2d& other) {
-        this->x = other.x;
-        this->y = other.y;
-        return *this;
-    }
+        Vect2d(const Vect2d& other) :
+                x(other.x), y(other.y)
+        {
+        }
 
-    int x;
-    int y;
+        Vect2d& operator = (const Vect2d& other) {
+            this->x = other.x;
+            this->y = other.y;
+            return *this;
+        }
 
-};
+        int x;
+        int y;
+
+    };
+
+}
 
 #endif //CURSEN_VECT2D_H

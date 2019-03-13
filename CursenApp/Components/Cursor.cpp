@@ -16,7 +16,7 @@ Cursor::Cursor(Component* start) :
 {
 }
 
-void Cursor::addComponent(Component* component, ArrowMap arrowMap) {
+void Cursor::addComponent(Component* component, cursen::ArrowMap arrowMap) {
     componentMap[component] = arrowMap;
 }
 
@@ -42,7 +42,7 @@ void Cursor::click(const Event &event) {
 
 void Cursor::moveCursor(const Event &event) {
     Component* originalComponent = currentComponent;
-    ArrowMap map = componentMap[currentComponent];
+    cursen::ArrowMap map = componentMap[currentComponent];
     if (event.arrowPress.right) {
         currentComponent = map.right;
         //if (currentComponent == nullptr) {
@@ -83,4 +83,12 @@ void Cursor::removeComponent(Component *component) {
 
         }
     }
+}
+
+void Cursor::Initialize() {
+
+}
+
+void Cursor::Destroy() {
+
 }

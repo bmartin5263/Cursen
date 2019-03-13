@@ -10,6 +10,7 @@
 #include "Engine.h"
 #include "SFML/Network.hpp"
 #include "CursenApplication.h"
+#include "Demo/TestForm.h"
 
 void speedTest() {
 
@@ -97,7 +98,7 @@ void speedTest() {
 
 int main() {
 
-    CursenApplication::Run(new Form());
+    CursenApplication::Run(new TestForm());
     //std::unordered_map<Component*, ArrowMap> map;
     //Component* c = new Component;
     //ArrowMap org(c,c,c,c);

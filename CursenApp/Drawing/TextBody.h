@@ -10,6 +10,8 @@
 #include <vector>
 #include "Vect2d.h"
 
+using namespace cursen;
+
 class TextBody {
 
 public:
@@ -17,7 +19,7 @@ public:
     static const char NULL_CHAR = '\0';
 
     TextBody();
-    TextBody(Vect2d dimensions);
+    TextBody(const Vect2d& dimensions);
     ~TextBody();
 
     void clear();
@@ -28,6 +30,7 @@ public:
     void replaceColumn(const chtype *line, const int x);
     void replaceBody(const chtype** const body, const Vect2d &size);
 
+    void writeLine(const char* line, const int y);
     void writeLine(const chtype *line, const int y);
     void writeColumn(const chtype *column, const int x);
     void writeLine(const chtype *line, const Vect2d &loc);
