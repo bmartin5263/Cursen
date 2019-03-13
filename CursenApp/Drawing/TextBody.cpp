@@ -107,7 +107,7 @@ void TextBody::writeLine(const char *line, const int y) {
     size_t len = strlen(line);
     chtype converted[len + 1];
     for (int i = 0; i < len; i++) {
-        converted[i] = (chtype)line[i];
+        converted[i] = ((chtype)line[i]);
     }
     converted[len] = NULL_CHAR;
     writeLine(converted, Vect2d(0, y));

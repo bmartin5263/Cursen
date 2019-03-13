@@ -12,7 +12,6 @@ Label::Label(const Vect2d& pos, const Vect2d& dim) :
 }
 
 void Label::Initialize() {
-    onKeyPress(std::bind(&Label::onKey, this, std::placeholders::_1));
     refresh();
 }
 
@@ -26,11 +25,10 @@ void Label::draw() {
 
 void Label::setText(const std::string& text) {
     this->text = text;
-    body.resize(cursen::Vect2d((int)this->text.length(), 1));
     refresh();
 }
 
 void Label::emplaceText(const std::string& text) {
-    this->text = text;
-    refresh();
+    body.resize(cursen::Vect2d((int)text.length(), 1));
+    setText(text);
 }

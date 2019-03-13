@@ -90,10 +90,12 @@ void CursesManager::processDrawEvents() {
         // Get Position of Component
         Vect2d position = drawRequest.getPosition();
 
+        //attron(COLOR_PAIR(0));
         for (int i = 0; i < dimensions.y; i++) {
             chtype* row = content[i];
             mvaddchstr(position.y + i, position.x, &row[0]);
         }
+        //attroff(COLOR_PAIR(0));
 
     }
     refresh();
@@ -117,4 +119,20 @@ ClearRequest CursesManager::getClearRequest() {
 
 void CursesManager::enqueueClear(ClearRequest request) {
     clearQueue.push(request);
+}
+
+short CursesManager::privGetColorPair(const cursen::Color& color) {
+    ColorMap::iterator it;
+
+    it = colorMap.find(color);
+    if (it != colorMap.end() )
+    {
+        return COLOR_PAIR(colorMap[color]);
+    }
+    else {
+        short pairNum = (short)(colorMap.size() + 1);
+        init_pair(pairNum, color.fg, color.bg);
+        colorMap[color] = pairNum;
+        return COLOR_PAIR(colorMap[color]);
+    }
 }

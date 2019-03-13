@@ -8,8 +8,12 @@
 #include <ncurses.h>
 #include <queue>
 #include <string>
+#include <unordered_map>
 #include "Drawing/DrawRequest.h"
 #include "ClearRequest.h"
+#include "Color.h"
+
+using namespace cursen;
 
 class CursesManager {
 
@@ -38,6 +42,8 @@ public:
     static void DrawString(const char *string, int x, int y) { instance->drawString(string, x, y); }
     static int GetChar() { return instance->getCharacter(); }
 
+    static short GetColorPair(const Color& color) { return instance->privGetColorPair(color); }
+
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
 
@@ -45,10 +51,13 @@ public:
 
 private:
 
+    typedef std::unordered_map<Color, short, color_hash> ColorMap;
+
     // Instance Data
     int inputTimeout;
     std::queue<DrawRequest> drawQueue;
     std::queue<ClearRequest> clearQueue;
+    ColorMap colorMap;
 
     // Methods
     void initializeCurses();
@@ -66,6 +75,7 @@ private:
     void enqueueDraw(DrawRequest);
     ClearRequest getClearRequest();
     void enqueueClear(ClearRequest);
+    short privGetColorPair(const Color&);
 
     // Static Data
 

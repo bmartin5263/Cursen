@@ -26,8 +26,6 @@ public:
 private:
 
     std::string text;
-
-    void onKey(const Event &event);
 };
 
 
