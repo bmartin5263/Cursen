@@ -27,7 +27,7 @@ public:
 
 private:
 
-    // To help abstract away methods that the user needs vs methods Cursen needs
+    // To help abstract away methods that the user needs vs methods CursenOld needs
     friend class TerminalManager;
     friend class SpriteManager;
 

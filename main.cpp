@@ -97,23 +97,5 @@ void speedTest() {
 }
 
 int main() {
-
     CursenApplication::Run(new TestForm());
-    //std::unordered_map<Component*, ArrowMap> map;
-    //Component* c = new Component;
-    //ArrowMap org(c,c,c,c);
-    //map[c] = org;
-    //ArrowMap m = map[c];
-    //if (m.left == nullptr) {
-    //    puts("NULL");
-    //}
-    //if (m.right == nullptr) {
-    //    puts("NULL");
-    //}
-    //if (m.down == nullptr) {
-    //    puts("NULL");
-    //}
-    //if (m.up == nullptr) {
-    //    puts("NULL");
-    //}
 }
