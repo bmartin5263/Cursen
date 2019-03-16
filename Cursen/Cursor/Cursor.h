@@ -6,7 +6,7 @@
 #define CURSEN_CURSOR_H
 
 #include "ArrowMap.h"
-#include "Component.h"
+#include "Components/Component.h"
 #include <unordered_map>
 
 class TextComponent;

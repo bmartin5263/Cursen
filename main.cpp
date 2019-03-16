@@ -6,7 +6,7 @@
 #include <thread>
 #include <TerminalManager.h>
 #include <StopWatch.h>
-#include <Components/Cursor.h>
+#include <Cursor/Cursor.h>
 #include "Engine.h"
 #include "SFML/Network.hpp"
 #include "CursenApplication.h"

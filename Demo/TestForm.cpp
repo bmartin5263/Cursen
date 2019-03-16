@@ -4,7 +4,7 @@
 
 #include <Drawing/CursesManager.h>
 #include <CursenApplication.h>
-#include "Components/Cursor.h"
+#include "Cursor/Cursor.h"
 #include "Components/Label.h"
 #include "TestForm.h"
 
