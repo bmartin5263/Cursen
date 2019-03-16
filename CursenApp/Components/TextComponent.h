@@ -26,6 +26,36 @@ public:
     void invalidate();
     void refresh();
 
+    /**
+     * Called when a virtual Cursor hovers over this component
+     * @param f
+     */
+    void onCursor(std::function<void()> f);
+
+    /**
+     * Called when a virtual Cursor hovers away from this component
+     * @param f
+     */
+    void offCursor(std::function<void()> f);
+
+    /**
+     * Called when a virtual Cursor clicks on this component
+     * @param f
+     */
+    void onClick(std::function<void()> f);
+
+private:
+
+    friend class Cursor;
+
+    void CallOnCursor();
+    void CallOffCursor();
+    void CallOnClick();
+
+    std::function<void()> f_onCursor;
+    std::function<void()> f_offCursor;
+    std::function<void()> f_onClick;
+
 protected:
 
     ClearRequest clearRequest;

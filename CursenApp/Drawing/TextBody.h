@@ -9,12 +9,16 @@
 #include <ncurses.h>
 #include <vector>
 #include "Vect2d.h"
+#include "Color.h"
+#include "TextAlignment.h"
 
 using namespace cursen;
 
 class TextBody {
 
 public:
+
+    typedef chtype* Line;
 
     static const char NULL_CHAR = '\0';
 
@@ -26,17 +30,26 @@ public:
     void clearLine(const int y);
     void clearColumn(const int x);
 
-    void replaceLine(const chtype *line, const int y);
-    void replaceColumn(const chtype *line, const int x);
-    void replaceBody(const chtype** const body, const Vect2d &size);
+    void replaceLine(const Line line, const int y);
+    void replaceColumn(const Line line, const int x);
+    void replaceBody(const Line* const body, const Vect2d &size);
 
-    void writeLine(const char* line, const int y);
-    void writeLine(const chtype *line, const int y);
-    void writeColumn(const chtype *column, const int x);
-    void writeLine(const chtype *line, const Vect2d &loc);
-    void writeColumn(const chtype *column, const Vect2d &loc);
-    void writeBody(const chtype **const body, const Vect2d &size);
-    void writeBody(const chtype **const body, const Vect2d &size, const Vect2d &loc);
+    /**
+     * Line writing.
+     */
+    void writeLine(const std::string &line, const Vect2d &pos);
+    void writeLine(const std::string &line, const Vect2d &pos, const TextAlignment& alignment);
+    void writeLine(const std::string &line, const Vect2d &pos, const Color &color);
+    void writeLine(const std::string &line, const Vect2d &pos, const TextAlignment& alignment, const Color &color);
+
+    void writeLine(const Line line, const Vect2d &loc);
+    void writeLine(const Line line, const Vect2d &loc, const TextAlignment& alignment);
+
+    void writeColumn(const Line column, const int x);
+    void writeColumn(const Line column, const Vect2d &loc);
+
+    void writeBody(const Line *const body, const Vect2d &size);
+    void writeBody(const Line *const body, const Vect2d &size, const Vect2d &loc);
 
     chtype** getContent() { return body; }
     Vect2d getDimensions() { return dimensions; }

@@ -9,12 +9,12 @@
 #include "Events/Event.h"
 #include "Component.h"
 
-class Form {
+class Form : public Component {
 
 public:
 
-    virtual void Initialize() = 0;
-    virtual void Destroy() = 0;
+    virtual void initialize() = 0;
+    virtual void destroy() = 0;
 
 };
 

@@ -16,12 +16,18 @@ class Component {
 
 public:
 
-    // Initialize
+    // Construction
     Component();
     ~Component();
 
-    virtual void Initialize() = 0;
-    virtual void Destroy() = 0;
+    // Initialization and Destruction
+    virtual void initialize() = 0;
+    virtual void destroy() = 0;
+
+    // Component Relationship
+    void addComponent(Component*);
+    void removeComponent(Component*);
+    Component* getParent();
 
     // Attributes
     virtual void setEnabled(bool value);
@@ -37,24 +43,6 @@ public:
     void onDeletePress(std::function<void(const Event &)> f);
     void onArrowPress(std::function<void(const Event &)> f);
 
-    /**
-     * Called when a virtual Cursor hovers over this component
-     * @param f
-     */
-    void onCursor(std::function<void()> f);
-
-    /**
-     * Called when a virtual Cursor hovers away from this component
-     * @param f
-     */
-    void offCursor(std::function<void()> f);
-
-    /**
-     * Called when a virtual Cursor clicks on this component
-     * @param f
-     */
-    void onClick(std::function<void()> f);
-
 private:
 
     friend class EventManager;
@@ -68,9 +56,8 @@ private:
     void CallSocketConnect(const Event&);
     void CallDeletePress(const Event&);
     void CallArrowPress(const Event&);
-    void CallOnCursor();
-    void CallOffCursor();
-    void CallOnClick();
+
+    void setParent(Component*);
 
     std::function<void(const Event&)> f_keyPress;
     std::function<void(const Event&)> f_escapePress;
@@ -81,12 +68,11 @@ private:
     std::function<void(const Event&)> f_deletePress;
     std::function<void(const Event&)> f_arrowPress;
 
-    std::function<void()> f_onCursor;
-    std::function<void()> f_offCursor;
-    std::function<void()> f_onClick;
+    Component* parent;
 
 protected:
 
+    std::vector<Component*> components;
     bool enabled;
 
 };

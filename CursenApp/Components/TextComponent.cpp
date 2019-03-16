@@ -16,8 +16,47 @@ TextComponent::TextComponent(const Vect2d &pos) :
 }
 
 TextComponent::TextComponent(const Vect2d &pos, const Vect2d &dim) :
-        clearRequest(ClearRequest()), position(pos), body(TextBody(dim))
+    clearRequest(ClearRequest()), position(pos), body(TextBody(dim))
 {
+}
+
+void TextComponent::onCursor(std::function<void()> f) {
+    f_onCursor = f;
+}
+
+void TextComponent::offCursor(std::function<void()> f) {
+    f_offCursor = f;
+}
+
+void TextComponent::onClick(std::function<void()> f) {
+    f_onClick = f;
+}
+
+void TextComponent::CallOnCursor() {
+    try {
+        f_onCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void TextComponent::CallOffCursor() {
+    try {
+        f_offCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void TextComponent::CallOnClick() {
+    try {
+        f_onClick();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
 }
 
 void TextComponent::move(const Vect2d& movement) {

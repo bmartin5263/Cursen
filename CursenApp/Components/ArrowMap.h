@@ -5,7 +5,7 @@
 #ifndef CURSEN_ARROWMAP_H
 #define CURSEN_ARROWMAP_H
 
-class Component;
+class TextComponent;
 
 namespace cursen {
 
@@ -35,17 +35,17 @@ namespace cursen {
             return *this;
         }
 
-        ArrowMap(Component* left, Component* up, Component* right, Component* down) {
+        ArrowMap(TextComponent* left, TextComponent* up, TextComponent* right, TextComponent* down) {
             this->left = left;
             this->up = up;
             this->down = down;
             this->right = right;
         }
 
-        Component* left;
-        Component* up;
-        Component* right;
-        Component* down;
+        TextComponent* left;
+        TextComponent* up;
+        TextComponent* right;
+        TextComponent* down;
 
     };
 

@@ -7,14 +7,15 @@
 #include "Components/Label.h"
 #include "TestForm.h"
 
-void TestForm::Initialize() {
+void TestForm::initialize() {
     c = new Label(Vect2d(1,1), Vect2d(40,1));
     c->onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
     c->onEnterPress(std::bind(&TestForm::enterPress, this, std::placeholders::_1));
     c->onArrowPress(std::bind(&TestForm::arrowPress, this, std::placeholders::_1));
+    addComponent(c);
 }
 
-void TestForm::Destroy() {
+void TestForm::destroy() {
     delete c;
 }
 
@@ -27,7 +28,8 @@ void TestForm::enterPress(const Event &event) {
 }
 
 void TestForm::arrowPress(const Event &event) {
-    c->setText("A very long string");
+    c->emplaceText("BLAH");
 }
+
 
 

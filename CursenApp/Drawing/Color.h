@@ -24,6 +24,7 @@ namespace cursen {
         static const Color GREEN;
         static const Color YELLOW;
         static const Color RED;
+        static const Color NONE;
 
         Color();
         Color(int foreground);
@@ -31,6 +32,8 @@ namespace cursen {
         Color(const Color& other);
         Color& operator = (const Color& other);
         ~Color() = default;
+
+        static Color GetRandomColor();
 
         bool operator==(const Color &other) const;
 
@@ -49,6 +52,7 @@ namespace cursen {
 }
 
 chtype operator | (chtype c, const cursen::Color& n);
+chtype operator | (const cursen::Color& n, chtype c);
 bool operator == (const cursen::Color& lhs, const cursen::Color& rhs);
 
 #endif //CURSEN_COLOR_H

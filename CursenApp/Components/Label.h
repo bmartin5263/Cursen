@@ -9,6 +9,9 @@
 #include <Components/Component.h>
 #include <Components/TextComponent.h>
 #include <string>
+#include <Drawing/TextAlignment.h>
+
+using namespace cursen;
 
 class Label : public TextComponent {
 
@@ -16,8 +19,8 @@ public:
 
     Label(const Vect2d& pos, const Vect2d& dim);
 
-    void Initialize() override;
-    void Destroy() override;
+    void initialize() override;
+    void destroy() override;
     void draw() override;
 
     void emplaceText(const std::string& text);
@@ -26,6 +29,8 @@ public:
 private:
 
     std::string text;
+    TextAlignment alignment;
+
 };
 
 

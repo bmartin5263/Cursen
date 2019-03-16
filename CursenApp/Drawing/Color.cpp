@@ -8,8 +8,9 @@
 const short Color::BLK = 0;
 const short Color::WHT = 15;
 
+const Color Color::NONE = Color(-1, -1);
 const Color Color::BLACK = Color(BLK, BLK);
-const Color Color::WHITE = Color(WHT, WHT);
+const Color Color::WHITE = Color(WHT, BLK);
 const Color Color::RED = Color(199, BLK);
 const Color Color::BLUE = Color(39, BLK);
 const Color Color::GREEN = Color(82, BLK);
@@ -35,18 +36,32 @@ Color::Color(const Color &other) {
     this->bg = other.bg;
 }
 
+Color Color::GetRandomColor() {
+    int randNum = (rand() % 4);
+    if (randNum == 0) return BLUE;
+    if (randNum == 1) return RED;
+    if (randNum == 2) return GREEN;
+    if (randNum == 3) return YELLOW;
+    return Color();
+}
+
 Color &Color::operator=(const Color &other) {
     this->fg = other.fg;
     this->bg = other.bg;
     return *this;
 }
 
-
 chtype operator | (chtype c, const cursen::Color& n)
 {
+    if (n.fg == -1 || n.bg == -1) return c;
     return c | CursesManager::GetColorPair(n);
 }
 
+chtype operator | (const cursen::Color& n, chtype c)
+{
+    if (n.fg == -1 || n.bg == -1) return c;
+    return c | CursesManager::GetColorPair(n);
+}
 
 bool Color::operator==(const Color &other) const {
     return this->bg == other.bg && this->fg == other.fg;

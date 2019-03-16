@@ -7,7 +7,7 @@
 #include "CursesManager.h"
 
 TextBody::TextBody() :
-    dimensions(cursen::Vect2d(0,0)), body(nullptr)
+    dimensions(Vect2d(0,0)), body(nullptr)
 {
     initializeBody();
 }
@@ -68,11 +68,11 @@ void TextBody::clearColumn(const int x) {
     }
 }
 
-void TextBody::writeBody(const chtype **const body, const Vect2d &size) {
+void TextBody::writeBody(const Line *const body, const Vect2d &size) {
     writeBody(body, size, Vect2d(0,0));
 }
 
-void TextBody::writeBody(const chtype **const body, const Vect2d &size, const Vect2d &loc) {
+void TextBody::writeBody(const Line *const body, const Vect2d &size, const Vect2d &loc) {
     int rowIndex = 0;
     int colIndex = 0;
     for (int i = loc.y; i < dimensions.y && rowIndex < size.y; i++) {
@@ -84,49 +84,80 @@ void TextBody::writeBody(const chtype **const body, const Vect2d &size, const Ve
     }
 }
 
-void TextBody::replaceBody(const chtype **const body, const Vect2d &size) {
+void TextBody::replaceBody(const Line *const body, const Vect2d &size) {
     clear();
     writeBody(body, size);
 }
 
-void TextBody::replaceLine(const chtype *line, const int y) {
+void TextBody::replaceLine(Line line, const int y) {
     clearLine(y);
-    writeLine(line, y);
+    writeLine(line, Vect2d(0, y));
 }
 
-void TextBody::replaceColumn(const chtype *line, const int x) {
+void TextBody::replaceColumn(Line line, const int x) {
     clearColumn(x);
     writeColumn(line, x);
 }
 
-void TextBody::writeLine(const chtype *line, const int y) {
-    writeLine(line, Vect2d(0, y));
+void TextBody::writeLine(const std::string &line, const Vect2d &pos) {
+    writeLine(line, pos, TextAlignment::LEFT, Color::WHITE);
 }
 
-void TextBody::writeLine(const char *line, const int y) {
-    size_t len = strlen(line);
+void TextBody::writeLine(const std::string &line, const Vect2d &pos, const Color &color) {
+    writeLine(line, pos, TextAlignment::LEFT, color);
+}
+
+void TextBody::writeLine(const std::string &line, const Vect2d &pos, const TextAlignment &alignment) {
+    writeLine(line, pos, alignment, Color::WHITE);
+}
+
+void TextBody::writeLine(const std::string &line, const Vect2d &pos, const TextAlignment &alignment, const Color &color) {
+    size_t len = line.length();
     chtype converted[len + 1];
     for (int i = 0; i < len; i++) {
-        converted[i] = ((chtype)line[i]);
+        converted[i] = ((chtype)line[i]) | color;
     }
     converted[len] = NULL_CHAR;
-    writeLine(converted, Vect2d(0, y));
+    writeLine(converted, pos, alignment);
 }
 
-void TextBody::writeColumn(const chtype *column, const int x) {
+void TextBody::writeColumn(const Line column, const int x) {
     writeColumn(column, Vect2d(x, 0));
 }
 
-void TextBody::writeLine(const chtype *line, const Vect2d &loc) {
+void TextBody::writeLine(const Line line, const Vect2d &loc) {
+    writeLine(line, loc, TextAlignment::LEFT);
+}
+
+void TextBody::writeLine(const Line line, const Vect2d &loc, const TextAlignment &alignment) {
     assertRange(loc.x, loc.y);
-    int lineIndex = 0;
-    for (int i = loc.x; i < dimensions.x; i++) {
-        body[loc.y][i] = line[lineIndex++];
+    int index;
+    int i = 0;
+    switch (alignment) {
+        case TextAlignment::LEFT:
+            index = 0;
+            for (int i = loc.x; i < dimensions.x; i++) {
+                if (line[index] == NULL_CHAR) break;
+                body[loc.y][i] = line[index++];
+            }
+            break;
+        case TextAlignment::CENTER:
+            break;
+        case TextAlignment::RIGHT:
+            while (line[i] != NULL_CHAR) {
+                i++;
+            }
+            index = dimensions.x - 1;
+            for (int j = i; j >= 0; j--) {
+                if (index < 0) break;
+                body[loc.y][index--] = line[j];
+            }
+            break;
     }
     assert(body[loc.y][dimensions.x] == NULL_CHAR && "Null corrupted");
 }
 
-void TextBody::writeColumn(const chtype *column, const Vect2d &loc) {
+void TextBody::writeColumn(const Line column, const Vect2d &loc) {
     assertRange(loc.x, loc.y);
     int columnIndex = 0;
     for (int i = loc.y; i < dimensions.y; i++) {
@@ -140,11 +171,11 @@ void TextBody::assertRange(const int x, const int y) {
 }
 
 void TextBody::assertX(const int x) {
-    if (x < 0 || x >= dimensions.x) throw std::range_error("X out of range");
+    if (x < 0 || x >= dimensions.x) throw std::range_error("X out of range: " + std::to_string(x));
 }
 
 void TextBody::assertY(const int y) {
-    if (y < 0 || y >= dimensions.y) throw std::range_error("Y out of range");
+    if (y < 0 || y >= dimensions.y) throw std::range_error("Y out of range: " + std::to_string(y));
 }
 
 TextBody::~TextBody() {

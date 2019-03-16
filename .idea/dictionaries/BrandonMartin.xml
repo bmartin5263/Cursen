@@ -3,10 +3,12 @@
     <words>
       <w>cursen</w>
       <w>deregister</w>
+      <w>emplace</w>
       <w>offscreen</w>
       <w>priv</w>
       <w>sigil</w>
       <w>stdscr</w>
+      <w>vect</w>
     </words>
   </dictionary>
 </component>

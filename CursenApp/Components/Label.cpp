@@ -8,27 +8,30 @@
 Label::Label(const Vect2d& pos, const Vect2d& dim) :
     TextComponent(pos, dim)
 {
-    Initialize();
+    initialize();
 }
 
-void Label::Initialize() {
+void Label::initialize() {
+    this->text = "";
+    body.resize(Vect2d(40, 1));
     refresh();
 }
 
-void Label::Destroy() {
+void Label::destroy() {
 
 }
 
 void Label::draw() {
-    body.writeLine(this->text.c_str(), 0);
+    body.writeLine(text, Vect2d(0,0), alignment);
 }
 
-void Label::setText(const std::string& text) {
+void Label::emplaceText(const std::string& text) {
+    this->alignment = TextAlignment::RIGHT;
     this->text = text;
     refresh();
 }
 
-void Label::emplaceText(const std::string& text) {
-    body.resize(cursen::Vect2d((int)text.length(), 1));
-    setText(text);
+void Label::setText(const std::string& text) {
+    body.resize(Vect2d((int)text.length(), 1));
+    emplaceText(text);
 }

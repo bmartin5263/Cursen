@@ -22,7 +22,7 @@ void CursenApplication::run(Form* form) {
 
     CursesManager::Initialize();
 
-    form->Initialize();
+    form->initialize();
     CursesManager::ProcessDrawEvents();
 
     while (running) {

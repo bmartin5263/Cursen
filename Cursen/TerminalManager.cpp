@@ -43,7 +43,7 @@ void TerminalManager::initializeCurses() {
     Resize(WIN_ROWS, WIN_COLS);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));    // slight delay for change to take effect
 
-    // Initialize Curses
+    // initialize Curses
     initscr();                  // First step to initialize curses
     start_color();              // Allow color
     curs_set(0);                // Turn off cursor

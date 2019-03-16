@@ -14,8 +14,8 @@ class TestForm : public Form {
 
 public:
 
-    void Initialize() override;
-    void Destroy() override;
+    void initialize() override;
+    void destroy() override;
 
     void keyPress(const Event& event);
     void enterPress(const Event& event);
@@ -24,9 +24,6 @@ public:
 private:
 
     Label* c;
-    Label* c1;
-    Label* c2;
-    Label* c3;
 
 };
 

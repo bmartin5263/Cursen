@@ -4,6 +4,7 @@
 
 #include <Drawing/DrawRequest.h>
 #include <Drawing/CursesManager.h>
+#include <cassert>
 #include "Events/EventManager.h"
 #include "Component.h"
 
@@ -14,6 +15,24 @@ Component::Component() :
 
 Component::~Component() {
 
+}
+
+void Component::addComponent(Component *component) {
+    assert(component != nullptr);
+    component->setParent(this);
+    components.push_back(component);
+}
+
+void Component::removeComponent(Component *component) {
+    component->setParent(nullptr);
+}
+
+Component *Component::getParent() {
+    return parent;
+}
+
+void Component::setParent(Component *component) {
+    this->parent = component;
 }
 
 void Component::onKeyPress(std::function<void(const Event &)> f) {
@@ -62,18 +81,6 @@ void Component::setEnabled(bool value) {
 
 bool Component::isEnabled() {
     return enabled;
-}
-
-void Component::onCursor(std::function<void()> f) {
-    f_onCursor = f;
-}
-
-void Component::offCursor(std::function<void()> f) {
-    f_offCursor = f;
-}
-
-void Component::onClick(std::function<void()> f) {
-    f_onClick = f;
 }
 
 void Component::CallKeyPress(const Event& e) {
@@ -142,33 +149,6 @@ void Component::CallDeletePress(const Event& e) {
 void Component::CallArrowPress(const Event& e) {
     try {
         f_arrowPress(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
-    }
-}
-
-void Component::CallOnCursor() {
-    try {
-        f_onCursor();
-    }
-    catch (std::bad_function_call) {
-        // Pass
-    }
-}
-
-void Component::CallOffCursor() {
-    try {
-        f_offCursor();
-    }
-    catch (std::bad_function_call) {
-        // Pass
-    }
-}
-
-void Component::CallOnClick() {
-    try {
-        f_onClick();
     }
     catch (std::bad_function_call) {
         // Pass

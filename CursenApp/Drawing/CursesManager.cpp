@@ -17,7 +17,7 @@ int CursesManager::getCharacter() {
 }
 
 void CursesManager::initializeCurses() {
-    // Initialize Curses
+    // initialize Curses
     initscr();                  // First step to initialize curses
     start_color();              // Allow color
     curs_set(0);                // Turn off cursor
