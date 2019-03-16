@@ -21,24 +21,30 @@ void Cursor::addComponent(TextComponent* component, cursen::ArrowMap arrowMap) {
     componentMap[component] = arrowMap;
 }
 
-
-
 void Cursor::setEnabled(bool value) {
     if (currentComponent != nullptr) {
         Component::setEnabled(value);
         if (enabled) {
             onArrowPress(std::bind(&Cursor::moveCursor, this, std::placeholders::_1));
-            onEnterPress(std::bind(&Cursor::click, this, std::placeholders::_1));
+            onEnterPress(std::bind(&Cursor::enterClick, this, std::placeholders::_1));
+            onKeyPress(std::bind(&Cursor::keyClick, this, std::placeholders::_1));
+            currentComponent->CallOnCursor();
         }
         else {
-            EventManager::Deregister(*this, Event::ArrowPressed);
-            EventManager::Deregister(*this, Event::EnterPressed);
+            detachArrowPress();
+            detachEnterPress();
         }
     }
 }
 
-void Cursor::click(const Event &event) {
+void Cursor::enterClick(const Event &event) {
     currentComponent->CallOnClick();
+}
+
+void Cursor::keyClick(const Event &event) {
+    if (event.key.code == ' ') {
+        currentComponent->CallOnClick();
+    }
 }
 
 void Cursor::moveCursor(const Event &event) {
@@ -46,31 +52,31 @@ void Cursor::moveCursor(const Event &event) {
     cursen::ArrowMap map = componentMap[currentComponent];
     if (event.arrowPress.right) {
         currentComponent = map.right;
-        //if (currentComponent == nullptr) {
-        //    currentComponent = originalComponent;
-        //    return;
-        //}
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
     }
     else if (event.arrowPress.left) {
         currentComponent = map.left;
-        //if (currentComponent == nullptr) {
-        //    currentComponent = originalComponent;
-        //    return;
-        //}
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
     }
     else if (event.arrowPress.up) {
         currentComponent = map.up;
-        //if (currentComponent == nullptr) {
-        //    currentComponent = originalComponent;
-        //    return;
-        //}
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
     }
     else if (event.arrowPress.down) {
         currentComponent = map.down;
-        //if (currentComponent == nullptr) {
-        //    currentComponent = originalComponent;
-        //    return;
-        //}
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
     }
     originalComponent->CallOffCursor();
     currentComponent->CallOnCursor();

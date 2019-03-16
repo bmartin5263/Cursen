@@ -27,10 +27,17 @@ public:
     void setText(const std::string& text);
     void setColor(const Color& color);
 
+    void cursorOn();
+    void cursorOff();
+
 private:
+
+    void changeColor(const Color& color);
 
     std::string text;
     Color color;
+    Color highlight_color;
+    Color draw_color;
     TextAlignment alignment;
 
 };

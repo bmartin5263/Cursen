@@ -37,13 +37,9 @@ public:
     /**
      * Line writing.
      */
-    void writeLine(const std::string &line, const Vect2d &pos);
-    void writeLine(const std::string &line, const Vect2d &pos, const TextAlignment& alignment);
-    void writeLine(const std::string &line, const Vect2d &pos, const Color &color);
-    void writeLine(const std::string &line, const Vect2d &pos, const TextAlignment& alignment, const Color &color);
-
-    void writeLine(const Line line, const Vect2d &loc);
-    void writeLine(const Line line, const Vect2d &loc, const TextAlignment& alignment);
+    void writeLine(const std::string &line, const Vect2d &pos,
+                   const TextAlignment& alignment = TextAlignment::LEFT, const Color &color = Color::NONE);
+    void writeLine(const Line line, const Vect2d &loc, const TextAlignment& alignment = TextAlignment::LEFT);
 
     void writeColumn(const Line column, const int x);
     void writeColumn(const Line column, const Vect2d &loc);

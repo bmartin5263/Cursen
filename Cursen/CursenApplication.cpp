@@ -16,7 +16,7 @@ CursenApplication* CursenApplication::engineInstance = nullptr;
 /*
  * Main Loop of the engine
  */
-void CursenApplication::run(Form* form) {
+void CursenApplication::privRun(Form *form) {
     running = true;
 
     srand((unsigned)time(0));
@@ -36,7 +36,7 @@ void CursenApplication::run(Form* form) {
 
 }
 
-void CursenApplication::quit() {
+void CursenApplication::privQuit() {
     running = false;
 }
 

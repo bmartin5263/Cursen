@@ -12,8 +12,8 @@ class CursenApplication {
 
 public:
 
-    static void Run(Form* startForm) { Instance().run(startForm); };
-    static void Quit() { Instance().quit(); }
+    static void Run(Form* startForm) { Instance().privRun(startForm); };
+    static void Quit() { Instance().privQuit(); }
 
 private:
 
@@ -25,8 +25,8 @@ private:
     // Static Data
 
     // Static-Instance Methods
-    void run(Form* startForm);
-    void quit();
+    void privRun(Form *startForm);
+    void privQuit();
 
     static CursenApplication* engineInstance;
 

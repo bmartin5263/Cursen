@@ -42,6 +42,14 @@ public:
     void onSocketDisconnect(std::function<void(const Event &)> f);
     void onDeletePress(std::function<void(const Event &)> f);
     void onArrowPress(std::function<void(const Event &)> f);
+    void detachKeyPress();
+    void detachEscapePress();
+    void detachEnterPress();
+    void detachSocketMessage();
+    void detachSocketConnect();
+    void detachSocketDisconnect();
+    void detachDeletePress();
+    void detachArrowPress();
 
 private:
 

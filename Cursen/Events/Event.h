@@ -5,7 +5,6 @@
 #ifndef CURSEN_EVENT_H
 #define CURSEN_EVENT_H
 
-
 #include <cstdio>
 
 class Event {

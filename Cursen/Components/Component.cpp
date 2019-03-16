@@ -154,3 +154,43 @@ void Component::CallArrowPress(const Event& e) {
         // Pass
     }
 }
+
+void Component::detachKeyPress() {
+    EventManager::Deregister(*this, Event::KeyPressed);
+    f_keyPress = 0;
+}
+
+void Component::detachEscapePress() {
+    EventManager::Deregister(*this, Event::EscPressed);
+    f_escapePress = 0;
+}
+
+void Component::detachEnterPress() {
+    EventManager::Deregister(*this, Event::EnterPressed);
+    f_enterPress = 0;
+}
+
+void Component::detachSocketMessage() {
+    EventManager::Deregister(*this, Event::SocketMessage);
+    f_socketMessage = 0;
+}
+
+void Component::detachSocketConnect() {
+    EventManager::Deregister(*this, Event::SocketConnected);
+    f_socketConnect = 0;
+}
+
+void Component::detachSocketDisconnect() {
+    EventManager::Deregister(*this, Event::SocketDisconnected);
+    f_socketDisconnect = 0;
+}
+
+void Component::detachDeletePress() {
+    EventManager::Deregister(*this, Event::DeletePressed);
+    f_deletePress = 0;
+}
+
+void Component::detachArrowPress() {
+    EventManager::Deregister(*this, Event::ArrowPressed);
+    f_arrowPress = 0;
+}

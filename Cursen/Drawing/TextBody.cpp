@@ -99,18 +99,6 @@ void TextBody::replaceColumn(Line line, const int x) {
     writeColumn(line, x);
 }
 
-void TextBody::writeLine(const std::string &line, const Vect2d &pos) {
-    writeLine(line, pos, TextAlignment::LEFT, Color::WHITE);
-}
-
-void TextBody::writeLine(const std::string &line, const Vect2d &pos, const Color &color) {
-    writeLine(line, pos, TextAlignment::LEFT, color);
-}
-
-void TextBody::writeLine(const std::string &line, const Vect2d &pos, const TextAlignment &alignment) {
-    writeLine(line, pos, alignment, Color::WHITE);
-}
-
 void TextBody::writeLine(const std::string &line, const Vect2d &pos, const TextAlignment &alignment, const Color &color) {
     size_t len = line.length();
     chtype converted[len + 1];
@@ -123,10 +111,6 @@ void TextBody::writeLine(const std::string &line, const Vect2d &pos, const TextA
 
 void TextBody::writeColumn(const Line column, const int x) {
     writeColumn(column, Vect2d(x, 0));
-}
-
-void TextBody::writeLine(const Line line, const Vect2d &loc) {
-    writeLine(line, loc, TextAlignment::LEFT);
 }
 
 void TextBody::writeLine(const Line line, const Vect2d &loc, const TextAlignment &alignment) {

@@ -33,7 +33,8 @@ public:
 private:
 
     void moveCursor(const Event &event);
-    void click(const Event &event);
+    void enterClick(const Event &event);
+    void keyClick(const Event &event);
 
     TextComponent* currentComponent;
     std::unordered_map<TextComponent*, cursen::ArrowMap> componentMap;

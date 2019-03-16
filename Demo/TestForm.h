@@ -20,10 +20,15 @@ public:
     void keyPress(const Event& event);
     void enterPress(const Event& event);
     void arrowPress(const Event& event);
+    void quitGame();
 
 private:
 
-    Label* c;
+    Cursor* cursor;
+    Label* label1;
+    Label* label2;
+    Label* label3;
+    Label* label4;
 
 };
 
