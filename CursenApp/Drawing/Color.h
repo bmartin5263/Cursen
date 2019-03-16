@@ -23,6 +23,10 @@ namespace cursen {
         static const Color GRAY;
         static const Color DARK_GRAY;
         static const Color BLUE;
+        static const Color PURPLE;
+        static const Color VIOLET;
+        static const Color INDIGO;
+        static const Color LAVENDER;
         static const Color GREEN;
         static const Color YELLOW;
         static const Color RED;

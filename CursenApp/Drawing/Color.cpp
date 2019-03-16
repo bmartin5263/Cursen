@@ -8,13 +8,17 @@
 const short Color::BLK = 0;
 const short Color::WHT = 15;
 
-const Color Color::NONE = Color(-1, -1);
+const Color Color::NONE = Color(-1, -1);            // Null Color
 const Color Color::BLACK = Color(BLK, BLK);
 const Color Color::WHITE = Color(WHT, BLK);
 const Color Color::GRAY = Color(8, BLK);
 const Color Color::DARK_GRAY = Color(16, BLK);
 const Color Color::RED = Color(199, BLK);
 const Color Color::BLUE = Color(39, BLK);
+const Color Color::PURPLE = Color(57, BLK);
+const Color Color::VIOLET = Color(93, BLK);
+const Color Color::INDIGO = Color(21, BLK);
+const Color Color::LAVENDER = Color(63, BLK);
 const Color Color::GREEN = Color(82, BLK);
 const Color Color::YELLOW = Color(226, BLK);
 

@@ -21,10 +21,22 @@ void TestForm::destroy() {
 
 void TestForm::keyPress(const Event &event) {
     if (event.key.code == '1') {
-        c->setColor(Color::WHITE);
+        c->setColor(Color::PURPLE);
     }
     if (event.key.code == '2') {
-        c->setColor(Color::GRAY);
+        c->setColor(Color(21));
+    }
+    if (event.key.code == '3') {
+        c->setColor(Color(63));
+    }
+    if (event.key.code == '4') {
+        c->setColor(Color(93));
+    }
+    if (event.key.code == '5') {
+        c->setColor(Color::GetRandomColor());
+    }
+    if (event.key.code == '6') {
+        c->setColor(Color::GetRandomColor());
     }
 }
 
