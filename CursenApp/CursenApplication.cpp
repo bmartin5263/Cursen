@@ -8,6 +8,7 @@
 #include "CursenApplication.h"
 #include "Events/EventManager.h"
 #include "Drawing/CursesManager.h"
+#include "Components/Form.h"
 
 
 CursenApplication* CursenApplication::engineInstance = nullptr;

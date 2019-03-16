@@ -6,7 +6,7 @@
 #define CURSEN_CURSENAPPLICATION_H
 
 
-#include <Components/Form.h>
+class Form;
 
 class CursenApplication {
 

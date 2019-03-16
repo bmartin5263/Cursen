@@ -20,15 +20,20 @@ void TestForm::destroy() {
 }
 
 void TestForm::keyPress(const Event &event) {
-    c->setText("Hello World!");
+    if (event.key.code == '1') {
+        c->setColor(Color::WHITE);
+    }
+    if (event.key.code == '2') {
+        c->setColor(Color::GRAY);
+    }
 }
 
 void TestForm::enterPress(const Event &event) {
-    c->emplaceText("A very long string");
+    c->setText("A very long string");
 }
 
 void TestForm::arrowPress(const Event &event) {
-    c->emplaceText("BLAH");
+    c->setColor(Color::GRAY);
 }
 
 

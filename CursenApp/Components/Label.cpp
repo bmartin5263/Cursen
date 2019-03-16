@@ -22,11 +22,11 @@ void Label::destroy() {
 }
 
 void Label::draw() {
-    body.writeLine(text, Vect2d(0,0), alignment);
+    body.writeLine(text, Vect2d(0,0), alignment, color);
 }
 
 void Label::emplaceText(const std::string& text) {
-    this->alignment = TextAlignment::RIGHT;
+    this->alignment = TextAlignment::LEFT;
     this->text = text;
     refresh();
 }
@@ -34,4 +34,9 @@ void Label::emplaceText(const std::string& text) {
 void Label::setText(const std::string& text) {
     body.resize(Vect2d((int)text.length(), 1));
     emplaceText(text);
+}
+
+void Label::setColor(const Color &color) {
+    this->color = color;
+    refresh();
 }

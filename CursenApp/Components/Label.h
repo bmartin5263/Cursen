@@ -25,10 +25,12 @@ public:
 
     void emplaceText(const std::string& text);
     void setText(const std::string& text);
+    void setColor(const Color& color);
 
 private:
 
     std::string text;
+    Color color;
     TextAlignment alignment;
 
 };
