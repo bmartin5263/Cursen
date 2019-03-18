@@ -5,6 +5,7 @@
 #include <Drawing/DrawRequest.h>
 #include <Drawing/CursesManager.h>
 #include <cassert>
+#include <CursenApplication.h>
 #include "Events/EventManager.h"
 #include "Component.h"
 
@@ -261,7 +262,7 @@ void Component::detachOffCursor(){
 void Component::move(const Vect2i& movement) {
     position.x += movement.x;
     position.y += movement.y;
-    refresh();
+    refreshRoot();
 }
 
 void Component::invalidate() {
@@ -274,6 +275,11 @@ void Component::invalidate() {
 void Component::refresh() {
     render();
     invalidate();
+}
+
+void Component::refreshRoot() {
+    render();
+    CursesManager::RequestCompleteRedraw();
 }
 
 TextBody& Component::getTextBody() {

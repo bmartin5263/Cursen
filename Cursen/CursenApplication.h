@@ -14,7 +14,7 @@ public:
 
     static void Run(Form* startForm) { Instance().privRun(startForm); };
     static void Quit() { Instance().privQuit(); }
-    static Form& GetCurrentForm() { return Instance().privGetCurrentForm(); }
+    static Form* GetCurrentForm() { return Instance().privGetCurrentForm(); }
 
 private:
 
@@ -29,7 +29,7 @@ private:
     // Static-Instance Methods
     void privRun(Form *startForm);
     void privQuit();
-    Form& privGetCurrentForm();
+    Form* privGetCurrentForm();
 
     static CursenApplication* engineInstance;
 

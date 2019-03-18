@@ -9,6 +9,8 @@
 #include <queue>
 #include <string>
 #include <unordered_map>
+#include <Components/Form.h>
+#include <CursenApplication.h>
 #include "Drawing/DrawRequest.h"
 #include "ClearRequest.h"
 #include "Color.h"
@@ -33,6 +35,7 @@ public:
     static void Terminate() { Instance().terminateCurses(); }
 
     static void RequestDraw(Component* component) { return Instance().privRequestDraw(component); };
+    static void RequestCompleteRedraw() { return Instance().privRequestCompleteRedraw(); };
 
     static void DrawChar(int c) { instance->putCharacter(c); }
     static void DrawString(const std::string &string) { instance->drawString(string.c_str()); }
@@ -72,6 +75,7 @@ private:
     void doFlash();
     short privGetColorPair(const Color&);
     void privRequestDraw(Component* component);
+    void privRequestCompleteRedraw();
     void privDraw();
 
     // Static Data

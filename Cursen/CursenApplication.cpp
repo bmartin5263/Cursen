@@ -44,6 +44,6 @@ void CursenApplication::privQuit() {
 CursenApplication::~CursenApplication() {
 }
 
-Form &CursenApplication::privGetCurrentForm() {
-    return *this->currentForm;
+Form* CursenApplication::privGetCurrentForm() {
+    return this->currentForm;
 }

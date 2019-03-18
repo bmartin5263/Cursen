@@ -80,30 +80,36 @@ short CursesManager::privGetColorPair(const cursen::Color& color) {
 
 void CursesManager::privRequestDraw(Component *component) {
     componentQueue.push(component);
+    clearQueue.push(component->clearRequest);
 }
 
 void CursesManager::privDraw() {
-    Component* next;
-    while (!componentQueue.empty()) {
-        next = componentQueue.front();
-        componentQueue.pop();
 
-        ClearRequest clearRequest = next->clearRequest;
+    ClearRequest clearRequest;
+
+    while(!clearQueue.empty()) {
+        clearRequest = clearQueue.front();
+        clearQueue.pop();
+
         Vect2i position = clearRequest.getPosition();
         Vect2i dimensions = clearRequest.getDimensions();
-
-        // Clear the component's old area
 
         for (int i = 0; i < dimensions.y; i++) {
             for (int j = 0; j < dimensions.x; j++) {
                 mvaddch(position.y + i, position.x + j, ' ');
             }
         }
+    }
+
+    Component* next;
+    while (!componentQueue.empty()) {
+        next = componentQueue.front();
+        componentQueue.pop();
 
         TextBody& body = next->body;
         chtype** content = body.getContent();
-        dimensions = body.getDimensions();
-        position = next->position;
+        Vect2i dimensions = body.getDimensions();
+        Vect2i position = next->position;
 
         for (int i = 0; i < dimensions.y; i++) {
             chtype* row = content[i];
@@ -117,4 +123,8 @@ void CursesManager::privDraw() {
     }
     refresh();
 
+}
+
+void CursesManager::privRequestCompleteRedraw() {
+    CursenApplication::GetCurrentForm()->invalidate();
 }

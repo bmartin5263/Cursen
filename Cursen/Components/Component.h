@@ -30,6 +30,7 @@ public:
     void move(const Vect2i& movement);
     void invalidate();
     void refresh();
+    void refreshRoot();
     TextBody& getTextBody();
 
     // Component Relationship
