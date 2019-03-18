@@ -6,7 +6,7 @@
 #include "TextBody.h"
 
 
-void DrawRequest::setPosition(Vect2d position){
+void DrawRequest::setPosition(Vect2i position){
     this->position = position;
 }
 
@@ -18,7 +18,7 @@ TextBody *DrawRequest::getBody(){
     return body;
 }
 
-Vect2d DrawRequest::getPosition() {
+Vect2i DrawRequest::getPosition() {
     return position;
 }
 

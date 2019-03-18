@@ -6,7 +6,7 @@
 #define CURSEN_CLEARREQUEST_H
 
 
-#include "Vect2d.h"
+#include "Vect2i.h"
 
 using namespace cursen;
 
@@ -14,15 +14,15 @@ class ClearRequest {
 
 public:
 
-    void setPosition(Vect2d const position);
-    void setDimensions(Vect2d const dimensions);
-    Vect2d getDimensions();
-    Vect2d getPosition();
+    void setPosition(Vect2i const position);
+    void setDimensions(Vect2i const dimensions);
+    Vect2i getDimensions();
+    Vect2i getPosition();
 
 private:
 
-    Vect2d position;
-    Vect2d dimensions;
+    Vect2i position;
+    Vect2i dimensions;
 
 };
 

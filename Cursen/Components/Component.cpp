@@ -36,42 +36,42 @@ void Component::setParent(Component *component) {
 }
 
 void Component::onKeyPress(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::KeyPressed);
+    EventManager::Register(*this, EventType::KeyPressed);
     f_keyPress = f;
 }
 
 void Component::onEscapePress(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::EscPressed);
+    EventManager::Register(*this, EventType::EscPressed);
     f_escapePress = f;
 }
 
 void Component::onEnterPress(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::EnterPressed);
+    EventManager::Register(*this, EventType::EnterPressed);
     f_enterPress = f;
 }
 
 void Component::onSocketMessage(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::SocketMessage);
+    EventManager::Register(*this, EventType::SocketMessage);
     f_socketMessage = f;
 }
 
 void Component::onSocketConnect(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::SocketConnected);
+    EventManager::Register(*this, EventType::SocketConnected);
     f_socketConnect = f;
 }
 
 void Component::onSocketDisconnect(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::SocketDisconnected);
+    EventManager::Register(*this, EventType::SocketDisconnected);
     f_socketDisconnect = f;
 }
 
 void Component::onDeletePress(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::DeletePressed);
+    EventManager::Register(*this, EventType::DeletePressed);
     f_deletePress = f;
 }
 
 void Component::onArrowPress(std::function<void(const Event &)> f) {
-    EventManager::Register(*this, Event::ArrowPressed);
+    EventManager::Register(*this, EventType::ArrowPressed);
     f_arrowPress = f;
 }
 
@@ -156,41 +156,41 @@ void Component::CallArrowPress(const Event& e) {
 }
 
 void Component::detachKeyPress() {
-    EventManager::Deregister(*this, Event::KeyPressed);
+    EventManager::Deregister(*this, EventType::KeyPressed);
     f_keyPress = 0;
 }
 
 void Component::detachEscapePress() {
-    EventManager::Deregister(*this, Event::EscPressed);
+    EventManager::Deregister(*this, EventType::EscPressed);
     f_escapePress = 0;
 }
 
 void Component::detachEnterPress() {
-    EventManager::Deregister(*this, Event::EnterPressed);
+    EventManager::Deregister(*this, EventType::EnterPressed);
     f_enterPress = 0;
 }
 
 void Component::detachSocketMessage() {
-    EventManager::Deregister(*this, Event::SocketMessage);
+    EventManager::Deregister(*this, EventType::SocketMessage);
     f_socketMessage = 0;
 }
 
 void Component::detachSocketConnect() {
-    EventManager::Deregister(*this, Event::SocketConnected);
+    EventManager::Deregister(*this, EventType::SocketConnected);
     f_socketConnect = 0;
 }
 
 void Component::detachSocketDisconnect() {
-    EventManager::Deregister(*this, Event::SocketDisconnected);
+    EventManager::Deregister(*this, EventType::SocketDisconnected);
     f_socketDisconnect = 0;
 }
 
 void Component::detachDeletePress() {
-    EventManager::Deregister(*this, Event::DeletePressed);
+    EventManager::Deregister(*this, EventType::DeletePressed);
     f_deletePress = 0;
 }
 
 void Component::detachArrowPress() {
-    EventManager::Deregister(*this, Event::ArrowPressed);
+    EventManager::Deregister(*this, EventType::ArrowPressed);
     f_arrowPress = 0;
 }

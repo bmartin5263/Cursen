@@ -7,6 +7,7 @@
 
 
 #include <Components/Form.h>
+#include <Components/Box.h>
 
 class Label;
 
@@ -20,6 +21,11 @@ public:
     void keyPress(const Event& event);
     void enterPress(const Event& event);
     void arrowPress(const Event& event);
+    void moveComponent(const Event& event);
+
+    void flash();
+    void beep();
+    void changeColor();
     void quitGame();
 
 private:
@@ -29,6 +35,7 @@ private:
     Label* label2;
     Label* label3;
     Label* label4;
+    Box* box;
 
 };
 

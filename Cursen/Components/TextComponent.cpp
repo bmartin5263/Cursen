@@ -5,18 +5,17 @@
 #include <Drawing/CursesManager.h>
 #include "TextComponent.h"
 
-TextComponent::TextComponent() :
-    clearRequest(ClearRequest()), position(Vect2d()), body(TextBody())
+TextComponent::TextComponent()
 {
 }
 
-TextComponent::TextComponent(const Vect2d &pos) :
-    clearRequest(ClearRequest()), position(pos), body(TextBody())
+TextComponent::TextComponent(const Vect2i &pos) :
+    position(pos)
 {
 }
 
-TextComponent::TextComponent(const Vect2d &pos, const Vect2d &dim) :
-    clearRequest(ClearRequest()), position(pos), body(TextBody(dim))
+TextComponent::TextComponent(const Vect2i &pos, const Vect2i &dim) :
+    position(pos), body(TextBody(dim))
 {
 }
 
@@ -59,7 +58,7 @@ void TextComponent::CallOnClick() {
     }
 }
 
-void TextComponent::move(const Vect2d& movement) {
+void TextComponent::move(const Vect2i& movement) {
     position.x += movement.x;
     position.y += movement.y;
     refresh();
@@ -78,6 +77,6 @@ void TextComponent::invalidate() {
 }
 
 void TextComponent::refresh() {
-    draw();
+    render();
     invalidate();
 }

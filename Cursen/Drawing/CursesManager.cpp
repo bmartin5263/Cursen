@@ -65,8 +65,8 @@ void CursesManager::processDrawEvents() {
         clearRequest = clearQueue.front();
         clearQueue.pop();
 
-        Vect2d position = clearRequest.getPosition();
-        Vect2d dimensions = clearRequest.getDimensions();
+        Vect2i position = clearRequest.getPosition();
+        Vect2i dimensions = clearRequest.getDimensions();
 
         for (int i = 0; i < dimensions.y; i++) {
             for (int j = 0; j < dimensions.x; j++) {
@@ -82,20 +82,15 @@ void CursesManager::processDrawEvents() {
         // Get Text Body
         TextBody* body = drawRequest.getBody();
         chtype** content = body->getContent();
-        Vect2d dimensions = body->getDimensions();
-
-        //if (dimensions.x == 0) Flash();
-        //if (dimensions.y == 0) Flash();
+        Vect2i dimensions = body->getDimensions();
 
         // Get Position of Component
-        Vect2d position = drawRequest.getPosition();
+        Vect2i position = drawRequest.getPosition();
 
-        //attron(COLOR_PAIR(0));
         for (int i = 0; i < dimensions.y; i++) {
             chtype* row = content[i];
             mvaddchstr(position.y + i, position.x, &row[0]);
         }
-        //attroff(COLOR_PAIR(0));
 
     }
     refresh();

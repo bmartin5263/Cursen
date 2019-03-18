@@ -18,12 +18,13 @@ CursenApplication* CursenApplication::engineInstance = nullptr;
  */
 void CursenApplication::privRun(Form *form) {
     running = true;
+    currentForm = form;
 
     srand((unsigned)time(0));
 
     CursesManager::Initialize();
 
-    form->initialize();
+    currentForm->initialize();
     CursesManager::ProcessDrawEvents();
 
     while (running) {
@@ -41,4 +42,8 @@ void CursenApplication::privQuit() {
 }
 
 CursenApplication::~CursenApplication() {
+}
+
+Form &CursenApplication::privGetCurrentForm() {
+    return *this->currentForm;
 }

@@ -15,8 +15,8 @@ class CursenObject {
 
 public:
 
-    // REGISTER = update and draw
-    // DRAW = draw
+    // REGISTER = update and render
+    // DRAW = render
     // UPDATE = update
     // DEFERRED = no scene registration
     enum class Registration {

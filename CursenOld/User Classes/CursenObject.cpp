@@ -70,7 +70,7 @@ void CursenObject::registerForUpdates() {
 
 void CursenObject::registerToCurrentScene(bool draw, bool update) {
     SceneManager::GetCurrentScene()->registerCursenObject(this, draw, update);
-    //isDrawn = draw;
+    //isDrawn = render;
     //isUpdated = update;
 }
 

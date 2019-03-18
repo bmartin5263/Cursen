@@ -7,24 +7,24 @@
 
 namespace cursen {
 
-    struct Vect2d {
+    struct Vect2i {
 
-        Vect2d() :
+        Vect2i() :
                 x(0), y(0)
         {
         }
 
-        Vect2d(int x, int y) :
+        Vect2i(int x, int y) :
                 x(x), y(y)
         {
         }
 
-        Vect2d(const Vect2d& other) :
+        Vect2i(const Vect2i& other) :
                 x(other.x), y(other.y)
         {
         }
 
-        Vect2d& operator = (const Vect2d& other) {
+        Vect2i& operator = (const Vect2i& other) {
             this->x = other.x;
             this->y = other.y;
             return *this;

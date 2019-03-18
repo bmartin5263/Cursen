@@ -15,14 +15,14 @@ class TextComponent : public Component {
 public:
 
     TextComponent();
-    TextComponent(const Vect2d& pos);
-    TextComponent(const Vect2d& pos, const Vect2d& dim);
+    TextComponent(const Vect2i& pos);
+    TextComponent(const Vect2i& pos, const Vect2i& dim);
 
     // Virtual Methods
-    virtual void draw() = 0;
+    virtual void render() = 0;
 
     // Methods
-    void move(const Vect2d& movement);
+    void move(const Vect2i& movement);
     void invalidate();
     void refresh();
 
@@ -46,7 +46,10 @@ public:
 
 private:
 
+    ClearRequest clearRequest;
+
     friend class Cursor;
+    friend class CursesManager;
 
     void CallOnCursor();
     void CallOffCursor();
@@ -58,9 +61,8 @@ private:
 
 protected:
 
-    ClearRequest clearRequest;
     TextBody body;
-    Vect2d position;
+    Vect2i position;
 
 };
 

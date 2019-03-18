@@ -6,6 +6,7 @@
 #include <Components/Component.h>
 #include "EventManager.h"
 #include "Drawing/CursesManager.h"
+#include "Events/EventType.h"
 
 EventManager* EventManager::instance = nullptr;
 
@@ -15,43 +16,43 @@ Event EventManager::pollEvent() {
     int key = CursesManager::GetChar();
 
     if (key == CursesManager::ESCAPE) {
-        event.type = Event::EscPressed;
+        event.type = EventType::EscPressed;
         event.key.code = key;
     }
     else if (key == CursesManager::BACKSPACE)
     {
-        event.type = Event::DeletePressed;
+        event.type = EventType::DeletePressed;
         event.key.code = key;
     }
     else if (key == CursesManager::ENTER)
     {
-        event.type = Event::EnterPressed;
+        event.type = EventType::EnterPressed;
         event.key.code = key;
     }
     else if (key == CursesManager::UP)
     {
-        event.type = Event::ArrowPressed;
+        event.type = EventType::ArrowPressed;
         event.arrowPress.up = true;
     }
     else if (key == CursesManager::DOWN)
     {
-        event.type = Event::ArrowPressed;
+        event.type = EventType::ArrowPressed;
         event.arrowPress.down = true;
     }
     else if (key == CursesManager::LEFT)
     {
-        event.type = Event::ArrowPressed;
+        event.type = EventType::ArrowPressed;
         event.arrowPress.left = true;
 
     }
     else if (key == CursesManager::RIGHT)
     {
-        event.type = Event::ArrowPressed;
+        event.type = EventType::ArrowPressed;
         event.arrowPress.right = true;
     }
     else
     {
-        event.type = Event::KeyPressed;
+        event.type = EventType::KeyPressed;
         event.key.code = key;
     }
 
@@ -61,47 +62,47 @@ Event EventManager::pollEvent() {
 void EventManager::processEvent(Event &event) {
     ComponentList componentList;
     switch (event.type) {
-        case Event::KeyPressed:
-            componentList = dispatchMap[Event::KeyPressed];
+        case EventType::KeyPressed:
+            componentList = dispatchMap[EventType::KeyPressed];
             for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
                 (*listItem)->CallKeyPress(event);
             }
             break;
-        case Event::EscPressed:
+        case EventType::EscPressed:
             CursenApplication::Quit();
             break;
-        case Event::DeletePressed:
-            componentList = dispatchMap[Event::DeletePressed];
+        case EventType::DeletePressed:
+            componentList = dispatchMap[EventType::DeletePressed];
             for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
                 (*listItem)->CallDeletePress(event);
             }
             break;
-        case Event::EnterPressed:
-            componentList = dispatchMap[Event::EnterPressed];
+        case EventType::EnterPressed:
+            componentList = dispatchMap[EventType::EnterPressed];
             for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
                 (*listItem)->CallEnterPress(event);
             }
             break;
-        case Event::SocketConnected:
-            componentList = dispatchMap[Event::SocketConnected];
+        case EventType::SocketConnected:
+            componentList = dispatchMap[EventType::SocketConnected];
             for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
                 (*listItem)->CallSocketConnect(event);
             }
             break;
-        case Event::SocketDisconnected:
-            componentList = dispatchMap[Event::SocketDisconnected];
+        case EventType::SocketDisconnected:
+            componentList = dispatchMap[EventType::SocketDisconnected];
             for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
                 (*listItem)->CallSocketDisconnect(event);
             }
             break;
-        case Event::SocketMessage:
-            componentList = dispatchMap[Event::SocketMessage];
+        case EventType::SocketMessage:
+            componentList = dispatchMap[EventType::SocketMessage];
             for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
                 (*listItem)->CallSocketMessage(event);
             }
             break;
-        case Event::ArrowPressed:
-            componentList = dispatchMap[Event::ArrowPressed];
+        case EventType::ArrowPressed:
+            componentList = dispatchMap[EventType::ArrowPressed];
             for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
                 (*listItem)->CallArrowPress(event);
             }
@@ -109,7 +110,7 @@ void EventManager::processEvent(Event &event) {
     }
 }
 
-void EventManager::deregisterComponent(Component &component, Event::EventType eventFlag) {
+void EventManager::deregisterComponent(Component &component, EventType eventFlag) {
     ComponentFlagMap::iterator it;
 
     it = registrationMap.find(&component);
@@ -117,11 +118,11 @@ void EventManager::deregisterComponent(Component &component, Event::EventType ev
     {
         BitFlags currentflags = it->second;
 
-        for (BitFlags flag = (BitFlags)Event::KeyPressed; flag <= (BitFlags)Event::SocketMessage; flag = flag << 1)
+        for (BitFlags flag = (BitFlags)EventType::KeyPressed; flag <= (BitFlags)EventType::SocketMessage; flag = flag << 1)
         {
-            if (flag & currentflags & eventFlag)
+            if (flag & currentflags & (BitFlags)eventFlag)
             {
-                dispatchMap[(Event::EventType)flag].erase(&component);
+                dispatchMap[(EventType)flag].erase(&component);
                 it->second -= flag;
             }
         }
@@ -131,7 +132,7 @@ void EventManager::deregisterComponent(Component &component, Event::EventType ev
     }
 }
 
-void EventManager::registerComponent(Component& component, Event::EventType eventFlag) {
+void EventManager::registerComponent(Component& component, EventType eventFlag) {
     ComponentFlagMap::iterator it;
     BitFlags currentFlags;
 
@@ -146,11 +147,11 @@ void EventManager::registerComponent(Component& component, Event::EventType even
         currentFlags = 0;
     }
 
-    for( BitFlags flag = (BitFlags)Event::KeyPressed; flag <= (BitFlags)Event::SocketMessage; flag = flag << 1 )
+    for( BitFlags flag = (BitFlags)EventType::KeyPressed; flag <= (BitFlags)EventType::SocketMessage; flag = flag << 1 )
     {
-        if (flag & ~currentFlags & eventFlag)
+        if (flag & ~currentFlags & (BitFlags)eventFlag)
         {
-            dispatchMap[(Event::EventType)flag].insert(&component);
+            dispatchMap[(EventType)flag].insert(&component);
             registrationMap[&component] += flag;
         }
     }

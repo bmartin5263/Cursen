@@ -6,7 +6,7 @@
 #define CURSEN_DRAWREQUEST_H
 
 #include <ncurses.h>
-#include "Vect2d.h"
+#include "Vect2i.h"
 
 using namespace cursen;
 
@@ -17,16 +17,16 @@ class DrawRequest {
 public:
 
     void setBody(TextBody*);
-    void setPosition(Vect2d);
+    void setPosition(Vect2i);
     TextBody* getBody();
-    Vect2d getPosition();
+    Vect2i getPosition();
 
 private:
 
     friend class CursesManager;
 
     TextBody* body;
-    Vect2d position;
+    Vect2i position;
 
 };
 

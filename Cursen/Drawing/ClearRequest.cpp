@@ -4,18 +4,18 @@
 
 #include "ClearRequest.h"
 
-void ClearRequest::setPosition(Vect2d const position) {
+void ClearRequest::setPosition(Vect2i const position) {
     this->position = position;
 }
 
-void ClearRequest::setDimensions(Vect2d const dimensions) {
+void ClearRequest::setDimensions(Vect2i const dimensions) {
     this->dimensions = dimensions;
 }
 
-Vect2d ClearRequest::getDimensions() {
+Vect2i ClearRequest::getDimensions() {
     return this->dimensions;
 }
 
-Vect2d ClearRequest::getPosition() {
+Vect2i ClearRequest::getPosition() {
     return this->position;
 }

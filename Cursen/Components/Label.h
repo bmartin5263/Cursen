@@ -17,11 +17,11 @@ class Label : public TextComponent {
 
 public:
 
-    Label(const Vect2d& pos, const Vect2d& dim);
+    Label(const Vect2i& pos, const Vect2i& dim);
 
     void initialize() override;
     void destroy() override;
-    void draw() override;
+    void render() override;
 
     void emplaceText(const std::string& text);
     void setText(const std::string& text);

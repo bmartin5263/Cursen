@@ -14,10 +14,12 @@ public:
 
     static void Run(Form* startForm) { Instance().privRun(startForm); };
     static void Quit() { Instance().privQuit(); }
+    static Form& GetCurrentForm() { return Instance().privGetCurrentForm(); }
 
 private:
 
     // Instance Data
+    Form* currentForm;
     int rows;
     int columns;
     bool running;
@@ -27,6 +29,7 @@ private:
     // Static-Instance Methods
     void privRun(Form *startForm);
     void privQuit();
+    Form& privGetCurrentForm();
 
     static CursenApplication* engineInstance;
 

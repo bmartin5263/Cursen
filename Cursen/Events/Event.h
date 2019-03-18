@@ -6,6 +6,7 @@
 #define CURSEN_EVENT_H
 
 #include <cstdio>
+#include "Events/EventType.h"
 
 class Event {
 
@@ -28,18 +29,6 @@ public:
         bool up;
         bool right;
         bool down;
-    };
-
-    enum EventType
-    {
-        KeyPressed = 1,
-        EscPressed = 2,
-        DeletePressed = 4,
-        EnterPressed = 8,
-        ArrowPressed = 16,
-        SocketConnected = 32,
-        SocketDisconnected = 64,
-        SocketMessage = 128,
     };
 
     EventType type;
