@@ -7,3 +7,7 @@
 #include "Form.h"
 #include "Component.h"
 #include "Cursor/Cursor.h"
+
+void Form::render() {
+
+}

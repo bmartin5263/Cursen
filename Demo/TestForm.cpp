@@ -40,10 +40,6 @@ void TestForm::initialize() {
     cursor->setEnabled(true);
 }
 
-void TestForm::destroy() {
-    delete label1;
-}
-
 void TestForm::keyPress(const Event &event) {
     if (event.key.code == '1') {
         label1->setColor(Color::PURPLE);

@@ -13,8 +13,9 @@ class Form : public Component {
 
 public:
 
-    virtual void initialize() = 0;
-    virtual void destroy() = 0;
+    virtual void initialize() override = 0;
+
+    void render() override;
 
 };
 

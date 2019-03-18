@@ -6,9 +6,9 @@
 #define CURSEN_BOX_H
 
 
-#include "TextComponent.h"
+#include "Component.h"
 
-class Box : public TextComponent {
+class Box : public Component {
 
 public:
 
@@ -19,7 +19,6 @@ public:
                     chtype ll = ACS_LLCORNER, chtype bottom = ACS_HLINE, chtype lr = ACS_LRCORNER);
 
     void initialize() override;
-    void destroy() override;
     void render() override;
 
 private:

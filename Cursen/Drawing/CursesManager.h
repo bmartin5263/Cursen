@@ -15,6 +15,8 @@
 
 using namespace cursen;
 
+class Component;
+
 class CursesManager {
 
 public:
@@ -30,10 +32,7 @@ public:
     static void Initialize() { Instance().initializeCurses(); }
     static void Terminate() { Instance().terminateCurses(); }
 
-    static void EnqueueDraw(DrawRequest request) { Instance().enqueueDraw(request); };
-    static void EnqueueClear(ClearRequest request) { Instance().enqueueClear(request); };
-    static DrawRequest GetDrawRequest() { return Instance().getDrawRequest(); };
-    static ClearRequest GetClearRequest() { return Instance().getClearRequest(); };
+    static void RequestDraw(Component* component) { return Instance().privRequestDraw(component); };
 
     static void DrawChar(int c) { instance->putCharacter(c); }
     static void DrawString(const std::string &string) { instance->drawString(string.c_str()); }
@@ -47,7 +46,7 @@ public:
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
 
-    static void ProcessDrawEvents() { Instance().processDrawEvents(); };
+    static void Draw() { Instance().privDraw(); };
 
 private:
 
@@ -57,6 +56,7 @@ private:
     int inputTimeout;
     std::queue<DrawRequest> drawQueue;
     std::queue<ClearRequest> clearQueue;
+    std::queue<Component*> componentQueue;
     ColorMap colorMap;
 
     // Methods
@@ -70,12 +70,9 @@ private:
     void drawString(const char *string, int x, int y);
     void doBeep();
     void doFlash();
-    void processDrawEvents();
-    DrawRequest getDrawRequest();
-    void enqueueDraw(DrawRequest);
-    ClearRequest getClearRequest();
-    void enqueueClear(ClearRequest);
     short privGetColorPair(const Color&);
+    void privRequestDraw(Component* component);
+    void privDraw();
 
     // Static Data
 

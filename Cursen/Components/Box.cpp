@@ -6,7 +6,7 @@
 #include "Box.h"
 
 Box::Box(const Vect2i &pos, const Vect2i &dim) :
-    TextComponent(pos, dim)
+        Component(pos, dim)
 {
     if (dim.x < 2 || dim.y < 2) throw std::logic_error("Box requires dimensions > 1");
     initialize();
@@ -15,10 +15,6 @@ Box::Box(const Vect2i &pos, const Vect2i &dim) :
 void Box::initialize() {
     setBorder();
     refresh();
-}
-
-void Box::destroy() {
-
 }
 
 void Box::render() {

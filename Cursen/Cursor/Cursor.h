@@ -9,8 +9,6 @@
 #include "Components/Component.h"
 #include <unordered_map>
 
-class TextComponent;
-
 /**
  * Cursor is a specialized component for creating a virtual cursor.
  */
@@ -19,16 +17,17 @@ class Cursor : public Component {
 public:
 
     Cursor();
-    Cursor(TextComponent* start);
+    Cursor(Component* start);
 
     // Override
     void setEnabled(bool value) override;
 
-    void addComponent(TextComponent* component, cursen::ArrowMap arrowMap);
-    void removeComponent(TextComponent* component);
+    void addComponent(Component* component, cursen::ArrowMap arrowMap);
+    void removeComponent(Component* component);
 
     void initialize() override;
-    void destroy() override;
+
+    void render() override {};  // no rendering
 
 private:
 
@@ -36,8 +35,8 @@ private:
     void enterClick(const Event &event);
     void keyClick(const Event &event);
 
-    TextComponent* currentComponent;
-    std::unordered_map<TextComponent*, cursen::ArrowMap> componentMap;
+    Component* currentComponent;
+    std::unordered_map<Component*, cursen::ArrowMap> componentMap;
 
 };
 

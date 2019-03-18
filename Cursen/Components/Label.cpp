@@ -6,7 +6,7 @@
 #include "Label.h"
 
 Label::Label(const Vect2i& pos, const Vect2i& dim) :
-    TextComponent(pos, dim)
+        Component(pos, dim)
 {
     initialize();
 }
@@ -20,10 +20,6 @@ void Label::initialize() {
     this->onCursor(std::bind(&Label::cursorOn, this));
     this->offCursor(std::bind(&Label::cursorOff, this));
     refresh();
-}
-
-void Label::destroy() {
-
 }
 
 void Label::render() {

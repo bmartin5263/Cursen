@@ -27,12 +27,12 @@ Color::Color() :
 {
 }
 
-Color::Color(int foreground) :
+Color::Color(short foreground) :
     fg(foreground), bg(BLK)
 {
 }
 
-Color::Color(int foreground, int background) :
+Color::Color(short foreground, short background) :
     fg(foreground), bg(background)
 {
 }

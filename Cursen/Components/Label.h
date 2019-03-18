@@ -7,20 +7,18 @@
 
 
 #include <Components/Component.h>
-#include <Components/TextComponent.h>
 #include <string>
 #include <Drawing/TextAlignment.h>
 
 using namespace cursen;
 
-class Label : public TextComponent {
+class Label : public Component {
 
 public:
 
     Label(const Vect2i& pos, const Vect2i& dim);
 
     void initialize() override;
-    void destroy() override;
     void render() override;
 
     void emplaceText(const std::string& text);

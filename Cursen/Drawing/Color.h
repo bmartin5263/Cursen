@@ -33,8 +33,8 @@ namespace cursen {
         static const Color NONE;
 
         Color();
-        Color(int foreground);
-        Color(int foreground, int background);
+        Color(short foreground);
+        Color(short foreground, short background);
         Color(const Color& other);
         Color& operator = (const Color& other);
         ~Color() = default;
@@ -43,15 +43,15 @@ namespace cursen {
 
         bool operator==(const Color &other) const;
 
-        int fg;
-        int bg;
+        short fg;
+        short bg;
 
     };
 
     struct color_hash {
         size_t operator()(const Color &name ) const
         {
-            return std::hash<int>()(name.fg) ^ std::hash<int>()(name.bg);
+            return std::hash<short>()(name.fg) ^ std::hash<short>()(name.bg);
         }
     };
 

@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 3/7/19.
 //
 
+#include <Components/Component.h>
 #include "CursesManager.h"
 #include "ncurses.h"
 #include "Drawing/TextBody.h"
@@ -57,63 +58,8 @@ void CursesManager::drawString(const char *string) {
     addstr(string);
 }
 
-void CursesManager::processDrawEvents() {
-    DrawRequest drawRequest;
-    ClearRequest clearRequest;
-
-    while(!clearQueue.empty()) {
-        clearRequest = clearQueue.front();
-        clearQueue.pop();
-
-        Vect2i position = clearRequest.getPosition();
-        Vect2i dimensions = clearRequest.getDimensions();
-
-        for (int i = 0; i < dimensions.y; i++) {
-            for (int j = 0; j < dimensions.x; j++) {
-                mvaddch(position.y + i, position.x + j, ' ');
-            }
-        }
-    }
-
-    while (!drawQueue.empty()) {
-        drawRequest = drawQueue.front();
-        drawQueue.pop();
-
-        // Get Text Body
-        TextBody* body = drawRequest.getBody();
-        chtype** content = body->getContent();
-        Vect2i dimensions = body->getDimensions();
-
-        // Get Position of Component
-        Vect2i position = drawRequest.getPosition();
-
-        for (int i = 0; i < dimensions.y; i++) {
-            chtype* row = content[i];
-            mvaddchstr(position.y + i, position.x, &row[0]);
-        }
-
-    }
-    refresh();
-}
-
 void CursesManager::drawString(const char *string, int x, int y) {
     mvaddstr(y, x, string);
-}
-
-void CursesManager::enqueueDraw(DrawRequest request) {
-    drawQueue.push(request);
-}
-
-DrawRequest CursesManager::getDrawRequest() {
-    return DrawRequest();
-}
-
-ClearRequest CursesManager::getClearRequest() {
-    return ClearRequest();
-}
-
-void CursesManager::enqueueClear(ClearRequest request) {
-    clearQueue.push(request);
 }
 
 short CursesManager::privGetColorPair(const cursen::Color& color) {
@@ -130,4 +76,45 @@ short CursesManager::privGetColorPair(const cursen::Color& color) {
         colorMap[color] = pairNum;
         return COLOR_PAIR(colorMap[color]);
     }
+}
+
+void CursesManager::privRequestDraw(Component *component) {
+    componentQueue.push(component);
+}
+
+void CursesManager::privDraw() {
+    Component* next;
+    while (!componentQueue.empty()) {
+        next = componentQueue.front();
+        componentQueue.pop();
+
+        ClearRequest clearRequest = next->clearRequest;
+        Vect2i position = clearRequest.getPosition();
+        Vect2i dimensions = clearRequest.getDimensions();
+
+        // Clear the component's old area
+
+        for (int i = 0; i < dimensions.y; i++) {
+            for (int j = 0; j < dimensions.x; j++) {
+                mvaddch(position.y + i, position.x + j, ' ');
+            }
+        }
+
+        TextBody& body = next->body;
+        chtype** content = body.getContent();
+        dimensions = body.getDimensions();
+        position = next->position;
+
+        for (int i = 0; i < dimensions.y; i++) {
+            chtype* row = content[i];
+            mvaddchstr(position.y + i, position.x, &row[0]);
+        }
+
+        clearRequest = ClearRequest();
+        clearRequest.setPosition(position);
+        clearRequest.setDimensions(body.getDimensions());
+        next->clearRequest = clearRequest;
+    }
+    refresh();
+
 }

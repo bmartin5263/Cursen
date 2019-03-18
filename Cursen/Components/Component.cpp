@@ -9,9 +9,20 @@
 #include "Component.h"
 
 Component::Component() :
-    enabled(true)
+        enabled(true)
 {
 }
+
+Component::Component(const Vect2i &pos) :
+        enabled(true), position(pos)
+{
+}
+
+Component::Component(const Vect2i &pos, const Vect2i &dim) :
+        enabled(true), position(pos), body(TextBody(dim))
+{
+}
+
 
 Component::~Component() {
 
@@ -73,6 +84,18 @@ void Component::onDeletePress(std::function<void(const Event &)> f) {
 void Component::onArrowPress(std::function<void(const Event &)> f) {
     EventManager::Register(*this, EventType::ArrowPressed);
     f_arrowPress = f;
+}
+
+void Component::onCursor(std::function<void()> f) {
+    f_onCursor = f;
+}
+
+void Component::offCursor(std::function<void()> f) {
+    f_offCursor = f;
+}
+
+void Component::onClick(std::function<void()> f) {
+    f_onClick = f;
 }
 
 void Component::setEnabled(bool value) {
@@ -155,6 +178,33 @@ void Component::CallArrowPress(const Event& e) {
     }
 }
 
+void Component::CallOnCursor() {
+    try {
+        f_onCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallOffCursor() {
+    try {
+        f_offCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
+void Component::CallOnClick() {
+    try {
+        f_onClick();
+    }
+    catch (std::bad_function_call) {
+        // Pass
+    }
+}
+
 void Component::detachKeyPress() {
     EventManager::Deregister(*this, EventType::KeyPressed);
     f_keyPress = 0;
@@ -193,4 +243,39 @@ void Component::detachDeletePress() {
 void Component::detachArrowPress() {
     EventManager::Deregister(*this, EventType::ArrowPressed);
     f_arrowPress = 0;
+}
+
+void Component::detachOnCursor() {
+    f_onCursor = 0;
+}
+
+void Component::detachOnClick() {
+    f_onClick = 0;
+}
+
+void Component::detachOffCursor(){
+    EventManager::Deregister(*this, EventType::ArrowPressed);
+    f_offCursor = 0;
+}
+
+void Component::move(const Vect2i& movement) {
+    position.x += movement.x;
+    position.y += movement.y;
+    refresh();
+}
+
+void Component::invalidate() {
+    CursesManager::RequestDraw(this);
+    for (auto child : components) {
+        child->invalidate();
+    }
+}
+
+void Component::refresh() {
+    render();
+    invalidate();
+}
+
+TextBody& Component::getTextBody() {
+    return body;
 }

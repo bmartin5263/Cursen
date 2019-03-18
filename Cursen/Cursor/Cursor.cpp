@@ -4,7 +4,6 @@
 
 #include <Events/EventManager.h>
 #include <Drawing/CursesManager.h>
-#include "Components/TextComponent.h"
 #include "Cursor.h"
 
 Cursor::Cursor() :
@@ -12,12 +11,12 @@ Cursor::Cursor() :
 {
 }
 
-Cursor::Cursor(TextComponent* start) :
+Cursor::Cursor(Component* start) :
     currentComponent(start)
 {
 }
 
-void Cursor::addComponent(TextComponent* component, cursen::ArrowMap arrowMap) {
+void Cursor::addComponent(Component* component, cursen::ArrowMap arrowMap) {
     componentMap[component] = arrowMap;
 }
 
@@ -48,7 +47,7 @@ void Cursor::keyClick(const Event &event) {
 }
 
 void Cursor::moveCursor(const Event &event) {
-    TextComponent* originalComponent = currentComponent;
+    Component* originalComponent = currentComponent;
     cursen::ArrowMap map = componentMap[currentComponent];
     if (event.arrowPress.right) {
         currentComponent = map.right;
@@ -83,7 +82,7 @@ void Cursor::moveCursor(const Event &event) {
 }
 
 
-void Cursor::removeComponent(TextComponent *component) {
+void Cursor::removeComponent(Component *component) {
     if (componentMap.find(component) != componentMap.end()) {
         componentMap.erase(component);
         if (component == currentComponent) {
@@ -96,6 +95,3 @@ void Cursor::initialize() {
 
 }
 
-void Cursor::destroy() {
-
-}

@@ -18,11 +18,19 @@ public:
 
     // Construction
     Component();
+    Component(const Vect2i& pos);
+    Component(const Vect2i& pos, const Vect2i& dim);
     ~Component();
 
-    // Initialization and Destruction
+    // Initialization
     virtual void initialize() = 0;
-    virtual void destroy() = 0;
+
+    // Drawing
+    virtual void render() = 0;
+    void move(const Vect2i& movement);
+    void invalidate();
+    void refresh();
+    TextBody& getTextBody();
 
     // Component Relationship
     void addComponent(Component*);
@@ -42,6 +50,9 @@ public:
     void onSocketDisconnect(std::function<void(const Event &)> f);
     void onDeletePress(std::function<void(const Event &)> f);
     void onArrowPress(std::function<void(const Event &)> f);
+    void onCursor(std::function<void()> f);
+    void offCursor(std::function<void()> f);
+    void onClick(std::function<void()> f);
     void detachKeyPress();
     void detachEscapePress();
     void detachEnterPress();
@@ -50,10 +61,14 @@ public:
     void detachSocketDisconnect();
     void detachDeletePress();
     void detachArrowPress();
+    void detachOnClick();
+    void detachOffCursor();
+    void detachOnCursor();
 
 private:
 
     friend class EventManager;
+    friend class CursesManager;
     friend class Cursor;
 
     void CallKeyPress(const Event&);
@@ -64,6 +79,9 @@ private:
     void CallSocketConnect(const Event&);
     void CallDeletePress(const Event&);
     void CallArrowPress(const Event&);
+    void CallOnCursor();
+    void CallOffCursor();
+    void CallOnClick();
 
     void setParent(Component*);
 
@@ -75,12 +93,18 @@ private:
     std::function<void(const Event&)> f_socketDisconnect;
     std::function<void(const Event&)> f_deletePress;
     std::function<void(const Event&)> f_arrowPress;
+    std::function<void()> f_onCursor;
+    std::function<void()> f_offCursor;
+    std::function<void()> f_onClick;
 
     Component* parent;
+    ClearRequest clearRequest;
 
 protected:
 
     std::vector<Component*> components;
+    TextBody body;
+    Vect2i position;
     bool enabled;
 
 };
