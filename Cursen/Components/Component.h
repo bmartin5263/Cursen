@@ -35,8 +35,8 @@ public:
     TextBody& getTextBody();
 
     // Component Relationship
-    void addComponent(Component*);
-    void removeComponent(Component*);
+    void add(Component *);
+    void remove(Component *);
     Component* getParent();
 
     // Common Attributes

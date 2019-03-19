@@ -31,13 +31,12 @@ private:
 
     // Instance Data
     Form* currentForm;
-    int rows;
-    int columns;
     bool running;
 
     // Static Data
 
     // Static-Instance Methods
+    void privInitialize();
     void privRun(Form *startForm);
     void privQuit();
     Form* privGetCurrentForm();
@@ -50,7 +49,8 @@ private:
         return *engineInstance;
     }
 
-    CursenApplication() = default;
+private:
+    CursenApplication();
     CursenApplication(const CursenApplication& other) = delete;
     CursenApplication(CursenApplication&& other) noexcept = delete;
     CursenApplication& operator = (const CursenApplication& other) = delete;

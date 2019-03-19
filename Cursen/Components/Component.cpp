@@ -29,13 +29,13 @@ Component::~Component() {
 
 }
 
-void Component::addComponent(Component *component) {
+void Component::add(Component *component) {
     assert(component != nullptr);
     component->setParent(this);
     components.push_back(component);
 }
 
-void Component::removeComponent(Component *component) {
+void Component::remove(Component *component) {
     component->setParent(nullptr);
 }
 

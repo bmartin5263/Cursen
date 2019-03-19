@@ -12,8 +12,19 @@
 
 
 CursenApplication* CursenApplication::engineInstance = nullptr;
-Color CursenApplication::HIGHLIGHT = Color::YELLOW;
-Color CursenApplication::DISABLED = Color::GRAY;
+Color CursenApplication::HIGHLIGHT = Color::NONE;
+Color CursenApplication::DISABLED = Color::NONE;
+
+CursenApplication::CursenApplication() :
+    currentForm(nullptr), running(false)
+{
+    privInitialize();
+}
+
+void CursenApplication::privInitialize() {
+    DISABLED = Color::GRAY;
+    HIGHLIGHT = Color::YELLOW;
+}
 
 /*
  * Main Loop of the engine
