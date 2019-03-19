@@ -19,7 +19,7 @@ void Label::initialize() {
     this->alignment = TextAlignment::LEFT;
     this->onCursor(std::bind(&Label::cursorOn, this));
     this->offCursor(std::bind(&Label::cursorOff, this));
-    refresh();
+    invalidate();
 }
 
 void Label::render() {
@@ -28,7 +28,7 @@ void Label::render() {
 
 void Label::emplaceText(const std::string& text) {
     this->text = text;
-    refresh();
+    invalidate();
 }
 
 void Label::setText(const std::string& text) {
@@ -43,7 +43,7 @@ void Label::setColor(const Color &color) {
 
 void Label::changeColor(const Color &color) {
     this->draw_color = color;
-    refresh();
+    invalidate();
 }
 
 void Label::cursorOff() {

@@ -30,8 +30,10 @@ void Cursor::setEnabled(bool value) {
             currentComponent->CallOnCursor();
         }
         else {
+            currentComponent->CallOffCursor();
             detachArrowPress();
             detachEnterPress();
+            detachKeyPress();
         }
     }
 }

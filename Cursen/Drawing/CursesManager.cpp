@@ -80,74 +80,83 @@ short CursesManager::privGetColorPair(const cursen::Color& color) {
     }
 }
 
-void CursesManager::privRequestDraw(Component *component) {
-    componentQueue.push(component);
-    clearQueue.push(component->clearRequest);
-}
+//void CursesManager::privRequestDraw(Component *component) {
+//    componentQueue.push(component);
+//    clearQueue.push(component->clearRequest);
+//}
+
+//void CursesManager::privOldDraw() {
+//
+//    ClearRequest clearRequest;
+//
+//    while(!clearQueue.empty()) {
+//        clearRequest = clearQueue.front();
+//        clearQueue.pop();
+//
+//        Vect2i position = clearRequest.getPosition();
+//        Vect2i dimensions = clearRequest.getDimensions();
+//
+//        for (int i = 0; i < dimensions.y; i++) {
+//            for (int j = 0; j < dimensions.x; j++) {
+//                mvaddch(position.y + i, position.x + j, ' ');
+//            }
+//        }
+//    }
+//
+//    Component* next;
+//    while (!componentQueue.empty()) {
+//        next = componentQueue.front();
+//        componentQueue.pop();
+//
+//        TextBody& body = next->body;
+//        chtype** content = body.getContent();
+//        Vect2i dimensions = body.getDimensions();
+//        Vect2i position = next->position;
+//
+//        for (int i = 0; i < dimensions.y; i++) {
+//            chtype* row = content[i];
+//            int offset = 0;
+//            if (position.x < 0) {
+//                offset = -position.x;
+//            }
+//            if (offset < dimensions.x) {
+//                mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+//            }
+//        }
+//        clearRequest = ClearRequest();
+//        clearRequest.setPosition(position);
+//        clearRequest.setDimensions(body.getDimensions());
+//        next->clearRequest = clearRequest;
+//        next->invalid = false;
+//    }
+//    requestingFullRedraw = false;
+//    refresh();
+//
+//}
 
 void CursesManager::privDraw() {
 
-    ClearRequest clearRequest;
-
-    while(!clearQueue.empty()) {
-        clearRequest = clearQueue.front();
-        clearQueue.pop();
-
-        Vect2i position = clearRequest.getPosition();
-        Vect2i dimensions = clearRequest.getDimensions();
-
-        for (int i = 0; i < dimensions.y; i++) {
-            for (int j = 0; j < dimensions.x; j++) {
-                mvaddch(position.y + i, position.x + j, ' ');
-            }
-        }
-    }
-
-    Component* next;
-    while (!componentQueue.empty()) {
-        next = componentQueue.front();
-        componentQueue.pop();
-
-        TextBody& body = next->body;
-        chtype** content = body.getContent();
-        Vect2i dimensions = body.getDimensions();
-        Vect2i position = next->position;
-
-        for (int i = 0; i < dimensions.y; i++) {
-            chtype* row = content[i];
-            int offset = 0;
-            if (position.x < 0) {
-                offset = -position.x;
-            }
-            if (offset < dimensions.x) {
-                mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
-            }
-        }
-        clearRequest = ClearRequest();
-        clearRequest.setPosition(position);
-        clearRequest.setDimensions(body.getDimensions());
-        next->clearRequest = clearRequest;
-        next->invalid = false;
-    }
-    requestingFullRedraw = false;
-    refresh();
-
-}
-
-void CursesManager::privDrawAll() {
-
+    // Clear the old screen
     erase();
     box(stdscr, 0, 0);
 
-    std::queue<Component*> queue;
+    // Set up the queue for a BFS traversal
+    std::queue<Component*> drawQueue;
     Component* node;
-    queue.push(CursenApplication::GetCurrentForm());
+    drawQueue.push(CursenApplication::GetCurrentForm());
 
-    while(!queue.empty()) {
-        node = queue.front();
+    while(!drawQueue.empty()) {
+        node = drawQueue.front();
 
+        // Push on children
         for (Component* child : node->components) {
-            queue.push(child);
+            drawQueue.push(child);
+        }
+
+        // Check if component needs a redraw
+        if (node->isInvalid()) {
+            node->render();
+            node->validate();
         }
 
         TextBody& body = node->body;
@@ -166,7 +175,7 @@ void CursesManager::privDrawAll() {
             }
         }
 
-        queue.pop();
+        drawQueue.pop();
     }
     refresh();
 }

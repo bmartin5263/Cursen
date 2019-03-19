@@ -25,12 +25,12 @@ void CursenApplication::privRun(Form *form) {
     CursesManager::Initialize();
 
     currentForm->initialize();
-    CursesManager::DrawAll();
+    CursesManager::Draw();
 
     while (running) {
         Event e = EventManager::PollEvent();
         EventManager::ProcessEvent(e);
-        CursesManager::DrawAll();
+        CursesManager::Draw();
     }
 
     CursesManager::Terminate();

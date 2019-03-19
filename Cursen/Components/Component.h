@@ -26,11 +26,12 @@ public:
     virtual void initialize() = 0;
 
     // Drawing
+    void invalidate();
+    void validate();
+    bool isInvalid();
+
     virtual void render() = 0;
     void move(const Vect2i& movement);
-    void invalidate();
-    void refresh();
-    void refreshRoot();
     TextBody& getTextBody();
 
     // Component Relationship

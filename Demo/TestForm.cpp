@@ -20,6 +20,7 @@ void TestForm::initialize() {
     label2->setText("2. Beep");
     label3->setText("3. Change Color");
     label4->setText("4. Exit");
+    label5->setText(":)");
 
     label4->onClick(std::bind(&TestForm::quitGame, this));
     label3->onClick(std::bind(&TestForm::changeColor, this));
@@ -88,17 +89,13 @@ void TestForm::changeColor() {
 }
 
 void TestForm::moveComponent(const Event &event) {
-    if (event.arrowPress.down) {
-        box->move(Vect2i(0, 1));
-    }
-    if (event.arrowPress.up) {
-        box->move(Vect2i(0, -1));
-    }
     if (event.arrowPress.right) {
         box->move(Vect2i(1, 0));
+        box->setColor(Color::RandomColor());
     }
     if (event.arrowPress.left) {
         box->move(Vect2i(-1, 0));
+        box->setColor(Color::RandomColor());
     }
 }
 

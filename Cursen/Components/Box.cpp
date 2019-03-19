@@ -16,7 +16,7 @@ void Box::initialize() {
     setBorder();
     this->color = Color::WHITE;
     this->draw_color = Color::WHITE;
-    refresh();
+    invalidate();
 }
 
 void Box::render() {
@@ -59,7 +59,7 @@ void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, 
     this->lowerLeft = ll;
     this->lower = bottom;
     this->lowerRight = lr;
-    refresh();
+    invalidate();
 }
 
 void Box::setColor(const Color &color) {
@@ -73,5 +73,5 @@ void Box::setColor(const Color &color) {
     this->lowerLeft = lowerLeft | color;
     this->lower = lower | color;
     this->lowerRight = lowerRight | color;
-    refresh();
+    invalidate();
 }

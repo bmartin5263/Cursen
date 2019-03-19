@@ -10,17 +10,17 @@
 #include "Component.h"
 
 Component::Component() :
-        enabled(true), invalid(false)
+        enabled(true), invalid(true)
 {
 }
 
 Component::Component(const Vect2i &pos) :
-        enabled(true), position(pos), invalid(false)
+        enabled(true), position(pos), invalid(true)
 {
 }
 
 Component::Component(const Vect2i &pos, const Vect2i &dim) :
-        enabled(true), position(pos), body(TextBody(dim)), invalid(false)
+        enabled(true), position(pos), body(TextBody(dim)), invalid(true)
 {
 }
 
@@ -265,24 +265,18 @@ void Component::move(const Vect2i& movement) {
     for (auto child : components) {
         child->move(movement);
     }
-    CursesManager::RequestCompleteRedraw();
 }
 
 void Component::invalidate() {
-    CursesManager::RequestDraw(this);
-    for (auto child : components) {
-        child->invalidate();
-    }
+    invalid = true;
 }
 
-void Component::refresh() {
-    render();
-    invalidate();
+void Component::validate() {
+    invalid = false;
 }
 
-void Component::refreshRoot() {
-    render();
-    CursesManager::RequestCompleteRedraw();
+bool Component::isInvalid() {
+    return invalid;
 }
 
 TextBody& Component::getTextBody() {

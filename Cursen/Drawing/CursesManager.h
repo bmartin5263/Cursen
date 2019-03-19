@@ -49,8 +49,8 @@ public:
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
 
+    static void OldDraw() { Instance().privOldDraw(); };
     static void Draw() { Instance().privDraw(); };
-    static void DrawAll() { Instance().privDrawAll(); };
 
 private:
 
@@ -58,9 +58,9 @@ private:
 
     // Instance Data
     int inputTimeout;
-    std::queue<DrawRequest> drawQueue;
-    std::queue<ClearRequest> clearQueue;
-    std::queue<Component*> componentQueue;
+    //std::queue<DrawRequest> drawQueue;
+    //std::queue<ClearRequest> clearQueue;
+    //std::queue<Component*> componentQueue;
     ColorMap colorMap;
     bool requestingFullRedraw;
 
@@ -78,8 +78,8 @@ private:
     short privGetColorPair(const Color&);
     void privRequestDraw(Component* component);
     void privRequestCompleteRedraw();
+    void privOldDraw();
     void privDraw();
-    void privDrawAll();
 
     // Static Data
 
