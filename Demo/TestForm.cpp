@@ -8,24 +8,33 @@
 #include "Components/Label.h"
 #include "TestForm.h"
 
-void TestForm::initialize() {
-    box = new Box(Vect2i(1,1), Vect2i(20,8));
-    label1 = new Label(Vect2i(2,2), Vect2i(40,1));
-    label2 = new Label(Vect2i(2,3), Vect2i(40,1));
-    label3 = new Label(Vect2i(2,4), Vect2i(40,1));
-    label4 = new Label(Vect2i(2,5), Vect2i(40,1));
-    label5 = new Label(Vect2i(10,10), Vect2i(40,1));
+TestForm::TestForm() :
+    Form(Vect2i(70,33))
+{
 
-    label1->setText("1. Flash");
-    label2->setText("2. Beep");
-    label3->setText("3. Change Color");
-    label4->setText("4. Exit");
+}
+
+void TestForm::initialize() {
+    box = new Box(Vect2i(0,0), Vect2i(20,8));
+    label1 = new Label(Vect2i(1,1), Vect2i(40,1));
+    label2 = new Label(Vect2i(1,2), Vect2i(40,1));
+    label3 = new Label(Vect2i(1,3), Vect2i(40,1));
+    label4 = new Label(Vect2i(1,4), Vect2i(40,1));
+    label5 = new Label(Vect2i(10,10), Vect2i(40,1));
+    label6 = new Label(Vect2i(1,5), Vect2i(40,1));
+
+    label1->setText("Flash");
+    label2->setText("Beep");
+    label3->setText("Change Color");
+    label4->setText("Exit");
+    label6->setText("Disable Exit");
     label5->setText(":)");
 
     label4->onClick(std::bind(&TestForm::quitGame, this));
     label3->onClick(std::bind(&TestForm::changeColor, this));
     label2->onClick(std::bind(&TestForm::beep, this));
     label1->onClick(std::bind(&TestForm::flash, this));
+    label6->onClick(std::bind(&TestForm::disable, this));
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
 
     addComponent(label5);
@@ -34,33 +43,22 @@ void TestForm::initialize() {
     box->addComponent(label2);
     box->addComponent(label3);
     box->addComponent(label4);
+    box->addComponent(label6);
 
     cursor = new Cursor(label1);
-    cursor->addComponent(label1, ArrowMap(nullptr, label4, nullptr, label2));
-    cursor->addComponent(label2, ArrowMap(nullptr, label1, nullptr, label3));
-    cursor->addComponent(label3, ArrowMap(nullptr, label2, nullptr, label4));
-    cursor->addComponent(label4, ArrowMap(nullptr, label3, nullptr, label1));
+    cursor->mapComponent(label1, ArrowMap(nullptr, label6, nullptr, label2));
+    cursor->mapComponent(label2, ArrowMap(nullptr, label1, nullptr, label3));
+    cursor->mapComponent(label3, ArrowMap(nullptr, label2, nullptr, label4));
+    cursor->mapComponent(label4, ArrowMap(nullptr, label3, nullptr, label6));
+    cursor->mapComponent(label6, ArrowMap(nullptr, label4, nullptr, label1));
     cursor->setEnabled(true);
+
+    onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
 }
 
 void TestForm::keyPress(const Event &event) {
-    if (event.key.code == '1') {
-        label1->setColor(Color::PURPLE);
-    }
-    if (event.key.code == '2') {
-        label1->setColor(Color(21));
-    }
-    if (event.key.code == '3') {
-        label1->setColor(Color(63));
-    }
-    if (event.key.code == '4') {
-        label1->setColor(Color(93));
-    }
-    if (event.key.code == '5') {
-        label1->setColor(Color::RandomColor());
-    }
-    if (event.key.code == '6') {
-        label1->setColor(Color::RandomColor());
+    if (event.key.code == 'q') {
+        cursor->setEnabled(!cursor->isEnabled());
     }
 }
 
@@ -99,5 +97,19 @@ void TestForm::moveComponent(const Event &event) {
     }
 }
 
+void TestForm::disable() {
+    if (label4->isEnabled()) {
+        label4->setEnabled(false);
+        label6->setText("Enable Exit");
+    }
+    else {
+        label4->setEnabled(true);
+        label6->setText("Disable Exit");
+    }
+}
+
+void TestForm::render() {
+    content.clear();
+}
 
 

@@ -9,13 +9,19 @@
 #include "Events/Event.h"
 #include "Component.h"
 
+using namespace cursen;
+
 class Form : public Component {
 
 public:
 
-    virtual void initialize() override = 0;
+    Form(const Vect2i& dim);
 
-    void render() override;
+    virtual void initialize() override = 0;
+    void render() override = 0;
+
+protected:
+
 
 };
 

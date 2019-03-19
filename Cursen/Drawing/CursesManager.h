@@ -48,6 +48,7 @@ public:
 
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
+    static void Resize(const Vect2i& dim) { Instance().privResize(dim); }
 
     static void OldDraw() { Instance().privOldDraw(); };
     static void Draw() { Instance().privDraw(); };
@@ -80,6 +81,7 @@ private:
     void privRequestCompleteRedraw();
     void privOldDraw();
     void privDraw();
+    void privResize(const Vect2i& dim);
 
     // Static Data
 

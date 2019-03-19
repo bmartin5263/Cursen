@@ -3,6 +3,7 @@
 //
 
 #include <Components/Component.h>
+#include <thread>
 #include "CursesManager.h"
 #include "ncurses.h"
 #include "Drawing/TextBody.h"
@@ -20,6 +21,10 @@ int CursesManager::getCharacter() {
 }
 
 void CursesManager::initializeCurses() {
+    Vect2i dimensions = CursenApplication::GetCurrentForm()->getDimensions();
+    Resize(dimensions);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
     // initialize Curses
     initscr();                  // First step to initialize curses
     start_color();              // Allow color
@@ -159,7 +164,7 @@ void CursesManager::privDraw() {
             node->validate();
         }
 
-        TextBody& body = node->body;
+        TextBody& body = node->content;
         chtype** content = body.getContent();
         Vect2i dimensions = body.getDimensions();
         Vect2i position = node->position;
@@ -185,4 +190,10 @@ void CursesManager::privRequestCompleteRedraw() {
         CursenApplication::GetCurrentForm()->invalidate();
         requestingFullRedraw = true;
     }
+}
+
+void CursesManager::privResize(const Vect2i &dim) {
+    std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
+    printf("%s", resizeString.c_str());
+    fflush(stdout);
 }

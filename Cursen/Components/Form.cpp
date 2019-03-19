@@ -8,6 +8,8 @@
 #include "Component.h"
 #include "Cursor/Cursor.h"
 
-void Form::render() {
-
+Form::Form(const Vect2i &dim) :
+    Component(Vect2i(0,0), dim)
+{
+    if (dim.x < 1 || dim.y < 1) throw std::logic_error("Form requires dimensions > 0");
 }

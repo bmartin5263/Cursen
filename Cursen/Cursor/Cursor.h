@@ -22,12 +22,13 @@ public:
     // Override
     void setEnabled(bool value) override;
 
-    void addComponent(Component* component, cursen::ArrowMap arrowMap);
-    void removeComponent(Component* component);
+    void mapComponent(Component *component, cursen::ArrowMap arrowMap);
+    void unmapComponent(Component *component);
 
     void initialize() override;
 
     void render() override {};  // no rendering
+    void refresh();
 
 private:
 

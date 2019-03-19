@@ -19,11 +19,10 @@ void Label::initialize() {
     this->alignment = TextAlignment::LEFT;
     this->onCursor(std::bind(&Label::cursorOn, this));
     this->offCursor(std::bind(&Label::cursorOff, this));
-    invalidate();
 }
 
 void Label::render() {
-    body.writeLine(text, Vect2i(0,0), alignment, draw_color);
+    content.writeLine(text, Vect2i(0,0), alignment, draw_color);
 }
 
 void Label::emplaceText(const std::string& text) {
@@ -32,7 +31,7 @@ void Label::emplaceText(const std::string& text) {
 }
 
 void Label::setText(const std::string& text) {
-    body.resize(Vect2i((int)text.length(), 1));
+    content.resize(Vect2i((int)text.length(), 1));
     emplaceText(text);
 }
 
@@ -52,4 +51,14 @@ void Label::cursorOff() {
 
 void Label::cursorOn() {
     changeColor(highlight_color);
+}
+
+void Label::setEnabled(bool value) {
+    Component::setEnabled(value);
+    if (enabled) {
+        changeColor(color);
+    }
+    else {
+        changeColor(Color::GRAY);
+    }
 }

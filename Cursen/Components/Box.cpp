@@ -16,12 +16,11 @@ void Box::initialize() {
     setBorder();
     this->color = Color::WHITE;
     this->draw_color = Color::WHITE;
-    invalidate();
 }
 
 void Box::render() {
-    Vect2i dimensions = body.getDimensions();
-    body.clear();
+    Vect2i dimensions = content.getDimensions();
+    content.clear();
 
     // Render Top and Bottom Line
     chtype top[dimensions.x];
@@ -34,7 +33,7 @@ void Box::render() {
     }
     top[dimensions.x - 1] = upperRight;
     bottom[dimensions.x - 1] = lowerRight;
-    body.writeLine(top, Vect2i(0,0));
+    content.writeLine(top, Vect2i(0,0));
     for (int i = 1; i < dimensions.y - 1; i++) {
         chtype row[dimensions.x];
         row[0] = left;
@@ -42,9 +41,9 @@ void Box::render() {
         for (int j = 1; j < dimensions.x - 1; j++) {
             row[j] = fill;
         }
-        body.writeLine(row, Vect2i(0,i));
+        content.writeLine(row, Vect2i(0,i));
     }
-    body.writeLine(bottom, Vect2i(0,dimensions.y - 1));
+    content.writeLine(bottom, Vect2i(0,dimensions.y - 1));
 }
 
 void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, chtype right, chtype ll, chtype bottom,

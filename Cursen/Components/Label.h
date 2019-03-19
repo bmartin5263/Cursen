@@ -28,6 +28,8 @@ public:
     void cursorOn();
     void cursorOff();
 
+    void setEnabled(bool value) override;
+
 private:
 
     void changeColor(const Color& color);

@@ -15,16 +15,21 @@ class TestForm : public Form {
 
 public:
 
+    TestForm();
+
     void initialize() override;
     void keyPress(const Event& event);
     void enterPress(const Event& event);
     void arrowPress(const Event& event);
     void moveComponent(const Event& event);
+    void disable();
 
     void flash();
     void beep();
     void changeColor();
     void quitGame();
+
+    void render() override;
 
 private:
 
@@ -34,6 +39,7 @@ private:
     Label* label3;
     Label* label4;
     Label* label5;
+    Label* label6;
     Box* box;
 
 };

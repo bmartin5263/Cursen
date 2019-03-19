@@ -16,7 +16,7 @@ Cursor::Cursor(Component* start) :
 {
 }
 
-void Cursor::addComponent(Component* component, cursen::ArrowMap arrowMap) {
+void Cursor::mapComponent(Component *component, cursen::ArrowMap arrowMap) {
     componentMap[component] = arrowMap;
 }
 
@@ -57,12 +57,26 @@ void Cursor::moveCursor(const Event &event) {
             currentComponent = originalComponent;
             return;
         }
+        while (!currentComponent->isEnabled()) {
+            currentComponent = componentMap[currentComponent].right;
+            if (currentComponent == nullptr) {
+                currentComponent = originalComponent;
+                return;
+            }
+        }
     }
     else if (event.arrowPress.left) {
         currentComponent = map.left;
         if (currentComponent == nullptr) {
             currentComponent = originalComponent;
             return;
+        }
+        while (!currentComponent->isEnabled()) {
+            currentComponent = componentMap[currentComponent].left;
+            if (currentComponent == nullptr) {
+                currentComponent = originalComponent;
+                return;
+            }
         }
     }
     else if (event.arrowPress.up) {
@@ -71,6 +85,13 @@ void Cursor::moveCursor(const Event &event) {
             currentComponent = originalComponent;
             return;
         }
+        while (!currentComponent->isEnabled()) {
+            currentComponent = componentMap[currentComponent].up;
+            if (currentComponent == nullptr) {
+                currentComponent = originalComponent;
+                return;
+            }
+        }
     }
     else if (event.arrowPress.down) {
         currentComponent = map.down;
@@ -78,13 +99,20 @@ void Cursor::moveCursor(const Event &event) {
             currentComponent = originalComponent;
             return;
         }
+        while (!currentComponent->isEnabled()) {
+            currentComponent = componentMap[currentComponent].down;
+            if (currentComponent == nullptr) {
+                currentComponent = originalComponent;
+                return;
+            }
+        }
     }
     originalComponent->CallOffCursor();
     currentComponent->CallOnCursor();
 }
 
 
-void Cursor::removeComponent(Component *component) {
+void Cursor::unmapComponent(Component *component) {
     if (componentMap.find(component) != componentMap.end()) {
         componentMap.erase(component);
         if (component == currentComponent) {
@@ -95,5 +123,11 @@ void Cursor::removeComponent(Component *component) {
 
 void Cursor::initialize() {
 
+}
+
+void Cursor::refresh() {
+    if (currentComponent == nullptr) {
+        //TODO - move cursor away from disabled component
+    }
 }
 

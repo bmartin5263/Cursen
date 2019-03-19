@@ -42,6 +42,7 @@ public:
     // Attributes
     virtual void setEnabled(bool value);
     virtual bool isEnabled();
+    Vect2i getDimensions();
 
     // Event Functions
     void onKeyPress(std::function<void(const Event &)> f);
@@ -105,7 +106,7 @@ private:
 protected:
 
     std::vector<Component*> components;
-    TextBody body;
+    TextBody content;
     Vect2i position;
     bool enabled;
     bool invalid;

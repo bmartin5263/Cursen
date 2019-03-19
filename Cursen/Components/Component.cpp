@@ -20,7 +20,7 @@ Component::Component(const Vect2i &pos) :
 }
 
 Component::Component(const Vect2i &pos, const Vect2i &dim) :
-        enabled(true), position(pos), body(TextBody(dim)), invalid(true)
+        enabled(true), position(pos), content(TextBody(dim)), invalid(true)
 {
 }
 
@@ -280,5 +280,9 @@ bool Component::isInvalid() {
 }
 
 TextBody& Component::getTextBody() {
-    return body;
+    return content;
+}
+
+Vect2i Component::getDimensions() {
+    return content.getDimensions();
 }
