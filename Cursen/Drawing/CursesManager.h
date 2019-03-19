@@ -50,6 +50,7 @@ public:
     static void Flash() { instance->doFlash(); }
 
     static void Draw() { Instance().privDraw(); };
+    static void DrawAll() { Instance().privDrawAll(); };
 
 private:
 
@@ -61,6 +62,7 @@ private:
     std::queue<ClearRequest> clearQueue;
     std::queue<Component*> componentQueue;
     ColorMap colorMap;
+    bool requestingFullRedraw;
 
     // Methods
     void initializeCurses();
@@ -77,6 +79,7 @@ private:
     void privRequestDraw(Component* component);
     void privRequestCompleteRedraw();
     void privDraw();
+    void privDrawAll();
 
     // Static Data
 

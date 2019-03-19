@@ -10,17 +10,17 @@
 #include "Component.h"
 
 Component::Component() :
-        enabled(true)
+        enabled(true), invalid(false)
 {
 }
 
 Component::Component(const Vect2i &pos) :
-        enabled(true), position(pos)
+        enabled(true), position(pos), invalid(false)
 {
 }
 
 Component::Component(const Vect2i &pos, const Vect2i &dim) :
-        enabled(true), position(pos), body(TextBody(dim))
+        enabled(true), position(pos), body(TextBody(dim)), invalid(false)
 {
 }
 
@@ -262,7 +262,10 @@ void Component::detachOffCursor(){
 void Component::move(const Vect2i& movement) {
     position.x += movement.x;
     position.y += movement.y;
-    refreshRoot();
+    for (auto child : components) {
+        child->move(movement);
+    }
+    CursesManager::RequestCompleteRedraw();
 }
 
 void Component::invalidate() {

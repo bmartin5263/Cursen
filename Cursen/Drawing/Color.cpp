@@ -42,7 +42,7 @@ Color::Color(const Color &other) {
     this->bg = other.bg;
 }
 
-Color Color::GetRandomColor() {
+Color Color::RandomColor() {
     int randNum = (rand() % 4);
     if (randNum == 0) return BLUE;
     if (randNum == 1) return RED;

@@ -107,6 +107,7 @@ protected:
     TextBody body;
     Vect2i position;
     bool enabled;
+    bool invalid;
 
 };
 

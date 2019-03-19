@@ -33,6 +33,7 @@ private:
     Label* label2;
     Label* label3;
     Label* label4;
+    Label* label5;
     Box* box;
 
 };

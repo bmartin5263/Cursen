@@ -8,6 +8,8 @@
 
 #include "Component.h"
 
+using namespace cursen;
+
 class Box : public Component {
 
 public:
@@ -21,8 +23,12 @@ public:
     void initialize() override;
     void render() override;
 
+    void setColor(const Color& color);
+
 private:
 
+    Color draw_color;
+    Color color;
     chtype upperLeft;
     chtype upper;
     chtype upperRight;

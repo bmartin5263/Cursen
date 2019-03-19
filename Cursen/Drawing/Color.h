@@ -39,7 +39,7 @@ namespace cursen {
         Color& operator = (const Color& other);
         ~Color() = default;
 
-        static Color GetRandomColor();
+        static Color RandomColor();
 
         bool operator==(const Color &other) const;
 

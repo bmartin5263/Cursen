@@ -9,7 +9,9 @@
 
 CursesManager* CursesManager::instance = nullptr;
 
-CursesManager::CursesManager() {
+CursesManager::CursesManager() :
+    requestingFullRedraw(false)
+{
 }
 
 int CursesManager::getCharacter() {
@@ -113,18 +115,65 @@ void CursesManager::privDraw() {
 
         for (int i = 0; i < dimensions.y; i++) {
             chtype* row = content[i];
-            mvaddchstr(position.y + i, position.x, &row[0]);
+            int offset = 0;
+            if (position.x < 0) {
+                offset = -position.x;
+            }
+            if (offset < dimensions.x) {
+                mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+            }
         }
-
         clearRequest = ClearRequest();
         clearRequest.setPosition(position);
         clearRequest.setDimensions(body.getDimensions());
         next->clearRequest = clearRequest;
+        next->invalid = false;
     }
+    requestingFullRedraw = false;
     refresh();
 
 }
 
+void CursesManager::privDrawAll() {
+
+    erase();
+    box(stdscr, 0, 0);
+
+    std::queue<Component*> queue;
+    Component* node;
+    queue.push(CursenApplication::GetCurrentForm());
+
+    while(!queue.empty()) {
+        node = queue.front();
+
+        for (Component* child : node->components) {
+            queue.push(child);
+        }
+
+        TextBody& body = node->body;
+        chtype** content = body.getContent();
+        Vect2i dimensions = body.getDimensions();
+        Vect2i position = node->position;
+
+        for (int i = 0; i < dimensions.y; i++) {
+            chtype* row = content[i];
+            int offset = 0;
+            if (position.x < 0) {
+                offset = -position.x;
+            }
+            if (offset < dimensions.x) {
+                mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+            }
+        }
+
+        queue.pop();
+    }
+    refresh();
+}
+
 void CursesManager::privRequestCompleteRedraw() {
-    CursenApplication::GetCurrentForm()->invalidate();
+    if (!requestingFullRedraw) {
+        CursenApplication::GetCurrentForm()->invalidate();
+        requestingFullRedraw = true;
+    }
 }

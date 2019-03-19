@@ -14,6 +14,8 @@ Box::Box(const Vect2i &pos, const Vect2i &dim) :
 
 void Box::initialize() {
     setBorder();
+    this->color = Color::WHITE;
+    this->draw_color = Color::WHITE;
     refresh();
 }
 
@@ -48,14 +50,28 @@ void Box::render() {
 void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, chtype right, chtype ll, chtype bottom,
                     chtype lr)
 {
-    this->upperLeft = ul | Color::BLUE;
-    this->upper = top | Color::PURPLE;
-    this->upperRight = ur | Color::GREEN;
-    this->left = left | Color::INDIGO;
+    this->upperLeft = ul;
+    this->upper = top;
+    this->upperRight = ur;
+    this->left = left;
     this->fill = fill;
-    this->right = right | Color::LAVENDER;
-    this->lowerLeft = ll | Color::RED;
-    this->lower = bottom | Color::VIOLET;
-    this->lowerRight = lr | Color::YELLOW;
+    this->right = right;
+    this->lowerLeft = ll;
+    this->lower = bottom;
+    this->lowerRight = lr;
+    refresh();
+}
+
+void Box::setColor(const Color &color) {
+    setBorder();
+    this->upperLeft = upperLeft | color;
+    this->upper = upper | color;
+    this->upperRight = upperRight | color;
+    this->left = left | color;
+    this->fill = fill | color;
+    this->right = right | color;
+    this->lowerLeft = lowerLeft | color;
+    this->lower = lower | color;
+    this->lowerRight = lowerRight | color;
     refresh();
 }
