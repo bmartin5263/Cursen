@@ -39,7 +39,7 @@ public:
     void removeComponent(Component*);
     Component* getParent();
 
-    // Attributes
+    // Common Attributes
     virtual void setEnabled(bool value);
     virtual bool isEnabled();
     Vect2i getDimensions();

@@ -12,6 +12,8 @@
 
 
 CursenApplication* CursenApplication::engineInstance = nullptr;
+Color CursenApplication::HIGHLIGHT = Color::YELLOW;
+Color CursenApplication::DISABLED = Color::GRAY;
 
 /*
  * Main Loop of the engine

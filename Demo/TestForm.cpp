@@ -24,7 +24,10 @@ void TestForm::initialize() {
     label6 = new Label(Vect2i(1,5), Vect2i(40,1));
 
     label1->setText("Flash");
+    label1->setColor(Color(208));
     label2->setText("Beep");
+    label2->setColor(Color(214));
+    label3->setColor(Color(172));
     label3->setText("Change Color");
     label4->setText("Exit");
     label6->setText("Disable Exit");
@@ -37,8 +40,8 @@ void TestForm::initialize() {
     label6->onClick(std::bind(&TestForm::disable, this));
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
 
-    addComponent(label5);
     addComponent(box);
+    addComponent(label5);
     box->addComponent(label1);
     box->addComponent(label2);
     box->addComponent(label3);
@@ -83,7 +86,26 @@ void TestForm::beep() {
 }
 
 void TestForm::changeColor() {
-    box->setColor(Color::RandomColor());
+    static int i = 0;
+    i++;
+    i = i % 6;
+    if (i == 0) {
+        box->setColor(Color::RED);
+    }
+    else if (i == 1) {
+        box->setColor(Color::ORANGE);
+    }
+    else if (i == 2) {
+        box->setColor(Color::YELLOW);
+    }
+    else if (i == 3) {
+        box->setColor(Color::GREEN);
+    } else if (i == 4) {
+        box->setColor(Color::BLUE);
+    }
+    else {
+        box->setColor(Color::VIOLET);
+    }
 }
 
 void TestForm::moveComponent(const Event &event) {
@@ -94,6 +116,16 @@ void TestForm::moveComponent(const Event &event) {
     if (event.arrowPress.left) {
         box->move(Vect2i(-1, 0));
         box->setColor(Color::RandomColor());
+    }
+    if (!cursor->isEnabled()) {
+        if (event.arrowPress.up) {
+            box->move(Vect2i(0, -1));
+            box->setColor(Color::RandomColor());
+        }
+        if (event.arrowPress.down) {
+            box->move(Vect2i(0, 1));
+            box->setColor(Color::RandomColor());
+        }
     }
 }
 

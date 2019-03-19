@@ -5,6 +5,9 @@
 #ifndef CURSEN_CURSENAPPLICATION_H
 #define CURSEN_CURSENAPPLICATION_H
 
+#include "Drawing/Color.h"
+
+using namespace cursen;
 
 class Form;
 
@@ -12,11 +15,19 @@ class CursenApplication {
 
 public:
 
+    static void SetDefaultHighlightColor(const Color& color) { HIGHLIGHT = color; }
+    static void SetDefaultDisabledColor(const Color& color) { DISABLED = color; }
+    static const Color& GetDefaultDisabledColor() { return DISABLED; }
+    static const Color& GetDefaultHighlightColor() { return HIGHLIGHT; }
+
     static void Run(Form* startForm) { Instance().privRun(startForm); };
     static void Quit() { Instance().privQuit(); }
     static Form* GetCurrentForm() { return Instance().privGetCurrentForm(); }
 
 private:
+
+    static Color HIGHLIGHT;
+    static Color DISABLED;
 
     // Instance Data
     Form* currentForm;

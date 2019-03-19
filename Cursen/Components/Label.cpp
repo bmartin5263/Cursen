@@ -50,7 +50,7 @@ void Label::cursorOff() {
 }
 
 void Label::cursorOn() {
-    changeColor(highlight_color);
+    changeColor(CursenApplication::GetDefaultHighlightColor());
 }
 
 void Label::setEnabled(bool value) {
@@ -59,6 +59,6 @@ void Label::setEnabled(bool value) {
         changeColor(color);
     }
     else {
-        changeColor(Color::GRAY);
+        changeColor(CursenApplication::GetDefaultDisabledColor());
     }
 }

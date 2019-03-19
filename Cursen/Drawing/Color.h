@@ -30,6 +30,7 @@ namespace cursen {
         static const Color GREEN;
         static const Color YELLOW;
         static const Color RED;
+        static const Color ORANGE;
         static const Color NONE;
 
         Color();

@@ -21,6 +21,8 @@ const Color Color::INDIGO = Color(21, BLK);
 const Color Color::LAVENDER = Color(63, BLK);
 const Color Color::GREEN = Color(82, BLK);
 const Color Color::YELLOW = Color(226, BLK);
+const Color Color::ORANGE = Color(208, BLK);
+
 
 Color::Color() :
     fg(WHT), bg(BLK)
