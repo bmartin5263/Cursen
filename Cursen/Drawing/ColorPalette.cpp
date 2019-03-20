@@ -4,6 +4,9 @@
 
 #include "ColorPalette.h"
 
+const ColorPalette ColorPalette::DARK = ColorPalette();
+const ColorPalette ColorPalette::LIGHT = ColorPalette(Color::BLACK, Color::WHITE, Color::GRAY, Color::YELLOW);
+
 ColorPalette::ColorPalette() :
         foreground(Color::WHITE), background(Color::BLACK), disabled(Color::GRAY), highlight(Color::YELLOW)
 {

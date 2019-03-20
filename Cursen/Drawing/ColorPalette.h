@@ -13,6 +13,9 @@ class ColorPalette {
 
 public:
 
+    static const ColorPalette LIGHT;
+    static const ColorPalette DARK;
+
     ColorPalette();
     ColorPalette(const Color& foreground, const Color& background, const Color& disabled, const Color& highlight);
     ColorPalette(const ColorPalette& other);

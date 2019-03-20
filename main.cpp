@@ -97,6 +97,6 @@ void speedTest() {
 }
 
 int main() {
-    //CursenApplication::SetColorPalette(ColorPalette(Color::BLACK, Color(231), Color::GRAY, Color::YELLOW));
+    //CursenApplication::SetColorPalette(ColorPalette::LIGHT);
     CursenApplication::Run(new TestForm());
 }
