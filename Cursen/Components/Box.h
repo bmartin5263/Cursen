@@ -27,8 +27,9 @@ public:
 
 private:
 
-    Color draw_color;
-    Color color;
+    Color foreground;
+    Color background;
+    ColorPair draw_color;
     chtype upperLeft;
     chtype upper;
     chtype upperRight;

@@ -26,7 +26,7 @@ const Color Color::ORANGE = Color(208);
 
 
 Color::Color() :
-    val(WHT)
+    val(CursenApplication::GetDefaultColor().val)
 {
 }
 

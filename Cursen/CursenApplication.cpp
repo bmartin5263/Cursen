@@ -12,10 +12,6 @@
 
 
 CursenApplication* CursenApplication::engineInstance = nullptr;
-Color CursenApplication::HIGHLIGHT = Color::NONE;
-Color CursenApplication::DISABLED = Color::NONE;
-Color CursenApplication::DEFAULT_COLOR = Color::NONE;
-Color CursenApplication::BACKGROUND = Color::NONE;
 
 CursenApplication::CursenApplication() :
     currentForm(nullptr), running(false)
@@ -24,10 +20,10 @@ CursenApplication::CursenApplication() :
 }
 
 void CursenApplication::privInitialize() {
-    DISABLED = Color::GRAY;
-    HIGHLIGHT = Color::YELLOW;
-    BACKGROUND = Color::BLACK;
-    DEFAULT_COLOR = Color::WHITE;
+    disabled = new Color(Color::GRAY);
+    highlight = new Color(Color::YELLOW);
+    background = new Color(Color::BLACK);
+    default_color = new Color(Color::WHITE);
 }
 
 /*
@@ -63,4 +59,40 @@ CursenApplication::~CursenApplication() {
 
 Form* CursenApplication::privGetCurrentForm() {
     return this->currentForm;
+}
+
+void CursenApplication::privSetHighlight(const Color &color) {
+    delete highlight;
+    this->highlight = new Color(color);
+}
+
+void CursenApplication::privSetDisabled(const Color &color) {
+    delete disabled;
+    this->disabled = new Color(color);
+}
+
+void CursenApplication::privSetBackground(const Color &color) {
+    delete background;
+    this->background = new Color(color);
+}
+
+void CursenApplication::privSetDefaultColor(const Color &color) {
+    delete default_color;
+    this->default_color = new Color(color);
+}
+
+Color CursenApplication::privGetHighlight() {
+    return *highlight;
+}
+
+Color CursenApplication::privGetDisabled() {
+    return *disabled;
+}
+
+Color CursenApplication::privGetBackground() {
+    return *background;
+}
+
+Color CursenApplication::privGetDefaultColor() {
+    return *default_color;
 }

@@ -13,9 +13,10 @@ Box::Box(const Vect2i &pos, const Vect2i &dim) :
 }
 
 void Box::initialize() {
+    this->foreground = CursenApplication::GetDefaultColor();
+    this->background = CursenApplication::GetBackgroundColor();
+    this->draw_color = ColorPair(foreground, background);
     setBorder();
-    this->color = Color::WHITE;
-    this->draw_color = Color::WHITE;
 }
 
 void Box::render() {
@@ -62,15 +63,17 @@ void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, 
 }
 
 void Box::setColor(const Color &color) {
+    this->foreground = color;
+    this->draw_color.fg = color;
     setBorder();
-    this->upperLeft = upperLeft | color;
-    this->upper = upper | color;
-    this->upperRight = upperRight | color;
-    this->left = left | color;
-    this->fill = fill | color;
-    this->right = right | color;
-    this->lowerLeft = lowerLeft | color;
-    this->lower = lower | color;
-    this->lowerRight = lowerRight | color;
+    this->upperLeft = upperLeft | draw_color;
+    this->upper = upper | draw_color;
+    this->upperRight = upperRight | draw_color;
+    this->left = left | draw_color;
+    this->fill = fill | draw_color;
+    this->right = right | draw_color;
+    this->lowerLeft = lowerLeft | draw_color;
+    this->lower = lower | draw_color;
+    this->lowerRight = lowerRight | draw_color;
     invalidate();
 }

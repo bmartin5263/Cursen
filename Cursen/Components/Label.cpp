@@ -54,7 +54,7 @@ void Label::cursorOff() {
 }
 
 void Label::cursorOn() {
-    this->draw_color.bg = Color::DARK_BLUE;
+    this->draw_color.fg = highlight_color;
     invalidate();
 }
 
@@ -64,6 +64,6 @@ void Label::setEnabled(bool value) {
         changeColor(color);
     }
     else {
-        changeColor(CursenApplication::GetDisabledColor());
+        changeColor(Color::GRAY);
     }
 }

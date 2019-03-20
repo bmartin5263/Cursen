@@ -15,14 +15,14 @@ class CursenApplication {
 
 public:
 
-    static void SetHighlightColor(const Color &color) { HIGHLIGHT = color; }
-    static void SetDisabledColor(const Color &color) { DISABLED = color; }
-    static void SetBackgroundColor(const Color &color) { BACKGROUND = color; }
-    static void SetDefaultColor(const Color &color) { DEFAULT_COLOR = color; }
-    static const Color& GetDisabledColor() { return DISABLED; }
-    static const Color& GetHighlightColor() { return HIGHLIGHT; }
-    static const Color& GetBackgroundColor() { return BACKGROUND; }
-    static const Color& GetDefaultColor() { return DEFAULT_COLOR; }
+    static void SetHighlightColor(const Color &color) { Instance().privSetHighlight(color); }
+    static void SetDisabledColor(const Color &color) { Instance().privSetDisabled(color); }
+    static void SetBackgroundColor(const Color &color) { Instance().privSetBackground(color); }
+    static void SetDefaultColor(const Color &color) { Instance().privSetDefaultColor(color); }
+    static const Color GetDisabledColor() { return Instance().privGetDefaultColor(); }
+    static const Color GetHighlightColor() { return Instance().privGetHighlight(); }
+    static const Color GetBackgroundColor() { return Instance().privGetBackground(); }
+    static const Color GetDefaultColor() { return Instance().privGetDefaultColor(); }
 
     static void Run(Form* startForm) { Instance().privRun(startForm); };
     static void Quit() { Instance().privQuit(); }
@@ -30,13 +30,12 @@ public:
 
 private:
 
-    static Color HIGHLIGHT;
-    static Color DISABLED;
-    static Color BACKGROUND;
-    static Color DEFAULT_COLOR;
-
     // Instance Data
     Form* currentForm;
+    Color* highlight;
+    Color* disabled;
+    Color* background;
+    Color* default_color;
     bool running;
 
     // Static Data
@@ -45,6 +44,15 @@ private:
     void privInitialize();
     void privRun(Form *startForm);
     void privQuit();
+
+    void privSetHighlight(const Color& color);
+    void privSetDisabled(const Color& color);
+    void privSetBackground(const Color& color);
+    void privSetDefaultColor(const Color& color);
+    Color privGetHighlight();
+    Color privGetDisabled();
+    Color privGetBackground();
+    Color privGetDefaultColor();
     Form* privGetCurrentForm();
 
     static CursenApplication* engineInstance;
