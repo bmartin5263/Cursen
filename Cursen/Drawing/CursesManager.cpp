@@ -110,19 +110,21 @@ void CursesManager::privDraw() {
             node->validate();
         }
 
-        TextBody& body = node->content;
-        chtype** content = body.getContent();
-        Vect2i dimensions = body.getDimensions();
-        Vect2i position = node->position;
+        if (!node->isHidden()) {
+            TextBody& body = node->content;
+            chtype** content = body.getContent();
+            Vect2i dimensions = body.getDimensions();
+            Vect2i position = node->position;
 
-        for (int i = 0; i < dimensions.y; i++) {
-            chtype* row = content[i];
-            int offset = 0;
-            if (position.x < 0) {
-                offset = -position.x;
-            }
-            if (offset < dimensions.x) {
-                mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+            for (int i = 0; i < dimensions.y; i++) {
+                chtype* row = content[i];
+                int offset = 0;
+                if (position.x < 0) {
+                    offset = -position.x;
+                }
+                if (offset < dimensions.x) {
+                    mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+                }
             }
         }
 

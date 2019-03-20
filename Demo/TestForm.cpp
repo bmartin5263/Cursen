@@ -15,6 +15,7 @@ TestForm::TestForm() :
 }
 
 void TestForm::initialize() {
+    setHidden(true);
     box = new Box(Vect2i(0,0), Vect2i(20,8));
     label1 = new Label(Vect2i(1,1), Vect2i(40,1));
     label2 = new Label(Vect2i(1,2), Vect2i(40,1));

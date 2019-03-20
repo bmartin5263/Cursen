@@ -43,6 +43,8 @@ public:
     // Attributes
     virtual void setEnabled(bool value);
     virtual bool isEnabled();
+    virtual void setHidden(bool value);
+    virtual bool isHidden();
 
     // Common Attributes
     virtual void setColor(const Color& color) {};
@@ -124,6 +126,7 @@ protected:
     Vect2i position;
     bool enabled;
     bool invalid;
+    bool hidden;
 
 };
 

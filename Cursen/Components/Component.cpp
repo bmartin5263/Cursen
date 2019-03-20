@@ -107,6 +107,14 @@ bool Component::isEnabled() {
     return enabled;
 }
 
+void Component::setHidden(bool value) {
+    hidden = value;
+}
+
+bool Component::isHidden() {
+    return hidden;
+}
+
 void Component::CallKeyPress(const Event& e) {
     try {
         f_keyPress(e);
