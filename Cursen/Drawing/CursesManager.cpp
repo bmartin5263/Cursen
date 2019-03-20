@@ -89,6 +89,7 @@ void CursesManager::privDraw() {
 
     // Clear the old screen
     erase();
+    bkgd(GetColorPair(ColorPair(CursenApplication::GetColorPalette().getForeground(), CursenApplication::GetColorPalette().getBackground())));
     box(stdscr, 0, 0);
 
     // Set up the queue for a BFS traversal

@@ -13,10 +13,10 @@ Box::Box(const Vect2i &pos, const Vect2i &dim) :
 }
 
 void Box::initialize() {
-    this->foreground = CursenApplication::GetDefaultColor();
-    this->background = CursenApplication::GetBackgroundColor();
+    this->foreground = CursenApplication::GetColorPalette().getForeground();
+    this->background = CursenApplication::GetColorPalette().getBackground();
     this->draw_color = ColorPair(foreground, background);
-    setBorder();
+    setColor(foreground);
 }
 
 void Box::render() {

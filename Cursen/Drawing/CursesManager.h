@@ -11,8 +11,6 @@
 #include <unordered_map>
 #include <Components/Form.h>
 #include <CursenApplication.h>
-#include "Drawing/DrawRequest.h"
-#include "ClearRequest.h"
 #include "Color.h"
 #include "ColorPair.h"
 

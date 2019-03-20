@@ -2,7 +2,6 @@
 // Created by Brandon Martin on 3/8/19.
 //
 
-#include <Drawing/DrawRequest.h>
 #include <Drawing/CursesManager.h>
 #include <cassert>
 #include <CursenApplication.h>

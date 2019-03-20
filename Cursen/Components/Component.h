@@ -11,7 +11,6 @@
 #include <string>
 #include <ncurses.h>
 #include <Drawing/TextBody.h>
-#include <Drawing/ClearRequest.h>
 
 class Component {
 
@@ -117,7 +116,6 @@ private:
     std::function<void()> f_onClick;
 
     Component* parent;
-    ClearRequest clearRequest;
 
 protected:
 

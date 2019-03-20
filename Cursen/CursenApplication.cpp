@@ -20,10 +20,7 @@ CursenApplication::CursenApplication() :
 }
 
 void CursenApplication::privInitialize() {
-    disabled = new Color(Color::GRAY);
-    highlight = new Color(Color::YELLOW);
-    background = new Color(Color::BLACK);
-    default_color = new Color(Color::WHITE);
+
 }
 
 /*
@@ -61,38 +58,10 @@ Form* CursenApplication::privGetCurrentForm() {
     return this->currentForm;
 }
 
-void CursenApplication::privSetHighlight(const Color &color) {
-    delete highlight;
-    this->highlight = new Color(color);
+void CursenApplication::privSetColorPalette(const ColorPalette &palette) {
+    this->palette = palette;
 }
 
-void CursenApplication::privSetDisabled(const Color &color) {
-    delete disabled;
-    this->disabled = new Color(color);
-}
-
-void CursenApplication::privSetBackground(const Color &color) {
-    delete background;
-    this->background = new Color(color);
-}
-
-void CursenApplication::privSetDefaultColor(const Color &color) {
-    delete default_color;
-    this->default_color = new Color(color);
-}
-
-Color CursenApplication::privGetHighlight() {
-    return *highlight;
-}
-
-Color CursenApplication::privGetDisabled() {
-    return *disabled;
-}
-
-Color CursenApplication::privGetBackground() {
-    return *background;
-}
-
-Color CursenApplication::privGetDefaultColor() {
-    return *default_color;
+ColorPalette &CursenApplication::privGetColorPalette() {
+    return this->palette;
 }

@@ -5,7 +5,7 @@
 #ifndef CURSEN_CURSENAPPLICATION_H
 #define CURSEN_CURSENAPPLICATION_H
 
-#include "Drawing/Color.h"
+#include "Drawing/ColorPalette.h"
 
 using namespace cursen;
 
@@ -15,14 +15,8 @@ class CursenApplication {
 
 public:
 
-    static void SetHighlightColor(const Color &color) { Instance().privSetHighlight(color); }
-    static void SetDisabledColor(const Color &color) { Instance().privSetDisabled(color); }
-    static void SetBackgroundColor(const Color &color) { Instance().privSetBackground(color); }
-    static void SetDefaultColor(const Color &color) { Instance().privSetDefaultColor(color); }
-    static const Color GetDisabledColor() { return Instance().privGetDefaultColor(); }
-    static const Color GetHighlightColor() { return Instance().privGetHighlight(); }
-    static const Color GetBackgroundColor() { return Instance().privGetBackground(); }
-    static const Color GetDefaultColor() { return Instance().privGetDefaultColor(); }
+    static void SetColorPalette(const ColorPalette& palette) { Instance().privSetColorPalette(palette); }
+    static ColorPalette& GetColorPalette() { return Instance().privGetColorPalette(); }
 
     static void Run(Form* startForm) { Instance().privRun(startForm); };
     static void Quit() { Instance().privQuit(); }
@@ -32,10 +26,7 @@ private:
 
     // Instance Data
     Form* currentForm;
-    Color* highlight;
-    Color* disabled;
-    Color* background;
-    Color* default_color;
+    ColorPalette palette;
     bool running;
 
     // Static Data
@@ -45,6 +36,8 @@ private:
     void privRun(Form *startForm);
     void privQuit();
 
+    void privSetColorPalette(const ColorPalette& palette);
+    ColorPalette& privGetColorPalette();
     void privSetHighlight(const Color& color);
     void privSetDisabled(const Color& color);
     void privSetBackground(const Color& color);

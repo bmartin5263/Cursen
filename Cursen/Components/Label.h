@@ -35,8 +35,8 @@ private:
     void changeColor(const Color& color);
 
     std::string text;
-    Color color;
-    Color backgroundColor;
+    Color foreground;
+    Color background;
     Color highlight_color;
     ColorPair draw_color;
     TextAlignment alignment;
