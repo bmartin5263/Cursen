@@ -35,7 +35,6 @@ public:
     static void Initialize() { Instance().initializeCurses(); }
     static void Terminate() { Instance().terminateCurses(); }
 
-    static void RequestDraw(Component* component) { return Instance().privRequestDraw(component); };
     static void RequestCompleteRedraw() { return Instance().privRequestCompleteRedraw(); };
 
     static void DrawChar(int c) { instance->putCharacter(c); }
@@ -45,14 +44,12 @@ public:
     static void DrawString(const char *string, int x, int y) { instance->drawString(string, x, y); }
     static int GetChar() { return instance->getCharacter(); }
 
-    //static short GetColorPair(const Color& color) { return instance->privGetColorPair(color); }
     static short GetColorPair(const ColorPair& color) { return instance->privGetColorPair(color); }
 
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
     static void Resize(const Vect2i& dim) { Instance().privResize(dim); }
 
-    static void OldDraw() { Instance().privOldDraw(); };
     static void Draw() { Instance().privDraw(); };
 
 private:
@@ -82,9 +79,7 @@ private:
     void doFlash();
     //short privGetColorPair(const Color&);
     short privGetColorPair(const ColorPair&);
-    void privRequestDraw(Component* component);
     void privRequestCompleteRedraw();
-    void privOldDraw();
     void privDraw();
     void privResize(const Vect2i& dim);
 

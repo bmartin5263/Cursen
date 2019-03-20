@@ -69,22 +69,6 @@ void CursesManager::drawString(const char *string, int x, int y) {
     mvaddstr(y, x, string);
 }
 
-//short CursesManager::privGetColorPair(const cursen::Color& color) {
-//    ColorMap::iterator it;
-//
-//    it = colorMap.find(color);
-//    if (it != colorMap.end() )
-//    {
-//        return COLOR_PAIR(colorMap[color]);
-//    }
-//    else {
-//        short pairNum = (short)(colorMap.size() + 1);
-//        init_pair(pairNum, color.fg, color.bg);
-//        colorMap[color] = pairNum;
-//        return COLOR_PAIR(colorMap[color]);
-//    }
-//}
-
 short CursesManager::privGetColorPair(const ColorPair & colorPair) {
     ColorPairMap::iterator it;
 
@@ -100,61 +84,6 @@ short CursesManager::privGetColorPair(const ColorPair & colorPair) {
         return COLOR_PAIR(pairNum);
     }
 }
-
-
-//void CursesManager::privRequestDraw(Component *component) {
-//    componentQueue.push(component);
-//    clearQueue.push(component->clearRequest);
-//}
-
-//void CursesManager::privOldDraw() {
-//
-//    ClearRequest clearRequest;
-//
-//    while(!clearQueue.empty()) {
-//        clearRequest = clearQueue.front();
-//        clearQueue.pop();
-//
-//        Vect2i position = clearRequest.getPosition();
-//        Vect2i dimensions = clearRequest.getDimensions();
-//
-//        for (int i = 0; i < dimensions.y; i++) {
-//            for (int j = 0; j < dimensions.x; j++) {
-//                mvaddch(position.y + i, position.x + j, ' ');
-//            }
-//        }
-//    }
-//
-//    Component* next;
-//    while (!componentQueue.empty()) {
-//        next = componentQueue.front();
-//        componentQueue.pop();
-//
-//        TextBody& body = next->body;
-//        chtype** content = body.getContent();
-//        Vect2i dimensions = body.getDimensions();
-//        Vect2i position = next->position;
-//
-//        for (int i = 0; i < dimensions.y; i++) {
-//            chtype* row = content[i];
-//            int offset = 0;
-//            if (position.x < 0) {
-//                offset = -position.x;
-//            }
-//            if (offset < dimensions.x) {
-//                mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
-//            }
-//        }
-//        clearRequest = ClearRequest();
-//        clearRequest.setPosition(position);
-//        clearRequest.setDimensions(body.getDimensions());
-//        next->clearRequest = clearRequest;
-//        next->invalid = false;
-//    }
-//    requestingFullRedraw = false;
-//    refresh();
-//
-//}
 
 void CursesManager::privDraw() {
 
