@@ -12,9 +12,10 @@ Label::Label(const Vect2i& pos, const Vect2i& dim) :
 }
 
 void Label::initialize() {
-    this->color = Color::WHITE;
-    this->draw_color = Color::WHITE;
-    this->highlight_color = Color::YELLOW;
+    this->color = CursenApplication::GetDefaultColor();
+    this->backgroundColor = CursenApplication::GetBackgroundColor();
+    this->highlight_color = CursenApplication::GetHighlightColor();
+    this->draw_color = ColorPair(this->color, this->backgroundColor);
     this->text = "";
     this->alignment = TextAlignment::LEFT;
     this->onCursor(std::bind(&Label::cursorOn, this));
@@ -37,7 +38,8 @@ void Label::setText(const std::string& text) {
 
 void Label::setColor(const Color &color) {
     this->color = color;
-    changeColor(this->color);
+    this->draw_color.fg = color;
+    invalidate();
 }
 
 void Label::changeColor(const Color &color) {
@@ -46,11 +48,14 @@ void Label::changeColor(const Color &color) {
 }
 
 void Label::cursorOff() {
-    changeColor(color);
+    this->draw_color.fg = color;
+    this->draw_color.bg = backgroundColor;
+    invalidate();
 }
 
 void Label::cursorOn() {
-    changeColor(CursenApplication::GetDefaultHighlightColor());
+    this->draw_color.bg = Color::DARK_BLUE;
+    invalidate();
 }
 
 void Label::setEnabled(bool value) {
@@ -59,6 +64,6 @@ void Label::setEnabled(bool value) {
         changeColor(color);
     }
     else {
-        changeColor(CursenApplication::GetDefaultDisabledColor());
+        changeColor(CursenApplication::GetDisabledColor());
     }
 }

@@ -23,7 +23,7 @@ public:
     void initialize() override;
     void render() override;
 
-    void setColor(const Color& color);
+    void setColor(const Color& color) override;
 
 private:
 

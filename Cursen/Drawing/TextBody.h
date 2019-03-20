@@ -9,7 +9,7 @@
 #include <ncurses.h>
 #include <vector>
 #include "Vect2i.h"
-#include "Color.h"
+#include "ColorPair.h"
 #include "TextAlignment.h"
 
 using namespace cursen;
@@ -38,7 +38,7 @@ public:
      * Line writing.
      */
     void writeLine(const std::string &line, const Vect2i &pos,
-                   const TextAlignment& alignment = TextAlignment::LEFT, const Color &color = Color::NONE);
+                   const TextAlignment& alignment = TextAlignment::LEFT, const ColorPair &color = ColorPair::NONE);
     void writeLine(const Line line, const Vect2i &loc, const TextAlignment& alignment = TextAlignment::LEFT);
 
     void writeColumn(const Line column, const int x);

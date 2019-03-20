@@ -106,7 +106,7 @@ void TextBody::replaceColumn(Line line, const int x) {
     writeColumn(line, x);
 }
 
-void TextBody::writeLine(const std::string &line, const Vect2i &pos, const TextAlignment &alignment, const Color &color) {
+void TextBody::writeLine(const std::string &line, const Vect2i &pos, const TextAlignment &alignment, const ColorPair &color) {
     size_t len = line.length();
     chtype converted[len + 1];
     for (int i = 0; i < len; i++) {

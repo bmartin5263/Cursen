@@ -14,6 +14,7 @@
 #include "Drawing/DrawRequest.h"
 #include "ClearRequest.h"
 #include "Color.h"
+#include "ColorPair.h"
 
 using namespace cursen;
 
@@ -44,7 +45,8 @@ public:
     static void DrawString(const char *string, int x, int y) { instance->drawString(string, x, y); }
     static int GetChar() { return instance->getCharacter(); }
 
-    static short GetColorPair(const Color& color) { return instance->privGetColorPair(color); }
+    //static short GetColorPair(const Color& color) { return instance->privGetColorPair(color); }
+    static short GetColorPair(const ColorPair& color) { return instance->privGetColorPair(color); }
 
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
@@ -56,6 +58,7 @@ public:
 private:
 
     typedef std::unordered_map<Color, short, color_hash> ColorMap;
+    typedef std::unordered_map<ColorPair, short, color_pair_hash> ColorPairMap;
 
     // Instance Data
     int inputTimeout;
@@ -63,6 +66,7 @@ private:
     //std::queue<ClearRequest> clearQueue;
     //std::queue<Component*> componentQueue;
     ColorMap colorMap;
+    ColorPairMap colorPairMap;
     bool requestingFullRedraw;
 
     // Methods
@@ -76,7 +80,8 @@ private:
     void drawString(const char *string, int x, int y);
     void doBeep();
     void doFlash();
-    short privGetColorPair(const Color&);
+    //short privGetColorPair(const Color&);
+    short privGetColorPair(const ColorPair&);
     void privRequestDraw(Component* component);
     void privRequestCompleteRedraw();
     void privOldDraw();

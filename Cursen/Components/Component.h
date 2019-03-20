@@ -8,6 +8,7 @@
 #include <functional>
 #include <Events/Event.h>
 #include <vector>
+#include <string>
 #include <ncurses.h>
 #include <Drawing/TextBody.h>
 #include <Drawing/ClearRequest.h>
@@ -39,9 +40,22 @@ public:
     void remove(Component *);
     Component* getParent();
 
-    // Common Attributes
+    // Attributes
     virtual void setEnabled(bool value);
     virtual bool isEnabled();
+
+    // Common Attributes
+    virtual void setColor(const Color& color) {};
+    virtual void setColorAll(const Color& color);
+    virtual Color getColor() { return Color::NONE; };
+
+    virtual void setBackColor(const Color& color) {};
+    virtual void setBackColorAll(const Color& color);
+    virtual Color getBackColor() { return Color::NONE; };
+
+    virtual void setText(const std::string& text) {};
+    virtual std::string getText() { return ""; };
+
     Vect2i getDimensions();
 
     // Event Functions

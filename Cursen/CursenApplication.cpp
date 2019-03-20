@@ -14,6 +14,8 @@
 CursenApplication* CursenApplication::engineInstance = nullptr;
 Color CursenApplication::HIGHLIGHT = Color::NONE;
 Color CursenApplication::DISABLED = Color::NONE;
+Color CursenApplication::DEFAULT_COLOR = Color::NONE;
+Color CursenApplication::BACKGROUND = Color::NONE;
 
 CursenApplication::CursenApplication() :
     currentForm(nullptr), running(false)
@@ -24,6 +26,8 @@ CursenApplication::CursenApplication() :
 void CursenApplication::privInitialize() {
     DISABLED = Color::GRAY;
     HIGHLIGHT = Color::YELLOW;
+    BACKGROUND = Color::BLACK;
+    DEFAULT_COLOR = Color::WHITE;
 }
 
 /*

@@ -38,7 +38,7 @@ void TestForm::initialize() {
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
 
     add(box);
-    box->add(label5);
+    add(label5);
     box->add(label1);
     box->add(label2);
     box->add(label3);

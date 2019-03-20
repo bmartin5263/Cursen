@@ -15,10 +15,14 @@ class CursenApplication {
 
 public:
 
-    static void SetDefaultHighlightColor(const Color& color) { HIGHLIGHT = color; }
-    static void SetDefaultDisabledColor(const Color& color) { DISABLED = color; }
-    static const Color& GetDefaultDisabledColor() { return DISABLED; }
-    static const Color& GetDefaultHighlightColor() { return HIGHLIGHT; }
+    static void SetHighlightColor(const Color &color) { HIGHLIGHT = color; }
+    static void SetDisabledColor(const Color &color) { DISABLED = color; }
+    static void SetBackgroundColor(const Color &color) { BACKGROUND = color; }
+    static void SetDefaultColor(const Color &color) { DEFAULT_COLOR = color; }
+    static const Color& GetDisabledColor() { return DISABLED; }
+    static const Color& GetHighlightColor() { return HIGHLIGHT; }
+    static const Color& GetBackgroundColor() { return BACKGROUND; }
+    static const Color& GetDefaultColor() { return DEFAULT_COLOR; }
 
     static void Run(Form* startForm) { Instance().privRun(startForm); };
     static void Quit() { Instance().privQuit(); }
@@ -28,6 +32,8 @@ private:
 
     static Color HIGHLIGHT;
     static Color DISABLED;
+    static Color BACKGROUND;
+    static Color DEFAULT_COLOR;
 
     // Instance Data
     Form* currentForm;

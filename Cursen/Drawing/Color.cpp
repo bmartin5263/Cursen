@@ -8,40 +8,35 @@
 const short Color::BLK = 0;
 const short Color::WHT = 15;
 
-const Color Color::NONE = Color(-1, -1);            // Null Color
-const Color Color::BLACK = Color(BLK, BLK);
-const Color Color::WHITE = Color(WHT, BLK);
-const Color Color::GRAY = Color(8, BLK);
-const Color Color::DARK_GRAY = Color(16, BLK);
-const Color Color::RED = Color(199, BLK);
-const Color Color::BLUE = Color(39, BLK);
-const Color Color::PURPLE = Color(57, BLK);
-const Color Color::VIOLET = Color(93, BLK);
-const Color Color::INDIGO = Color(21, BLK);
-const Color Color::LAVENDER = Color(63, BLK);
-const Color Color::GREEN = Color(82, BLK);
-const Color Color::YELLOW = Color(226, BLK);
-const Color Color::ORANGE = Color(208, BLK);
+const Color Color::NONE = Color(-1);            // Null Color
+const Color Color::BLACK = Color(BLK);
+const Color Color::WHITE = Color(WHT);
+const Color Color::GRAY = Color(8);
+const Color Color::DARK_GRAY = Color(16);
+const Color Color::RED = Color(199);
+const Color Color::BLUE = Color(39);
+const Color Color::DARK_BLUE = Color(12);
+const Color Color::PURPLE = Color(57);
+const Color Color::VIOLET = Color(93);
+const Color Color::INDIGO = Color(21);
+const Color Color::LAVENDER = Color(63);
+const Color Color::GREEN = Color(82);
+const Color Color::YELLOW = Color(226);
+const Color Color::ORANGE = Color(208);
 
 
 Color::Color() :
-    fg(WHT), bg(BLK)
+    val(WHT)
 {
 }
 
-Color::Color(short foreground) :
-    fg(foreground), bg(BLK)
-{
-}
-
-Color::Color(short foreground, short background) :
-    fg(foreground), bg(background)
+Color::Color(short value) :
+    val(value)
 {
 }
 
 Color::Color(const Color &other) {
-    this->fg = other.fg;
-    this->bg = other.bg;
+    this->val = other.val;
 }
 
 Color Color::RandomColor() {
@@ -54,23 +49,26 @@ Color Color::RandomColor() {
 }
 
 Color &Color::operator=(const Color &other) {
-    this->fg = other.fg;
-    this->bg = other.bg;
+    this->val = other.val;
     return *this;
+}
+
+short Color::getValue() {
+    return val;
 }
 
 chtype operator | (chtype c, const cursen::Color& n)
 {
-    if (n.fg == -1 || n.bg == -1) return c;
-    return c | CursesManager::GetColorPair(n);
+    if (n.val == -1) return c;
+    return c | CursesManager::GetColorPair(ColorPair(n));
 }
 
 chtype operator | (const cursen::Color& n, chtype c)
 {
-    if (n.fg == -1 || n.bg == -1) return c;
-    return c | CursesManager::GetColorPair(n);
+    if (n.val == -1) return c;
+    return c | CursesManager::GetColorPair(ColorPair(n));
 }
 
 bool Color::operator==(const Color &other) const {
-    return this->bg == other.bg && this->fg == other.fg;
+    return this->val == other.val;
 }

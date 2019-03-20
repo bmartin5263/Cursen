@@ -286,3 +286,17 @@ TextBody& Component::getTextBody() {
 Vect2i Component::getDimensions() {
     return content.getDimensions();
 }
+
+void Component::setColorAll(const Color &color) {
+    setColor(color);
+    for (auto child : components) {
+        child->setColorAll(color);
+    }
+}
+
+void Component::setBackColorAll(const Color &color) {
+    setBackColor(color);
+    for (auto child : components) {
+        child->setBackColorAll(color);
+    }
+}

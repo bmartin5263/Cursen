@@ -69,21 +69,38 @@ void CursesManager::drawString(const char *string, int x, int y) {
     mvaddstr(y, x, string);
 }
 
-short CursesManager::privGetColorPair(const cursen::Color& color) {
-    ColorMap::iterator it;
+//short CursesManager::privGetColorPair(const cursen::Color& color) {
+//    ColorMap::iterator it;
+//
+//    it = colorMap.find(color);
+//    if (it != colorMap.end() )
+//    {
+//        return COLOR_PAIR(colorMap[color]);
+//    }
+//    else {
+//        short pairNum = (short)(colorMap.size() + 1);
+//        init_pair(pairNum, color.fg, color.bg);
+//        colorMap[color] = pairNum;
+//        return COLOR_PAIR(colorMap[color]);
+//    }
+//}
 
-    it = colorMap.find(color);
-    if (it != colorMap.end() )
+short CursesManager::privGetColorPair(const ColorPair & colorPair) {
+    ColorPairMap::iterator it;
+
+    it = colorPairMap.find(colorPair);
+    if (it != colorPairMap.end() )
     {
-        return COLOR_PAIR(colorMap[color]);
+        return COLOR_PAIR(colorPairMap[colorPair]);
     }
     else {
-        short pairNum = (short)(colorMap.size() + 1);
-        init_pair(pairNum, color.fg, color.bg);
-        colorMap[color] = pairNum;
-        return COLOR_PAIR(colorMap[color]);
+        short pairNum = (short)(colorPairMap.size() + 1);
+        init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
+        colorPairMap[colorPair] = pairNum;
+        return COLOR_PAIR(pairNum);
     }
 }
+
 
 //void CursesManager::privRequestDraw(Component *component) {
 //    componentQueue.push(component);

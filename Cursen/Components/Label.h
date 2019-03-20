@@ -22,8 +22,8 @@ public:
     void render() override;
 
     void emplaceText(const std::string& text);
-    void setText(const std::string& text);
-    void setColor(const Color& color);
+    void setText(const std::string& text) override;
+    void setColor(const Color& color) override;
 
     void cursorOn();
     void cursorOff();
@@ -36,8 +36,9 @@ private:
 
     std::string text;
     Color color;
+    Color backgroundColor;
     Color highlight_color;
-    Color draw_color;
+    ColorPair draw_color;
     TextAlignment alignment;
 
 };
