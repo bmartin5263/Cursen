@@ -6,7 +6,7 @@
 #include "CursesManager.h"
 
 const short Color::BLK = 0;
-const short Color::WHT = 15;
+const short Color::WHT = 231;
 
 const Color Color::NONE = Color(-1);            // Null Color
 const Color Color::BLACK = Color(BLK);
@@ -26,7 +26,7 @@ const Color Color::ORANGE = Color(208);
 
 
 Color::Color() :
-    val(CursenApplication::GetDefaultColor().val)
+    val(CursenApplication::GetColorPalette().getForeground().val)
 {
 }
 
