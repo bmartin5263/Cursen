@@ -307,3 +307,17 @@ void Component::setBackgroundAll(const Color &color) {
         child->setBackgroundAll(color);
     }
 }
+
+void Component::setHighlightAll(const ColorPair &color) {
+    setHighlight(color);
+    for (Component* child : components) {
+        child->setHighlightAll(color);
+    }
+}
+
+void Component::setDisabledAll(const ColorPair &color) {
+    setDisabled(color);
+    for (Component* child : components) {
+        child->setDisabledAll(color);
+    }
+}

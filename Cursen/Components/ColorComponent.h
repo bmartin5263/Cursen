@@ -16,17 +16,21 @@ public:
     virtual void initialize() override;
 
     virtual void setForeground(const Color &color) override;
-    virtual void setForegroundAll(const Color &color) override;
     virtual Color getForeground() override;
 
     virtual void setBackground(const Color &color) override;
-    virtual void setBackgroundAll(const Color &color) override;
     virtual Color getBackground() override;
 
     void cursorOn();
     void cursorOff();
 
     void setEnabled(bool value) override;
+
+    void setHighlight(const ColorPair &color) override;
+    ColorPair getHighlight() override;
+
+    void setDisabled(const ColorPair &color) override;
+    ColorPair getDisabled() override;
 
 protected:
 

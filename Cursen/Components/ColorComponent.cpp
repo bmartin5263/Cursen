@@ -27,13 +27,6 @@ void ColorComponent::setForeground(const Color &color) {
     invalidate();
 }
 
-void ColorComponent::setForegroundAll(const Color &color) {
-    setForeground(color);
-    for (auto child : components) {
-        child->setForegroundAll(color);
-    }
-}
-
 Color ColorComponent::getForeground() {
     return foreground;
 }
@@ -42,13 +35,6 @@ void ColorComponent::setBackground(const Color &color) {
     background = color;
     draw_color.bg = color;
     invalidate();
-}
-
-void ColorComponent::setBackgroundAll(const Color &color) {
-    setBackground(color);
-    for (auto child : components) {
-        child->setBackgroundAll(color);
-    }
 }
 
 Color ColorComponent::getBackground() {
@@ -78,4 +64,22 @@ void ColorComponent::setEnabled(bool value) {
         draw_color.bg = disabled_background;
     }
     invalidate();
+}
+
+void ColorComponent::setHighlight(const ColorPair &color) {
+    highlight_background = color.bg;
+    highlight_foreground = color.fg;
+}
+
+ColorPair ColorComponent::getHighlight() {
+    return ColorPair(highlight_foreground, highlight_background);
+}
+
+void ColorComponent::setDisabled(const ColorPair &color) {
+    disabled_background = color.bg;
+    disabled_foreground = color.fg;
+}
+
+ColorPair ColorComponent::getDisabled() {
+    return ColorPair(disabled_foreground, disabled_background);
 }
