@@ -38,14 +38,6 @@ private:
 
     void privSetColorPalette(const ColorPalette& palette);
     ColorPalette& privGetColorPalette();
-    void privSetHighlight(const Color& color);
-    void privSetDisabled(const Color& color);
-    void privSetBackground(const Color& color);
-    void privSetDefaultColor(const Color& color);
-    Color privGetHighlight();
-    Color privGetDisabled();
-    Color privGetBackground();
-    Color privGetDefaultColor();
     Form* privGetCurrentForm();
 
     static CursenApplication* engineInstance;
