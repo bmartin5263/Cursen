@@ -41,6 +41,7 @@ protected:
     Color disabled_foreground;
     Color disabled_background;
     ColorPair draw_color;
+    bool isHovered;
 
 };
 

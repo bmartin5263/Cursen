@@ -10,6 +10,7 @@ ColorComponent::ColorComponent(const Vect2i &pos, const Vect2i &dim) : Component
 }
 
 void ColorComponent::initialize() {
+    this->isHovered = false;
     this->foreground = CursenApplication::GetColorPalette().getForeground();
     this->background = CursenApplication::GetColorPalette().getBackground();
     this->highlight_foreground = CursenApplication::GetColorPalette().getHighlight();
@@ -42,12 +43,14 @@ Color ColorComponent::getBackground() {
 }
 
 void ColorComponent::cursorOn() {
+    isHovered = true;
     draw_color.fg = highlight_foreground;
     draw_color.bg = highlight_background;
     invalidate();
 }
 
 void ColorComponent::cursorOff() {
+    isHovered = false;
     draw_color.fg = foreground;
     draw_color.bg = background;
     invalidate();
@@ -69,6 +72,11 @@ void ColorComponent::setEnabled(bool value) {
 void ColorComponent::setHighlight(const ColorPair &color) {
     highlight_background = color.bg;
     highlight_foreground = color.fg;
+    if (isHovered) {
+        draw_color.fg = color.fg;
+        draw_color.bg = color.bg;
+    }
+    invalidate();
 }
 
 ColorPair ColorComponent::getHighlight() {
@@ -78,6 +86,7 @@ ColorPair ColorComponent::getHighlight() {
 void ColorComponent::setDisabled(const ColorPair &color) {
     disabled_background = color.bg;
     disabled_foreground = color.fg;
+    invalidate();
 }
 
 ColorPair ColorComponent::getDisabled() {
