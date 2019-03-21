@@ -294,16 +294,16 @@ Vect2i Component::getDimensions() {
     return content.getDimensions();
 }
 
-void Component::setColorAll(const Color &color) {
-    setColor(color);
+void Component::setForegroundAll(const Color &color) {
+    setForeground(color);
     for (auto child : components) {
-        child->setColorAll(color);
+        child->setForegroundAll(color);
     }
 }
 
-void Component::setBackColorAll(const Color &color) {
-    setBackColor(color);
-    for (auto child : components) {
-        child->setBackColorAll(color);
+void Component::setBackgroundAll(const Color &color) {
+    setBackground(color);
+    for (Component* child : components) {
+        child->setBackgroundAll(color);
     }
 }

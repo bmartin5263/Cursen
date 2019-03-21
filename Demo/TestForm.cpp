@@ -68,7 +68,7 @@ void TestForm::enterPress(const Event &event) {
 }
 
 void TestForm::arrowPress(const Event &event) {
-    label1->setColor(Color::GRAY);
+    label1->setForeground(Color::GRAY);
 }
 
 void TestForm::quitGame() {
@@ -88,21 +88,21 @@ void TestForm::changeColor() {
     i++;
     i = i % 6;
     if (i == 0) {
-        box->setColor(Color::RED);
+        box->setForeground(Color::RED);
     }
     else if (i == 1) {
-        box->setColor(Color::ORANGE);
+        box->setForeground(Color::ORANGE);
     }
     else if (i == 2) {
-        box->setColor(Color::YELLOW);
+        box->setForeground(Color::YELLOW);
     }
     else if (i == 3) {
-        box->setColor(Color::GREEN);
+        box->setForeground(Color::GREEN);
     } else if (i == 4) {
-        box->setColor(Color::BLUE);
+        box->setForeground(Color::BLUE);
     }
     else if (i == 5) {
-        box->setColor(Color::VIOLET);
+        box->setForeground(Color::VIOLET);
     }
 
 }

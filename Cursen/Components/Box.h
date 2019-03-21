@@ -7,10 +7,11 @@
 
 
 #include "Component.h"
+#include "ColorComponent.h"
 
 using namespace cursen;
 
-class Box : public Component {
+class Box : public ColorComponent {
 
 public:
 
@@ -23,13 +24,8 @@ public:
     void initialize() override;
     void render() override;
 
-    void setColor(const Color& color) override;
-
 private:
 
-    Color foreground;
-    Color background;
-    ColorPair draw_color;
     chtype upperLeft;
     chtype upper;
     chtype upperRight;
@@ -39,7 +35,6 @@ private:
     chtype lowerLeft;
     chtype lower;
     chtype lowerRight;
-
 };
 
 

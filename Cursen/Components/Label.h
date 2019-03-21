@@ -9,10 +9,11 @@
 #include <Components/Component.h>
 #include <string>
 #include <Drawing/TextAlignment.h>
+#include "ColorComponent.h"
 
 using namespace cursen;
 
-class Label : public Component {
+class Label : public ColorComponent {
 
 public:
 
@@ -23,22 +24,12 @@ public:
 
     void emplaceText(const std::string& text);
     void setText(const std::string& text) override;
-    void setColor(const Color& color) override;
 
-    void cursorOn();
-    void cursorOff();
 
-    void setEnabled(bool value) override;
 
 private:
 
-    void changeColor(const Color& color);
-
     std::string text;
-    Color foreground;
-    Color background;
-    Color highlight_color;
-    ColorPair draw_color;
     TextAlignment alignment;
 
 };

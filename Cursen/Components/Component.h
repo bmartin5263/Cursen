@@ -46,13 +46,13 @@ public:
     virtual bool isHidden();
 
     // Common Attributes
-    virtual void setColor(const Color& color) {};
-    virtual void setColorAll(const Color& color);
-    virtual Color getColor() { return Color::NONE; };
+    virtual void setForeground(const Color &color) {};
+    virtual void setForegroundAll(const Color &color);
+    virtual Color getForeground() { return Color::NONE; };
 
-    virtual void setBackColor(const Color& color) {};
-    virtual void setBackColorAll(const Color& color);
-    virtual Color getBackColor() { return Color::NONE; };
+    virtual void setBackground(const Color &color) {};
+    virtual void setBackgroundAll(const Color &color);
+    virtual Color getBackground() { return Color::NONE; };
 
     virtual void setText(const std::string& text) {};
     virtual std::string getText() { return ""; };
