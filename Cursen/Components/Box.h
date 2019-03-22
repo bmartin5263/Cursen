@@ -21,6 +21,17 @@ public:
                     chtype left = ACS_VLINE, chtype fill = ' ', chtype right = ACS_VLINE,
                     chtype ll = ACS_LLCORNER, chtype bottom = ACS_HLINE, chtype lr = ACS_LRCORNER);
 
+
+    void setUpperLeft(const chtype& upperLeft);
+    void setUpperRight(const chtype& upperRight);
+    void setUpper(const chtype& upper);
+    void setLower(const chtype& lower);
+    void setLowerLeft(const chtype& lowerLeft);
+    void setLowerRight(const chtype& lowerRight);
+    void setLeft(const chtype& left);
+    void setRight(const chtype& right);
+    void setFill(const chtype& fill);
+
     void initialize() override;
     void render() override;
 

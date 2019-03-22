@@ -17,42 +17,58 @@ TestForm::TestForm() :
 
 void TestForm::initialize() {
     setHidden(true);
-    box = new Box(Vect2i(0,0), Vect2i(20,8));
-    label1 = new Label(Vect2i(1,1), Vect2i(40,1));
-    label2 = new Label(Vect2i(1,2), Vect2i(40,1));
-    label3 = new Label(Vect2i(1,3), Vect2i(40,1));
-    label4 = new Label(Vect2i(1,4), Vect2i(40,1));
-    label5 = new Label(Vect2i(10,10), Vect2i(40,1));
-    checkBox = new CheckBox(Vect2i(1,6));
 
-    label1->setText("Flash");
-    label2->setText("Beep");
-    label3->setText("Change Color");
-    label4->setText("Exit");
-    label5->setText(":)");
-    checkBox->setText("Disable Exit");
-
-    label4->onClick(std::bind(&TestForm::quitGame, this));
-    label3->onClick(std::bind(&TestForm::changeColor, this));
-    label2->onClick(std::bind(&TestForm::beep, this));
-    label1->onClick(std::bind(&TestForm::flash, this));
-    checkBox->onClick(std::bind(&TestForm::disable, this));
+    box = new Box(Vect2i(3,3), Vect2i(20,8));
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
 
-    add(box);
-    add(label5);
-    box->add(label1);
-    box->add(label2);
-    box->add(label3);
-    box->add(label4);
-    box->add(checkBox);
+    titleBox = new Box(Vect2i(0,0), Vect2i(getDimensions().x, 3));
+    titleBox->setLowerRight(ACS_RTEE);
+    titleBox->setLowerLeft(ACS_LTEE);
 
-    cursor = new Cursor(label1);
-    cursor->mapComponent(label1, ArrowMap(nullptr, checkBox, nullptr, label2));
-    cursor->mapComponent(label2, ArrowMap(nullptr, label1, nullptr, label3));
-    cursor->mapComponent(label3, ArrowMap(nullptr, label2, nullptr, label4));
-    cursor->mapComponent(label4, ArrowMap(nullptr, label3, nullptr, checkBox));
-    cursor->mapComponent(checkBox, ArrowMap(nullptr, label4, nullptr, label1));
+    flashLabel = new Label(Vect2i(1,1), Vect2i(40,1));
+    flashLabel->setText("Flash");
+    flashLabel->onClick(std::bind(&TestForm::flash, this));
+
+    beepLabel = new Label(Vect2i(1,2), Vect2i(40,1));
+    beepLabel->setText("Beep");
+    beepLabel->onClick(std::bind(&TestForm::beep, this));
+
+    changeColorLabel = new Label(Vect2i(1,3), Vect2i(40,1));
+    changeColorLabel->setText("Change Color");
+    changeColorLabel->onClick(std::bind(&TestForm::changeColor, this));
+
+    exitLabel = new Label(Vect2i(1,4), Vect2i(40,1));
+    exitLabel->setText("Exit");
+    exitLabel->onClick(std::bind(&TestForm::quitGame, this));
+
+    smileyFace = new Label(Vect2i(30,30), Vect2i(40,1));
+    smileyFace->setText(":)");
+
+    messageLabel = new Label(Vect2i(1,1), Vect2i(getDimensions().x - 2,1));
+    messageLabel->setText("Welcome to Cursen!");
+    messageLabel->setForeground(Color::YELLOW);
+
+    checkBox = new CheckBox(Vect2i(1,6));
+    checkBox->setText("Disable Exit");
+    checkBox->onClick(std::bind(&TestForm::disable, this));
+
+
+    add(titleBox);
+    add(box);
+    add(smileyFace);
+    titleBox->addRelative(messageLabel);
+    box->addRelative(flashLabel);
+    box->addRelative(beepLabel);
+    box->addRelative(changeColorLabel);
+    box->addRelative(exitLabel);
+    box->addRelative(checkBox);
+
+    cursor = new Cursor(flashLabel);
+    cursor->mapComponent(flashLabel, ArrowMap(nullptr, checkBox, nullptr, beepLabel));
+    cursor->mapComponent(beepLabel, ArrowMap(nullptr, flashLabel, nullptr, changeColorLabel));
+    cursor->mapComponent(changeColorLabel, ArrowMap(nullptr, beepLabel, nullptr, exitLabel));
+    cursor->mapComponent(exitLabel, ArrowMap(nullptr, changeColorLabel, nullptr, checkBox));
+    cursor->mapComponent(checkBox, ArrowMap(nullptr, exitLabel, nullptr, flashLabel));
     cursor->setEnabled(true);
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
@@ -65,11 +81,11 @@ void TestForm::keyPress(const Event &event) {
 }
 
 void TestForm::enterPress(const Event &event) {
-    label1->setText("A very long string");
+    flashLabel->setText("A very long string");
 }
 
 void TestForm::arrowPress(const Event &event) {
-    label1->setForeground(Color::GRAY);
+    flashLabel->setForeground(Color::GRAY);
 }
 
 void TestForm::quitGame() {
@@ -130,7 +146,7 @@ void TestForm::moveComponent(const Event &event) {
 }
 
 void TestForm::disable() {
-    label4->setEnabled(checkBox->isChecked());
+    exitLabel->setEnabled(checkBox->isChecked());
     checkBox->switchState();
 }
 

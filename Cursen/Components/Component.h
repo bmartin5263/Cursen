@@ -36,6 +36,7 @@ public:
 
     // Component Relationship
     void add(Component *);
+    void addRelative(Component *);
     void remove(Component *);
     Component* getParent();
 
@@ -66,6 +67,7 @@ public:
     virtual std::string getText() { return ""; };
 
     Vect2i getDimensions();
+    Vect2i getPosition();
 
     // Event Functions
     void onKeyPress(std::function<void(const Event &)> f);
@@ -133,6 +135,7 @@ protected:
     bool enabled;
     bool invalid;
     bool hidden;
+    bool debug_coordinates
 
 };
 

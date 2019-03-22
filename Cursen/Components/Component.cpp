@@ -34,6 +34,12 @@ void Component::add(Component *component) {
     components.push_back(component);
 }
 
+void Component::addRelative(Component *component) {
+    assert(component != nullptr);
+    component->move(this->position);
+    add(component);
+}
+
 void Component::remove(Component *component) {
     component->setParent(nullptr);
 }
@@ -320,4 +326,8 @@ void Component::setDisabledAll(const ColorPair &color) {
     for (Component* child : components) {
         child->setDisabledAll(color);
     }
+}
+
+Vect2i Component::getPosition() {
+    return this->position;
 }

@@ -30,6 +30,16 @@ public:
     static const int LEFT = KEY_LEFT;
     static const int RIGHT = KEY_RIGHT;
 
+    static const chtype LOWER_LEFT;
+    static const chtype LOWER_RIGHT;
+    static const chtype UPPER_LEFT;
+    static const chtype UPPER_RIGHT;
+    static const chtype LEFT_T;
+    static const chtype RIGHT_T;
+    static const chtype VLINE;
+    static const chtype HLINE;
+
+
     static void Initialize() { Instance().initializeCurses(); }
     static void Terminate() { Instance().terminateCurses(); }
 

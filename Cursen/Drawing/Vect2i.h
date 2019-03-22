@@ -30,6 +30,10 @@ namespace cursen {
             return *this;
         }
 
+        Vect2i relativeTo(const Vect2i& other) {
+            return Vect2i(x+other.x, y+other.y);
+        }
+
         int x;
         int y;
 

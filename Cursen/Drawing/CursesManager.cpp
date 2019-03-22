@@ -10,6 +10,15 @@
 
 CursesManager* CursesManager::instance = nullptr;
 
+const chtype CursesManager::LOWER_LEFT = ACS_LLCORNER;
+const chtype CursesManager::LOWER_RIGHT = ACS_LRCORNER;
+const chtype CursesManager::HLINE = ACS_HLINE;
+const chtype CursesManager::VLINE = ACS_VLINE;
+const chtype CursesManager::UPPER_LEFT = ACS_ULCORNER;
+const chtype CursesManager::UPPER_RIGHT = ACS_URCORNER;
+const chtype CursesManager::LEFT_T = ACS_LTEE;
+const chtype CursesManager::RIGHT_T = ACS_RTEE;
+
 CursesManager::CursesManager() :
     requestingFullRedraw(false)
 {
@@ -127,6 +136,9 @@ void CursesManager::privDraw() {
                     mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
                 }
             }
+            std::string coordinates = std::to_string(position.x) + "," + std::to_string(position.y);
+            unsigned long len = coordinates.size();
+            mvaddstr(position.y, position.x + dimensions.x - len, coordinates.c_str());
         }
 
         drawQueue.pop();

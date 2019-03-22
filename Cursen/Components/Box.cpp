@@ -48,14 +48,58 @@ void Box::render() {
 void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, chtype right, chtype ll, chtype bottom,
                     chtype lr)
 {
-    this->upperLeft = ul;
-    this->upper = top;
-    this->upperRight = ur;
+    setUpperLeft(ul);
+    setUpper(top);
+    setUpperRight(ur);
+    setLeft(left);
+    setFill(fill);
+    setRight(right);
+    setLowerLeft(ll);
+    setLower(bottom);
+    setLowerRight(lr);
+}
+
+void Box::setUpperRight(const chtype &upperRight) {
+    this->upperRight = upperRight;
+    invalidate();
+}
+
+void Box::setUpperLeft(const chtype &upperLeft) {
+    this->upperLeft = upperLeft;
+    invalidate();
+}
+
+void Box::setUpper(const chtype &upper) {
+    this->upper = upper;
+    invalidate();
+}
+
+void Box::setLower(const chtype &lower) {
+    this->lower = lower;
+    invalidate();
+}
+
+void Box::setLowerLeft(const chtype &lowerLeft) {
+    this->lowerLeft = lowerLeft;
+    invalidate();
+}
+
+void Box::setLowerRight(const chtype &lowerRight) {
+    this->lowerRight = lowerRight;
+    invalidate();
+}
+
+void Box::setLeft(const chtype &left) {
     this->left = left;
-    this->fill = fill;
+    invalidate();
+}
+
+void Box::setRight(const chtype &right) {
     this->right = right;
-    this->lowerLeft = ll;
-    this->lower = bottom;
-    this->lowerRight = lr;
+    invalidate();
+}
+
+void Box::setFill(const chtype &fill) {
+    this->fill = fill;
     invalidate();
 }

@@ -35,14 +35,16 @@ public:
 private:
 
     Cursor* cursor;
-    Label* label1;
-    Label* label2;
-    Label* label3;
-    Label* label4;
-    Label* label5;
+    Label* flashLabel;
+    Label* messageLabel;
+    Label* beepLabel;
+    Label* changeColorLabel;
+    Label* exitLabel;
+    Label* smileyFace;
     Label* label6;
     CheckBox* checkBox;
     Box* box;
+    Box* titleBox;
 
 };
 
