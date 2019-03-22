@@ -7,6 +7,7 @@
 #include "Cursor/Cursor.h"
 #include "Components/Label.h"
 #include "TestForm.h"
+#include "Components/CheckBox.h"
 
 TestForm::TestForm() :
     Form(Vect2i(70,33))
@@ -22,20 +23,20 @@ void TestForm::initialize() {
     label3 = new Label(Vect2i(1,3), Vect2i(40,1));
     label4 = new Label(Vect2i(1,4), Vect2i(40,1));
     label5 = new Label(Vect2i(10,10), Vect2i(40,1));
-    label6 = new Label(Vect2i(1,5), Vect2i(40,1));
+    checkBox = new CheckBox(Vect2i(1,6));
 
     label1->setText("Flash");
     label2->setText("Beep");
     label3->setText("Change Color");
     label4->setText("Exit");
-    label6->setText("Disable Exit");
     label5->setText(":)");
+    checkBox->setText("Disable Exit");
 
     label4->onClick(std::bind(&TestForm::quitGame, this));
     label3->onClick(std::bind(&TestForm::changeColor, this));
     label2->onClick(std::bind(&TestForm::beep, this));
     label1->onClick(std::bind(&TestForm::flash, this));
-    label6->onClick(std::bind(&TestForm::disable, this));
+    checkBox->onClick(std::bind(&TestForm::disable, this));
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
 
     add(box);
@@ -44,14 +45,14 @@ void TestForm::initialize() {
     box->add(label2);
     box->add(label3);
     box->add(label4);
-    box->add(label6);
+    box->add(checkBox);
 
     cursor = new Cursor(label1);
-    cursor->mapComponent(label1, ArrowMap(nullptr, label6, nullptr, label2));
+    cursor->mapComponent(label1, ArrowMap(nullptr, checkBox, nullptr, label2));
     cursor->mapComponent(label2, ArrowMap(nullptr, label1, nullptr, label3));
     cursor->mapComponent(label3, ArrowMap(nullptr, label2, nullptr, label4));
-    cursor->mapComponent(label4, ArrowMap(nullptr, label3, nullptr, label6));
-    cursor->mapComponent(label6, ArrowMap(nullptr, label4, nullptr, label1));
+    cursor->mapComponent(label4, ArrowMap(nullptr, label3, nullptr, checkBox));
+    cursor->mapComponent(checkBox, ArrowMap(nullptr, label4, nullptr, label1));
     cursor->setEnabled(true);
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
@@ -129,14 +130,8 @@ void TestForm::moveComponent(const Event &event) {
 }
 
 void TestForm::disable() {
-    if (label4->isEnabled()) {
-        label4->setEnabled(false);
-        label6->setText("Enable Exit");
-    }
-    else {
-        label4->setEnabled(true);
-        label6->setText("Disable Exit");
-    }
+    label4->setEnabled(checkBox->isChecked());
+    checkBox->switchState();
 }
 
 void TestForm::render() {

@@ -10,6 +10,7 @@
 #include <Components/Box.h>
 
 class Label;
+class CheckBox;
 
 class TestForm : public Form {
 
@@ -40,6 +41,7 @@ private:
     Label* label4;
     Label* label5;
     Label* label6;
+    CheckBox* checkBox;
     Box* box;
 
 };
