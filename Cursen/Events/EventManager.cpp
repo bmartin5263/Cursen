@@ -14,6 +14,9 @@ Event EventManager::pollEvent() {
     Event event;
 
     int key = CursesManager::GetChar();
+    while (key == ERR) {
+        key = CursesManager::GetChar();
+    }
 
     if (key == CursesManager::ESCAPE) {
         event.type = EventType::EscPressed;
