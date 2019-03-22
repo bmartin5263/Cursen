@@ -19,6 +19,7 @@ void TestForm::initialize() {
     setHidden(true);
 
     box = new Box(Vect2i(3,3), Vect2i(20,8));
+    box->enableDebugging();
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
 
     titleBox = new Box(Vect2i(0,0), Vect2i(getDimensions().x, 3));
@@ -94,10 +95,12 @@ void TestForm::quitGame() {
 
 void TestForm::flash() {
     CursesManager::Flash();
+    messageLabel->setText("Flashy Flash");
 }
 
 void TestForm::beep() {
     CursesManager::Beep();
+    messageLabel->setText("Beep Boop");
 }
 
 void TestForm::changeColor() {
@@ -106,20 +109,26 @@ void TestForm::changeColor() {
     i = i % 6;
     if (i == 0) {
         box->setForeground(Color::RED);
+        messageLabel->setText("Red");
     }
     else if (i == 1) {
         box->setForeground(Color::ORANGE);
+        messageLabel->setText("Orange");
     }
     else if (i == 2) {
         box->setForeground(Color::YELLOW);
+        messageLabel->setText("Yellow");
     }
     else if (i == 3) {
         box->setForeground(Color::GREEN);
+        messageLabel->setText("Green");
     } else if (i == 4) {
         box->setForeground(Color::BLUE);
+        messageLabel->setText("Blue");
     }
     else if (i == 5) {
         box->setForeground(Color::VIOLET);
+        messageLabel->setText("Violet");
     }
 
 }

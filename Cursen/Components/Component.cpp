@@ -331,3 +331,12 @@ void Component::setDisabledAll(const ColorPair &color) {
 Vect2i Component::getPosition() {
     return this->position;
 }
+
+void Component::enableDebugging() {
+    debug_coordinates = true;
+}
+
+void Component::disableDebugging() {
+    debug_coordinates = false;
+}
+

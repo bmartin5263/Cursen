@@ -69,6 +69,10 @@ public:
     Vect2i getDimensions();
     Vect2i getPosition();
 
+    // Debug
+    void enableDebugging();
+    void disableDebugging();
+
     // Event Functions
     void onKeyPress(std::function<void(const Event &)> f);
     void onEscapePress(std::function<void(const Event &)> f);
@@ -135,7 +139,7 @@ protected:
     bool enabled;
     bool invalid;
     bool hidden;
-    bool debug_coordinates
+    bool debug_coordinates;
 
 };
 

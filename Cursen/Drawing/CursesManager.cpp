@@ -136,9 +136,11 @@ void CursesManager::privDraw() {
                     mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
                 }
             }
-            std::string coordinates = std::to_string(position.x) + "," + std::to_string(position.y);
-            unsigned long len = coordinates.size();
-            mvaddstr(position.y, position.x + dimensions.x - len, coordinates.c_str());
+            if (node->debug_coordinates) {
+                std::string coordinates = std::to_string(position.x) + "," + std::to_string(position.y);
+                unsigned long len = coordinates.size();
+                mvaddstr(position.y, position.x + dimensions.x - len, coordinates.c_str());
+            }
         }
 
         drawQueue.pop();
