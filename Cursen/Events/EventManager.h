@@ -7,8 +7,11 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <queue>
+#include <thread>
 #include "Event.h"
 #include "Events/EventType.h"
+#include "EventQueue.h"
 
 class Component;
 
@@ -38,6 +41,7 @@ private:
     // Instance Data
     FlagListMap dispatchMap;
     ComponentFlagMap registrationMap;
+    EventQueue eventQueue;
 
     // Static Data
 
