@@ -7,10 +7,32 @@
 #include <TerminalManager.h>
 #include <StopWatch.h>
 #include <Cursor/Cursor.h>
-#include "Engine.h"
-#include "SFML/Network.hpp"
 #include "CursenApplication.h"
 #include "Demo/TestForm.h"
+
+void cursesTest() {
+    initscr();                  // First step to initialize curses
+    start_color();              // Allow color
+    curs_set(0);                // Turn off cursor
+    cbreak();
+    keypad(stdscr, TRUE);
+    noecho();                   // Don't echo characters
+    nodelay(stdscr, TRUE);
+
+    // Draw A box onto main window 'stdscr'
+    box(stdscr, 0, 0);
+
+    addstr("start writing some chars");
+    refresh();
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    while(getch() != ERR) {
+        addch('1');
+    }
+    refresh();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+    endwin();
+}
 
 void speedTest() {
 
@@ -97,6 +119,8 @@ void speedTest() {
 }
 
 int main() {
+
+    //cursesTest();
     //CursenApplication::SetColorPalette(ColorPalette::LIGHT);
     CursenApplication::Run(new TestForm());
 }

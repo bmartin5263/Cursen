@@ -33,15 +33,18 @@ void CursenApplication::privRun(Form *form) {
     srand((unsigned)time(0));
 
     CursesManager::Initialize();
+    //KeyboardEventManager::SetEventQueue(EventManager::GetEventQueue());
 
     currentForm->initialize();
     CursesManager::Draw();
 
+    //KeyboardEventManager::Start();
     while (running) {
         Event e = EventManager::PollEvent();
         EventManager::ProcessEvent(e);
         CursesManager::Draw();
     }
+    //KeyboardEventManager::Stop();
 
     CursesManager::Terminate();
 

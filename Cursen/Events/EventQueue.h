@@ -21,6 +21,7 @@ public:
     void push(Event event);
     void pop(Event& event);
     void wait();
+    bool isEmpty();
 
 
 private:

@@ -20,10 +20,12 @@ class EventManager {
 public:
 
     static Event PollEvent() { return Instance().pollEvent(); };
-    static void ProcessEvent(Event& event) { Instance().processEvent(event); }
+    static void ProcessEvent(const Event& event) { Instance().processEvent(event); }
 
     static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
     static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
+
+    static EventQueue* GetEventQueue() { return Instance().privGetEventQueue(); }
 
 private:
 
@@ -34,9 +36,11 @@ private:
 
     // Methods
     Event pollEvent();
-    void processEvent(Event& event);
+    void processEvent(const Event& event);
+    void processKeyboardInput(int limit);
     void registerComponent(Component& component, EventType eventFlag);
     void deregisterComponent(Component& component, EventType events);
+    EventQueue* privGetEventQueue();
 
     // Instance Data
     FlagListMap dispatchMap;

@@ -10,59 +10,70 @@
 
 EventManager* EventManager::instance = nullptr;
 
+void EventManager::processKeyboardInput(int limit) {
+    int keysProcessed = 0;
+    int key = getch();
+    while(key != ERR) {
+        Event event;
+        if (key == CursesManager::ESCAPE) {
+            event.type = EventType::EscPressed;
+            event.key.code = key;
+        }
+        else if (key == CursesManager::BACKSPACE)
+        {
+            event.type = EventType::DeletePressed;
+            event.key.code = key;
+        }
+        else if (key == CursesManager::ENTER)
+        {
+            event.type = EventType::EnterPressed;
+            event.key.code = key;
+        }
+        else if (key == CursesManager::UP)
+        {
+            event.type = EventType::ArrowPressed;
+            event.arrowPress.up = true;
+        }
+        else if (key == CursesManager::DOWN)
+        {
+            event.type = EventType::ArrowPressed;
+            event.arrowPress.down = true;
+        }
+        else if (key == CursesManager::LEFT)
+        {
+            event.type = EventType::ArrowPressed;
+            event.arrowPress.left = true;
+
+        }
+        else if (key == CursesManager::RIGHT)
+        {
+            event.type = EventType::ArrowPressed;
+            event.arrowPress.right = true;
+        }
+        else
+        {
+            event.type = EventType::KeyPressed;
+            event.key.code = key;
+        }
+        eventQueue.push(event);
+        keysProcessed++;
+        if (keysProcessed == limit) {
+            return;
+        }
+        key = getch();
+    }
+}
+
 Event EventManager::pollEvent() {
     Event event;
-
-    int key = CursesManager::GetChar();
-    while (key == ERR) {
-        key = CursesManager::GetChar();
+    while (eventQueue.isEmpty()) {
+        processKeyboardInput(10);
     }
-
-    if (key == CursesManager::ESCAPE) {
-        event.type = EventType::EscPressed;
-        event.key.code = key;
-    }
-    else if (key == CursesManager::BACKSPACE)
-    {
-        event.type = EventType::DeletePressed;
-        event.key.code = key;
-    }
-    else if (key == CursesManager::ENTER)
-    {
-        event.type = EventType::EnterPressed;
-        event.key.code = key;
-    }
-    else if (key == CursesManager::UP)
-    {
-        event.type = EventType::ArrowPressed;
-        event.arrowPress.up = true;
-    }
-    else if (key == CursesManager::DOWN)
-    {
-        event.type = EventType::ArrowPressed;
-        event.arrowPress.down = true;
-    }
-    else if (key == CursesManager::LEFT)
-    {
-        event.type = EventType::ArrowPressed;
-        event.arrowPress.left = true;
-
-    }
-    else if (key == CursesManager::RIGHT)
-    {
-        event.type = EventType::ArrowPressed;
-        event.arrowPress.right = true;
-    }
-    else
-    {
-        event.type = EventType::KeyPressed;
-        event.key.code = key;
-    }
-
+    eventQueue.pop(event);
     return event;
 }
 
-void EventManager::processEvent(Event &event) {
+void EventManager::processEvent(const Event &event) {
     ComponentList componentList;
     switch (event.type) {
         case EventType::KeyPressed:
@@ -158,4 +169,8 @@ void EventManager::registerComponent(Component& component, EventType eventFlag) 
             registrationMap[&component] += flag;
         }
     }
+}
+
+EventQueue* EventManager::privGetEventQueue() {
+    return &eventQueue;
 }
