@@ -19,7 +19,7 @@ TestForm::TestForm() :
 void TestForm::initialize() {
     setHidden(true);
 
-    box = new Box(Vect2i(3,3), Vect2i(20,10));
+    box = new Box(Vect2i(3,3), Vect2i(20,9));
     //box->enableDebugging();
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
 
@@ -34,10 +34,6 @@ void TestForm::initialize() {
     beepLabel = new Label(Vect2i(1,2), Vect2i(40,1));
     beepLabel->setText("Beep");
     beepLabel->onClick(std::bind(&TestForm::beep, this));
-
-    rainbowLabel = new Label(Vect2i(1,5), Vect2i(40,1));
-    rainbowLabel->setText("Rainbow");
-    rainbowLabel->onClick(std::bind(&TestForm::doRainbow, this));
 
     changeColorLabel = new Label(Vect2i(1,3), Vect2i(40,1));
     changeColorLabel->setText("Change Color");
@@ -54,13 +50,14 @@ void TestForm::initialize() {
     messageLabel->setText("Welcome to Cursen!");
     messageLabel->setForeground(Color::YELLOW);
 
-    checkBox = new CheckBox(Vect2i(1,7));
-    checkBox->setText("Disable Exit");
+    checkBox = new CheckBox(Vect2i(1,6));
+    checkBox->setText("Enable Exit");
+    checkBox->setState(CheckState::CHECK);
     checkBox->onClick(std::bind(&TestForm::disable, this));
 
-    checkBox2 = new CheckBox(Vect2i(1,8));
-    checkBox2->setText("Does Nothing");
-    checkBox2->onClick(std::bind(&CheckBox::switchState, checkBox2));
+    checkBox2 = new CheckBox(Vect2i(1,7));
+    checkBox2->setText("Enable Rainbow");
+    checkBox2->onClick(std::bind(&TestForm::doRainbow, this));
 
     add(titleBox);
     add(box);
@@ -72,15 +69,13 @@ void TestForm::initialize() {
     box->addRelative(exitLabel);
     box->addRelative(checkBox);
     box->addRelative(checkBox2);
-    box->addRelative(rainbowLabel);
 
     cursor = new Cursor(flashLabel);
     cursor->mapComponent(flashLabel, ArrowMap(nullptr, checkBox2, nullptr, beepLabel));
     cursor->mapComponent(beepLabel, ArrowMap(nullptr, flashLabel, nullptr, changeColorLabel));
     cursor->mapComponent(changeColorLabel, ArrowMap(nullptr, beepLabel, nullptr, exitLabel));
-    cursor->mapComponent(exitLabel, ArrowMap(nullptr, changeColorLabel, nullptr, rainbowLabel));
-    cursor->mapComponent(rainbowLabel, ArrowMap(nullptr, exitLabel, nullptr, checkBox));
-    cursor->mapComponent(checkBox, ArrowMap(nullptr, rainbowLabel, nullptr, checkBox2));
+    cursor->mapComponent(exitLabel, ArrowMap(nullptr, changeColorLabel, nullptr, checkBox));
+    cursor->mapComponent(checkBox, ArrowMap(nullptr, exitLabel, nullptr, checkBox2));
     cursor->mapComponent(checkBox2, ArrowMap(nullptr, checkBox, nullptr, flashLabel));
     cursor->setEnabled(true);
 
@@ -161,8 +156,8 @@ void TestForm::moveComponent(const Event &event) {
 }
 
 void TestForm::disable() {
-    exitLabel->setEnabled(checkBox->isChecked());
     checkBox->switchState();
+    exitLabel->setEnabled(checkBox->isChecked());
 }
 
 void TestForm::render() {
@@ -183,5 +178,6 @@ void TestForm::doRainbow() {
         AlarmManager::StartTimer(this, std::bind(&TestForm::alarmFunction, this), .05);
     }
     flashing = !flashing;
+    checkBox2->switchState();
 }
 

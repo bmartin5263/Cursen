@@ -44,7 +44,6 @@ private:
     Label* exitLabel;
     Label* smileyFace;
     Label* label6;
-    Label* rainbowLabel;
     CheckBox* checkBox;
     CheckBox* checkBox2;
     Box* box;
