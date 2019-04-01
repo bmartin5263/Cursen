@@ -7,6 +7,7 @@
 #include "EventManager.h"
 #include "Drawing/CursesManager.h"
 #include "Events/EventType.h"
+#include "AlarmManager.h"
 
 EventManager* EventManager::instance = nullptr;
 
@@ -68,6 +69,7 @@ Event EventManager::pollEvent() {
     Event event;
     while (eventQueue.isEmpty()) {
         processKeyboardInput(10);
+        AlarmManager::ProcessAlarms();
     }
     eventQueue.pop(event);
     return event;
@@ -121,6 +123,8 @@ void EventManager::processEvent(const Event &event) {
                 (*listItem)->CallArrowPress(event);
             }
             break;
+        case EventType::Alarm:
+            event.alarm.alarmEntry->callAlarm();
     }
 }
 
@@ -173,4 +177,8 @@ void EventManager::registerComponent(Component& component, EventType eventFlag) 
 
 EventQueue* EventManager::privGetEventQueue() {
     return &eventQueue;
+}
+
+void EventManager::privPushEvent(Event e) {
+    eventQueue.push(e);
 }

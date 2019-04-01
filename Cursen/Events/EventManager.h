@@ -22,6 +22,8 @@ public:
     static Event PollEvent() { return Instance().pollEvent(); };
     static void ProcessEvent(const Event& event) { Instance().processEvent(event); }
 
+    static void PushEvent(Event e) { Instance().privPushEvent(e); }
+
     static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
     static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
 
@@ -40,6 +42,7 @@ private:
     void processKeyboardInput(int limit);
     void registerComponent(Component& component, EventType eventFlag);
     void deregisterComponent(Component& component, EventType events);
+    void privPushEvent(Event e);
     EventQueue* privGetEventQueue();
 
     // Instance Data

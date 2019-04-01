@@ -8,6 +8,9 @@
 #include <cstdio>
 #include "Events/EventType.h"
 
+class Component;
+class AlarmEntry;
+
 class Event {
 
 public:
@@ -31,17 +34,27 @@ public:
         bool down;
     };
 
+    struct AlarmEvent
+    {
+        AlarmEvent() {
+            alarmEntry = nullptr;
+        }
+        AlarmEntry* alarmEntry;
+    };
+
     EventType type;
 
     union
     {
         KeyEvent key;
         ArrowEvent arrowPress;
+        AlarmEvent alarm;
     };
 
     Event() {
         key = KeyEvent();
         arrowPress = ArrowEvent();
+        alarm = AlarmEvent();
     }
 
 };

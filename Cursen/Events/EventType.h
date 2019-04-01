@@ -15,6 +15,7 @@ enum class EventType
     SocketConnected = 32,
     SocketDisconnected = 64,
     SocketMessage = 128,
+    Alarm = 256,
 };
 
 #endif //CURSEN_EVENTTYPE_H

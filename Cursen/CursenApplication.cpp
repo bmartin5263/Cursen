@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <thread>
+#include <Events/AlarmManager.h>
 #include "CursenApplication.h"
 #include "Events/EventManager.h"
 #include "Drawing/CursesManager.h"

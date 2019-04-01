@@ -24,9 +24,11 @@ public:
     void arrowPress(const Event& event);
     void moveComponent(const Event& event);
     void disable();
+    void alarmFunction();
 
     void flash();
     void beep();
+    void doRainbow();
     void changeColor();
     void quitGame();
 
@@ -42,7 +44,9 @@ private:
     Label* exitLabel;
     Label* smileyFace;
     Label* label6;
+    Label* rainbowLabel;
     CheckBox* checkBox;
+    CheckBox* checkBox2;
     Box* box;
     Box* titleBox;
 
