@@ -5,17 +5,17 @@
 #include <CursenApplication.h>
 #include "CheckBox.h"
 
-CheckBox::CheckBox(const Vect2i &pos) :
-        ColorComponent(pos, Vect2i(3,1))
+CheckBox::CheckBox(const Size &pos) :
+        ColorComponent(pos, Size(3,1))
 {
     initialize();
 }
 
 void CheckBox::initialize() {
     ColorComponent::initialize();
-    Vect2i labelPos = position;
+    Size labelPos = position;
     labelPos.x += 4;
-    text = new Label(labelPos, Vect2i(1,1));
+    text = new Label(labelPos, Size(1,1));
     setState(CheckState::UNCHECKED);
 
     add(text);
@@ -42,7 +42,7 @@ void CheckBox::render() {
     line[3] = '\0';
 
 
-    content.writeLine(line, Vect2i(0,0), TextAlignment::LEFT);
+    content.writeLine(line, Size(0,0), TextAlignment::LEFT);
 
 }
 

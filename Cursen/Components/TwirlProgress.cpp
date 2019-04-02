@@ -7,8 +7,8 @@
 #include <Drawing/CursesManager.h>
 #include "TwirlProgress.h"
 
-TwirlProgress::TwirlProgress(const Vect2i &pos) :
-        ColorComponent(pos, Vect2i(0,0)), twirlIndex(0), spinning(false)
+TwirlProgress::TwirlProgress(const Size &pos) :
+        ColorComponent(pos, Size(0,0)), twirlIndex(0), spinning(false)
 {
     initialize();
 }
@@ -16,7 +16,7 @@ TwirlProgress::TwirlProgress(const Vect2i &pos) :
 void TwirlProgress::initialize() {
     ColorComponent::initialize();
 
-    twirl_label = new Label(position, Vect2i(1,1));
+    twirl_label = new Label(position, Size(1,1));
     twirl_label->setText("|");
     twirl_label->setForeground(Color::WHITE);
     twirl_label->setHidden(true);

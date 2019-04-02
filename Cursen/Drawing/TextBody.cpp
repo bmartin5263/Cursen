@@ -7,12 +7,12 @@
 #include "CursesManager.h"
 
 TextBody::TextBody() :
-    dimensions(Vect2i(0,0)), body(nullptr)
+    dimensions(Size(0,0)), body(nullptr)
 {
     initializeBody();
 }
 
-TextBody::TextBody(const Vect2i& dimensions) :
+TextBody::TextBody(const Size& dimensions) :
     dimensions(dimensions), body(nullptr)
 {
     initializeBody();
@@ -38,7 +38,7 @@ void TextBody::clear() {
     }
 }
 
-void TextBody::resize(Vect2i dimensions) {
+void TextBody::resize(Size dimensions) {
     deleteBody();
     this->dimensions = dimensions;
     initializeBody();
@@ -68,11 +68,11 @@ void TextBody::clearColumn(const int x) {
     }
 }
 
-void TextBody::writeBody(const Line *const body, const Vect2i &size) {
-    writeBody(body, size, Vect2i(0,0));
+void TextBody::writeBody(const Line *const body, const Size &size) {
+    writeBody(body, size, Size(0,0));
 }
 
-void TextBody::writeBody(const Line *const body, const Vect2i &size, const Vect2i &loc) {
+void TextBody::writeBody(const Line *const body, const Size &size, const Size &loc) {
     //int rowIndex = 0;
     //int colIndex = 0;
     //for (int i = loc.y; i < dimensions.y && rowIndex < size.y; i++) {
@@ -91,14 +91,14 @@ void TextBody::writeBody(const Line *const body, const Vect2i &size, const Vect2
     }
 }
 
-void TextBody::replaceBody(const Line *const body, const Vect2i &size) {
+void TextBody::replaceBody(const Line *const body, const Size &size) {
     clear();
     writeBody(body, size);
 }
 
 void TextBody::replaceLine(Line line, const int y) {
     clearLine(y);
-    writeLine(line, Vect2i(0, y));
+    writeLine(line, Size(0, y));
 }
 
 void TextBody::replaceColumn(Line line, const int x) {
@@ -106,7 +106,7 @@ void TextBody::replaceColumn(Line line, const int x) {
     writeColumn(line, x);
 }
 
-void TextBody::writeLine(const std::string &line, const Vect2i &pos, const TextAlignment &alignment, const ColorPair &color) {
+void TextBody::writeLine(const std::string &line, const Size &pos, const TextAlignment &alignment, const ColorPair &color) {
     size_t len = line.length();
     chtype converted[len + 1];
     for (int i = 0; i < len; i++) {
@@ -117,10 +117,10 @@ void TextBody::writeLine(const std::string &line, const Vect2i &pos, const TextA
 }
 
 void TextBody::writeColumn(const Line column, const int x) {
-    writeColumn(column, Vect2i(x, 0));
+    writeColumn(column, Size(x, 0));
 }
 
-void TextBody::writeLine(const Line line, const Vect2i &loc, const TextAlignment &alignment) {
+void TextBody::writeLine(const Line line, const Size &loc, const TextAlignment &alignment) {
     assertRange(loc.x, loc.y);
     int index;
     int i = 0;
@@ -148,7 +148,7 @@ void TextBody::writeLine(const Line line, const Vect2i &loc, const TextAlignment
     assert(body[loc.y][dimensions.x] == NULL_CHAR && "Null corrupted");
 }
 
-void TextBody::writeColumn(const Line column, const Vect2i &loc) {
+void TextBody::writeColumn(const Line column, const Size &loc) {
     assertRange(loc.x, loc.y);
     int columnIndex = 0;
     for (int i = loc.y; i < dimensions.y; i++) {

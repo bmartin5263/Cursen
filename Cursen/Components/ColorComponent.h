@@ -11,7 +11,7 @@ class ColorComponent : public Component {
 
 public:
 
-    ColorComponent(const Vect2i& pos, const Vect2i& dim);
+    ColorComponent(const Size& pos, const Size& dim);
 
     virtual void initialize() override;
 

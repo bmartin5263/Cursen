@@ -13,7 +13,7 @@ class CheckBox : public ColorComponent {
 
 public:
 
-    CheckBox(const Vect2i &pos);
+    CheckBox(const Size &pos);
 
     void initialize() override;
     void render() override;

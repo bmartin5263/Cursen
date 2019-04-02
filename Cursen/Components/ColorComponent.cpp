@@ -5,7 +5,7 @@
 #include "ColorComponent.h"
 #include "CursenApplication.h"
 
-ColorComponent::ColorComponent(const Vect2i &pos, const Vect2i &dim) : Component(pos, dim) {
+ColorComponent::ColorComponent(const Size &pos, const Size &dim) : Component(pos, dim) {
     initialize();
 }
 

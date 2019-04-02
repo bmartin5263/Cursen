@@ -13,12 +13,12 @@ Component::Component() :
 {
 }
 
-Component::Component(const Vect2i &pos) :
+Component::Component(const Size &pos) :
         enabled(true), position(pos), invalid(true)
 {
 }
 
-Component::Component(const Vect2i &pos, const Vect2i &dim) :
+Component::Component(const Size &pos, const Size &dim) :
         enabled(true), position(pos), content(TextBody(dim)), invalid(true)
 {
 }
@@ -272,7 +272,7 @@ void Component::detachOffCursor(){
     f_offCursor = 0;
 }
 
-void Component::move(const Vect2i& movement) {
+void Component::move(const Size& movement) {
     position.x += movement.x;
     position.y += movement.y;
     for (auto child : components) {
@@ -296,7 +296,7 @@ TextBody& Component::getTextBody() {
     return content;
 }
 
-Vect2i Component::getDimensions() {
+Size Component::getDimensions() {
     return content.getDimensions();
 }
 
@@ -328,7 +328,7 @@ void Component::setDisabledAll(const ColorPair &color) {
     }
 }
 
-Vect2i Component::getPosition() {
+Size Component::getPosition() {
     return this->position;
 }
 

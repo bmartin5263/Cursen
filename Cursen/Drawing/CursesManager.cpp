@@ -30,7 +30,7 @@ int CursesManager::getCharacter() {
 }
 
 void CursesManager::initializeCurses() {
-    Vect2i dimensions = CursenApplication::GetCurrentForm()->getDimensions();
+    Size dimensions = CursenApplication::GetCurrentForm()->getDimensions();
     Resize(dimensions);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
@@ -124,8 +124,8 @@ void CursesManager::privDraw() {
         if (!node->isHidden()) {
             TextBody& body = node->content;
             chtype** content = body.getContent();
-            Vect2i dimensions = body.getDimensions();
-            Vect2i position = node->position;
+            Size dimensions = body.getDimensions();
+            Size position = node->position;
 
             for (int i = 0; i < dimensions.y; i++) {
                 chtype* row = content[i];
@@ -156,7 +156,7 @@ void CursesManager::privRequestCompleteRedraw() {
     }
 }
 
-void CursesManager::privResize(const Vect2i &dim) {
+void CursesManager::privResize(const Size &dim) {
     std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
     printf("%s", resizeString.c_str());
     fflush(stdout);

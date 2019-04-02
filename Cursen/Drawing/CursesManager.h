@@ -56,7 +56,7 @@ public:
 
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
-    static void Resize(const Vect2i& dim) { Instance().privResize(dim); }
+    static void Resize(const Size& dim) { Instance().privResize(dim); }
 
     static void Draw() { Instance().privDraw(); };
 
@@ -89,7 +89,7 @@ private:
     short privGetColorPair(const ColorPair&);
     void privRequestCompleteRedraw();
     void privDraw();
-    void privResize(const Vect2i& dim);
+    void privResize(const Size& dim);
 
     // Static Data
 

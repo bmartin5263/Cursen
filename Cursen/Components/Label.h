@@ -17,7 +17,7 @@ class Label : public ColorComponent {
 
 public:
 
-    Label(const Vect2i& pos, const Vect2i& dim);
+    Label(const Size& pos, const Size& dim);
 
     void initialize() override;
     void render() override;

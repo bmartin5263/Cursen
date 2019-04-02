@@ -12,7 +12,7 @@ class TwirlProgress : public ColorComponent {
 
 public:
 
-    TwirlProgress(const Vect2i &pos);
+    TwirlProgress(const Size &pos);
 
     void start();
     void stop();

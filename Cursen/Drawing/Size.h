@@ -7,31 +7,31 @@
 
 namespace cursen {
 
-    struct Vect2i {
+    struct Size {
 
-        Vect2i() :
+        Size() :
                 x(0), y(0)
         {
         }
 
-        Vect2i(int x, int y) :
+        Size(int x, int y) :
                 x(x), y(y)
         {
         }
 
-        Vect2i(const Vect2i& other) :
+        Size(const Size& other) :
                 x(other.x), y(other.y)
         {
         }
 
-        Vect2i& operator = (const Vect2i& other) {
+        Size& operator = (const Size& other) {
             this->x = other.x;
             this->y = other.y;
             return *this;
         }
 
-        Vect2i relativeTo(const Vect2i& other) {
-            return Vect2i(x+other.x, y+other.y);
+        Size relativeTo(const Size& other) {
+            return Size(x+other.x, y+other.y);
         }
 
         int x;

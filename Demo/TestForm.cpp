@@ -12,7 +12,7 @@
 #include "Components/TwirlProgress.h"
 
 TestForm::TestForm() :
-    Form(Vect2i(70,33)), twirlProgressStack(Vect2i(0,0))
+    Form(Size(70,33)), twirlProgressStack(Size(0,0))
 {
 
 }
@@ -20,53 +20,53 @@ TestForm::TestForm() :
 void TestForm::initialize() {
     setHidden(true);
 
-    box = new Box(Vect2i(3,3), Vect2i(21,10));
+    box = new Box(Size(3,3), Size(21,10));
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
     add(box);
 
-    titleBox = new Box(Vect2i(0,0), Vect2i(getDimensions().x, 3));
+    titleBox = new Box(Size(0,0), Size(getDimensions().x, 3));
     titleBox->setLowerRight(ACS_RTEE);
     titleBox->setLowerLeft(ACS_LTEE);
     add(titleBox);
 
-    flashLabel = new Label(Vect2i(1,1), Vect2i(40,1));
+    flashLabel = new Label(Size(1,1), Size(40,1));
     flashLabel->setText("Flash");
     flashLabel->onClick(std::bind(&TestForm::flash, this));
 
-    beepLabel = new Label(Vect2i(1,2), Vect2i(40,1));
+    beepLabel = new Label(Size(1,2), Size(40,1));
     beepLabel->setText("Beep");
     beepLabel->onClick(std::bind(&TestForm::beep, this));
 
-    changeColorLabel = new Label(Vect2i(1,3), Vect2i(40,1));
+    changeColorLabel = new Label(Size(1,3), Size(40,1));
     changeColorLabel->setText("Change Color");
     changeColorLabel->onClick(std::bind(&TestForm::changeColor, this));
 
-    exitLabel = new Label(Vect2i(1,4), Vect2i(40,1));
+    exitLabel = new Label(Size(1,4), Size(40,1));
     exitLabel->setText("Exit");
     exitLabel->onClick(std::bind(&TestForm::quitGame, this));
 
-    smileyFace = new Label(Vect2i(30,30), Vect2i(40,1));
+    smileyFace = new Label(Size(30,30), Size(40,1));
     smileyFace->setText(":)");
     add(smileyFace);
 
-    messageLabel = new Label(Vect2i(1,1), Vect2i(getDimensions().x - 2,1));
+    messageLabel = new Label(Size(1,1), Size(getDimensions().x - 2,1));
     messageLabel->setText("Welcome to Cursen!");
     messageLabel->setForeground(Color::YELLOW);
 
-    checkBox = new CheckBox(Vect2i(1,6));
+    checkBox = new CheckBox(Size(1,6));
     checkBox->setText("Exit Enabled");
     checkBox->setState(CheckState::CHECK);
     checkBox->onClick(std::bind(&TestForm::disable, this));
 
-    checkBox2 = new CheckBox(Vect2i(1,7));
+    checkBox2 = new CheckBox(Size(1,7));
     checkBox2->setText("Rainbow Enabled");
     checkBox2->onClick(std::bind(&TestForm::doRainbow, this));
 
-    twirlCheck = new CheckBox(Vect2i(1,8));
+    twirlCheck = new CheckBox(Size(1,8));
     twirlCheck->setText("Twirl Enabled");
     twirlCheck->onClick(std::bind(&TestForm::activateTwirl, this));
 
-    twirlProgress = new TwirlProgress(Vect2i(21,4));
+    twirlProgress = new TwirlProgress(Size(21,4));
 
     add(&twirlProgressStack);
     box->add(twirlProgress);
@@ -145,20 +145,20 @@ void TestForm::changeColor() {
 
 void TestForm::moveComponent(const Event &event) {
     if (event.arrowPress.right) {
-        box->move(Vect2i(1, 0));
+        box->move(Size(1, 0));
         changeColor();
     }
     if (event.arrowPress.left) {
-        box->move(Vect2i(-1, 0));
+        box->move(Size(-1, 0));
         changeColor();
     }
     if (!cursor->isEnabled()) {
         if (event.arrowPress.up) {
-            box->move(Vect2i(0, -1));
+            box->move(Size(0, -1));
             changeColor();
         }
         if (event.arrowPress.down) {
-            box->move(Vect2i(0, 1));
+            box->move(Size(0, 1));
             changeColor();
         }
     }

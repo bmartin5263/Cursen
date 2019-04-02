@@ -18,8 +18,8 @@ public:
 
     // Construction
     Component();
-    Component(const Vect2i& pos);
-    Component(const Vect2i& pos, const Vect2i& dim);
+    Component(const Size& pos);
+    Component(const Size& pos, const Size& dim);
     ~Component();
 
     // Initialization
@@ -31,7 +31,7 @@ public:
     bool isInvalid();
 
     virtual void render() = 0;
-    void move(const Vect2i& movement);
+    void move(const Size& movement);
     TextBody& getTextBody();
 
     // Component Relationship
@@ -66,8 +66,8 @@ public:
     virtual void setText(const std::string& text) {};
     virtual std::string getText() { return ""; };
 
-    Vect2i getDimensions();
-    Vect2i getPosition();
+    Size getDimensions();
+    Size getPosition();
 
     // Debug
     void enableDebugging();
@@ -135,7 +135,7 @@ protected:
 
     std::vector<Component*> components;
     TextBody content;
-    Vect2i position;
+    Size position;
     bool enabled;
     bool invalid;
     bool hidden;

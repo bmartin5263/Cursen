@@ -15,7 +15,7 @@ class Form : public Component {
 
 public:
 
-    Form(const Vect2i& dim);
+    Form(const Size& dim);
 
     virtual void initialize() override = 0;
     void render() override = 0;

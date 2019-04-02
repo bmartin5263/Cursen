@@ -5,7 +5,7 @@
 #include <Drawing/CursesManager.h>
 #include "Label.h"
 
-Label::Label(const Vect2i& pos, const Vect2i& dim) :
+Label::Label(const Size& pos, const Size& dim) :
         ColorComponent(pos, dim)
 {
     initialize();
@@ -17,7 +17,7 @@ void Label::initialize() {
 }
 
 void Label::render() {
-    content.writeLine(text, Vect2i(0,0), alignment, draw_color);
+    content.writeLine(text, Size(0,0), alignment, draw_color);
 }
 
 void Label::emplaceText(const std::string& text) {
@@ -26,6 +26,6 @@ void Label::emplaceText(const std::string& text) {
 }
 
 void Label::setText(const std::string& text) {
-    content.resize(Vect2i((int)text.length(), 1));
+    content.resize(Size((int)text.length(), 1));
     emplaceText(text);
 }

@@ -8,7 +8,7 @@
 
 #include <ncurses.h>
 #include <vector>
-#include "Vect2i.h"
+#include "Size.h"
 #include "ColorPair.h"
 #include "TextAlignment.h"
 
@@ -23,7 +23,7 @@ public:
     static const char NULL_CHAR = '\0';
 
     TextBody();
-    TextBody(const Vect2i& dimensions);
+    TextBody(const Size& dimensions);
     ~TextBody();
 
     void clear();
@@ -32,25 +32,25 @@ public:
 
     void replaceLine(const Line line, const int y);
     void replaceColumn(const Line line, const int x);
-    void replaceBody(const Line* const body, const Vect2i &size);
+    void replaceBody(const Line* const body, const Size &size);
 
     /**
      * Line writing.
      */
-    void writeLine(const std::string &line, const Vect2i &pos,
+    void writeLine(const std::string &line, const Size &pos,
                    const TextAlignment& alignment = TextAlignment::LEFT, const ColorPair &color = ColorPair::NONE);
-    void writeLine(const Line line, const Vect2i &loc, const TextAlignment& alignment = TextAlignment::LEFT);
+    void writeLine(const Line line, const Size &loc, const TextAlignment& alignment = TextAlignment::LEFT);
 
     void writeColumn(const Line column, const int x);
-    void writeColumn(const Line column, const Vect2i &loc);
+    void writeColumn(const Line column, const Size &loc);
 
-    void writeBody(const Line *const body, const Vect2i &size);
-    void writeBody(const Line *const body, const Vect2i &size, const Vect2i &loc);
+    void writeBody(const Line *const body, const Size &size);
+    void writeBody(const Line *const body, const Size &size, const Size &loc);
 
     chtype** getContent() { return body; }
-    Vect2i getDimensions() { return dimensions; }
+    Size getDimensions() { return dimensions; }
 
-    void resize(Vect2i dimensions);
+    void resize(Size dimensions);
 
 private:
 
@@ -62,7 +62,7 @@ private:
     void initializeBody();
 
     chtype** body;
-    Vect2i dimensions;
+    Size dimensions;
 
 };
 
