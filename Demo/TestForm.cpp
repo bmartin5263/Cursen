@@ -12,7 +12,7 @@
 #include "Components/TwirlProgress.h"
 
 TestForm::TestForm() :
-    Form(Vect2i(70,33))
+    Form(Vect2i(70,33)), twirlProgressStack(Vect2i(0,0))
 {
 
 }
@@ -68,6 +68,7 @@ void TestForm::initialize() {
 
     twirlProgress = new TwirlProgress(Vect2i(21,4));
 
+    add(&twirlProgressStack);
     box->add(twirlProgress);
     titleBox->addRelative(messageLabel);
     box->addRelative(flashLabel);
@@ -93,6 +94,7 @@ void TestForm::initialize() {
 
 void TestForm::activateTwirl() {
     twirlProgress->toggle();
+    twirlProgressStack.toggle();
     twirlCheck->toggle();
 }
 
@@ -100,14 +102,6 @@ void TestForm::keyPress(const Event &event) {
     if (event.key.code == 'q') {
         cursor->setEnabled(!cursor->isEnabled());
     }
-}
-
-void TestForm::enterPress(const Event &event) {
-    flashLabel->setText("A very long string");
-}
-
-void TestForm::arrowPress(const Event &event) {
-    flashLabel->setForeground(Color::GRAY);
 }
 
 void TestForm::quitGame() {
@@ -139,7 +133,8 @@ void TestForm::changeColor() {
     }
     else if (i == 3) {
         box->setForeground(Color::GREEN);
-    } else if (i == 4) {
+    }
+    else if (i == 4) {
         box->setForeground(Color::BLUE);
     }
     else if (i == 5) {

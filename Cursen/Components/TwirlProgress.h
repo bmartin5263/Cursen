@@ -17,9 +17,17 @@ public:
     void start();
     void stop();
     void toggle();
+    void setState(const bool& on);
+
+
 
     void initialize() override;
-    void render() override {};
+    void render() override {}
+
+    void setForeground(const Color &color) override;
+    Color getForeground() override;
+    void setBackground(const Color &color) override;
+    Color getBackground() override;;
 
 private:
 
@@ -29,6 +37,7 @@ private:
     void doTwirl();
 
     Label* twirl_label;
+    int twirlIndex;
     bool spinning;
 
 };

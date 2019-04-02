@@ -22,7 +22,6 @@ public:
     virtual Color getBackground() override;
 
     virtual void cursorOn();
-
     virtual void cursorOff();
 
     void setEnabled(bool value) override;
@@ -35,13 +34,13 @@ public:
 
 protected:
 
+    ColorPair draw_color;
     Color foreground;
     Color background;
     Color highlight_foreground;
     Color highlight_background;
     Color disabled_foreground;
     Color disabled_background;
-    ColorPair draw_color;
     bool isHovered;
 
 };

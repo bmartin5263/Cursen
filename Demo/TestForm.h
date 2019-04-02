@@ -8,6 +8,7 @@
 
 #include <Components/Form.h>
 #include <Components/Box.h>
+#include <Components/TwirlProgress.h>
 
 class Label;
 class CheckBox;
@@ -21,8 +22,6 @@ public:
 
     void initialize() override;
     void keyPress(const Event& event);
-    void enterPress(const Event& event);
-    void arrowPress(const Event& event);
     void moveComponent(const Event& event);
     void disable();
     void alarmFunction();
@@ -52,6 +51,7 @@ private:
     Box* box;
     Box* titleBox;
     TwirlProgress* twirlProgress;
+    TwirlProgress twirlProgressStack;
 
 };
 

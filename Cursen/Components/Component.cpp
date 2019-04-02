@@ -339,4 +339,3 @@ void Component::enableDebugging() {
 void Component::disableDebugging() {
     debug_coordinates = false;
 }
-
