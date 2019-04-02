@@ -123,8 +123,12 @@ void EventManager::processEvent(const Event &event) {
                 (*listItem)->CallArrowPress(event);
             }
             break;
-        case EventType::Alarm:
-            event.alarm.alarmEntry->callAlarm();
+        case EventType::AlarmInterval:
+            event.alarm.alarmEntry->callInterval();
+            break;
+        case EventType::AlarmExpire:
+            event.alarm.alarmEntry->callExpire();
+            break;
     }
 }
 

@@ -19,9 +19,20 @@ void AlarmManager::privProcessAlarms() {
     std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - lastUpdate;
     for (auto it = alarms.begin(); it != alarms.end(); it++) {
 
-        if (it->second->updateTime(elapsed_seconds.count())) {
+        AlarmEntry* entry = it->second;
+        entry->updateTime(elapsed_seconds.count());
+
+        if (entry->ready()) {
+            entry->reset();
             Event event;
-            event.type = EventType::Alarm;
+            event.type = EventType::AlarmInterval;
+            event.alarm.alarmEntry = it->second;
+            EventManager::PushEvent(event);
+        }
+        if (entry->expired()) {
+            privStopTimer(entry->getComponent());
+            Event event;
+            event.type = EventType::AlarmExpire;
             event.alarm.alarmEntry = it->second;
             EventManager::PushEvent(event);
         }
@@ -32,8 +43,14 @@ void AlarmManager::privProcessAlarms() {
 
 }
 
-void AlarmManager::privStartTimer(Component *component, std::function<void()> f, double interval) {
-    startRequests.push(new AlarmEntry(component, f, interval));
+void AlarmManager::privStartTimer(Component *component, std::function<void()> f, double seconds) {
+    startRequests.push(new AlarmEntry(component, f, seconds));
+}
+
+void AlarmManager::privStartAutoTimer(Component *component, std::function<void()> f, double seconds,
+                                      double total_time, VoidFunc cf)
+{
+    startRequests.push(new AlarmEntry(component, f, seconds, total_time, cf));
 }
 
 void AlarmManager::privStopTimer(Component *component) {

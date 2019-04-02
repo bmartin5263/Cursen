@@ -175,7 +175,7 @@ void TestForm::doRainbow() {
         box->setForeground(Color::WHITE);
     }
     else {
-        AlarmManager::StartTimer(this, std::bind(&TestForm::alarmFunction, this), .05);
+        AlarmManager::StartTimer(this, std::bind(&TestForm::alarmFunction, this), .1);
     }
     flashing = !flashing;
     checkBox2->switchState();
