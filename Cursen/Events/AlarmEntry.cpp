@@ -21,7 +21,9 @@ AlarmEntry::AlarmEntry(Component *component, std::function<void()> alarmFunction
 }
 
 void AlarmEntry::callInterval() {
-    interval_function();
+    if (interval_function) {
+        interval_function();
+    }
 }
 
 void AlarmEntry::callExpire() {
