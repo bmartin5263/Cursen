@@ -20,7 +20,8 @@ public:
     void setText(const std::string& text) override;
 
     void setState(const CheckState& state);
-    void switchState();
+    void setState(const bool& state);
+    void toggle();
     void check();
     void uncheck();
 

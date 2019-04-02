@@ -74,6 +74,15 @@ void CheckBox::setState(const CheckState &state) {
     invalidate();
 }
 
+void CheckBox::setState(const bool &state) {
+    if (state) {
+        setState(CheckState::CHECK);
+    }
+    else {
+        setState(CheckState::UNCHECKED);
+    }
+}
+
 void CheckBox::check() {
     setState(CheckState::CHECK);
 }
@@ -82,7 +91,7 @@ void CheckBox::uncheck() {
     setState(CheckState::UNCHECKED);
 }
 
-void CheckBox::switchState() {
+void CheckBox::toggle() {
     if (state == CheckState::UNCHECKED) {
         check();
     }

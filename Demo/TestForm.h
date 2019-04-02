@@ -11,6 +11,7 @@
 
 class Label;
 class CheckBox;
+class TwirlProgress;
 
 class TestForm : public Form {
 
@@ -25,6 +26,7 @@ public:
     void moveComponent(const Event& event);
     void disable();
     void alarmFunction();
+    void activateTwirl();
 
     void flash();
     void beep();
@@ -46,8 +48,10 @@ private:
     Label* label6;
     CheckBox* checkBox;
     CheckBox* checkBox2;
+    CheckBox* twirlCheck;
     Box* box;
     Box* titleBox;
+    TwirlProgress* twirlProgress;
 
 };
 

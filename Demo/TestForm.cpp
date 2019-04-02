@@ -9,6 +9,7 @@
 #include "Components/Label.h"
 #include "TestForm.h"
 #include "Components/CheckBox.h"
+#include "Components/TwirlProgress.h"
 
 TestForm::TestForm() :
     Form(Vect2i(70,33))
@@ -19,13 +20,14 @@ TestForm::TestForm() :
 void TestForm::initialize() {
     setHidden(true);
 
-    box = new Box(Vect2i(3,3), Vect2i(20,9));
-    //box->enableDebugging();
+    box = new Box(Vect2i(3,3), Vect2i(21,10));
     box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
+    add(box);
 
     titleBox = new Box(Vect2i(0,0), Vect2i(getDimensions().x, 3));
     titleBox->setLowerRight(ACS_RTEE);
     titleBox->setLowerLeft(ACS_LTEE);
+    add(titleBox);
 
     flashLabel = new Label(Vect2i(1,1), Vect2i(40,1));
     flashLabel->setText("Flash");
@@ -45,23 +47,28 @@ void TestForm::initialize() {
 
     smileyFace = new Label(Vect2i(30,30), Vect2i(40,1));
     smileyFace->setText(":)");
+    add(smileyFace);
 
     messageLabel = new Label(Vect2i(1,1), Vect2i(getDimensions().x - 2,1));
     messageLabel->setText("Welcome to Cursen!");
     messageLabel->setForeground(Color::YELLOW);
 
     checkBox = new CheckBox(Vect2i(1,6));
-    checkBox->setText("Enable Exit");
+    checkBox->setText("Exit Enabled");
     checkBox->setState(CheckState::CHECK);
     checkBox->onClick(std::bind(&TestForm::disable, this));
 
     checkBox2 = new CheckBox(Vect2i(1,7));
-    checkBox2->setText("Enable Rainbow");
+    checkBox2->setText("Rainbow Enabled");
     checkBox2->onClick(std::bind(&TestForm::doRainbow, this));
 
-    add(titleBox);
-    add(box);
-    add(smileyFace);
+    twirlCheck = new CheckBox(Vect2i(1,8));
+    twirlCheck->setText("Twirl Enabled");
+    twirlCheck->onClick(std::bind(&TestForm::activateTwirl, this));
+
+    twirlProgress = new TwirlProgress(Vect2i(21,4));
+
+    box->add(twirlProgress);
     titleBox->addRelative(messageLabel);
     box->addRelative(flashLabel);
     box->addRelative(beepLabel);
@@ -69,17 +76,24 @@ void TestForm::initialize() {
     box->addRelative(exitLabel);
     box->addRelative(checkBox);
     box->addRelative(checkBox2);
+    box->addRelative(twirlCheck);
 
     cursor = new Cursor(flashLabel);
-    cursor->mapComponent(flashLabel, ArrowMap(nullptr, checkBox2, nullptr, beepLabel));
+    cursor->mapComponent(flashLabel, ArrowMap(nullptr, twirlCheck, nullptr, beepLabel));
     cursor->mapComponent(beepLabel, ArrowMap(nullptr, flashLabel, nullptr, changeColorLabel));
     cursor->mapComponent(changeColorLabel, ArrowMap(nullptr, beepLabel, nullptr, exitLabel));
     cursor->mapComponent(exitLabel, ArrowMap(nullptr, changeColorLabel, nullptr, checkBox));
     cursor->mapComponent(checkBox, ArrowMap(nullptr, exitLabel, nullptr, checkBox2));
-    cursor->mapComponent(checkBox2, ArrowMap(nullptr, checkBox, nullptr, flashLabel));
+    cursor->mapComponent(checkBox2, ArrowMap(nullptr, checkBox, nullptr, twirlCheck));
+    cursor->mapComponent(twirlCheck, ArrowMap(nullptr, checkBox2, nullptr, flashLabel));
     cursor->setEnabled(true);
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
+}
+
+void TestForm::activateTwirl() {
+    twirlProgress->toggle();
+    twirlCheck->toggle();
 }
 
 void TestForm::keyPress(const Event &event) {
@@ -156,7 +170,7 @@ void TestForm::moveComponent(const Event &event) {
 }
 
 void TestForm::disable() {
-    checkBox->switchState();
+    checkBox->toggle();
     exitLabel->setEnabled(checkBox->isChecked());
 }
 
@@ -175,9 +189,9 @@ void TestForm::doRainbow() {
         box->setForeground(Color::WHITE);
     }
     else {
-        AlarmManager::StartTimer(this, std::bind(&TestForm::alarmFunction, this), .1);
+        AlarmManager::StartTimer(this, std::bind(&TestForm::alarmFunction, this), .06);
     }
     flashing = !flashing;
-    checkBox2->switchState();
+    checkBox2->toggle();
 }
 
