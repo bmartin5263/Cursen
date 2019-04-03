@@ -273,8 +273,7 @@ void Component::detachOffCursor(){
 }
 
 void Component::move(const Size& movement) {
-    position.x += movement.x;
-    position.y += movement.y;
+    position += movement;
     for (auto child : components) {
         child->move(movement);
     }

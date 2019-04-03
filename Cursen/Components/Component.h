@@ -29,9 +29,7 @@ public:
     void invalidate();
     void validate();
     bool isInvalid();
-
     virtual void render() = 0;
-    void move(const Size& movement);
     TextBody& getTextBody();
 
     // Component Relationship
@@ -70,6 +68,7 @@ public:
     Size getPosition();
     virtual void setPosition(const Size& pos);
     virtual void setSize(const Size& size);
+    void move(const Size& movement);
 
     // Debug
     void enableDebugging();
