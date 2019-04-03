@@ -11,9 +11,8 @@ CheckBox::CheckBox() :
 }
 
 CheckBox::CheckBox(const Size &pos) :
-        AggregateComponent()
+        AggregateComponent(pos)
 {
-        setPosition(pos);
 }
 
 void CheckBox::initialize() {
