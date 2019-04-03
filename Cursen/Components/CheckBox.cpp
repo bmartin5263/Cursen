@@ -98,7 +98,7 @@ void CheckBox::uncheck() {
 }
 
 void CheckBox::toggle() {
-    if (state == CheckState::UNCHECKED) {
+    if (state != CheckState::CHECK) {
         check();
     }
     else {

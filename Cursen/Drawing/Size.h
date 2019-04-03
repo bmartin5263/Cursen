@@ -30,8 +30,44 @@ namespace cursen {
             return *this;
         }
 
-        Size relativeTo(const Size& other) {
-            return Size(x+other.x, y+other.y);
+        Size operator + (Size const &size) {
+            return Size(x + size.x, y + size.y);
+        }
+
+        Size& operator += (const Size& size){
+            this->x += size.x;
+            this->y += size.y;
+            return *this;
+        }
+
+        Size operator - (Size const &size) {
+            return Size(x - size.x, y - size.y);
+        }
+
+        Size& operator -= (const Size& size){
+            this->x -= size.x;
+            this->y -= size.y;
+            return *this;
+        }
+
+        Size operator * (Size const &size) {
+            return Size(x * size.x, y * size.y);
+        }
+
+        Size& operator *= (const Size& size){
+            this->x *= size.x;
+            this->y *= size.y;
+            return *this;
+        }
+
+        Size operator / (Size const &size) {
+            return Size(x / size.x, y / size.y);
+        }
+
+        Size& operator /= (const Size& size){
+            this->x /= size.x;
+            this->y /= size.y;
+            return *this;
         }
 
         int x;
