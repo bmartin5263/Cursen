@@ -19,7 +19,6 @@ public:
     // Construction
     Component();
     Component(const Size& pos);
-    Component(const Size& pos, const Size& dim);
     virtual ~Component();
 
     // Initialization
@@ -30,17 +29,22 @@ public:
     void validate();
     bool isInvalid();
     virtual void render() = 0;
-    Content& getTextBody();
+    virtual Content * getContent() = 0;
+    Size getPosition();
+    virtual void setPosition(const Size& pos);
+    virtual void move(const Size& movement);
 
     // Component Relationship
     void add(Component *);
     void addRelative(Component *);
     void remove(Component *);
     Component* getParent();
+    const std::vector<Component*> & getChildren();
 
     // Attributes
     virtual void setEnabled(bool value);
     virtual bool isEnabled();
+
     virtual void setHidden(bool value);
     virtual bool isHidden();
 
@@ -63,12 +67,6 @@ public:
 
     virtual void setText(const std::string& text) {};
     virtual std::string getText() { return ""; };
-
-    Size getDimensions();
-    Size getPosition();
-    virtual void setPosition(const Size& pos);
-    virtual void setSize(const Size& size);
-    void move(const Size& movement);
 
     // Debug
     void enableDebugging();
@@ -131,11 +129,10 @@ private:
     std::function<void()> f_onClick;
 
     Component* parent;
+    std::vector<Component*> children;
 
 protected:
 
-    std::vector<Component*> components;
-    Content content;
     Size position;
     bool enabled;
     bool invalid;

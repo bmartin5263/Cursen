@@ -47,7 +47,7 @@ public:
     void writeBody(const Line *const body, const Size &size);
     void writeBody(const Line *const body, const Size &size, const Size &loc);
 
-    chtype** getContent() { return body; }
+    chtype** getText() { return body; }
     Size getDimensions() { return dimensions; }
 
     void resize(Size dimensions);

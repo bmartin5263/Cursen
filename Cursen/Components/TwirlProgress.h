@@ -7,8 +7,9 @@
 
 #include "ColorComponent.h"
 #include "Label.h"
+#include "AggregateComponent.h"
 
-class TwirlProgress : public ColorComponent {
+class TwirlProgress : public AggregateComponent {
 
 public:
 
@@ -20,10 +21,7 @@ public:
     void toggle();
     void setState(const bool& on);
 
-
-
     void initialize() override;
-    void render() override {}
 
     void setForeground(const Color &color) override;
     Color getForeground() override;
@@ -39,7 +37,7 @@ private:
 
     void doTwirl();
 
-    Label* twirl_label;
+    Label twirl_label;
     int twirlIndex;
     bool spinning;
 

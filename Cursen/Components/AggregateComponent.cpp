@@ -3,3 +3,9 @@
 //
 
 #include "AggregateComponent.h"
+
+void AggregateComponent::initialize() {
+    for (auto child : getChildren()) {
+        child->initialize();
+    }
+}

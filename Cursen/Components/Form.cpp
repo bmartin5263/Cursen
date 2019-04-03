@@ -9,7 +9,7 @@
 #include "Cursor/Cursor.h"
 
 Form::Form(const Size &dim) :
-    Component(Size(0,0), dim)
+    TextComponent(Size(0,0), dim)
 {
     if (dim.x < 1 || dim.y < 1) throw std::logic_error("Form requires dimensions > 0");
 }

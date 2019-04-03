@@ -24,9 +24,6 @@ public:
     virtual void setBackground(const Color &color) override;
     virtual Color getBackground() override;
 
-    virtual void cursorOn();
-    virtual void cursorOff();
-
     void setEnabled(bool value) override;
 
     void setHighlight(const ColorPair &color) override;

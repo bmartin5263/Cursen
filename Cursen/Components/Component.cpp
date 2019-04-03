@@ -18,20 +18,10 @@ Component::Component(const Size &pos) :
 {
 }
 
-Component::Component(const Size &pos, const Size &dim) :
-        enabled(true), position(pos), content(Content(dim)), invalid(true)
-{
-}
-
-
-Component::~Component() {
-
-}
-
 void Component::add(Component *component) {
     assert(component != nullptr);
     component->setParent(this);
-    components.push_back(component);
+    children.push_back(component);
 }
 
 void Component::addRelative(Component *component) {
@@ -268,13 +258,12 @@ void Component::detachOnClick() {
 }
 
 void Component::detachOffCursor(){
-    EventManager::Deregister(*this, EventType::ArrowPressed);
     f_offCursor = 0;
 }
 
 void Component::move(const Size& movement) {
     position += movement;
-    for (auto child : components) {
+    for (auto child : children) {
         child->move(movement);
     }
 }
@@ -291,38 +280,30 @@ bool Component::isInvalid() {
     return invalid;
 }
 
-Content& Component::getTextBody() {
-    return content;
-}
-
-Size Component::getDimensions() {
-    return content.getDimensions();
-}
-
 void Component::setForegroundAll(const Color &color) {
     setForeground(color);
-    for (auto child : components) {
+    for (auto child : children) {
         child->setForegroundAll(color);
     }
 }
 
 void Component::setBackgroundAll(const Color &color) {
     setBackground(color);
-    for (Component* child : components) {
+    for (Component* child : children) {
         child->setBackgroundAll(color);
     }
 }
 
 void Component::setHighlightAll(const ColorPair &color) {
     setHighlight(color);
-    for (Component* child : components) {
+    for (Component* child : children) {
         child->setHighlightAll(color);
     }
 }
 
 void Component::setDisabledAll(const ColorPair &color) {
     setDisabled(color);
-    for (Component* child : components) {
+    for (Component* child : children) {
         child->setDisabledAll(color);
     }
 }
@@ -344,7 +325,10 @@ void Component::setPosition(const Size &pos) {
     invalidate();
 }
 
-void Component::setSize(const Size &size) {
-    content.resize(size);
-    invalidate();
+const std::vector<Component*>& Component::getChildren() {
+    return children;
+}
+
+Component::~Component() {
+
 }

@@ -30,7 +30,7 @@ int CursesManager::getCharacter() {
 }
 
 void CursesManager::initializeCurses() {
-    Size dimensions = CursenApplication::GetCurrentForm()->getDimensions();
+    Size dimensions = CursenApplication::GetCurrentForm()->getSize();
     Resize(dimensions);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
@@ -111,7 +111,7 @@ void CursesManager::privDraw() {
         node = drawQueue.front();
 
         // Push on children
-        for (Component* child : node->components) {
+        for (Component* child : node->children) {
             drawQueue.push(child);
         }
 
@@ -122,25 +122,28 @@ void CursesManager::privDraw() {
         }
 
         if (!node->isHidden()) {
-            Content& body = node->content;
-            chtype** content = body.getContent();
-            Size dimensions = body.getDimensions();
-            Size position = node->position;
+            Content* content = node->getContent();
 
-            for (int i = 0; i < dimensions.y; i++) {
-                chtype* row = content[i];
-                int offset = 0;
-                if (position.x < 0) {
-                    offset = -position.x;
+            if (content != nullptr) {
+                chtype** text = content->getText();
+                Size dimensions = content->getDimensions();
+                Size position = node->position;
+
+                for (int i = 0; i < dimensions.y; i++) {
+                    chtype* row = text[i];
+                    int offset = 0;
+                    if (position.x < 0) {
+                        offset = -position.x;
+                    }
+                    if (offset < dimensions.x) {
+                        mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+                    }
                 }
-                if (offset < dimensions.x) {
-                    mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+                if (node->debug_coordinates) {
+                    std::string coordinates = std::to_string(position.x) + "," + std::to_string(position.y);
+                    unsigned long len = coordinates.size();
+                    mvaddstr(position.y, position.x + dimensions.x - len, coordinates.c_str());
                 }
-            }
-            if (node->debug_coordinates) {
-                std::string coordinates = std::to_string(position.x) + "," + std::to_string(position.y);
-                unsigned long len = coordinates.size();
-                mvaddstr(position.y, position.x + dimensions.x - len, coordinates.c_str());
             }
         }
 

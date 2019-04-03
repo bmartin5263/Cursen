@@ -10,10 +10,11 @@
 #include <string>
 #include <Drawing/TextAlignment.h>
 #include "ColorComponent.h"
+#include "TextComponent.h"
 
 using namespace cursen;
 
-class Label : public ColorComponent {
+class Label : public TextComponent {
 
 public:
 

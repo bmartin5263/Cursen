@@ -20,7 +20,6 @@ TestForm::TestForm() :
 void TestForm::initialize() {
     setHidden(true);
 
-
     box.initialize();
     box.setPosition(Size(3,3));
     box.setSize(Size(21, 10));
@@ -29,7 +28,7 @@ void TestForm::initialize() {
 
     titleBox.initialize();
     titleBox.setPosition(Size(0,0));
-    titleBox.setSize(Size(getDimensions().x, 3));
+    titleBox.setSize(Size(getSize().x, 3));
     titleBox.setLowerRight(ACS_RTEE);
     titleBox.setLowerLeft(ACS_LTEE);
     add(&titleBox);
@@ -66,7 +65,7 @@ void TestForm::initialize() {
 
     messageLabel.initialize();
     messageLabel.setPosition(Size(1,1));
-    messageLabel.setSize(Size(getDimensions().x - 2,1));
+    messageLabel.setSize(Size(getSize().x - 2,1));
     messageLabel.setText("Welcome to Cursen!");
     messageLabel.setForeground(Color::YELLOW);
 
@@ -190,7 +189,8 @@ void TestForm::disable() {
 }
 
 void TestForm::render() {
-    content.clear();
+    Content* content = getContent();
+    content->clear();
 }
 
 void TestForm::alarmFunction() {

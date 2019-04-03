@@ -7,11 +7,11 @@
 
 
 #include "Component.h"
-#include "ColorComponent.h"
+#include "TextComponent.h"
 
 using namespace cursen;
 
-class Box : public ColorComponent {
+class Box : public TextComponent {
 
 public:
 

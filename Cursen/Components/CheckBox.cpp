@@ -6,50 +6,31 @@
 #include "CheckBox.h"
 
 CheckBox::CheckBox() :
-        ColorComponent(Size(0,0), Size(3,1))
+        AggregateComponent()
 {
 }
 
 CheckBox::CheckBox(const Size &pos) :
-        ColorComponent(pos, Size(3,1))
+        AggregateComponent()
 {
+        setPosition(pos);
 }
 
 void CheckBox::initialize() {
-    ColorComponent::initialize();
+    AggregateComponent::initialize();
 
     text.initialize();
-    Size labelPos = position;
-    labelPos.x += 4;
-    text.setPosition(labelPos);
+    text.setPosition(getPosition() + Size(4,0));
     add(&text);
 
+    box.initialize();
+    box.setPosition(getPosition());
+    add(&box);
+
     setState(CheckState::UNCHECKED);
-}
 
-void CheckBox::render() {
-
-    content.clear();
-
-    chtype line[4];
-    line[0] = '[' | draw_color;
-    switch (state) {
-        case CheckState::CHECK:
-            line[1] = 'X' | draw_color;
-            break;
-        case CheckState::UNCHECKED:
-            line[1] = ' ' | draw_color;
-            break;
-        case CheckState::INDETERMINATE:
-            line[1] = '-' | draw_color;
-            break;
-    }
-    line[2] = ']' | draw_color;
-    line[3] = '\0';
-
-
-    content.writeLine(line, Size(0,0), TextAlignment::LEFT);
-
+    this->onCursor(std::bind(&CheckBox::cursorOn, this));
+    this->offCursor(std::bind(&CheckBox::cursorOff, this));
 }
 
 void CheckBox::setText(const std::string &text) {
@@ -68,16 +49,18 @@ void CheckBox::setState(const CheckState &state) {
     this->state = state;
     switch (state) {
         case CheckState::CHECK:
-            draw_color = ColorPair(Color::GREEN, background);
+            box.setForeground(Color::GREEN);
+            box.setText("[X]");
             break;
         case CheckState::UNCHECKED:
-            draw_color = ColorPair(Color::RED, background);
+            box.setForeground(Color::RED);
+            box.setText("[ ]");
             break;
         case CheckState::INDETERMINATE:
-            draw_color = ColorPair(Color::YELLOW, background);
+            box.setForeground(Color::YELLOW);
+            box.setText("[-]");
             break;
     }
-    invalidate();
 }
 
 void CheckBox::setState(const bool &state) {
@@ -112,7 +95,6 @@ bool CheckBox::isChecked() {
 
 void CheckBox::setPosition(const Size &size) {
     Component::setPosition(size);
-    Size labelPos = size;
-    labelPos.x += 4;
-    text.setPosition(labelPos);
+    text.setPosition(getPosition() + Size(4,0));
+    box.setPosition(getPosition());
 }

@@ -8,10 +8,11 @@
 #include <string>
 #include "Events/Event.h"
 #include "Component.h"
+#include "TextComponent.h"
 
 using namespace cursen;
 
-class Form : public Component {
+class Form : public TextComponent {
 
 public:
 

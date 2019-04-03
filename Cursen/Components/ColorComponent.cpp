@@ -4,7 +4,7 @@
 
 #include "ColorComponent.h"
 #include "CursenApplication.h"
-
+/*
 ColorComponent::ColorComponent() :
     Component(Size(), Size())
 {
@@ -102,3 +102,4 @@ void ColorComponent::setDisabled(const ColorPair &color) {
 ColorPair ColorComponent::getDisabled() {
     return ColorPair(disabled_foreground, disabled_background);
 }
+ */

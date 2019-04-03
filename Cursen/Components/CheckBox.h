@@ -5,11 +5,12 @@
 #ifndef CURSEN_CHECKBOX_H
 #define CURSEN_CHECKBOX_H
 
-#include "ColorComponent.h"
+#include "TextComponent.h"
 #include "Label.h"
 #include "CheckState.h"
+#include "AggregateComponent.h"
 
-class CheckBox : public ColorComponent {
+class CheckBox : public AggregateComponent {
 
 public:
 
@@ -17,7 +18,6 @@ public:
     CheckBox(const Size &pos);
 
     void initialize() override;
-    void render() override;
     void setText(const std::string& text) override;
 
     void setState(const CheckState& state);
@@ -28,13 +28,14 @@ public:
 
     bool isChecked();
 
-    void cursorOn() override;
-    void cursorOff() override;
+    void cursorOn();
+    void cursorOff();
 
     void setPosition(const Size &size) override;
 
 protected:
 
+    Label box;
     Label text;
     CheckState state;
 

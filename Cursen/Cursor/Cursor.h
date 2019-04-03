@@ -7,12 +7,13 @@
 
 #include "ArrowMap.h"
 #include "Components/Component.h"
+#include "Components/TextComponent.h"
 #include <unordered_map>
 
 /**
  * Cursor is a specialized component for creating a virtual cursor.
  */
-class Cursor : public Component {
+class Cursor : public TextComponent {
 
 public:
 
