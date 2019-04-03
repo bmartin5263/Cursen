@@ -13,6 +13,7 @@ class CheckBox : public ColorComponent {
 
 public:
 
+    CheckBox();
     CheckBox(const Size &pos);
 
     void initialize() override;
@@ -30,9 +31,11 @@ public:
     void cursorOn() override;
     void cursorOff() override;
 
+    void setPosition(const Size &size) override;
+
 protected:
 
-    Label* text;
+    Label text;
     CheckState state;
 
 };

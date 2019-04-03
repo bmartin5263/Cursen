@@ -17,6 +17,7 @@ class Label : public ColorComponent {
 
 public:
 
+    Label();
     Label(const Size& pos, const Size& dim);
 
     void initialize() override;

@@ -12,6 +12,7 @@ class TwirlProgress : public ColorComponent {
 
 public:
 
+    TwirlProgress();
     TwirlProgress(const Size &pos);
 
     void start();
@@ -27,7 +28,9 @@ public:
     void setForeground(const Color &color) override;
     Color getForeground() override;
     void setBackground(const Color &color) override;
-    Color getBackground() override;;
+    Color getBackground() override;
+
+    void setPosition(const Size &size) override;;
 
 private:
 

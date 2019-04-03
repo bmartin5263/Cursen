@@ -20,7 +20,7 @@ public:
     Component();
     Component(const Size& pos);
     Component(const Size& pos, const Size& dim);
-    ~Component();
+    virtual ~Component();
 
     // Initialization
     virtual void initialize() = 0;
@@ -68,6 +68,8 @@ public:
 
     Size getDimensions();
     Size getPosition();
+    virtual void setPosition(const Size& pos);
+    virtual void setSize(const Size& size);
 
     // Debug
     void enableDebugging();

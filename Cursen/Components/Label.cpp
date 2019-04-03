@@ -5,10 +5,14 @@
 #include <Drawing/CursesManager.h>
 #include "Label.h"
 
+Label::Label() :
+    ColorComponent(Size(0,0), Size(1,1))
+{
+}
+
 Label::Label(const Size& pos, const Size& dim) :
         ColorComponent(pos, dim)
 {
-    initialize();
 }
 
 void Label::initialize() {

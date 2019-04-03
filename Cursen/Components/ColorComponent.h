@@ -11,7 +11,10 @@ class ColorComponent : public Component {
 
 public:
 
+    ColorComponent();
+    ColorComponent(const Size& pos);
     ColorComponent(const Size& pos, const Size& dim);
+    ~ColorComponent() = default;
 
     virtual void initialize() override;
 

@@ -15,6 +15,7 @@ class Box : public ColorComponent {
 
 public:
 
+    Box();
     Box(const Size& pos, const Size& dim);
 
     void setBorder(chtype ul = ACS_ULCORNER, chtype top = ACS_HLINE, chtype ur = ACS_URCORNER,

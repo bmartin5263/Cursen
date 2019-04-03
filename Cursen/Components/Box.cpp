@@ -5,11 +5,17 @@
 #include <Drawing/CursesManager.h>
 #include "Box.h"
 
+Box::Box() :
+    ColorComponent(Size(0,0), Size(2,2))
+{
+    //initialize();
+}
+
 Box::Box(const Size &pos, const Size &dim) :
         ColorComponent(pos, dim)
 {
     if (dim.x < 2 || dim.y < 2) throw std::logic_error("Box requires dimensions > 1");
-    initialize();
+    //initialize();
 }
 
 void Box::initialize() {

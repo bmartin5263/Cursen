@@ -339,3 +339,13 @@ void Component::enableDebugging() {
 void Component::disableDebugging() {
     debug_coordinates = false;
 }
+
+void Component::setPosition(const Size &pos) {
+    this->position = pos;
+    invalidate();
+}
+
+void Component::setSize(const Size &size) {
+    content.resize(size);
+    invalidate();
+}

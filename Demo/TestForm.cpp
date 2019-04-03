@@ -12,7 +12,7 @@
 #include "Components/TwirlProgress.h"
 
 TestForm::TestForm() :
-    Form(Size(70,33)), twirlProgressStack(Size(0,0))
+    Form(Size(70,33))
 {
 
 }
@@ -20,87 +20,107 @@ TestForm::TestForm() :
 void TestForm::initialize() {
     setHidden(true);
 
-    box = new Box(Size(3,3), Size(21,10));
-    box->onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
-    add(box);
 
-    titleBox = new Box(Size(0,0), Size(getDimensions().x, 3));
-    titleBox->setLowerRight(ACS_RTEE);
-    titleBox->setLowerLeft(ACS_LTEE);
-    add(titleBox);
+    box.initialize();
+    box.setPosition(Size(3,3));
+    box.setSize(Size(21, 10));
+    box.onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
+    add(&box);
 
-    flashLabel = new Label(Size(1,1), Size(40,1));
-    flashLabel->setText("Flash");
-    flashLabel->onClick(std::bind(&TestForm::flash, this));
+    titleBox.initialize();
+    titleBox.setPosition(Size(0,0));
+    titleBox.setSize(Size(getDimensions().x, 3));
+    titleBox.setLowerRight(ACS_RTEE);
+    titleBox.setLowerLeft(ACS_LTEE);
+    add(&titleBox);
 
-    beepLabel = new Label(Size(1,2), Size(40,1));
-    beepLabel->setText("Beep");
-    beepLabel->onClick(std::bind(&TestForm::beep, this));
+    flashLabel.initialize();
+    flashLabel.setPosition(Size(1,1));
+    //flashLabel.setSize(Size(40,1));
+    flashLabel.setText("Flash");
+    flashLabel.onClick(std::bind(&TestForm::flash, this));
 
-    changeColorLabel = new Label(Size(1,3), Size(40,1));
-    changeColorLabel->setText("Change Color");
-    changeColorLabel->onClick(std::bind(&TestForm::changeColor, this));
+    beepLabel.initialize();
+    beepLabel.setPosition(Size(1,2));
+    //beepLabel.setSize(Size(40,1));
+    beepLabel.setText("Beep");
+    beepLabel.onClick(std::bind(&TestForm::beep, this));
 
-    exitLabel = new Label(Size(1,4), Size(40,1));
-    exitLabel->setText("Exit");
-    exitLabel->onClick(std::bind(&TestForm::quitGame, this));
+    changeColorLabel.initialize();
+    changeColorLabel.setPosition(Size(1,3));
+    changeColorLabel.setSize(Size(40,1));
+    changeColorLabel.setText("Change Color");
+    changeColorLabel.onClick(std::bind(&TestForm::changeColor, this));
 
-    smileyFace = new Label(Size(30,30), Size(40,1));
-    smileyFace->setText(":)");
-    add(smileyFace);
+    exitLabel.initialize();
+    exitLabel.setPosition(Size(1,4));
+    exitLabel.setSize(Size(40,1));
+    exitLabel.setText("Exit");
+    exitLabel.onClick(std::bind(&TestForm::quitGame, this));
 
-    messageLabel = new Label(Size(1,1), Size(getDimensions().x - 2,1));
-    messageLabel->setText("Welcome to Cursen!");
-    messageLabel->setForeground(Color::YELLOW);
+    smileyFace.initialize();
+    smileyFace.setPosition(Size(30,30));
+    smileyFace.setSize(Size(40,1));
+    smileyFace.setText(":)");
+    add(&smileyFace);
 
-    checkBox = new CheckBox(Size(1,6));
-    checkBox->setText("Exit Enabled");
-    checkBox->setState(CheckState::CHECK);
-    checkBox->onClick(std::bind(&TestForm::disable, this));
+    messageLabel.initialize();
+    messageLabel.setPosition(Size(1,1));
+    messageLabel.setSize(Size(getDimensions().x - 2,1));
+    messageLabel.setText("Welcome to Cursen!");
+    messageLabel.setForeground(Color::YELLOW);
 
-    checkBox2 = new CheckBox(Size(1,7));
-    checkBox2->setText("Rainbow Enabled");
-    checkBox2->onClick(std::bind(&TestForm::doRainbow, this));
+    //checkBox = new CheckBox(Size(1,6));
+    checkBox.initialize();
+    checkBox.setPosition(Size(1,6));
+    checkBox.setText("Exit Enabled");
+    checkBox.setState(CheckState::INDETERMINATE);
+    checkBox.onClick(std::bind(&TestForm::disable, this));
 
-    twirlCheck = new CheckBox(Size(1,8));
-    twirlCheck->setText("Twirl Enabled");
-    twirlCheck->onClick(std::bind(&TestForm::activateTwirl, this));
+    checkBox2.initialize();
+    checkBox2.setPosition(Size(1,7));
+    checkBox2.setText("Rainbow Enabled");
+    checkBox2.onClick(std::bind(&TestForm::doRainbow, this));
 
-    twirlProgress = new TwirlProgress(Size(21,4));
+    twirlCheck.initialize();
+    twirlCheck.setPosition(Size(1,8));
+    twirlCheck.setText("Twirl Enabled");
+    twirlCheck.onClick(std::bind(&TestForm::activateTwirl, this));
 
-    add(&twirlProgressStack);
-    box->add(twirlProgress);
-    titleBox->addRelative(messageLabel);
-    box->addRelative(flashLabel);
-    box->addRelative(beepLabel);
-    box->addRelative(changeColorLabel);
-    box->addRelative(exitLabel);
-    box->addRelative(checkBox);
-    box->addRelative(checkBox2);
-    box->addRelative(twirlCheck);
+    twirlProgress.initialize();
+    twirlProgress.setPosition(Size(21, 4));
 
-    cursor = new Cursor(flashLabel);
-    cursor->mapComponent(flashLabel, ArrowMap(nullptr, twirlCheck, nullptr, beepLabel));
-    cursor->mapComponent(beepLabel, ArrowMap(nullptr, flashLabel, nullptr, changeColorLabel));
-    cursor->mapComponent(changeColorLabel, ArrowMap(nullptr, beepLabel, nullptr, exitLabel));
-    cursor->mapComponent(exitLabel, ArrowMap(nullptr, changeColorLabel, nullptr, checkBox));
-    cursor->mapComponent(checkBox, ArrowMap(nullptr, exitLabel, nullptr, checkBox2));
-    cursor->mapComponent(checkBox2, ArrowMap(nullptr, checkBox, nullptr, twirlCheck));
-    cursor->mapComponent(twirlCheck, ArrowMap(nullptr, checkBox2, nullptr, flashLabel));
-    cursor->setEnabled(true);
+    box.add(&twirlProgress);
+    titleBox.addRelative(&messageLabel);
+    box.addRelative(&flashLabel);
+    box.addRelative(&beepLabel);
+    box.addRelative(&changeColorLabel);
+    box.addRelative(&exitLabel);
+    box.addRelative(&checkBox);
+    box.addRelative(&checkBox2);
+    box.addRelative(&twirlCheck);
+
+    cursor.setStart(&flashLabel);
+    cursor.mapComponent(&flashLabel, ArrowMap(nullptr, &twirlCheck, nullptr, &beepLabel));
+    cursor.mapComponent(&beepLabel, ArrowMap(nullptr, &flashLabel, nullptr, &changeColorLabel));
+    cursor.mapComponent(&changeColorLabel, ArrowMap(nullptr, &beepLabel, nullptr, &exitLabel));
+    cursor.mapComponent(&exitLabel, ArrowMap(nullptr, &changeColorLabel, nullptr, &checkBox));
+    cursor.mapComponent(&checkBox, ArrowMap(nullptr, &exitLabel, nullptr, &checkBox2));
+    cursor.mapComponent(&checkBox2, ArrowMap(nullptr, &checkBox, nullptr, &twirlCheck));
+    cursor.mapComponent(&twirlCheck, ArrowMap(nullptr, &checkBox2, nullptr, &flashLabel));
+    cursor.setEnabled(true);
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
 }
 
 void TestForm::activateTwirl() {
-    twirlProgress->toggle();
-    twirlProgressStack.toggle();
-    twirlCheck->toggle();
+    twirlProgress.toggle();
+    twirlCheck.toggle();
 }
 
 void TestForm::keyPress(const Event &event) {
     if (event.key.code == 'q') {
-        cursor->setEnabled(!cursor->isEnabled());
+        cursor.setEnabled(!cursor.isEnabled());
     }
 }
 
@@ -110,12 +130,12 @@ void TestForm::quitGame() {
 
 void TestForm::flash() {
     CursesManager::Flash();
-    messageLabel->setText("Flashy Flash");
+    messageLabel.setText("Flashy Flash");
 }
 
 void TestForm::beep() {
     CursesManager::Beep();
-    messageLabel->setText("Beep Boop");
+    messageLabel.setText("Beep Boop");
 }
 
 void TestForm::changeColor() {
@@ -123,50 +143,50 @@ void TestForm::changeColor() {
     i++;
     i = i % 6;
     if (i == 0) {
-        box->setForeground(Color::RED);
+        box.setForeground(Color::RED);
     }
     else if (i == 1) {
-        box->setForeground(Color::ORANGE);
+        box.setForeground(Color::ORANGE);
     }
     else if (i == 2) {
-        box->setForeground(Color::YELLOW);
+        box.setForeground(Color::YELLOW);
     }
     else if (i == 3) {
-        box->setForeground(Color::GREEN);
+        box.setForeground(Color::GREEN);
     }
     else if (i == 4) {
-        box->setForeground(Color::BLUE);
+        box.setForeground(Color::BLUE);
     }
     else if (i == 5) {
-        box->setForeground(Color::VIOLET);
+        box.setForeground(Color::VIOLET);
     }
 
 }
 
 void TestForm::moveComponent(const Event &event) {
     if (event.arrowPress.right) {
-        box->move(Size(1, 0));
+        box.move(Size(1, 0));
         changeColor();
     }
     if (event.arrowPress.left) {
-        box->move(Size(-1, 0));
+        box.move(Size(-1, 0));
         changeColor();
     }
-    if (!cursor->isEnabled()) {
+    if (!cursor.isEnabled()) {
         if (event.arrowPress.up) {
-            box->move(Size(0, -1));
+            box.move(Size(0, -1));
             changeColor();
         }
         if (event.arrowPress.down) {
-            box->move(Size(0, 1));
+            box.move(Size(0, 1));
             changeColor();
         }
     }
 }
 
 void TestForm::disable() {
-    checkBox->toggle();
-    exitLabel->setEnabled(checkBox->isChecked());
+    checkBox.toggle();
+    exitLabel.setEnabled(checkBox.isChecked());
 }
 
 void TestForm::render() {
@@ -181,12 +201,12 @@ void TestForm::doRainbow() {
     static bool flashing = false;
     if (flashing) {
         AlarmManager::StopTimer(this);
-        box->setForeground(Color::WHITE);
+        box.setForeground(Color::WHITE);
     }
     else {
         AlarmManager::StartTimer(this, std::bind(&TestForm::alarmFunction, this), .06);
     }
     flashing = !flashing;
-    checkBox2->toggle();
+    checkBox2.toggle();
 }
 

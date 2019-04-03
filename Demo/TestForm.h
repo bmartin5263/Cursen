@@ -8,11 +8,9 @@
 
 #include <Components/Form.h>
 #include <Components/Box.h>
+#include <Components/CheckBox.h>
+#include <Components/Label.h>
 #include <Components/TwirlProgress.h>
-
-class Label;
-class CheckBox;
-class TwirlProgress;
 
 class TestForm : public Form {
 
@@ -37,21 +35,20 @@ public:
 
 private:
 
-    Cursor* cursor;
-    Label* flashLabel;
-    Label* messageLabel;
-    Label* beepLabel;
-    Label* changeColorLabel;
-    Label* exitLabel;
-    Label* smileyFace;
-    Label* label6;
-    CheckBox* checkBox;
-    CheckBox* checkBox2;
-    CheckBox* twirlCheck;
-    Box* box;
-    Box* titleBox;
-    TwirlProgress* twirlProgress;
-    TwirlProgress twirlProgressStack;
+    Cursor cursor;
+    Label flashLabel;
+    Label messageLabel;
+    Label beepLabel;
+    Label changeColorLabel;
+    Label exitLabel;
+    Label smileyFace;
+    Label label6;
+    CheckBox checkBox;
+    CheckBox checkBox2;
+    CheckBox twirlCheck;
+    Box box;
+    Box titleBox;
+    TwirlProgress twirlProgress;
 
 };
 

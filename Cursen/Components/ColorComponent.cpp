@@ -5,6 +5,16 @@
 #include "ColorComponent.h"
 #include "CursenApplication.h"
 
+ColorComponent::ColorComponent() :
+    Component(Size(), Size())
+{
+    initialize();
+}
+
+ColorComponent::ColorComponent(const Size &pos) : Component(pos, Size()) {
+    initialize();
+}
+
 ColorComponent::ColorComponent(const Size &pos, const Size &dim) : Component(pos, dim) {
     initialize();
 }

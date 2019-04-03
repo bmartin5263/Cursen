@@ -7,10 +7,14 @@
 #include <Drawing/CursesManager.h>
 #include "TwirlProgress.h"
 
+TwirlProgress::TwirlProgress() :
+        ColorComponent(Size(0,0), Size(0,0)), twirlIndex(0), spinning(false)
+{
+}
+
 TwirlProgress::TwirlProgress(const Size &pos) :
         ColorComponent(pos, Size(0,0)), twirlIndex(0), spinning(false)
 {
-    initialize();
 }
 
 void TwirlProgress::initialize() {
@@ -68,4 +72,9 @@ void TwirlProgress::setBackground(const Color &color) {
 
 Color TwirlProgress::getBackground() {
     return twirl_label->getBackground();
+}
+
+void TwirlProgress::setPosition(const Size &pos) {
+    Component::setPosition(pos);
+    twirl_label->setPosition(pos);
 }

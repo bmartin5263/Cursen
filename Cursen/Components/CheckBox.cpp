@@ -5,20 +5,26 @@
 #include <CursenApplication.h>
 #include "CheckBox.h"
 
+CheckBox::CheckBox() :
+        ColorComponent(Size(0,0), Size(3,1))
+{
+}
+
 CheckBox::CheckBox(const Size &pos) :
         ColorComponent(pos, Size(3,1))
 {
-    initialize();
 }
 
 void CheckBox::initialize() {
     ColorComponent::initialize();
+
+    text.initialize();
     Size labelPos = position;
     labelPos.x += 4;
-    text = new Label(labelPos, Size(1,1));
-    setState(CheckState::UNCHECKED);
+    text.setPosition(labelPos);
+    add(&text);
 
-    add(text);
+    setState(CheckState::UNCHECKED);
 }
 
 void CheckBox::render() {
@@ -47,15 +53,15 @@ void CheckBox::render() {
 }
 
 void CheckBox::setText(const std::string &text) {
-    this->text->setText(text);
+    this->text.setText(text);
 }
 
 void CheckBox::cursorOn() {
-    this->text->cursorOn();
+    this->text.cursorOn();
 }
 
 void CheckBox::cursorOff() {
-    this->text->cursorOff();
+    this->text.cursorOff();
 }
 
 void CheckBox::setState(const CheckState &state) {
@@ -102,4 +108,11 @@ void CheckBox::toggle() {
 
 bool CheckBox::isChecked() {
     return state == CheckState::CHECK;
+}
+
+void CheckBox::setPosition(const Size &size) {
+    Component::setPosition(size);
+    Size labelPos = size;
+    labelPos.x += 4;
+    text.setPosition(labelPos);
 }

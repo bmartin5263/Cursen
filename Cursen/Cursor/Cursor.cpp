@@ -131,3 +131,6 @@ void Cursor::refresh() {
     }
 }
 
+void Cursor::setStart(Component *start) {
+    currentComponent = start;
+}
