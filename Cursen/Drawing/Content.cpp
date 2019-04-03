@@ -3,22 +3,22 @@
 //
 
 #include <cassert>
-#include "TextBody.h"
+#include "Content.h"
 #include "CursesManager.h"
 
-TextBody::TextBody() :
+Content::Content() :
     dimensions(Size(0,0)), body(nullptr)
 {
     initializeBody();
 }
 
-TextBody::TextBody(const Size& dimensions) :
+Content::Content(const Size& dimensions) :
     dimensions(dimensions), body(nullptr)
 {
     initializeBody();
 }
 
-void TextBody::initializeBody() {
+void Content::initializeBody() {
     body = new chtype*[dimensions.y + 1];           // +1 for NULL
     for (int i = 0; i < dimensions.y; i++) {
         body[i] = new chtype[dimensions.x + 1];         // +1 for NULL
@@ -29,7 +29,7 @@ void TextBody::initializeBody() {
     }
 }
 
-void TextBody::clear() {
+void Content::clear() {
     for (int i = 0; i < dimensions.y; i++) {
         for (int j = 0; j < dimensions.x; j++) {
             body[i][j] = ' ';
@@ -38,13 +38,13 @@ void TextBody::clear() {
     }
 }
 
-void TextBody::resize(Size dimensions) {
+void Content::resize(Size dimensions) {
     deleteBody();
     this->dimensions = dimensions;
     initializeBody();
 }
 
-void TextBody::deleteBody() {
+void Content::deleteBody() {
     if (body != nullptr) {
         for (int i = 0; i < dimensions.y; i++) {
             delete[] body[i];
@@ -54,25 +54,25 @@ void TextBody::deleteBody() {
     }
 }
 
-void TextBody::clearLine(const int y) {
+void Content::clearLine(const int y) {
     assertY(y);
     for (int i = 0; i < dimensions.x; i++) {
         body[y][i] = ' ';
     }
 }
 
-void TextBody::clearColumn(const int x) {
+void Content::clearColumn(const int x) {
     assertX(x);
     for (int i = 0; i < dimensions.y; i++) {
         body[i][x] = ' ';
     }
 }
 
-void TextBody::writeBody(const Line *const body, const Size &size) {
+void Content::writeBody(const Line *const body, const Size &size) {
     writeBody(body, size, Size(0,0));
 }
 
-void TextBody::writeBody(const Line *const body, const Size &size, const Size &loc) {
+void Content::writeBody(const Line *const body, const Size &size, const Size &loc) {
     //int rowIndex = 0;
     //int colIndex = 0;
     //for (int i = loc.y; i < dimensions.y && rowIndex < size.y; i++) {
@@ -91,22 +91,22 @@ void TextBody::writeBody(const Line *const body, const Size &size, const Size &l
     }
 }
 
-void TextBody::replaceBody(const Line *const body, const Size &size) {
+void Content::replaceBody(const Line *const body, const Size &size) {
     clear();
     writeBody(body, size);
 }
 
-void TextBody::replaceLine(Line line, const int y) {
+void Content::replaceLine(Line line, const int y) {
     clearLine(y);
     writeLine(line, Size(0, y));
 }
 
-void TextBody::replaceColumn(Line line, const int x) {
+void Content::replaceColumn(Line line, const int x) {
     clearColumn(x);
     writeColumn(line, x);
 }
 
-void TextBody::writeLine(const std::string &line, const Size &pos, const TextAlignment &alignment, const ColorPair &color) {
+void Content::writeLine(const std::string &line, const Size &pos, const TextAlignment &alignment, const ColorPair &color) {
     size_t len = line.length();
     chtype converted[len + 1];
     for (int i = 0; i < len; i++) {
@@ -116,11 +116,11 @@ void TextBody::writeLine(const std::string &line, const Size &pos, const TextAli
     writeLine(converted, pos, alignment);
 }
 
-void TextBody::writeColumn(const Line column, const int x) {
+void Content::writeColumn(const Line column, const int x) {
     writeColumn(column, Size(x, 0));
 }
 
-void TextBody::writeLine(const Line line, const Size &loc, const TextAlignment &alignment) {
+void Content::writeLine(const Line line, const Size &loc, const TextAlignment &alignment) {
     assertRange(loc.x, loc.y);
     int index;
     int i = 0;
@@ -148,7 +148,7 @@ void TextBody::writeLine(const Line line, const Size &loc, const TextAlignment &
     assert(body[loc.y][dimensions.x] == NULL_CHAR && "Null corrupted");
 }
 
-void TextBody::writeColumn(const Line column, const Size &loc) {
+void Content::writeColumn(const Line column, const Size &loc) {
     assertRange(loc.x, loc.y);
     int columnIndex = 0;
     for (int i = loc.y; i < dimensions.y; i++) {
@@ -156,19 +156,19 @@ void TextBody::writeColumn(const Line column, const Size &loc) {
     }
 }
 
-void TextBody::assertRange(const int x, const int y) {
+void Content::assertRange(const int x, const int y) {
     assertX(x);
     assertY(y);
 }
 
-void TextBody::assertX(const int x) {
+void Content::assertX(const int x) {
     if (x < 0 || x >= dimensions.x) throw std::range_error("X out of range: " + std::to_string(x));
 }
 
-void TextBody::assertY(const int y) {
+void Content::assertY(const int y) {
     if (y < 0 || y >= dimensions.y) throw std::range_error("Y out of range: " + std::to_string(y));
 }
 
-TextBody::~TextBody() {
+Content::~Content() {
     if (body != nullptr) deleteBody();
 }

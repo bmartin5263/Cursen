@@ -14,7 +14,7 @@
 
 using namespace cursen;
 
-class TextBody {
+class Content {
 
 public:
 
@@ -22,9 +22,9 @@ public:
 
     static const char NULL_CHAR = '\0';
 
-    TextBody();
-    TextBody(const Size& dimensions);
-    ~TextBody();
+    Content();
+    Content(const Size& dimensions);
+    ~Content();
 
     void clear();
     void clearLine(const int y);

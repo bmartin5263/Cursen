@@ -10,7 +10,7 @@
 #include <vector>
 #include <string>
 #include <ncurses.h>
-#include <Drawing/TextBody.h>
+#include <Drawing/Content.h>
 
 class Component {
 
@@ -30,7 +30,7 @@ public:
     void validate();
     bool isInvalid();
     virtual void render() = 0;
-    TextBody& getTextBody();
+    Content& getTextBody();
 
     // Component Relationship
     void add(Component *);
@@ -135,7 +135,7 @@ private:
 protected:
 
     std::vector<Component*> components;
-    TextBody content;
+    Content content;
     Size position;
     bool enabled;
     bool invalid;

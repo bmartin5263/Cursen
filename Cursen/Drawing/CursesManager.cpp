@@ -6,7 +6,7 @@
 #include <thread>
 #include "CursesManager.h"
 #include "ncurses.h"
-#include "Drawing/TextBody.h"
+#include "Drawing/Content.h"
 
 CursesManager* CursesManager::instance = nullptr;
 
@@ -122,7 +122,7 @@ void CursesManager::privDraw() {
         }
 
         if (!node->isHidden()) {
-            TextBody& body = node->content;
+            Content& body = node->content;
             chtype** content = body.getContent();
             Size dimensions = body.getDimensions();
             Size position = node->position;

@@ -19,7 +19,7 @@ Component::Component(const Size &pos) :
 }
 
 Component::Component(const Size &pos, const Size &dim) :
-        enabled(true), position(pos), content(TextBody(dim)), invalid(true)
+        enabled(true), position(pos), content(Content(dim)), invalid(true)
 {
 }
 
@@ -291,7 +291,7 @@ bool Component::isInvalid() {
     return invalid;
 }
 
-TextBody& Component::getTextBody() {
+Content& Component::getTextBody() {
     return content;
 }
 
