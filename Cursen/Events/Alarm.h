@@ -9,16 +9,16 @@
 
 class Component;
 
-class AlarmEntry {
+class Alarm {
 
 public:
 
     static void VOID() {};
 
-    AlarmEntry(Component* component, std::function<void()> alarmFunction, double interval);
-    AlarmEntry(Component* component, std::function<void()> alarmFunction, double interval, double total_time,  std::function<void()> cancel_function);
+    Alarm(Component* component, std::function<void()> alarmFunction, double interval);
+    Alarm(Component* component, std::function<void()> alarmFunction, double interval, double total_time,  std::function<void()> cancel_function);
 
-    ~AlarmEntry();
+    ~Alarm();
 
     void updateTime(double elapsed);
 

@@ -199,11 +199,11 @@ void TestForm::alarmFunction() {
 void TestForm::doRainbow() {
     static bool flashing = false;
     if (flashing) {
-        AlarmManager::StopTimer(this);
+        AlarmManager::StopAlarm(this);
         box.setForeground(Color::WHITE);
     }
     else {
-        AlarmManager::StartTimer(this, std::bind(&TestForm::alarmFunction, this), .06);
+        AlarmManager::StartAlarm(this, std::bind(&TestForm::alarmFunction, this), .06);
     }
     flashing = !flashing;
     checkBox2.toggle();

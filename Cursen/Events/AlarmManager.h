@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <queue>
 #include <chrono>
-#include "AlarmEntry.h"
+#include "Alarm.h"
 
 class Component;
 
@@ -19,31 +19,39 @@ public:
 
     typedef std::function<void()> VoidFunc;
 
+    /**
+     * \brief Iterate through the alarms and call their interval functions if ready
+     */
     static void ProcessAlarms() { Instance().privProcessAlarms(); }
-    static void StartTimer(Component* component, VoidFunc interval_function, double seconds)
+
+    /**
+     * \brief Create a new alarm for a specified component
+     */
+    static void StartAlarm(Component *component, VoidFunc interval_function, double seconds)
     {
-        Instance().privStartTimer(component, interval_function, seconds);
+        Instance().privStartAlarm(component, interval_function, seconds);
     };
 
-    static void StopTimer(Component* component) { Instance().privStopTimer(component); };
-    static void StartAutoTimer(Component* component, VoidFunc interval_function, double seconds, double total_time, VoidFunc cancel_function = AlarmEntry::VOID)
+    static void StopAlarm(Component *component) { Instance().privStopAlarm(component); };
+    static void StartAutoAlarm(Component *component, VoidFunc interval_function, double seconds, double total_time,
+                               VoidFunc cancel_function = Alarm::VOID)
     {
-        Instance().privStartAutoTimer(component, interval_function, seconds, total_time, cancel_function);
+        Instance().privStartAutoAlarm(component, interval_function, seconds, total_time, cancel_function);
     }
 
 private:
 
-    void privStartTimer(Component* component, VoidFunc f, double seconds);
-    void privStartAutoTimer(Component* component, VoidFunc f, double seconds, double total_time, VoidFunc cf);
-    void privStopTimer(Component* component);
+    void privStartAlarm(Component *component, VoidFunc f, double seconds);
+    void privStartAutoAlarm(Component *component, VoidFunc f, double seconds, double total_time, VoidFunc cf);
+    void privStopAlarm(Component *component);
     void privProcessAlarms();
 
     void handleStopRequests();
     void handleStartRequests();
 
-    std::queue<AlarmEntry*> startRequests;
+    std::queue<Alarm*> startRequests;
     std::queue<Component*> stopRequests;
-    std::unordered_map<Component*, AlarmEntry*> alarms;
+    std::unordered_map<Component*, Alarm*> alarms;
     std::chrono::system_clock::time_point lastUpdate;
 
     static AlarmManager* instance;

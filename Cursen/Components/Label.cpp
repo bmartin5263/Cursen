@@ -40,11 +40,11 @@ void Label::setText(const std::string& text) {
 }
 
 void Label::startGlow() {
-    AlarmManager::StartTimer(this, std::bind(&Label::animate_glow, this), .07);
+    AlarmManager::StartAlarm(this, std::bind(&Label::animate_glow, this), .07);
 }
 
 void Label::stopGlow() {
-    AlarmManager::StopTimer(this);
+    AlarmManager::StopAlarm(this);
 }
 
 void Label::animate_glow() {

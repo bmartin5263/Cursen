@@ -3,16 +3,16 @@
 //
 
 #include <Drawing/CursesManager.h>
-#include "AlarmEntry.h"
+#include "Alarm.h"
 
-AlarmEntry::AlarmEntry(Component *component, std::function<void()> alarmFunction, double interval) :
+Alarm::Alarm(Component *component, std::function<void()> alarmFunction, double interval) :
     component(component), interval_function(alarmFunction), interval(interval), remaining(0.0), total_time(0.0),
     has_total(false)
 {
 
 }
 
-AlarmEntry::AlarmEntry(Component *component, std::function<void()> alarmFunction, double interval,
+Alarm::Alarm(Component *component, std::function<void()> alarmFunction, double interval,
                        double total_time, std::function<void()> cancel_function) :
         component(component), interval_function(alarmFunction), interval(interval), remaining(0.0), total_time(total_time),
         has_total(true), cancel_function(cancel_function)
@@ -20,39 +20,39 @@ AlarmEntry::AlarmEntry(Component *component, std::function<void()> alarmFunction
 
 }
 
-void AlarmEntry::callInterval() {
+void Alarm::callInterval() {
     if (interval_function) {
         interval_function();
     }
 }
 
-void AlarmEntry::callExpire() {
+void Alarm::callExpire() {
     if (cancel_function) {
         cancel_function();
     }
 }
 
-void AlarmEntry::updateTime(double elapsed) {
+void Alarm::updateTime(double elapsed) {
     remaining -= elapsed;
     total_time -= elapsed;
 }
 
-bool AlarmEntry::ready() {
+bool Alarm::ready() {
     return remaining <= 0.0f;
 }
 
-bool AlarmEntry::expired() {
+bool Alarm::expired() {
     return has_total && (total_time <= 0.0f);
 }
 
-void AlarmEntry::reset() {
+void Alarm::reset() {
     remaining = interval;
 }
 
-Component* AlarmEntry::getComponent() {
+Component* Alarm::getComponent() {
     return component;
 }
 
-AlarmEntry::~AlarmEntry() {
+Alarm::~Alarm() {
     //CursesManager::Flash();
 }

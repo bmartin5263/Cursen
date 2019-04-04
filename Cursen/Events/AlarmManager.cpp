@@ -19,7 +19,7 @@ void AlarmManager::privProcessAlarms() {
     std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - lastUpdate;
     for (auto it = alarms.begin(); it != alarms.end(); it++) {
 
-        AlarmEntry* entry = it->second;
+        Alarm* entry = it->second;
         entry->updateTime(elapsed_seconds.count());
 
         if (entry->ready()) {
@@ -30,7 +30,7 @@ void AlarmManager::privProcessAlarms() {
             EventManager::PushEvent(event);
         }
         if (entry->expired()) {
-            privStopTimer(entry->getComponent());
+            privStopAlarm(entry->getComponent());
             Event event;
             event.type = EventType::AlarmExpire;
             event.alarm.alarmEntry = it->second;
@@ -43,23 +43,23 @@ void AlarmManager::privProcessAlarms() {
 
 }
 
-void AlarmManager::privStartTimer(Component *component, std::function<void()> f, double seconds) {
-    startRequests.push(new AlarmEntry(component, f, seconds));
+void AlarmManager::privStartAlarm(Component *component, VoidFunc f, double seconds) {
+    startRequests.push(new Alarm(component, f, seconds));
 }
 
-void AlarmManager::privStartAutoTimer(Component *component, std::function<void()> f, double seconds,
+void AlarmManager::privStartAutoAlarm(Component *component, VoidFunc f, double seconds,
                                       double total_time, VoidFunc cf)
 {
-    startRequests.push(new AlarmEntry(component, f, seconds, total_time, cf));
+    startRequests.push(new Alarm(component, f, seconds, total_time, cf));
 }
 
-void AlarmManager::privStopTimer(Component *component) {
+void AlarmManager::privStopAlarm(Component *component) {
     stopRequests.push(component);
 }
 
 void AlarmManager::handleStartRequests() {
-    AlarmEntry* alarmEntry;
-    std::unordered_map<Component*, AlarmEntry*>::iterator it;
+    Alarm* alarmEntry;
+    std::unordered_map<Component*, Alarm*>::iterator it;
     while (!startRequests.empty()) {
         alarmEntry = startRequests.front();
 
@@ -75,14 +75,14 @@ void AlarmManager::handleStartRequests() {
 
 void AlarmManager::handleStopRequests() {
     Component* component;
-    std::unordered_map<Component*, AlarmEntry*>::iterator it;
+    std::unordered_map<Component*, Alarm*>::iterator it;
     while (!stopRequests.empty()) {
         component = stopRequests.front();
 
         it = alarms.find(component);
         if (it != alarms.end() )
         {
-            AlarmEntry* entry = it->second;
+            Alarm* entry = it->second;
             delete entry;
             alarms.erase(component);
         }

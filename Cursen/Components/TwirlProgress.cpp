@@ -30,7 +30,7 @@ void TwirlProgress::initialize() {
 
 void TwirlProgress::start() {
     if (!spinning) {
-        AlarmManager::StartTimer(this, std::bind(&TwirlProgress::doTwirl, this), .1);
+        AlarmManager::StartAlarm(this, std::bind(&TwirlProgress::doTwirl, this), .1);
         twirl_label.setHidden(false);
         spinning = true;
     }
@@ -38,7 +38,7 @@ void TwirlProgress::start() {
 
 void TwirlProgress::stop() {
     if (spinning) {
-        AlarmManager::StopTimer(this);
+        AlarmManager::StopAlarm(this);
         twirl_label.setHidden(true);
         spinning = false;
     }

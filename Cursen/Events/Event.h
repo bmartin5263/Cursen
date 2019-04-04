@@ -9,7 +9,7 @@
 #include "Events/EventType.h"
 
 class Component;
-class AlarmEntry;
+class Alarm;
 
 class Event {
 
@@ -39,7 +39,7 @@ public:
         AlarmEvent() {
             alarmEntry = nullptr;
         }
-        AlarmEntry* alarmEntry;
+        Alarm* alarmEntry;
     };
 
     EventType type;
