@@ -5,7 +5,6 @@
 #ifndef CURSEN_TWIRLPROGRESS_H
 #define CURSEN_TWIRLPROGRESS_H
 
-#include "ColorComponent.h"
 #include "Label.h"
 #include "AggregateComponent.h"
 

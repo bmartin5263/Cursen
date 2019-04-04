@@ -9,7 +9,6 @@
 #include <Components/Component.h>
 #include <string>
 #include <Drawing/TextAlignment.h>
-#include "ColorComponent.h"
 #include "TextComponent.h"
 
 using namespace cursen;
