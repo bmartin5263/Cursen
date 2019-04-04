@@ -2,14 +2,10 @@
 // Created by Brandon Martin on 3/11/19.
 //
 
-#include <Drawing/CursesManager.h>
-#include <CursenApplication.h>
-#include <Events/AlarmManager.h>
-#include "Cursor/Cursor.h"
-#include "Components/Label.h"
+#include "Drawing/CursesManager.h"
+#include "CursenApplication.h"
+#include "Events/AlarmManager.h"
 #include "TestForm.h"
-#include "Components/CheckBox.h"
-#include "Components/TwirlProgress.h"
 
 TestForm::TestForm() :
     Form(Size(70,33))
@@ -120,6 +116,9 @@ void TestForm::activateTwirl() {
 void TestForm::keyPress(const Event &event) {
     if (event.key.code == 'q') {
         cursor.setEnabled(!cursor.isEnabled());
+    }
+    if (event.key.code == 'g') {
+        flashLabel.startGlow();
     }
 }
 

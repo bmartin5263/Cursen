@@ -27,12 +27,17 @@ public:
     void emplaceText(const std::string& text);
     void setText(const std::string& text) override;
 
+    void startGlow();
+    void stopGlow();
+
+    void animate_glow();
 
 
 private:
 
     std::string text;
     TextAlignment alignment;
+    int glow_frame;
 
 };
 

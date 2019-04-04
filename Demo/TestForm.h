@@ -11,6 +11,7 @@
 #include <Components/CheckBox.h>
 #include <Components/Label.h>
 #include <Components/TwirlProgress.h>
+#include <Cursor/Cursor.h>
 
 class TestForm : public Form {
 

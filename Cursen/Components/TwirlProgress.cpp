@@ -21,7 +21,7 @@ void TwirlProgress::initialize() {
     AggregateComponent::initialize();
 
     twirl_label.initialize();
-    twirl_label.setPosition(position);
+    twirl_label.setPosition(getPosition());
     twirl_label.setText("|");
     twirl_label.setForeground(Color::WHITE);
     twirl_label.setHidden(true);

@@ -130,9 +130,6 @@ private:
 
     Component* parent;
     std::vector<Component*> children;
-
-protected:
-
     Size position;
     bool enabled;
     bool invalid;
