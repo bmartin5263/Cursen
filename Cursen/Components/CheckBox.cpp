@@ -37,11 +37,11 @@ void CheckBox::setText(const std::string &text) {
 }
 
 void CheckBox::cursorOn() {
-    this->text.cursorOn();
+    this->text.CallOnCursor();
 }
 
 void CheckBox::cursorOff() {
-    this->text.cursorOff();
+    this->text.CallOffCursor();
 }
 
 void CheckBox::setState(const CheckState &state) {

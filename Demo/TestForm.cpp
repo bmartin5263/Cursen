@@ -118,7 +118,10 @@ void TestForm::keyPress(const Event &event) {
         cursor.setEnabled(!cursor.isEnabled());
     }
     if (event.key.code == 'g') {
-        flashLabel.startGlow();
+        if (!AlarmManager::HasActiveAlarm(&flashLabel))
+            flashLabel.startGlow();
+        else
+            flashLabel.stopGlow();
     }
 }
 

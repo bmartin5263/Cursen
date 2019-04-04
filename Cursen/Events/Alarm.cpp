@@ -5,17 +5,16 @@
 #include <Drawing/CursesManager.h>
 #include "Alarm.h"
 
-Alarm::Alarm(Component *component, std::function<void()> alarmFunction, double interval) :
+Alarm::Alarm(Component* component, VoidFun alarmFunction, double interval, VoidFun cancel_function) :
     component(component), interval_function(alarmFunction), interval(interval), remaining(0.0), total_time(0.0),
-    has_total(false)
+    cancel_function(cancel_function), has_total(false)
 {
 
 }
 
-Alarm::Alarm(Component *component, std::function<void()> alarmFunction, double interval,
-                       double total_time, std::function<void()> cancel_function) :
+Alarm::Alarm(Component* component, VoidFun alarmFunction, double interval,  VoidFun cancel_function, double total_time) :
         component(component), interval_function(alarmFunction), interval(interval), remaining(0.0), total_time(total_time),
-        has_total(true), cancel_function(cancel_function)
+        cancel_function(cancel_function), has_total(true)
 {
 
 }

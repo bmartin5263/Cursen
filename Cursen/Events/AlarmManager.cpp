@@ -43,14 +43,14 @@ void AlarmManager::privProcessAlarms() {
 
 }
 
-void AlarmManager::privStartAlarm(Component *component, VoidFunc f, double seconds) {
-    startRequests.push(new Alarm(component, f, seconds));
+void AlarmManager::privStartAlarm(Component *component, VoidFunc interval_function, double seconds, VoidFunc cf) {
+    startRequests.push(new Alarm(component, interval_function, seconds, cf));
 }
 
-void AlarmManager::privStartAutoAlarm(Component *component, VoidFunc f, double seconds,
+void AlarmManager::privStartAutoAlarm(Component *component, VoidFunc interval_function, double seconds,
                                       double total_time, VoidFunc cf)
 {
-    startRequests.push(new Alarm(component, f, seconds, total_time, cf));
+    startRequests.push(new Alarm(component, interval_function, seconds, cf, total_time));
 }
 
 void AlarmManager::privStopAlarm(Component *component) {
@@ -89,4 +89,9 @@ void AlarmManager::handleStopRequests() {
 
         stopRequests.pop();
     }
+}
+
+bool AlarmManager::privHasActiveAlarm(Component* component) {
+    auto it = alarms.find(component);
+    return it != alarms.end();
 }

@@ -13,10 +13,12 @@ class Alarm {
 
 public:
 
+    typedef std::function<void()> VoidFun;
+
     static void VOID() {};
 
-    Alarm(Component* component, std::function<void()> alarmFunction, double interval);
-    Alarm(Component* component, std::function<void()> alarmFunction, double interval, double total_time,  std::function<void()> cancel_function);
+    Alarm(Component* component, VoidFun alarmFunction, double interval, VoidFun cancel_function);
+    Alarm(Component* component, VoidFun alarmFunction, double interval,  VoidFun cancel_function, double total_time);
 
     ~Alarm();
 
@@ -34,8 +36,8 @@ public:
 private:
 
     Component* component;
-    std::function<void()> interval_function;
-    std::function<void()> cancel_function;
+    VoidFun interval_function;
+    VoidFun cancel_function;
     double interval;
     double remaining;
     double total_time;

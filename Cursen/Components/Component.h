@@ -96,12 +96,6 @@ public:
     void detachOffCursor();
     void detachOnCursor();
 
-private:
-
-    friend class EventManager;
-    friend class CursesManager;
-    friend class Cursor;
-
     void CallKeyPress(const Event&);
     void CallEscapePress(const Event&);
     void CallEnterPress(const Event&);
@@ -113,6 +107,12 @@ private:
     void CallOnCursor();
     void CallOffCursor();
     void CallOnClick();
+
+private:
+
+    friend class EventManager;
+    friend class CursesManager;
+    friend class Cursor;
 
     void setParent(Component*);
 
