@@ -35,8 +35,6 @@ public:
     void setDisabled(const ColorPair &color) override;
     ColorPair getDisabled() override;
 
-    void render() override = 0;
-
     Content * getContent() override;
     void setSize(const Size &size);
     Size getSize();
