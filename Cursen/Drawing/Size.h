@@ -30,7 +30,7 @@ namespace cursen {
             return *this;
         }
 
-        Size operator + (Size const &size) {
+        Size operator + (Size const &size) const {
             return Size(x + size.x, y + size.y);
         }
 
@@ -40,7 +40,7 @@ namespace cursen {
             return *this;
         }
 
-        Size operator - (Size const &size) {
+        Size operator - (Size const &size) const {
             return Size(x - size.x, y - size.y);
         }
 
@@ -50,7 +50,7 @@ namespace cursen {
             return *this;
         }
 
-        Size operator * (Size const &size) {
+        Size operator * (Size const &size) const {
             return Size(x * size.x, y * size.y);
         }
 
@@ -60,7 +60,7 @@ namespace cursen {
             return *this;
         }
 
-        Size operator / (Size const &size) {
+        Size operator / (Size const &size) const {
             return Size(x / size.x, y / size.y);
         }
 

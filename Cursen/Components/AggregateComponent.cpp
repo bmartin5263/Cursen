@@ -14,9 +14,3 @@ AggregateComponent::AggregateComponent(const Size &pos) :
 {
 
 }
-
-void AggregateComponent::initialize() {
-    for (auto child : getChildren()) {
-        child->initialize();
-    }
-}

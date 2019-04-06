@@ -6,6 +6,14 @@
 #include "Content.h"
 #include "CursesManager.h"
 
+size_t Content::lineLen(Content::Line const line) {
+    size_t i = 0;
+    while(line[i] != NULL_CHAR) {
+        i++;
+    }
+    return i;
+}
+
 Content::Content() :
     dimensions(Size(0,0)), body(nullptr)
 {
@@ -23,7 +31,7 @@ void Content::initializeBody() {
     for (int i = 0; i < dimensions.y; i++) {
         body[i] = new chtype[dimensions.x + 1];         // +1 for NULL
         for (int j = 0; j < dimensions.x; j++) {
-            body[i][j] = '$';
+            body[i][j] = ' ';
         }
         body[i][dimensions.x] = NULL_CHAR;
     }
@@ -41,6 +49,7 @@ void Content::clear() {
 void Content::resize(Size dimensions) {
     deleteBody();
     this->dimensions = dimensions;
+    empty = dimensions.x <= 0 || dimensions.y <= 0;
     initializeBody();
 }
 
@@ -121,38 +130,54 @@ void Content::writeColumn(const Line column, const int x) {
 }
 
 void Content::writeLine(const Line line, const Size &loc, const TextAlignment &alignment) {
-    assertRange(loc.x, loc.y);
-    int index;
-    int i = 0;
-    switch (alignment) {
-        case TextAlignment::LEFT:
-            index = 0;
-            for (int i = loc.x; i < dimensions.x; i++) {
-                if (line[index] == NULL_CHAR) break;
-                body[loc.y][i] = line[index++];
-            }
-            break;
-        case TextAlignment::CENTER:
-            break;
-        case TextAlignment::RIGHT:
-            while (line[i] != NULL_CHAR) {
-                i++;
-            }
-            index = dimensions.x - 1;
-            for (int j = i; j >= 0; j--) {
-                if (index < 0) break;
-                body[loc.y][index--] = line[j];
-            }
-            break;
+    if (!empty) {
+        assertRange(loc.x, loc.y);
+        int index;
+        int center;
+        int start;
+        int end;
+        size_t len;
+        switch (alignment) {
+            case TextAlignment::LEFT:
+                index = 0;
+                for (int j = loc.x; j < dimensions.x; j++) {
+                    if (line[index] == NULL_CHAR) break;
+                    body[loc.y][j] = line[index++];
+                }
+                break;
+            case TextAlignment::CENTER:
+                len = lineLen(line);
+                center = dimensions.x / 2;
+                start = center - (int) ceil((double) len / 2.0);
+                index = 0;
+                for (int j = start; j < dimensions.x; j++) {
+                    if (line[index] == NULL_CHAR) break;
+                    body[loc.y][j] = line[index++];
+                }
+                break;
+            case TextAlignment::RIGHT:
+                end = 0;
+                while (line[end] != NULL_CHAR) {
+                    end++;
+                }
+                index = dimensions.x - 1;
+                for (int j = end; j >= 0; j--) {
+                    if (index < 0) break;
+                    body[loc.y][index--] = line[j];
+                }
+                break;
+        }
+        assert(body[loc.y][dimensions.x] == NULL_CHAR && "Null corrupted");
     }
-    assert(body[loc.y][dimensions.x] == NULL_CHAR && "Null corrupted");
 }
 
 void Content::writeColumn(const Line column, const Size &loc) {
-    assertRange(loc.x, loc.y);
-    int columnIndex = 0;
-    for (int i = loc.y; i < dimensions.y; i++) {
-        body[i][loc.x] = column[columnIndex++];
+    if (!empty) {
+        assertRange(loc.x, loc.y);
+        int columnIndex = 0;
+        for (int i = loc.y; i < dimensions.y; i++) {
+            body[i][loc.x] = column[columnIndex++];
+        }
     }
 }
 
@@ -162,11 +187,11 @@ void Content::assertRange(const int x, const int y) {
 }
 
 void Content::assertX(const int x) {
-    if (x < 0 || x >= dimensions.x) throw std::range_error("X out of range: " + std::to_string(x));
+    if (x >= dimensions.x) throw std::range_error("X out of range: " + std::to_string(x));
 }
 
 void Content::assertY(const int y) {
-    if (y < 0 || y >= dimensions.y) throw std::range_error("Y out of range: " + std::to_string(y));
+    if (y >= dimensions.y) throw std::range_error("Y out of range: " + std::to_string(y));
 }
 
 Content::~Content() {

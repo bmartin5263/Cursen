@@ -95,14 +95,22 @@ void TestForm::initialize() {
     box.addRelative(&checkBox2);
     box.addRelative(&twirlCheck);
 
+    pressMe.initialize();
+    pressMe.setLength(20);
+    pressMe.setText("Hello!");
+    //pressMe.setPosition(Size(0,0));
+    //pressMe.setText("Hello");
+    add(&pressMe);
+
     cursor.setStart(&flashLabel);
-    cursor.mapComponent(&flashLabel, ArrowMap(nullptr, &twirlCheck, nullptr, &beepLabel));
+    cursor.mapComponent(&flashLabel, ArrowMap(nullptr, &pressMe, nullptr, &beepLabel));
     cursor.mapComponent(&beepLabel, ArrowMap(nullptr, &flashLabel, nullptr, &changeColorLabel));
     cursor.mapComponent(&changeColorLabel, ArrowMap(nullptr, &beepLabel, nullptr, &exitLabel));
     cursor.mapComponent(&exitLabel, ArrowMap(nullptr, &changeColorLabel, nullptr, &checkBox));
     cursor.mapComponent(&checkBox, ArrowMap(nullptr, &exitLabel, nullptr, &checkBox2));
     cursor.mapComponent(&checkBox2, ArrowMap(nullptr, &checkBox, nullptr, &twirlCheck));
-    cursor.mapComponent(&twirlCheck, ArrowMap(nullptr, &checkBox2, nullptr, &flashLabel));
+    cursor.mapComponent(&twirlCheck, ArrowMap(nullptr, &checkBox2, nullptr, &pressMe));
+    cursor.mapComponent(&pressMe, ArrowMap(nullptr, &twirlCheck, nullptr, &flashLabel));
     cursor.setEnabled(true);
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));

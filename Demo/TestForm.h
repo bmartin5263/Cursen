@@ -12,6 +12,7 @@
 #include <Components/Label.h>
 #include <Components/TwirlProgress.h>
 #include <Cursor/Cursor.h>
+#include <Components/Button.h>
 
 class TestForm : public Form {
 
@@ -37,6 +38,7 @@ public:
 private:
 
     Cursor cursor;
+    Button pressMe;
     Label flashLabel;
     Label messageLabel;
     Label beepLabel;

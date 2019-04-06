@@ -41,6 +41,10 @@ public:
     void setSize(const Size &size);
     Size getSize();
 
+    void startGlow();
+    void stopGlow();
+    void animateGlow();
+
 protected:
 
     ColorPair& getCurrentDrawColor();
@@ -55,6 +59,7 @@ private:
     Color highlight_background;
     Color disabled_foreground;
     Color disabled_background;
+    int glow_frame;
     bool isHovered;
 
 };

@@ -22,6 +22,8 @@ public:
 
     static const char NULL_CHAR = '\0';
 
+    static size_t lineLen(const Line line);
+
     Content();
     Content(const Size& dimensions);
     ~Content();
@@ -63,6 +65,7 @@ private:
 
     chtype** body;
     Size dimensions;
+    bool empty;
 
 };
 
