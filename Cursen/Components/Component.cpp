@@ -98,7 +98,7 @@ void Component::setEnabled(bool value) {
     enabled = value;
 }
 
-bool Component::isEnabled() {
+bool Component::isEnabled() const {
     return enabled;
 }
 
@@ -106,7 +106,7 @@ void Component::setHidden(bool value) {
     hidden = value;
 }
 
-bool Component::isHidden() {
+bool Component::isHidden() const {
     return hidden;
 }
 
@@ -308,7 +308,7 @@ void Component::setDisabledAll(const ColorPair &color) {
     }
 }
 
-Size Component::getPosition() {
+Size Component::getPosition() const {
     return this->position;
 }
 

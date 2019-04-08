@@ -43,13 +43,14 @@ public:
     static void Initialize() { Instance().initializeCurses(); }
     static void Terminate() { Instance().terminateCurses(); }
 
-    static void RequestCompleteRedraw() { return Instance().privRequestCompleteRedraw(); };
-
     static void DrawChar(int c) { instance->putCharacter(c); }
     static void DrawString(const std::string &string) { instance->drawString(string.c_str()); }
     static void DrawString(const char *string) { instance->drawString(string); }
     static void DrawString(const std::string &string, int x, int y) { instance->drawString(string.c_str(), x, y); }
     static void DrawString(const char *string, int x, int y) { instance->drawString(string, x, y); }
+
+    static void DrawStringBottomRight(const std::string &string) { Instance().privDrawStringBottomRight(string.c_str()); }
+
     static int GetChar() { return instance->getCharacter(); }
 
     static short GetColorPair(const ColorPair& color) { return instance->privGetColorPair(color); }
@@ -66,10 +67,8 @@ private:
     typedef std::unordered_map<ColorPair, short, color_pair_hash> ColorPairMap;
 
     // Instance Data
+    Size dimensions;
     int inputTimeout;
-    //std::queue<DrawRequest> drawQueue;
-    //std::queue<ClearRequest> clearQueue;
-    //std::queue<Component*> componentQueue;
     ColorMap colorMap;
     ColorPairMap colorPairMap;
     bool requestingFullRedraw;
@@ -83,13 +82,14 @@ private:
     void putCharacter(int c);
     void drawString(const char *string);
     void drawString(const char *string, int x, int y);
+    void privDrawStringBottomRight(const char *string);
     void doBeep();
     void doFlash();
-    //short privGetColorPair(const Color&);
     short privGetColorPair(const ColorPair&);
-    void privRequestCompleteRedraw();
     void privDraw();
     void privResize(const Size& dim);
+
+    void drawComponent(Component& component);
 
     // Static Data
 

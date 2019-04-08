@@ -14,6 +14,7 @@
 #include "EventQueue.h"
 
 class Component;
+class SoloRegistrationKey;
 
 class EventManager {
 
@@ -27,27 +28,32 @@ public:
     static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
     static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
 
+    static SoloRegistrationKey* RegisterSolo(Component& component, EventType events) { return Instance().registerComponentSolo(component, events); }
+    static void DeregisterSolo(SoloRegistrationKey* key, EventType events) { Instance().deregisterComponentSolo(key, events); }
+
     static EventQueue* GetEventQueue() { return Instance().privGetEventQueue(); }
 
 private:
 
     typedef int BitFlags;
-    typedef std::unordered_map<Component*, BitFlags> ComponentFlagMap;
     typedef std::unordered_set<Component*> ComponentList;
-    typedef std::unordered_map<EventType, ComponentList, EnumClassHash> FlagListMap;
+    typedef std::unordered_map<Component*, BitFlags> ComponentRegistrationMap;
+    typedef std::unordered_map<EventType, ComponentList, EnumClassHash> EventComponentMap;
 
     // Methods
     Event pollEvent();
     void processEvent(const Event& event);
     void processKeyboardInput(int limit);
     void registerComponent(Component& component, EventType eventFlag);
+    SoloRegistrationKey* registerComponentSolo(Component& component, EventType eventFlag);
     void deregisterComponent(Component& component, EventType events);
+    void deregisterComponentSolo(SoloRegistrationKey* key, EventType events);
     void privPushEvent(Event e);
     EventQueue* privGetEventQueue();
 
     // Instance Data
-    FlagListMap dispatchMap;
-    ComponentFlagMap registrationMap;
+    EventComponentMap dispatchMap;
+    ComponentRegistrationMap registrationMap;
     EventQueue eventQueue;
 
     // Static Data

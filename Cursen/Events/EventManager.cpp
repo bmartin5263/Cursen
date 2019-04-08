@@ -15,51 +15,63 @@ void EventManager::processKeyboardInput(int limit) {
     int keysProcessed = 0;
     int key = getch();
     while(key != ERR) {
-        Event event;
-        if (key == CursesManager::ESCAPE) {
-            event.type = EventType::EscPressed;
-            event.key.code = key;
-        }
-        else if (key == CursesManager::BACKSPACE)
-        {
-            event.type = EventType::DeletePressed;
-            event.key.code = key;
-        }
-        else if (key == CursesManager::ENTER)
-        {
-            event.type = EventType::EnterPressed;
-            event.key.code = key;
-        }
-        else if (key == CursesManager::UP)
-        {
-            event.type = EventType::ArrowPressed;
-            event.arrowPress.up = true;
-        }
-        else if (key == CursesManager::DOWN)
-        {
-            event.type = EventType::ArrowPressed;
-            event.arrowPress.down = true;
-        }
-        else if (key == CursesManager::LEFT)
-        {
-            event.type = EventType::ArrowPressed;
-            event.arrowPress.left = true;
 
+        if (key == '@') {
+            CursenDebugger& debugger = CursenApplication::GetDebugger();
+            if (debugger.getInspectionPointer() != nullptr) {
+                debugger.deactivateInspection();
+            }
+            else {
+                debugger.activateInspection();
+            }
         }
-        else if (key == CursesManager::RIGHT)
-        {
-            event.type = EventType::ArrowPressed;
-            event.arrowPress.right = true;
-        }
-        else
-        {
-            event.type = EventType::KeyPressed;
-            event.key.code = key;
-        }
-        eventQueue.push(event);
-        keysProcessed++;
-        if (keysProcessed == limit) {
-            return;
+        else {
+            Event event;
+            if (key == CursesManager::ESCAPE) {
+                event.type = EventType::EscPressed;
+                event.key.code = key;
+            }
+            else if (key == CursesManager::BACKSPACE)
+            {
+                event.type = EventType::DeletePressed;
+                event.key.code = key;
+            }
+            else if (key == CursesManager::ENTER)
+            {
+                event.type = EventType::EnterPressed;
+                event.key.code = key;
+            }
+            else if (key == CursesManager::UP)
+            {
+                event.type = EventType::ArrowPressed;
+                event.arrowPress.up = true;
+            }
+            else if (key == CursesManager::DOWN)
+            {
+                event.type = EventType::ArrowPressed;
+                event.arrowPress.down = true;
+            }
+            else if (key == CursesManager::LEFT)
+            {
+                event.type = EventType::ArrowPressed;
+                event.arrowPress.left = true;
+
+            }
+            else if (key == CursesManager::RIGHT)
+            {
+                event.type = EventType::ArrowPressed;
+                event.arrowPress.right = true;
+            }
+            else
+            {
+                event.type = EventType::KeyPressed;
+                event.key.code = key;
+            }
+            eventQueue.push(event);
+            keysProcessed++;
+            if (keysProcessed == limit) {
+                return;
+            }
         }
         key = getch();
     }
@@ -133,16 +145,16 @@ void EventManager::processEvent(const Event &event) {
 }
 
 void EventManager::deregisterComponent(Component &component, EventType eventFlag) {
-    ComponentFlagMap::iterator it;
+    ComponentRegistrationMap::iterator it;
 
     it = registrationMap.find(&component);
     if (it != registrationMap.end() )
     {
-        BitFlags currentflags = it->second;
+        BitFlags currentFlags = it->second;
 
         for (BitFlags flag = (BitFlags)EventType::KeyPressed; flag <= (BitFlags)EventType::SocketMessage; flag = flag << 1)
         {
-            if (flag & currentflags & (BitFlags)eventFlag)
+            if (flag & currentFlags & (BitFlags)eventFlag)
             {
                 dispatchMap[(EventType)flag].erase(&component);
                 it->second -= flag;
@@ -155,10 +167,9 @@ void EventManager::deregisterComponent(Component &component, EventType eventFlag
 }
 
 void EventManager::registerComponent(Component& component, EventType eventFlag) {
-    ComponentFlagMap::iterator it;
     BitFlags currentFlags;
 
-    it = registrationMap.find(&component);
+    auto it = registrationMap.find(&component);
     if (it != registrationMap.end())
     {
         currentFlags = it->second;
@@ -177,6 +188,14 @@ void EventManager::registerComponent(Component& component, EventType eventFlag) 
             registrationMap[&component] += flag;
         }
     }
+}
+
+SoloRegistrationKey *EventManager::registerComponentSolo(Component &component, EventType eventFlag) {
+    return nullptr;
+}
+
+void EventManager::deregisterComponentSolo(SoloRegistrationKey *key, EventType events) {
+
 }
 
 EventQueue* EventManager::privGetEventQueue() {

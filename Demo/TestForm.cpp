@@ -19,7 +19,6 @@ void TestForm::initialize() {
     box.initialize();
     box.setPosition(Size(3,3));
     box.setSize(Size(21, 10));
-    box.onArrowPress(std::bind(&TestForm::moveComponent, this, std::placeholders::_1));
     add(&box);
 
     titleBox.initialize();
@@ -97,8 +96,8 @@ void TestForm::initialize() {
 
     pressMe.initialize();
     pressMe.setLength(20);
-    pressMe.setText("Hello!");
-    //pressMe.setPosition(Size(0,0));
+    pressMe.setText("Button");
+    pressMe.setPosition(Size(3,13));
     //pressMe.setText("Hello");
     add(&pressMe);
 

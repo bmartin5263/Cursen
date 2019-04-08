@@ -13,8 +13,31 @@ InspectionPointer::InspectionPointer() :
 
 void InspectionPointer::initialize() {
     TextComponent::initialize();
+
+    onArrowPress(std::bind(&InspectionPointer::movePointer, this, std::placeholders::_1));
+
+    invalidate();
 }
 
 void InspectionPointer::render() {
-    getContent()->writeLine(std::to_string(POINTER), Size(0,0), TextAlignment::LEFT, Color::RED);
+    getContent()->writeLine("@", Size(0,0), TextAlignment::LEFT, Color::RED);
+}
+
+void InspectionPointer::movePointer(const Event &event) {
+    if (event.arrowPress.down) {
+        move(Size(0,1));
+    }
+    if (event.arrowPress.up) {
+        move(Size(0,-1));
+    }
+    if (event.arrowPress.right) {
+        move(Size(1,0));
+    }
+    if (event.arrowPress.left) {
+        move(Size(-1,0));
+    }
+}
+
+InspectionPointer::~InspectionPointer() {
+    detachArrowPress();
 }

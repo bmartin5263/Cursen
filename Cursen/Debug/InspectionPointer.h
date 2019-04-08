@@ -15,9 +15,12 @@ public:
     static const char POINTER = '@';
 
     InspectionPointer();
+    ~InspectionPointer();
 
     void render() override;
     void initialize() override;
+
+    void movePointer(const Event& event);
 
 private:
 

@@ -5,11 +5,13 @@
 #ifndef CURSEN_CURSENAPPLICATION_H
 #define CURSEN_CURSENAPPLICATION_H
 
+#include "Debug/CursenDebugger.h"
 #include "Drawing/ColorPalette.h"
 
 using namespace cursen;
 
 class Form;
+class InspectionPointer;
 
 class CursenApplication {
 
@@ -22,10 +24,13 @@ public:
     static void Quit() { Instance().privQuit(); }
     static Form* GetCurrentForm() { return Instance().privGetCurrentForm(); }
 
+    static CursenDebugger& GetDebugger() { return Instance().privGetDebugger(); };
+
 private:
 
     // Instance Data
     Form* currentForm;
+    CursenDebugger cursenDebugger;
     ColorPalette palette;
     bool running;
 
@@ -35,6 +40,7 @@ private:
     void privInitialize();
     void privRun(Form *startForm);
     void privQuit();
+    CursenDebugger& privGetDebugger();
 
     void privSetColorPalette(const ColorPalette& palette);
     ColorPalette& privGetColorPalette();

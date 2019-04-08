@@ -34,18 +34,15 @@ void CursenApplication::privRun(Form *form) {
     srand((unsigned)time(0));
 
     CursesManager::Initialize();
-    //KeyboardEventManager::SetEventQueue(EventManager::GetEventQueue());
 
     currentForm->initialize();
     CursesManager::Draw();
 
-    //KeyboardEventManager::Start();
     while (running) {
         Event e = EventManager::PollEvent();
         EventManager::ProcessEvent(e);
         CursesManager::Draw();
     }
-    //KeyboardEventManager::Stop();
 
     CursesManager::Terminate();
 
@@ -53,9 +50,6 @@ void CursenApplication::privRun(Form *form) {
 
 void CursenApplication::privQuit() {
     running = false;
-}
-
-CursenApplication::~CursenApplication() {
 }
 
 Form* CursenApplication::privGetCurrentForm() {
@@ -68,4 +62,11 @@ void CursenApplication::privSetColorPalette(const ColorPalette &palette) {
 
 ColorPalette &CursenApplication::privGetColorPalette() {
     return this->palette;
+}
+
+CursenDebugger &CursenApplication::privGetDebugger() {
+    return cursenDebugger;
+}
+
+CursenApplication::~CursenApplication() {
 }

@@ -30,7 +30,7 @@ public:
     bool isInvalid();
     virtual void render() = 0;
     virtual Content * getContent() = 0;
-    Size getPosition();
+    Size getPosition() const;
     virtual void setPosition(const Size& pos);
     virtual void move(const Size& movement);
 
@@ -43,10 +43,10 @@ public:
 
     // Attributes
     virtual void setEnabled(bool value);
-    virtual bool isEnabled();
+    virtual bool isEnabled() const;
 
     virtual void setHidden(bool value);
-    virtual bool isHidden();
+    virtual bool isHidden() const;
 
     // Common Attributes
     virtual void setForeground(const Color &color) {};

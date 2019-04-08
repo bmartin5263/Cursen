@@ -64,3 +64,9 @@ void Button::cursorOff() {
     border.CallOffCursor();
     button_text.CallOffCursor();
 }
+
+void Button::setPosition(const Size &pos) {
+    Component::setPosition(pos);
+    border.setPosition(pos);
+    button_text.setPosition(pos + Size(1,1));
+}

@@ -24,6 +24,7 @@ public:
     void cursorOff();
 
     void setText(const std::string &text) override;
+    void setPosition(const Size &pos) override;
 
 private:
 

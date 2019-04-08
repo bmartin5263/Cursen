@@ -5,6 +5,8 @@
 #ifndef CURSEN_VECT2D_H
 #define CURSEN_VECT2D_H
 
+#include <string>
+
 namespace cursen {
 
     struct Size {
@@ -68,6 +70,11 @@ namespace cursen {
             this->x /= size.x;
             this->y /= size.y;
             return *this;
+        }
+
+        std::string toString() {
+            using namespace std;
+            return string("(") + to_string(x) + string(",") + to_string(y) + string(")");
         }
 
         int x;
