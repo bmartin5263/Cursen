@@ -33,9 +33,9 @@ void CursenApplication::privRun(Form *form) {
 
     srand((unsigned)time(0));
 
-    CursesManager::Initialize();
-
+    CursesManager::Initialize(currentForm->getSize());
     currentForm->initialize();
+
     CursesManager::Draw();
 
     while (running) {

@@ -29,8 +29,8 @@ int CursesManager::getCharacter() {
     return c;
 }
 
-void CursesManager::initializeCurses() {
-    dimensions = CursenApplication::GetCurrentForm()->getSize();
+void CursesManager::initializeCurses(const Size& dim) {
+    dimensions = dim;
     Resize(dimensions);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 

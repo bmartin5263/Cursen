@@ -40,7 +40,7 @@ public:
     static const chtype HLINE;
 
 
-    static void Initialize() { Instance().initializeCurses(); }
+    static void Initialize(const Size& dim) { Instance().initializeCurses(dim); }
     static void Terminate() { Instance().terminateCurses(); }
 
     static void DrawChar(int c) { instance->putCharacter(c); }
@@ -74,7 +74,7 @@ private:
     bool requestingFullRedraw;
 
     // Methods
-    void initializeCurses();
+    void initializeCurses(const Size& dim);
     void terminateCurses();
 
     // Static to Instance Methods
