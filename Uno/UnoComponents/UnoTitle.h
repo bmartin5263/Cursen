@@ -14,6 +14,9 @@ public:
     UnoTitle();
     UnoTitle(const Size& pos);
 
+    void initialize() override;
+    void render() override;
+
 private:
 
 

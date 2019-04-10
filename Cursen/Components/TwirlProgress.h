@@ -20,6 +20,8 @@ public:
     void toggle();
     void setState(const bool& on);
 
+    bool isSpinning();
+
     void initialize() override;
 
     void setForeground(const Color &color) override;

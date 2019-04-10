@@ -40,6 +40,10 @@ void UnoConsole::initialize() {
     console_message.setText("Welcome to Uno!");
     add(&console_message);
 
+    title.initialize();
+    title.setPosition(Size(25, 1));
+    add(&title);
+
 }
 
 void UnoConsole::setText(const std::string &text) {

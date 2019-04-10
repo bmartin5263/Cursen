@@ -18,7 +18,8 @@ public:
     Content * getContent() override {return nullptr;}
 
     void setHidden(bool value) override;
-
+    void setEnabled(bool value) override;
+    void setPosition(const Size& pos) override;
 
 };
 

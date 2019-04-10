@@ -9,6 +9,7 @@
 #include "Components/AggregateComponent.h"
 #include "Components/Box.h"
 #include "Components/Label.h"
+#include "UnoTitle.h"
 
 class UnoConsole : public AggregateComponent {
 
@@ -20,7 +21,6 @@ public:
     void initialize() override;
 
     void setText(const std::string &text) override;
-
     std::string getText() override;
 
 private:
@@ -28,6 +28,7 @@ private:
     Box uno_box;
     Box console_box;
     Label console_message;
+    UnoTitle title;
 
 };
 

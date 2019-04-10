@@ -18,3 +18,15 @@ AggregateComponent::AggregateComponent(const Size &pos) :
 void AggregateComponent::setHidden(bool value) {
     Component::setHidden(value);
 }
+
+void AggregateComponent::setEnabled(bool value) {
+    Component::setEnabled(value);
+    for (auto child : getChildren()) {
+        child->setEnabled(value);
+    }
+}
+
+void AggregateComponent::setPosition(const Size &pos) {
+    Size difference = pos - getPosition();
+    move(difference);
+}

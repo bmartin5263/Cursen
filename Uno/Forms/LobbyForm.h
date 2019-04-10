@@ -10,6 +10,7 @@
 #include "Components/ASCIIArt.h"
 #include "Cursor/Cursor.h"
 #include "../UnoComponents/UnoConsole.h"
+#include "../UnoComponents/PlayerStaging.h"
 
 class LobbyForm : public Form {
 
@@ -28,7 +29,7 @@ public:
 private:
 
     ASCIIArt art;
-
+    Box border;
     Button start_button;
     Button add_ai_button;
     Button search_button;
@@ -36,6 +37,7 @@ private:
     Button close_button;
     Button settings_button;
     UnoConsole console;
+    PlayerStaging playerStaging;
 
     Cursor lobby_cursor;
 

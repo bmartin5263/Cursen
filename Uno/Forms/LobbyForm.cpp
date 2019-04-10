@@ -13,6 +13,11 @@ LobbyForm::LobbyForm() :
 
 void LobbyForm::initialize() {
 
+    border.initialize();
+    border.setSize(getSize() - Size(0,1));
+    border.setForeground(Color::RED);
+    add(&border);
+
     start_button.initialize();
     start_button.setPosition(Size(1,16));
     start_button.setLength(34);
@@ -58,6 +63,10 @@ void LobbyForm::initialize() {
     console.initialize();
     add(&console);
 
+    playerStaging.initialize();
+    playerStaging.setPosition(Size(0,6));
+    add(&playerStaging);
+
     art.initialize();
     art.loadFromFile("../test.txt");
     art.setPosition(Size(0,0));
@@ -85,6 +94,7 @@ void LobbyForm::clickAddAI() {
 
 void LobbyForm::clickSearch() {
     console.setText("Search Clicked!");
+    playerStaging.toggleSpin();
 }
 
 void LobbyForm::clickKick() {

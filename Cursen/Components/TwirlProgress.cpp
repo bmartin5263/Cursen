@@ -77,3 +77,7 @@ void TwirlProgress::setPosition(const Size &pos) {
     Component::setPosition(pos);
     twirl_label.setPosition(pos);
 }
+
+bool TwirlProgress::isSpinning() {
+    return spinning;
+}
