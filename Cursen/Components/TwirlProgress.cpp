@@ -18,8 +18,6 @@ TwirlProgress::TwirlProgress(const Size &pos) :
 }
 
 void TwirlProgress::initialize() {
-    AggregateComponent::initialize();
-
     twirl_label.initialize();
     twirl_label.setPosition(getPosition());
     twirl_label.setText("|");

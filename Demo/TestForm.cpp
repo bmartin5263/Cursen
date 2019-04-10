@@ -96,7 +96,7 @@ void TestForm::initialize() {
 
     pressMe.initialize();
     pressMe.setLength(21);
-    pressMe.setText("My Text");
+    pressMe.setText("");
     pressMe.setPosition(Size(2,13));
     //pressMe.setText("Hello");
     add(&pressMe);
@@ -195,11 +195,6 @@ void TestForm::moveComponent(const Event &event) {
 void TestForm::disable() {
     checkBox.toggle();
     exitLabel.setEnabled(checkBox.isChecked());
-}
-
-void TestForm::render() {
-    Content* content = getContent();
-    content->clear();
 }
 
 void TestForm::alarmFunction() {

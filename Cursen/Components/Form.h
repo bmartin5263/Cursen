@@ -9,20 +9,21 @@
 #include "Events/Event.h"
 #include "Component.h"
 #include "TextComponent.h"
+#include "AggregateComponent.h"
 
 using namespace cursen;
 
-class Form : public TextComponent {
+class Form : public AggregateComponent {
 
 public:
 
     Form(const Size& dim);
 
-    virtual void initialize() override = 0;
-    void render() override = 0;
+    Size getSize();
 
-protected:
+private:
 
+    Size dimensions;
 
 };
 

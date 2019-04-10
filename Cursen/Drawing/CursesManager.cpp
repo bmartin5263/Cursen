@@ -157,7 +157,7 @@ void CursesManager::privDraw() {
         privDrawStringBottomLeft(boxSize.toString().c_str());
         Size boxPos = inspectionPointer->getBoxLoc();
         for (int y = 0; y < boxSize.y; y++) {
-            mvchgat(boxPos.y + y, boxPos.x ,boxSize.x, NULL, privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
+            mvchgat(boxPos.y + y, boxPos.x , boxSize.x, A_NORMAL, privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
         }
     }
 

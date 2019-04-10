@@ -16,7 +16,7 @@ public:
 
     void render() override {};                         // Aggregates don't render any content
     Content * getContent() override {return nullptr;}
-    void initialize() override {}
+    void initialize() override = 0;
 };
 
 

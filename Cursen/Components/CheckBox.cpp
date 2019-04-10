@@ -16,8 +16,6 @@ CheckBox::CheckBox(const Size &pos) :
 }
 
 void CheckBox::initialize() {
-    AggregateComponent::initialize();
-
     text.initialize();
     text.setPosition(getPosition() + Size(4,0));
     add(&text);

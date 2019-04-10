@@ -33,8 +33,6 @@ public:
     void changeColor();
     void quitGame();
 
-    void render() override;
-
 private:
 
     Cursor cursor;
