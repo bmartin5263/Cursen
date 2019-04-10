@@ -212,3 +212,59 @@ void CursesManager::privDrawStringBottomLeft(const char *string) {
     int y = dimensions.y - 1;
     drawString(string, 0, y);
 }
+
+void CursesManager::privRegisterComponent(Component *component){
+    auto it = componentMap[component->drawOrder].find(component);
+    if (it == componentMap[component->drawOrder].end())
+    {
+        componentMap[component->drawOrder].insert(component);
+    }
+}
+
+void CursesManager::privDeregisterComponent(Component *component) {
+    auto it = componentMap[component->drawOrder].find(component);
+    if (it != componentMap[component->drawOrder].end())
+    {
+        componentMap[component->drawOrder].erase(component);
+    }
+}
+
+void CursesManager::privSetDrawOrder(Component *component, int order) {
+    componentMap[component->getDrawOrder()].erase(component);
+    componentMap[order].insert(component);
+}
+
+void CursesManager::privNewDraw() {
+    CursenDebugger& debugger = CursenApplication::GetDebugger();
+
+    // Clear the old screen
+    erase();
+    //bkgd(GetColorPair(ColorPair(CursenApplication::GetColorPalette().getForeground(), CursenApplication::GetColorPalette().getBackground())));
+
+    // Set up the queue for a BFS traversal
+
+    for(auto pair = componentMap.begin(); pair != componentMap.end(); ++pair)
+    {
+        for(auto componentIter = pair->second.begin(); componentIter != pair->second.end(); ++componentIter)
+        {
+            Component& component = *(*componentIter);
+            if (!component.isHidden()) {
+                drawComponent(component);
+            }
+        }
+    }
+
+    if (debugger.getInspectionPointer() != nullptr) {
+        InspectionPointer* inspectionPointer = debugger.getInspectionPointer();
+        drawComponent(*inspectionPointer);
+        privDrawStringBottomRight(&(*inspectionPointer->getPosition().toString().c_str()));
+        Size boxSize = inspectionPointer->getBoxSize();
+        privDrawStringBottomLeft(boxSize.toString().c_str());
+        Size boxPos = inspectionPointer->getBoxLoc();
+        for (int y = 0; y < boxSize.y; y++) {
+            mvchgat(boxPos.y + y, boxPos.x , boxSize.x, A_NORMAL, privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
+        }
+    }
+
+    refresh();
+}

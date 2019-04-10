@@ -19,14 +19,14 @@ void TestForm::initialize() {
     box.initialize();
     box.setPosition(Size(2,3));
     box.setSize(Size(21, 10));
-    add(&box);
+    box.setHidden(false);
 
     titleBox.initialize();
     titleBox.setPosition(Size(0,0));
     titleBox.setSize(Size(getSize().x, 3));
     titleBox.setLowerRight(ACS_RTEE);
     titleBox.setLowerLeft(ACS_LTEE);
-    add(&titleBox);
+    titleBox.setDrawOrder(100);
 
     flashLabel.initialize();
     flashLabel.setPosition(Size(1,1));
@@ -56,7 +56,6 @@ void TestForm::initialize() {
     smileyFace.setPosition(Size(30,30));
     smileyFace.setSize(Size(40,1));
     smileyFace.setText(":)");
-    add(&smileyFace);
 
     messageLabel.initialize();
     messageLabel.setPosition(Size(1,1));

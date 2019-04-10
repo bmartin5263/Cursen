@@ -9,24 +9,28 @@
 #include "Component.h"
 
 Component::Component() :
-        enabled(true), invalid(true)
+        enabled(true), invalid(true), drawOrder(0)
 {
+    CursesManager::Register(this);
 }
 
 Component::Component(const Size &pos) :
-        enabled(true), position(pos), invalid(true)
+        enabled(true), position(pos), invalid(true), drawOrder(0)
 {
+    CursesManager::Register(this);
 }
 
 void Component::add(Component *component) {
     assert(component != nullptr);
     component->setParent(this);
+    component->setDrawOrder(this->drawOrder + 1);
     children.push_back(component);
 }
 
 void Component::addRelative(Component *component) {
     assert(component != nullptr);
     component->move(this->position);
+    component->setDrawOrder(this->drawOrder + 1);
     add(component);
 }
 
@@ -331,4 +335,13 @@ const std::vector<Component*>& Component::getChildren() {
 
 Component::~Component() {
 
+}
+
+int Component::getDrawOrder() {
+    return drawOrder;
+}
+
+void Component::setDrawOrder(int order) {
+    CursesManager::SetDrawOrder(this, order);
+    drawOrder = order;
 }

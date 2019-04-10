@@ -11,6 +11,7 @@
 #include "Cursor/Cursor.h"
 #include "../UnoComponents/UnoConsole.h"
 #include "../UnoComponents/PlayerStaging.h"
+#include "../UnoComponents/ModeSelectBox.h"
 
 class LobbyForm : public Form {
 
@@ -38,6 +39,7 @@ private:
     Button settings_button;
     UnoConsole console;
     PlayerStaging playerStaging;
+    ModeSelectBox mode_select_box;
 
     Cursor lobby_cursor;
 

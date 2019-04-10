@@ -9,6 +9,7 @@
 #include <Cursor/Cursor.h>
 #include "CursenApplication.h"
 #include "Demo/TestForm.h"
+#include "Demo/SimpleForm.h"
 #include "Uno/Forms/LobbyForm.h"
 
 void cursesTest() {

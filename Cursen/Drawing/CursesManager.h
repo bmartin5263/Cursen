@@ -9,6 +9,8 @@
 #include <queue>
 #include <string>
 #include <unordered_map>
+#include <set>
+#include <map>
 #include <Components/Form.h>
 #include <CursenApplication.h>
 #include "Color.h"
@@ -62,13 +64,20 @@ public:
     static void Resize(const Size& dim) { Instance().privResize(dim); }
 
     static void Draw() { Instance().privDraw(); };
+    static void NewDraw() { Instance().privNewDraw(); };
+
+    static void Register(Component* component) { Instance().privRegisterComponent(component); };
+    static void Deregister(Component* component) { Instance().privDeregisterComponent(component); };
+    static void SetDrawOrder(Component* component, int order) { Instance().privSetDrawOrder(component, order); };
 
 private:
 
     typedef std::unordered_map<Color, short, color_hash> ColorMap;
     typedef std::unordered_map<ColorPair, short, color_pair_hash> ColorPairMap;
+    typedef std::map<int, std::set<Component*> > ComponentMap;
 
     // Instance Data
+    ComponentMap componentMap;
     Size dimensions;
     int inputTimeout;
     ColorMap colorMap;
@@ -91,7 +100,11 @@ private:
     short privGetColorPair(const ColorPair&);
     short privGetPairNumber(const ColorPair&);
     void privDraw();
+    void privNewDraw();
     void privResize(const Size& dim);
+    void privRegisterComponent(Component* component);
+    void privDeregisterComponent(Component* component);
+    void privSetDrawOrder(Component* component, int order);
 
     void drawComponent(Component& component);
 

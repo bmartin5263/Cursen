@@ -25,6 +25,8 @@ public:
     virtual void initialize() = 0;
 
     // Drawing
+    int getDrawOrder();
+    void setDrawOrder(int order);
     void invalidate();
     void validate();
     bool isInvalid();
@@ -131,6 +133,7 @@ private:
     Component* parent;
     std::vector<Component*> children;
     Size position;
+    int drawOrder;
     bool enabled;
     bool invalid;
     bool hidden;
