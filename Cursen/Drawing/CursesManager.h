@@ -64,7 +64,6 @@ public:
     static void Resize(const Size& dim) { Instance().privResize(dim); }
 
     static void Draw() { Instance().privDraw(); };
-    static void NewDraw() { Instance().privNewDraw(); };
 
     static void Register(Component* component) { Instance().privRegisterComponent(component); };
     static void Deregister(Component* component) { Instance().privDeregisterComponent(component); };
@@ -100,7 +99,6 @@ private:
     short privGetColorPair(const ColorPair&);
     short privGetPairNumber(const ColorPair&);
     void privDraw();
-    void privNewDraw();
     void privResize(const Size& dim);
     void privRegisterComponent(Component* component);
     void privDeregisterComponent(Component* component);

@@ -36,12 +36,12 @@ void CursenApplication::privRun(Form *form) {
     CursesManager::Initialize(currentForm->getSize());
     currentForm->initialize();
 
-    CursesManager::NewDraw();
+    CursesManager::Draw();
 
     while (running) {
         Event e = EventManager::PollEvent();
         EventManager::ProcessEvent(e);
-        CursesManager::NewDraw();
+        CursesManager::Draw();
     }
 
     CursesManager::Terminate();

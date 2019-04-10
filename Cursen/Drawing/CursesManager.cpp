@@ -117,53 +117,6 @@ short CursesManager::privGetPairNumber(const ColorPair &colorPair) {
     }
 }
 
-
-void CursesManager::privDraw() {
-    CursenDebugger& debugger = CursenApplication::GetDebugger();
-
-    // Clear the old screen
-    erase();
-    //bkgd(GetColorPair(ColorPair(CursenApplication::GetColorPalette().getForeground(), CursenApplication::GetColorPalette().getBackground())));
-    short i = privGetColorPair(ColorPair());
-    attron(i);
-    box(stdscr, 0, 0);
-    attroff(i);
-
-    // Set up the queue for a BFS traversal
-    std::queue<Component*> drawQueue;
-    Component* component;
-    drawQueue.push(CursenApplication::GetCurrentForm());
-
-    while(!drawQueue.empty()) {
-        component = drawQueue.front();
-
-        // Push on children
-        for (Component* child : component->children) {
-            drawQueue.push(child);
-        }
-
-        if (!component->isHidden()) {
-            drawComponent(*component);
-        }
-
-        drawQueue.pop();
-    }
-
-    if (debugger.getInspectionPointer() != nullptr) {
-        InspectionPointer* inspectionPointer = debugger.getInspectionPointer();
-        drawComponent(*inspectionPointer);
-        privDrawStringBottomRight(&(*inspectionPointer->getPosition().toString().c_str()));
-        Size boxSize = inspectionPointer->getBoxSize();
-        privDrawStringBottomLeft(boxSize.toString().c_str());
-        Size boxPos = inspectionPointer->getBoxLoc();
-        for (int y = 0; y < boxSize.y; y++) {
-            mvchgat(boxPos.y + y, boxPos.x , boxSize.x, A_NORMAL, privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
-        }
-    }
-
-    refresh();
-}
-
 void CursesManager::privResize(const Size &dim) {
     std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
     printf("%s", resizeString.c_str());
@@ -234,7 +187,7 @@ void CursesManager::privSetDrawOrder(Component *component, int order) {
     componentMap[order].insert(component);
 }
 
-void CursesManager::privNewDraw() {
+void CursesManager::privDraw() {
     CursenDebugger& debugger = CursenApplication::GetDebugger();
 
     // Clear the old screen

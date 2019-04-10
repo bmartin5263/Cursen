@@ -15,7 +15,6 @@ void LobbyForm::initialize() {
 
     border.initialize();
     border.setSize(getSize() - Size(0,1));
-    border.setForeground(Color::RED);
 
     start_button.initialize();
     start_button.setPosition(Size(1,16));
@@ -73,7 +72,7 @@ void LobbyForm::initialize() {
     lobby_cursor.mapComponent(&kick_button, ArrowMap(nullptr, &add_ai_button, nullptr, &close_button));
     lobby_cursor.mapComponent(&close_button, ArrowMap(nullptr, &kick_button, nullptr, &settings_button));
     lobby_cursor.mapComponent(&settings_button, ArrowMap(nullptr, &close_button, nullptr, &start_button));
-    lobby_cursor.setEnabled(true);
+    lobby_cursor.setEnabled(false);
 
 }
 
