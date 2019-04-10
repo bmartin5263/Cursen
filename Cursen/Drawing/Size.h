@@ -72,6 +72,14 @@ namespace cursen {
             return *this;
         }
 
+        bool operator == (const Size& other) {
+            return x == other.x && y == other.y;
+        }
+
+        bool operator != (const Size& other) {
+            return x != other.x && y != other.y;
+        }
+
         std::string toString() {
             using namespace std;
             return string("(") + to_string(x) + string(",") + to_string(y) + string(")");

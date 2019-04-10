@@ -17,7 +17,7 @@ void TestForm::initialize() {
     setHidden(true);
 
     box.initialize();
-    box.setPosition(Size(3,3));
+    box.setPosition(Size(2,3));
     box.setSize(Size(21, 10));
     add(&box);
 
@@ -82,7 +82,7 @@ void TestForm::initialize() {
     twirlCheck.onClick(std::bind(&TestForm::activateTwirl, this));
 
     twirlProgress.initialize();
-    twirlProgress.setPosition(Size(21, 4));
+    twirlProgress.setPosition(Size(20, 4));
 
     box.add(&twirlProgress);
     titleBox.addRelative(&messageLabel);
@@ -95,9 +95,9 @@ void TestForm::initialize() {
     box.addRelative(&twirlCheck);
 
     pressMe.initialize();
-    pressMe.setLength(20);
-    pressMe.setText("Button");
-    pressMe.setPosition(Size(3,13));
+    pressMe.setLength(21);
+    pressMe.setText("My Text");
+    pressMe.setPosition(Size(2,13));
     //pressMe.setText("Hello");
     add(&pressMe);
 
@@ -218,4 +218,3 @@ void TestForm::doRainbow() {
     flashing = !flashing;
     checkBox2.toggle();
 }
-

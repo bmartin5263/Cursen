@@ -21,9 +21,15 @@ public:
     void initialize() override;
 
     void movePointer(const Event& event);
+    void pressSpace(const Event& event);
+
+    Size getBoxSize() { return boxSize; };
+    Size getBoxLoc() { return boxLoc; };
 
 private:
 
+    Size boxSize;
+    Size boxLoc;
 
 };
 

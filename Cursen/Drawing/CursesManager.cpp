@@ -101,6 +101,23 @@ short CursesManager::privGetColorPair(const ColorPair & colorPair) {
     }
 }
 
+short CursesManager::privGetPairNumber(const ColorPair &colorPair) {
+    ColorPairMap::iterator it;
+
+    it = colorPairMap.find(colorPair);
+    if (it != colorPairMap.end() )
+    {
+        return colorPairMap[colorPair];
+    }
+    else {
+        short pairNum = (short)(colorPairMap.size() + 1);
+        init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
+        colorPairMap[colorPair] = pairNum;
+        return pairNum;
+    }
+}
+
+
 void CursesManager::privDraw() {
     CursenDebugger& debugger = CursenApplication::GetDebugger();
 
@@ -133,8 +150,15 @@ void CursesManager::privDraw() {
     }
 
     if (debugger.getInspectionPointer() != nullptr) {
-        drawComponent(*debugger.getInspectionPointer());
-        privDrawStringBottomRight(&(*debugger.getInspectionPointer()->getPosition().toString().c_str()));
+        InspectionPointer* inspectionPointer = debugger.getInspectionPointer();
+        drawComponent(*inspectionPointer);
+        privDrawStringBottomRight(&(*inspectionPointer->getPosition().toString().c_str()));
+        Size boxSize = inspectionPointer->getBoxSize();
+        privDrawStringBottomLeft(boxSize.toString().c_str());
+        Size boxPos = inspectionPointer->getBoxLoc();
+        for (int y = 0; y < boxSize.y; y++) {
+            mvchgat(boxPos.y + y, boxPos.x ,boxSize.x, NULL, privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
+        }
     }
 
     refresh();
@@ -182,4 +206,9 @@ void CursesManager::privDrawStringBottomRight(const char *string) {
     int x = (int)(dimensions.x - strlen(string));
     int y = dimensions.y - 1;
     drawString(string, x, y);
+}
+
+void CursesManager::privDrawStringBottomLeft(const char *string) {
+    int y = dimensions.y - 1;
+    drawString(string, 0, y);
 }

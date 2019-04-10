@@ -50,10 +50,12 @@ public:
     static void DrawString(const char *string, int x, int y) { instance->drawString(string, x, y); }
 
     static void DrawStringBottomRight(const std::string &string) { Instance().privDrawStringBottomRight(string.c_str()); }
+    static void DrawStringBottomLeft(const std::string &string) { Instance().privDrawStringBottomLeft(string.c_str()); }
 
     static int GetChar() { return instance->getCharacter(); }
 
     static short GetColorPair(const ColorPair& color) { return instance->privGetColorPair(color); }
+    static short GetPairNumber(const ColorPair& color) { return instance->privGetPairNumber(color); }
 
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
@@ -83,9 +85,11 @@ private:
     void drawString(const char *string);
     void drawString(const char *string, int x, int y);
     void privDrawStringBottomRight(const char *string);
+    void privDrawStringBottomLeft(const char *string);
     void doBeep();
     void doFlash();
     short privGetColorPair(const ColorPair&);
+    short privGetPairNumber(const ColorPair&);
     void privDraw();
     void privResize(const Size& dim);
 
