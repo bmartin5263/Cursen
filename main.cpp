@@ -9,6 +9,7 @@
 #include <Cursor/Cursor.h>
 #include "CursenApplication.h"
 #include "Demo/TestForm.h"
+#include "Uno/Forms/LobbyForm.h"
 
 void cursesTest() {
     initscr();                  // First step to initialize curses
@@ -122,5 +123,5 @@ int main() {
 
     //cursesTest();
     //CursenApplication::SetColorPalette(ColorPalette::LIGHT);
-    CursenApplication::Run(new TestForm());
+    CursenApplication::Run(new LobbyForm());
 }

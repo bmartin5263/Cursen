@@ -12,6 +12,9 @@ LobbyForm::LobbyForm() :
 
 void LobbyForm::initialize() {
 
-
+    settings_button.initialize();
+    settings_button.setPosition(Size(0,0));
+    settings_button.setLength(10);
+    add(&settings_button);
 
 }
