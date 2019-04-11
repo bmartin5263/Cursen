@@ -20,12 +20,19 @@ public:
     LobbyForm();
     void initialize() override;
 
+    void enterLobby();
+    void leaveLobby();
+
     void clickStart();
     void clickAddAI();
     void clickSearch();
     void clickKick();
     void clickClose();
     void clickSettings();
+    void clickLocal();
+    void clickHost();
+    void clickJoin();
+    void clickExit();
 
 private:
 

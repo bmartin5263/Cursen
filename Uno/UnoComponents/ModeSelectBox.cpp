@@ -34,5 +34,65 @@ void ModeSelectBox::initialize() {
     console_message.setText("Welcome to Uno! Select a Mode");
     addRelative(&console_message);
 
+    player_stage.initialize();
+    player_stage.setPosition(Size(1,1));
+    player_stage.setEnabled(false);
+    addRelative(&player_stage);
+
+    local_button.initialize();
+    local_button.setPosition(Size(1,8));
+    local_button.setLength(34);
+    local_button.setText("Local Singleplayer");
+    addRelative(&local_button);
+
+    host_button.initialize();
+    host_button.setPosition(Size(1,11));
+    host_button.setLength(34);
+    host_button.setText("Host Multiplayer");
+    addRelative(&host_button);
+
+    join_button.initialize();
+    join_button.setPosition(Size(1,14));
+    join_button.setLength(34);
+    join_button.setText("Join Multiplayer");
+    addRelative(&join_button);
+
+    exit_button.initialize();
+    exit_button.setPosition(Size(1,17));
+    exit_button.setLength(34);
+    exit_button.setText("Exit");
+    addRelative(&exit_button);
+
+    mode_cursor.setStart(&local_button);
+    mode_cursor.mapComponent(&local_button, ArrowMap(nullptr, &exit_button, nullptr, &host_button));
+    mode_cursor.mapComponent(&host_button, ArrowMap(nullptr, &local_button, nullptr, &join_button));
+    mode_cursor.mapComponent(&join_button, ArrowMap(nullptr, &host_button, nullptr, &exit_button));
+    mode_cursor.mapComponent(&exit_button, ArrowMap(nullptr, &join_button, nullptr, &local_button));
+    mode_cursor.setEnabled(true);
+}
+
+void ModeSelectBox::onLocalClick(std::function<void()> f) {
+    local_button.onClick(f);
+}
+
+void ModeSelectBox::onHostClick(std::function<void()> f) {
+    host_button.onClick(f);
+}
+
+void ModeSelectBox::onJoinClick(std::function<void()> f) {
+    join_button.onClick(f);
+}
+
+void ModeSelectBox::onExitClick(std::function<void()> f) {
+    exit_button.onClick(f);
+}
+
+void ModeSelectBox::setText(const std::string &text) {
+    console_message.setText(text);
+}
+
+void ModeSelectBox::setHidden(bool value) {
+    AggregateComponent::setHidden(value);
+    mode_cursor.setEnabled(!value);
 }
 

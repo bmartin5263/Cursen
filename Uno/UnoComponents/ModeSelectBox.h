@@ -10,7 +10,9 @@
 #include "Components/Label.h"
 #include "Components/Box.h"
 #include "Components/Button.h"
+#include "Cursor/Cursor.h"
 #include "Stage.h"
+#include <functional>
 
 class ModeSelectBox : public AggregateComponent {
 
@@ -19,7 +21,15 @@ public:
     ModeSelectBox();
     ModeSelectBox(const Size& pos);
 
+    void onLocalClick( std::function<void()> f);
+    void onHostClick( std::function<void()> f);
+    void onJoinClick( std::function<void()> f);
+    void onExitClick( std::function<void()> f);
+
     void initialize() override;
+
+    void setText(const std::string &text) override;
+    void setHidden(bool value) override;
 
 private:
 
@@ -31,6 +41,8 @@ private:
     Button host_button;
     Button join_button;
     Button exit_button;
+
+    Cursor mode_cursor;
 
 };
 

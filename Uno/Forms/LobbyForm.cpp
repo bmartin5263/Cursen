@@ -20,36 +20,42 @@ void LobbyForm::initialize() {
     start_button.setPosition(Size(1,16));
     start_button.setLength(34);
     start_button.setText("Start Game");
+    start_button.setEnabled(false);
     start_button.onClick(std::bind(&LobbyForm::clickStart, this));
 
     add_ai_button.initialize();
     add_ai_button.setPosition(Size(1,19));
     add_ai_button.setLength(17);
     add_ai_button.setText("Add AI");
+    add_ai_button.setEnabled(false);
     add_ai_button.onClick(std::bind(&LobbyForm::clickAddAI, this));
 
     search_button.initialize();
     search_button.setPosition(Size(18,19));
     search_button.setLength(17);
     search_button.setText("Search");
+    search_button.setEnabled(false);
     search_button.onClick(std::bind(&LobbyForm::clickSearch, this));
 
     kick_button.initialize();
     kick_button.setPosition(Size(1,22));
     kick_button.setLength(34);
     kick_button.setText("Kick Player");
+    kick_button.setEnabled(false);
     kick_button.onClick(std::bind(&LobbyForm::clickKick, this));
 
     close_button.initialize();
     close_button.setPosition(Size(1,25));
     close_button.setLength(34);
     close_button.setText("Close Room");
+    close_button.setEnabled(false);
     close_button.onClick(std::bind(&LobbyForm::clickClose, this));
 
     settings_button.initialize();
     settings_button.setPosition(Size(1,28));
     settings_button.setLength(34);
     settings_button.setText("Settings");
+    settings_button.setEnabled(false);
     settings_button.onClick(std::bind(&LobbyForm::clickSettings, this));
 
     console.initialize();
@@ -64,6 +70,10 @@ void LobbyForm::initialize() {
 
     mode_select_box.initialize();
     mode_select_box.setPosition(Size(17, 7));
+    mode_select_box.onLocalClick(std::bind(&LobbyForm::clickLocal, this));
+    mode_select_box.onHostClick(std::bind(&LobbyForm::clickHost, this));
+    mode_select_box.onJoinClick(std::bind(&LobbyForm::clickJoin, this));
+    mode_select_box.onExitClick(std::bind(&LobbyForm::clickExit, this));
 
     lobby_cursor.setStart(&start_button);
     lobby_cursor.mapComponent(&start_button, ArrowMap(nullptr, &settings_button, nullptr, &add_ai_button));
@@ -72,7 +82,7 @@ void LobbyForm::initialize() {
     lobby_cursor.mapComponent(&kick_button, ArrowMap(nullptr, &add_ai_button, nullptr, &close_button));
     lobby_cursor.mapComponent(&close_button, ArrowMap(nullptr, &kick_button, nullptr, &settings_button));
     lobby_cursor.mapComponent(&settings_button, ArrowMap(nullptr, &close_button, nullptr, &start_button));
-    lobby_cursor.setEnabled(false);
+    //lobby_cursor.setEnabled(false);
 
 }
 
@@ -94,9 +104,50 @@ void LobbyForm::clickKick() {
 }
 
 void LobbyForm::clickClose() {
-    console.setText("Close Clicked!");
+    leaveLobby();
 }
 
 void LobbyForm::clickSettings() {
     console.setText("Settings Clicked!");
+}
+
+void LobbyForm::clickLocal() {
+    enterLobby();
+}
+
+void LobbyForm::clickHost() {
+    enterLobby();
+}
+
+void LobbyForm::clickJoin() {
+    enterLobby();
+}
+
+void LobbyForm::clickExit() {
+    CursenApplication::Quit();
+}
+
+void LobbyForm::enterLobby() {
+    mode_select_box.setHidden(true);
+
+    add_ai_button.setEnabled(true);
+    search_button.setEnabled(true);
+    start_button.setEnabled(true);
+    close_button.setEnabled(true);
+    settings_button.setEnabled(true);
+    kick_button.setEnabled(true);
+
+    lobby_cursor.setEnabled(true);
+}
+
+void LobbyForm::leaveLobby() {
+    mode_select_box.setHidden(false);
+    lobby_cursor.setEnabled(false);
+
+    add_ai_button.setEnabled(false);
+    start_button.setEnabled(false);
+    search_button.setEnabled(false);
+    close_button.setEnabled(false);
+    settings_button.setEnabled(false);
+    kick_button.setEnabled(false);
 }
