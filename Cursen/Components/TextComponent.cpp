@@ -31,8 +31,8 @@ void TextComponent::initialize() {
     this->disabled_background = CursenApplication::GetColorPalette().getBackground();
     this->draw_color = ColorPair(this->foreground, this->background);
     this->glow_frame = 5;
-    this->onCursor(std::bind(&TextComponent::startGlow, this));
-    this->offCursor(std::bind(&TextComponent::stopGlow, this));
+    this->onCursor(std::bind(&TextComponent::cursorOn, this));
+    this->offCursor(std::bind(&TextComponent::cursorOff, this));
 }
 
 void TextComponent::setForeground(const Color &color) {
@@ -137,49 +137,43 @@ void TextComponent::stopGlow() {
 
 void TextComponent::animateGlow() {
     if (glow_frame == 0) {
-        setForeground(Color(231));
+        setForeground(Color(195));
     }
     else if (glow_frame == 1) {
-        setForeground(Color(230));
+        setForeground(Color(159));
     }
     else if (glow_frame == 2) {
-        setForeground(Color(229));
+        setForeground(Color(123));
     }
     else if (glow_frame == 3) {
-        setForeground(Color(228));
+        setForeground(Color(87));
     }
     else if (glow_frame == 4) {
-        setForeground(Color(227));
+        setForeground(Color(51));
     }
     else if (glow_frame == 5) {
-        setForeground(Color(226));
+        setForeground(Color(51));
     }
     else if (glow_frame == 6) {
-        setForeground(Color(226));
+        setForeground(Color(51));
     }
     else if (glow_frame == 7) {
-        setForeground(Color(226));
+        setForeground(Color(51));
     }
     else if (glow_frame == 8) {
-        setForeground(Color(226));
+        setForeground(Color(51));
     }
     else if (glow_frame == 9) {
-        setForeground(Color(226));
+        setForeground(Color(87));
     }
     else if (glow_frame == 10) {
-        setForeground(Color(227));
+        setForeground(Color(123));
     }
     else if (glow_frame == 11) {
-        setForeground(Color(228));
+        setForeground(Color(159));
     }
     else if (glow_frame == 12) {
-        setForeground(Color(229));
+        setForeground(Color(195));
     }
-    else if (glow_frame == 13) {
-        setForeground(Color(230));
-    }
-    else if (glow_frame == 14) {
-        setForeground(Color(231));
-    }
-    glow_frame = (glow_frame + 1) % 15;
+    glow_frame = (glow_frame + 1) % 13;
 }

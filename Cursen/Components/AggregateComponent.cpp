@@ -17,6 +17,9 @@ AggregateComponent::AggregateComponent(const Size &pos) :
 
 void AggregateComponent::setHidden(bool value) {
     Component::setHidden(value);
+    for (auto child : getChildren()) {
+        child->setHidden(value);
+    }
 }
 
 void AggregateComponent::setEnabled(bool value) {
