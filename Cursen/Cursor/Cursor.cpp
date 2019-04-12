@@ -18,6 +18,9 @@ Cursor::Cursor(Component* start) :
 
 void Cursor::mapComponent(Component *component, cursen::ArrowMap arrowMap) {
     componentMap[component] = arrowMap;
+    if (currentComponent == nullptr) {
+        currentComponent = component;
+    }
 }
 
 void Cursor::setEnabled(bool value) {
@@ -131,6 +134,6 @@ void Cursor::refresh() {
     }
 }
 
-void Cursor::setStart(Component *start) {
+void Cursor::moveTo(Component *start) {
     currentComponent = start;
 }

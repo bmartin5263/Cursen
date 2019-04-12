@@ -17,6 +17,7 @@ enum class EventType
     SocketMessage = 128,
     AlarmInterval = 256,
     AlarmExpire = 512,
+    Null = 1028
 };
 
 #endif //CURSEN_EVENTTYPE_H

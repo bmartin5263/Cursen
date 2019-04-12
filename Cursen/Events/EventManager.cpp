@@ -24,6 +24,13 @@ void EventManager::processKeyboardInput(int limit) {
             else {
                 debugger.activateInspection();
             }
+            Event event;
+            event.type = EventType::Null;
+            eventQueue.push(event);
+            keysProcessed++;
+            if (keysProcessed == limit) {
+                return;
+            }
         }
         else {
             Event event;
@@ -140,6 +147,8 @@ void EventManager::processEvent(const Event &event) {
             break;
         case EventType::AlarmExpire:
             event.alarm.alarmEntry->callExpire();
+            break;
+        case EventType::Null:
             break;
     }
 }

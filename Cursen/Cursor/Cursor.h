@@ -22,7 +22,7 @@ public:
 
     // Override
     void setEnabled(bool value) override;
-    void setStart(Component* start);
+    void moveTo(Component *start);
 
     void mapComponent(Component *component, cursen::ArrowMap arrowMap);
     void unmapComponent(Component *component);
