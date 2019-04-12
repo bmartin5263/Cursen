@@ -44,3 +44,9 @@ void Stage::toggleSearch() {
         points.setText("");
     }
 }
+
+void Stage::setHidden(bool value) {
+    border.setHidden(value);
+    playerName.setHidden(value);
+    points.setHidden(value);
+}

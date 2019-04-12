@@ -4,9 +4,10 @@
 
 #include "LobbyForm.h"
 #include "Drawing/CursesManager.h"
+#include "../GameObjects/LobbyType.h"
 
 LobbyForm::LobbyForm() :
-        Form(Size(70,33))
+        Form(Size(70,33)), lobby(nullptr)
 {
 
 }
@@ -75,7 +76,7 @@ void LobbyForm::initialize() {
     mode_select_box.onJoinClick(std::bind(&LobbyForm::clickJoin, this));
     mode_select_box.onExitClick(std::bind(&LobbyForm::clickExit, this));
 
-    lobby_cursor.setStart(&start_button);
+    lobby_cursor.moveTo(&start_button);
     lobby_cursor.mapComponent(&start_button, ArrowMap(nullptr, &settings_button, nullptr, &add_ai_button));
     lobby_cursor.mapComponent(&add_ai_button, ArrowMap(&search_button, &start_button, &search_button, &kick_button));
     lobby_cursor.mapComponent(&search_button, ArrowMap(&add_ai_button, &start_button, &add_ai_button, &kick_button));
@@ -96,7 +97,7 @@ void LobbyForm::clickAddAI() {
 
 void LobbyForm::clickSearch() {
     console.setText("Search Clicked!");
-    playerStaging.toggleSpin();
+    playerStaging.toggleSearch();
 }
 
 void LobbyForm::clickKick() {
@@ -112,30 +113,54 @@ void LobbyForm::clickSettings() {
 }
 
 void LobbyForm::clickLocal() {
-    enterLobby();
+    enterLobby(LobbyType::LOCAL);
 }
 
 void LobbyForm::clickHost() {
-    enterLobby();
+    enterLobby(LobbyType::HOST);
 }
 
 void LobbyForm::clickJoin() {
-    enterLobby();
+    enterLobby(LobbyType::JOIN);
 }
 
 void LobbyForm::clickExit() {
     CursenApplication::Quit();
 }
 
-void LobbyForm::enterLobby() {
+void LobbyForm::enterLobby(LobbyType type) {
+    lobby = new Lobby(type);
     mode_select_box.setHidden(true);
 
-    add_ai_button.setEnabled(true);
-    search_button.setEnabled(true);
-    start_button.setEnabled(true);
-    close_button.setEnabled(true);
-    settings_button.setEnabled(true);
-    kick_button.setEnabled(true);
+    switch(type) {
+        case LobbyType::LOCAL:
+            add_ai_button.setEnabled(true);
+            start_button.setEnabled(false);
+            search_button.setEnabled(false);
+            close_button.setEnabled(true);
+            settings_button.setEnabled(true);
+            kick_button.setEnabled(true);
+            lobby_cursor.moveTo(&add_ai_button);
+            break;
+        case LobbyType::HOST:
+            add_ai_button.setEnabled(false);
+            start_button.setEnabled(false);
+            search_button.setEnabled(true);
+            close_button.setEnabled(true);
+            settings_button.setEnabled(true);
+            kick_button.setEnabled(true);
+            lobby_cursor.moveTo(&add_ai_button);
+            break;
+        case LobbyType::JOIN:
+            add_ai_button.setEnabled(false);
+            start_button.setEnabled(false);
+            search_button.setEnabled(false);
+            close_button.setEnabled(true);
+            settings_button.setEnabled(false);
+            kick_button.setEnabled(false);
+            lobby_cursor.moveTo(&close_button);
+            break;
+    }
 
     lobby_cursor.setEnabled(true);
 }
@@ -150,4 +175,17 @@ void LobbyForm::leaveLobby() {
     close_button.setEnabled(false);
     settings_button.setEnabled(false);
     kick_button.setEnabled(false);
+    playerStaging.stopSearching();
+
+    delete lobby;
+}
+
+void LobbyForm::updateLobby() {
+    add_ai_button.setEnabled(false);
+    start_button.setEnabled(false);
+    search_button.setEnabled(false);
+    close_button.setEnabled(false);
+    settings_button.setEnabled(false);
+    kick_button.setEnabled(false);
+
 }

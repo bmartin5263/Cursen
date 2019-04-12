@@ -63,7 +63,7 @@ void ModeSelectBox::initialize() {
     exit_button.setText("Exit");
     addRelative(&exit_button);
 
-    mode_cursor.setStart(&local_button);
+    mode_cursor.moveTo(&local_button);
     mode_cursor.mapComponent(&local_button, ArrowMap(nullptr, &exit_button, nullptr, &host_button));
     mode_cursor.mapComponent(&host_button, ArrowMap(nullptr, &local_button, nullptr, &join_button));
     mode_cursor.mapComponent(&join_button, ArrowMap(nullptr, &host_button, nullptr, &exit_button));

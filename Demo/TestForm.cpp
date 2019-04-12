@@ -100,7 +100,7 @@ void TestForm::initialize() {
     //pressMe.setText("Hello");
     add(&pressMe);
 
-    cursor.setStart(&flashLabel);
+    cursor.moveTo(&flashLabel);
     cursor.mapComponent(&flashLabel, ArrowMap(nullptr, &pressMe, nullptr, &beepLabel));
     cursor.mapComponent(&beepLabel, ArrowMap(nullptr, &flashLabel, nullptr, &changeColorLabel));
     cursor.mapComponent(&changeColorLabel, ArrowMap(nullptr, &beepLabel, nullptr, &exitLabel));

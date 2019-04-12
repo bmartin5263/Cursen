@@ -12,6 +12,9 @@
 #include "../UnoComponents/UnoConsole.h"
 #include "../UnoComponents/PlayerStaging.h"
 #include "../UnoComponents/ModeSelectBox.h"
+#include "../GameObjects/Lobby.h"
+
+class Lobby;
 
 class LobbyForm : public Form {
 
@@ -20,8 +23,10 @@ public:
     LobbyForm();
     void initialize() override;
 
-    void enterLobby();
+    void enterLobby(LobbyType lobbyType);
     void leaveLobby();
+
+    void updateLobby();
 
     void clickStart();
     void clickAddAI();
@@ -36,6 +41,10 @@ public:
 
 private:
 
+    // Instance Data
+    Lobby* lobby;
+
+    // Components
     ASCIIArt art;
     Box border;
     Button start_button;
@@ -47,7 +56,6 @@ private:
     UnoConsole console;
     PlayerStaging playerStaging;
     ModeSelectBox mode_select_box;
-
     Cursor lobby_cursor;
 
 };

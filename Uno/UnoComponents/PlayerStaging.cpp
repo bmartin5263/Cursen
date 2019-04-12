@@ -4,11 +4,15 @@
 
 #include "PlayerStaging.h"
 
-PlayerStaging::PlayerStaging() {
+PlayerStaging::PlayerStaging() :
+    spinning(false)
+{
 
 }
 
-PlayerStaging::PlayerStaging(const Size &loc) : AggregateComponent(loc) {
+PlayerStaging::PlayerStaging(const Size &loc) :
+        AggregateComponent(loc), spinning(false)
+{
 
 }
 
@@ -44,9 +48,16 @@ void PlayerStaging::initialize() {
     addRelative(&p4Stage);
 }
 
-void PlayerStaging::toggleSpin() {
+void PlayerStaging::toggleSearch() {
+    spinning = !spinning;
     p1Stage.toggleSearch();
     p2Stage.toggleSearch();
     p3Stage.toggleSearch();
     p4Stage.toggleSearch();
+}
+
+void PlayerStaging::stopSearching() {
+    if (spinning) {
+        toggleSearch();
+    }
 }

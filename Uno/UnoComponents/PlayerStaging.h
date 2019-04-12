@@ -19,7 +19,8 @@ public:
 
     void initialize() override;
 
-    void toggleSpin();
+    void toggleSearch();
+    void stopSearching();
 
 private:
 
@@ -28,6 +29,7 @@ private:
     Stage p2Stage;
     Stage p3Stage;
     Stage p4Stage;
+    bool spinning;
 
 };
 

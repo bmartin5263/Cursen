@@ -21,6 +21,9 @@ public:
     void initialize() override;
     void toggleSearch();
 
+    void setHidden(bool value) override;
+
+
 private:
 
     Box border;
