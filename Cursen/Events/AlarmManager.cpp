@@ -15,6 +15,7 @@ AlarmManager::AlarmManager() {
 
 void AlarmManager::privProcessAlarms() {
 
+    handleStopRequests();
     handleStartRequests();
     std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - lastUpdate;
     for (auto it = alarms.begin(); it != alarms.end(); it++) {
@@ -39,7 +40,6 @@ void AlarmManager::privProcessAlarms() {
 
     }
     lastUpdate = std::chrono::system_clock::now();
-    handleStopRequests();
 
 }
 
