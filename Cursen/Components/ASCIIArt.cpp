@@ -16,6 +16,7 @@ ASCIIArt::ASCIIArt(const Size &pos) :
 
 
 void ASCIIArt::render() {
+    TextComponent::render();
     Content* content = getContent();
     content->resize(Size(max_columns, (int)raw_data.size()));
 

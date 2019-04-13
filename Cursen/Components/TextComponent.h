@@ -43,6 +43,8 @@ public:
     void stopGlow();
     void animateGlow();
 
+    void render() override;
+
 protected:
 
     ColorPair& getCurrentDrawColor();

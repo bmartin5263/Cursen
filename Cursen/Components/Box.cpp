@@ -24,6 +24,7 @@ void Box::initialize() {
 }
 
 void Box::render() {
+    TextComponent::render();
     Content* content = getContent();
     ColorPair& draw_color = getCurrentDrawColor();
     Size dimensions = content->getDimensions();

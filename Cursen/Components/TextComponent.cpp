@@ -57,28 +57,16 @@ Color TextComponent::getBackground() {
 
 void TextComponent::cursorOn() {
     isHovered = true;
-    draw_color.fg = highlight_foreground;
-    draw_color.bg = highlight_background;
     invalidate();
 }
 
 void TextComponent::cursorOff() {
     isHovered = false;
-    draw_color.fg = foreground;
-    draw_color.bg = background;
     invalidate();
 }
 
 void TextComponent::setEnabled(bool value) {
     Component::setEnabled(value);
-    if (isEnabled()) {
-        draw_color.fg = foreground;
-        draw_color.bg = background;
-    }
-    else {
-        draw_color.fg = disabled_foreground;
-        draw_color.bg = disabled_background;
-    }
     invalidate();
 }
 
@@ -176,4 +164,21 @@ void TextComponent::animateGlow() {
         setForeground(Color(195));
     }
     glow_frame = (glow_frame + 1) % 13;
+}
+
+void TextComponent::render() {
+    if (isEnabled()) {
+        if (isHovered) {
+            draw_color.fg = highlight_foreground;
+            draw_color.bg = highlight_background;
+        }
+        else {
+            draw_color.fg = foreground;
+            draw_color.bg = background;
+        }
+    }
+    else {
+        draw_color.fg = disabled_foreground;
+        draw_color.bg = disabled_background;
+    }
 }

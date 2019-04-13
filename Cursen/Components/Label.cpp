@@ -23,7 +23,9 @@ void Label::initialize() {
 }
 
 void Label::render() {
+    TextComponent::render();
     Content* content = getContent();
+    content->clear();
     ColorPair& draw_color = getCurrentDrawColor();
     content->writeLine(text, Size(0,0), alignment, draw_color);
 }
