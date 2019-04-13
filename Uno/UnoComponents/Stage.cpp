@@ -32,16 +32,19 @@ void Stage::initialize() {
     addRelative(&search_progress);
 }
 
-void Stage::toggleSearch() {
+void Stage::searchIfEmtpy() {
+    if (!isEnabled()) {
+        search_progress.start();
+        playerName.setText("Searching");
+        points.setText("");
+    }
+}
+
+void Stage::stopSearch() {
     if (search_progress.isSpinning()) {
         search_progress.stop();
         playerName.setText("No Player");
         points.setText("Points: 0");
-    }
-    else if (!isEnabled()) {
-        search_progress.start();
-        playerName.setText("Searching");
-        points.setText("");
     }
 }
 

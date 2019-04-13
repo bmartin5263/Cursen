@@ -23,10 +23,11 @@ public:
     LobbyForm();
     void initialize() override;
 
-    void enterLobby(LobbyType lobbyType);
+    void initializeLobby(LobbyType lobbyType);
     void leaveLobby();
 
     void updateLobby();
+    void toggleSearch();
 
     void clickStart();
     void clickAddAI();

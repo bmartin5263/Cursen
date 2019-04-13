@@ -14,19 +14,28 @@ class Lobby {
 
 public:
 
+    static const int MAX_PLAYERS = 4;
+    static const int MIN_PLAYERS_TO_START = 2;
+
     Lobby(LobbyType type);
 
-    void addPlayer(const Player& player);
+    void addPlayer(Player * const player);
     void removePlayer(const int& index);
-    Player& getPlayer(const int& index);
-    unsigned long getPlayersSize();
+    Player* getPlayer(const int& index);
+    int getNumPlayers();
+
+    void startSearch();
+    void stopSearch();
+    bool isSearching();
 
     LobbyType getType();
 
 private:
 
-    std::vector<Player> players;
+    Player* players[MAX_PLAYERS];
+    int numPlayers;
     LobbyType lobbyType;
+    bool searching;
 
 };
 

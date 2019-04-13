@@ -48,16 +48,16 @@ void PlayerStaging::initialize() {
     addRelative(&p4Stage);
 }
 
-void PlayerStaging::toggleSearch() {
-    spinning = !spinning;
-    p1Stage.toggleSearch();
-    p2Stage.toggleSearch();
-    p3Stage.toggleSearch();
-    p4Stage.toggleSearch();
+void PlayerStaging::startSearching() {
+    p1Stage.searchIfEmtpy();
+    p2Stage.searchIfEmtpy();
+    p3Stage.searchIfEmtpy();
+    p4Stage.searchIfEmtpy();
 }
 
 void PlayerStaging::stopSearching() {
-    if (spinning) {
-        toggleSearch();
-    }
+    p1Stage.stopSearch();
+    p2Stage.stopSearch();
+    p3Stage.stopSearch();
+    p4Stage.stopSearch();
 }

@@ -19,7 +19,9 @@ public:
     Stage(const Size& pos);
 
     void initialize() override;
-    void toggleSearch();
+
+    void searchIfEmtpy();
+    void stopSearch();
 
     void setHidden(bool value) override;
 

@@ -19,7 +19,7 @@ public:
 
     void initialize() override;
 
-    void toggleSearch();
+    void startSearching();
     void stopSearching();
 
 private:

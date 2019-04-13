@@ -97,7 +97,21 @@ void LobbyForm::clickAddAI() {
 
 void LobbyForm::clickSearch() {
     console.setText("Search Clicked!");
-    playerStaging.toggleSearch();
+    toggleSearch();
+}
+
+void LobbyForm::toggleSearch() {
+    if (!lobby->isSearching()) {
+        lobby->startSearch();
+        playerStaging.startSearching();
+        search_button.setText("Stop Search");
+    }
+    else {
+        lobby->stopSearch();
+        playerStaging.stopSearching();
+        search_button.setText("Search");
+    }
+    updateLobby();
 }
 
 void LobbyForm::clickKick() {
@@ -113,51 +127,35 @@ void LobbyForm::clickSettings() {
 }
 
 void LobbyForm::clickLocal() {
-    enterLobby(LobbyType::LOCAL);
+    initializeLobby(LobbyType::LOCAL);
 }
 
 void LobbyForm::clickHost() {
-    enterLobby(LobbyType::HOST);
+    initializeLobby(LobbyType::HOST);
 }
 
 void LobbyForm::clickJoin() {
-    enterLobby(LobbyType::JOIN);
+    initializeLobby(LobbyType::JOIN);
 }
 
 void LobbyForm::clickExit() {
     CursenApplication::Quit();
 }
 
-void LobbyForm::enterLobby(LobbyType type) {
+void LobbyForm::initializeLobby(LobbyType type) {
     lobby = new Lobby(type);
     mode_select_box.setHidden(true);
 
+    updateLobby();
+
     switch(type) {
         case LobbyType::LOCAL:
-            add_ai_button.setEnabled(true);
-            start_button.setEnabled(false);
-            search_button.setEnabled(false);
-            close_button.setEnabled(true);
-            settings_button.setEnabled(true);
-            kick_button.setEnabled(true);
             lobby_cursor.moveTo(&add_ai_button);
             break;
         case LobbyType::HOST:
-            add_ai_button.setEnabled(true);
-            start_button.setEnabled(false);
-            search_button.setEnabled(true);
-            close_button.setEnabled(true);
-            settings_button.setEnabled(true);
-            kick_button.setEnabled(true);
             lobby_cursor.moveTo(&add_ai_button);
             break;
         case LobbyType::JOIN:
-            add_ai_button.setEnabled(false);
-            start_button.setEnabled(false);
-            search_button.setEnabled(false);
-            close_button.setEnabled(true);
-            settings_button.setEnabled(false);
-            kick_button.setEnabled(false);
             lobby_cursor.moveTo(&close_button);
             break;
     }
@@ -187,5 +185,25 @@ void LobbyForm::updateLobby() {
     close_button.setEnabled(false);
     settings_button.setEnabled(false);
     kick_button.setEnabled(false);
-
+    if (lobby != nullptr) {
+        if (!lobby->isSearching()) {
+            close_button.setEnabled(true);
+            if (lobby->getType() != LobbyType::JOIN) {
+                kick_button.setEnabled(true);
+                if (lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START) {
+                    start_button.setEnabled(true);
+                }
+                if (lobby->getNumPlayers() < Lobby::MAX_PLAYERS) {
+                    add_ai_button.setEnabled(true);
+                    if (lobby->getType() == LobbyType::HOST) {
+                        search_button.setEnabled(true);
+                    }
+                }
+                settings_button.setEnabled(true);
+            }
+        }
+        else {
+            search_button.setEnabled(true);
+        }
+    }
 }
