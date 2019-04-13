@@ -143,7 +143,7 @@ void LobbyForm::enterLobby(LobbyType type) {
             lobby_cursor.moveTo(&add_ai_button);
             break;
         case LobbyType::HOST:
-            add_ai_button.setEnabled(false);
+            add_ai_button.setEnabled(true);
             start_button.setEnabled(false);
             search_button.setEnabled(true);
             close_button.setEnabled(true);
