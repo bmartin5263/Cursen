@@ -29,6 +29,8 @@ public:
     void setTextAlignment(const TextAlignment new_alignment);
     TextAlignment getTextAlignment();
 
+    std::string getText() override;
+
 private:
 
     std::string text;

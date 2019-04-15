@@ -49,3 +49,7 @@ void Label::setTextAlignment(const TextAlignment new_alignment) {
 TextAlignment Label::getTextAlignment() {
     return alignment;
 }
+
+std::string Label::getText() {
+    return text;
+}

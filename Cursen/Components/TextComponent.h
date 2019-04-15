@@ -38,7 +38,8 @@ public:
     ColorPair getDisabled() override;
 
     Content * getContent() override;
-    void setSize(const Size &size);
+
+    virtual void setSize(const Size &size);
     Size getSize();
 
     void startGlow();

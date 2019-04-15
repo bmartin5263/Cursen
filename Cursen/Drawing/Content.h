@@ -48,6 +48,9 @@ public:
 
     void writeBody(const Line *const body, const Size &size);
     void writeBody(const Line *const body, const Size &size, const Size &loc);
+    void fillBody(const chtype& c);
+
+    void colorize(const ColorPair& color);
 
     chtype** getText() { return body; }
     Size getDimensions() { return dimensions; }

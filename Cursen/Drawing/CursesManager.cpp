@@ -19,8 +19,7 @@ const chtype CursesManager::UPPER_RIGHT = ACS_URCORNER;
 const chtype CursesManager::LEFT_T = ACS_LTEE;
 const chtype CursesManager::RIGHT_T = ACS_RTEE;
 
-CursesManager::CursesManager() :
-    requestingFullRedraw(false)
+CursesManager::CursesManager()
 {
 }
 
@@ -146,11 +145,6 @@ void CursesManager::drawComponent(Component &component) {
             if (offset < dimensions.x) {
                 mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
             }
-        }
-        if (component.debug_coordinates) {
-            std::string coordinates = std::to_string(position.x) + "," + std::to_string(position.y);
-            unsigned long len = coordinates.size();
-            mvaddstr(position.y, position.x + dimensions.x - len, coordinates.c_str());
         }
     }
 }

@@ -8,10 +8,8 @@
 
 size_t Content::lineLen(Content::Line const line) {
     size_t i = 0;
-    char c = (char)line[i];
     while(line[i] != NULL_CHAR) {
         i++;
-        c = (char)line[i];
     }
     return i;
 }
@@ -19,13 +17,13 @@ size_t Content::lineLen(Content::Line const line) {
 Content::Content() :
     dimensions(Size(0,0)), body(nullptr)
 {
-    initializeBody();
+    resize(dimensions);
 }
 
 Content::Content(const Size& dimensions) :
     dimensions(dimensions), body(nullptr)
 {
-    initializeBody();
+    resize(dimensions);
 }
 
 void Content::initializeBody() {
@@ -40,11 +38,13 @@ void Content::initializeBody() {
 }
 
 void Content::clear() {
-    for (int i = 0; i < dimensions.y; i++) {
-        for (int j = 0; j < dimensions.x; j++) {
-            body[i][j] = ' ';
+    if (!empty) {
+        for (int i = 0; i < dimensions.y; i++) {
+            for (int j = 0; j < dimensions.x; j++) {
+                body[i][j] = ' ';
+            }
+            body[i][dimensions.x] = NULL_CHAR;
         }
-        body[i][dimensions.x] = NULL_CHAR;
     }
 }
 
@@ -66,16 +66,20 @@ void Content::deleteBody() {
 }
 
 void Content::clearLine(const int y) {
-    assertY(y);
-    for (int i = 0; i < dimensions.x; i++) {
-        body[y][i] = ' ';
+    if (!empty) {
+        assertY(y);
+        for (int i = 0; i < dimensions.x; i++) {
+            body[y][i] = ' ';
+        }
     }
 }
 
 void Content::clearColumn(const int x) {
-    assertX(x);
-    for (int i = 0; i < dimensions.y; i++) {
-        body[i][x] = ' ';
+    if (!empty) {
+        assertX(x);
+        for (int i = 0; i < dimensions.y; i++) {
+            body[i][x] = ' ';
+        }
     }
 }
 
@@ -198,4 +202,20 @@ void Content::assertY(const int y) {
 
 Content::~Content() {
     if (body != nullptr) deleteBody();
+}
+
+void Content::fillBody(const chtype &c) {
+    for (int i = 0; i < dimensions.y; i++) {
+        for (int j = 0; j < dimensions.x; j++) {
+            body[i][j] = body[i][j] | c;
+        }
+    }
+}
+
+void Content::colorize(const ColorPair &color) {
+    for (int i = 0; i < dimensions.y; i++) {
+        for (int j = 0; j < dimensions.x; j++) {
+            body[i][j] = body[i][j] | color;
+        }
+    }
 }

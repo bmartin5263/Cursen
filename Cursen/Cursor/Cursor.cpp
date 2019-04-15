@@ -136,7 +136,7 @@ bool Cursor::cursorDown() {
     currentComponent = map.down;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return false;
+        return currentComponent->isEnabled();
     }
     while (!currentComponent->isEnabled()) {
         currentComponent = componentMap[currentComponent].down;
@@ -156,7 +156,7 @@ bool Cursor::cursorLeft() {
     currentComponent = map.left;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return false;
+        return currentComponent->isEnabled();
     }
     while (!currentComponent->isEnabled()) {
         currentComponent = componentMap[currentComponent].left;
@@ -176,7 +176,7 @@ bool Cursor::cursorRight() {
     currentComponent = map.right;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return false;
+        return currentComponent->isEnabled();
     }
     while (!currentComponent->isEnabled()) {
         currentComponent = componentMap[currentComponent].right;
@@ -196,7 +196,7 @@ bool Cursor::cursorUp() {
     currentComponent = map.up;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return false;
+        return currentComponent->isEnabled();
     }
     while (!currentComponent->isEnabled()) {
         currentComponent = componentMap[currentComponent].up;

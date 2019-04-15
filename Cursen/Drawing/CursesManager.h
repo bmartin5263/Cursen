@@ -81,7 +81,6 @@ private:
     int inputTimeout;
     ColorMap colorMap;
     ColorPairMap colorPairMap;
-    bool requestingFullRedraw;
 
     // Methods
     void initializeCurses(const Size& dim);

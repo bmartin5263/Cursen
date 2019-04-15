@@ -308,14 +308,6 @@ Size Component::getPosition() const {
     return this->position;
 }
 
-void Component::enableDebugging() {
-    debug_coordinates = true;
-}
-
-void Component::disableDebugging() {
-    debug_coordinates = false;
-}
-
 void Component::setPosition(const Size &pos) {
     this->position = pos;
     invalidate();
