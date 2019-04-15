@@ -9,6 +9,7 @@
 #include "Components/AggregateComponent.h"
 #include "Components/Box.h"
 #include "Stage.h"
+#include "../GameObjects/Lobby.h"
 
 class PlayerStaging : public AggregateComponent {
 
@@ -19,16 +20,16 @@ public:
 
     void initialize() override;
 
+    void update(const Lobby& lobby);
+    void clear();
+
     void startSearching();
     void stopSearching();
 
 private:
 
     Box border;
-    Stage p1Stage;
-    Stage p2Stage;
-    Stage p3Stage;
-    Stage p4Stage;
+    Stage stages[Lobby::MAX_PLAYERS];
     bool spinning;
 
 };

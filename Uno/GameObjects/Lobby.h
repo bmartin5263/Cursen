@@ -18,17 +18,18 @@ public:
     static const int MIN_PLAYERS_TO_START = 2;
 
     Lobby(LobbyType type);
+    ~Lobby();
 
     void addPlayer(Player * const player);
     void removePlayer(const int& index);
-    Player* getPlayer(const int& index);
-    int getNumPlayers();
+    Player* getPlayer(const int& index) const;
+    int getNumPlayers() const;
 
     void startSearch();
     void stopSearch();
     bool isSearching();
 
-    LobbyType getType();
+    LobbyType getType() const;
 
 private:
 

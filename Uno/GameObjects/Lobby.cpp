@@ -28,18 +28,18 @@ void Lobby::removePlayer(const int &index) {
     numPlayers--;
 }
 
-Player* Lobby::getPlayer(const int &index) {
+Player* Lobby::getPlayer(const int &index) const {
     if (index < 0 || index >= numPlayers) {
         throw std::range_error("Player index out of range");
     }
     return players[index];
 }
 
-int Lobby::getNumPlayers() {
+int Lobby::getNumPlayers() const {
     return numPlayers;
 }
 
-LobbyType Lobby::getType() {
+LobbyType Lobby::getType() const {
     return lobbyType;
 }
 
@@ -53,4 +53,10 @@ void Lobby::stopSearch() {
 
 bool Lobby::isSearching() {
     return searching;
+}
+
+Lobby::~Lobby() {
+    while (numPlayers > 0) {
+        removePlayer(numPlayers - 1);
+    }
 }

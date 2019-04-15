@@ -3,6 +3,7 @@
 //
 
 #include "Stage.h"
+#include "../GameObjects/Player.h"
 
 Stage::Stage() {
 
@@ -52,4 +53,16 @@ void Stage::setHidden(bool value) {
     border.setHidden(value);
     playerName.setHidden(value);
     points.setHidden(value);
+}
+
+void Stage::clear() {
+    setEnabled(false);
+    playerName.setText("No Player");
+    points.setText("Points: 0");
+}
+
+void Stage::setPlayer(const Player & player) {
+    setEnabled(true);
+    playerName.setText(player.getName());
+    points.setText("Points: " + std::to_string(player.getPoints()));
 }

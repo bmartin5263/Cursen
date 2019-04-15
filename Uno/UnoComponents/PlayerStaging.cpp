@@ -3,6 +3,7 @@
 //
 
 #include "PlayerStaging.h"
+#include "../Constants.h"
 
 PlayerStaging::PlayerStaging() :
     spinning(false)
@@ -27,37 +28,52 @@ void PlayerStaging::initialize() {
     border.setUpperLeft(ACS_LTEE);
     addRelative(&border);
 
-    p1Stage.initialize();
-    p1Stage.setPosition(Size(1,1));
-    p1Stage.setEnabled(false);
-    addRelative(&p1Stage);
+    for (Stage& stage : stages) {
+        stage.initialize();
+    }
 
-    p2Stage.initialize();
-    p2Stage.setPosition(Size(35,1));
-    p2Stage.setEnabled(false);
-    addRelative(&p2Stage);
+    stages[0].setPosition(Size(1,1));
+    stages[0].setEnabled(false);
+    addRelative(&stages[0]);
 
-    p3Stage.initialize();
-    p3Stage.setPosition(Size(1,5));
-    p3Stage.setEnabled(false);
-    addRelative(&p3Stage);
+    stages[1].setPosition(Size(35,1));
+    stages[1].setEnabled(false);
+    addRelative(&stages[1]);
 
-    p4Stage.initialize();
-    p4Stage.setPosition(Size(35,5));
-    p4Stage.setEnabled(false);
-    addRelative(&p4Stage);
+    stages[2].setPosition(Size(1,5));
+    stages[2].setEnabled(false);
+    addRelative(&stages[2]);
+
+    stages[3].setPosition(Size(35,5));
+    stages[3].setEnabled(false);
+    addRelative(&stages[3]);
+}
+
+void PlayerStaging::clear() {
+    for (int i = 0 ; i < Lobby::MAX_PLAYERS; i++) {
+        stages[i].clear();
+    }
 }
 
 void PlayerStaging::startSearching() {
-    p1Stage.searchIfEmtpy();
-    p2Stage.searchIfEmtpy();
-    p3Stage.searchIfEmtpy();
-    p4Stage.searchIfEmtpy();
+    for (Stage& s : stages) {
+        s.searchIfEmtpy();
+    }
 }
 
 void PlayerStaging::stopSearching() {
-    p1Stage.stopSearch();
-    p2Stage.stopSearch();
-    p3Stage.stopSearch();
-    p4Stage.stopSearch();
+    for (Stage& s : stages) {
+        s.stopSearch();
+    }
+}
+
+void PlayerStaging::update(const Lobby &lobby) {
+    int i;
+    for (i = 0; i < lobby.getNumPlayers(); i++) {
+        stages[i].setPlayer(*lobby.getPlayer(i));
+        stages[i].setForegroundAll(Constants::COLORS[i]);
+    }
+    for (; i < Lobby::MAX_PLAYERS; i++) {
+        stages[i].clear();
+    }
 }

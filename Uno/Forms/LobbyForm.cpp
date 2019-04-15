@@ -93,6 +93,7 @@ void LobbyForm::clickStart() {
 
 void LobbyForm::clickAddAI() {
     console.setText("Add AI Clicked!");
+    lobby->addPlayer(new Player());
 }
 
 void LobbyForm::clickSearch() {
@@ -144,6 +145,10 @@ void LobbyForm::clickExit() {
 
 void LobbyForm::initializeLobby(LobbyType type) {
     lobby = new Lobby(type);
+    lobby->addPlayer(new Player("Fuck"));
+    lobby->addPlayer(new Player("This"));
+    lobby->addPlayer(new Player("Takes"));
+    lobby->addPlayer(new Player("Awhile"));
     mode_select_box.setHidden(true);
 
     updateLobby();
@@ -173,9 +178,12 @@ void LobbyForm::leaveLobby() {
     close_button.setEnabled(false);
     settings_button.setEnabled(false);
     kick_button.setEnabled(false);
+
     playerStaging.stopSearching();
+    playerStaging.clear();
 
     delete lobby;
+    lobby = nullptr;
 }
 
 void LobbyForm::updateLobby() {
@@ -206,4 +214,5 @@ void LobbyForm::updateLobby() {
             search_button.setEnabled(true);
         }
     }
+    playerStaging.update(*lobby);
 }

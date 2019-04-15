@@ -10,6 +10,7 @@
 #include "Components/Box.h"
 #include "Components/Label.h"
 #include "Components/TwirlProgress.h"
+#include "../GameObjects/Player.h"
 
 class Stage : public AggregateComponent {
 
@@ -19,6 +20,9 @@ public:
     Stage(const Size& pos);
 
     void initialize() override;
+
+    void clear();
+    void setPlayer(const Player& player);
 
     void searchIfEmtpy();
     void stopSearch();
