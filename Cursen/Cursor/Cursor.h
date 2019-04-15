@@ -27,10 +27,10 @@ public:
     void mapComponent(Component *component, cursen::ArrowMap arrowMap);
     void unmapComponent(Component *component);
 
-    void cursorDown();
-    void cursorLeft();
-    void cursorRight();
-    void cursorUp();
+    bool cursorDown();
+    bool cursorLeft();
+    bool cursorRight();
+    bool cursorUp();
 
     void initialize() override;
 
