@@ -115,101 +115,123 @@ bool Component::isHidden() const {
 }
 
 void Component::CallKeyPress(const Event& e) {
-    try {
-        f_keyPress(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_keyPress(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallEscapePress(const Event& e) {
-    try {
-        f_escapePress(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_escapePress(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallEnterPress(const Event& e) {
-    try {
-        f_enterPress(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_enterPress(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallSocketMessage(const Event& e) {
-    try {
-        f_socketMessage(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_socketMessage(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallSocketDisconnect(const Event& e) {
-    try {
-        f_socketDisconnect(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_socketDisconnect(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallSocketConnect(const Event& e) {
-    try {
-        f_socketConnect(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_socketConnect(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallDeletePress(const Event& e) {
-    try {
-        f_deletePress(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_deletePress(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallArrowPress(const Event& e) {
-    try {
-        f_arrowPress(e);
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_arrowPress(e);
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallOnCursor() {
-    try {
-        f_onCursor();
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_onCursor();
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallOffCursor() {
-    try {
-        f_offCursor();
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_offCursor();
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
 void Component::CallOnClick() {
-    try {
-        f_onClick();
-    }
-    catch (std::bad_function_call) {
-        // Pass
+    if (enabled) {
+        try {
+            f_onClick();
+        }
+        catch (std::bad_function_call) {
+            // Pass
+        }
     }
 }
 
