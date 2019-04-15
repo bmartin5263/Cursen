@@ -115,6 +115,16 @@ void ModeSelectBox::start() {
     host_button.setEnabled(true);
     exit_button.setEnabled(true);
     mode_cursor.setEnabled(true);
-    console_message.setText("Welcome to Uno! Select a Mode");
+    setMessage("Welcome to Uno! Select a Mode");
+}
+
+void ModeSelectBox::setMessage(const std::string &text) {
+    console_message.setForeground(Color::YELLOW);
+    console_message.setText(text);
+}
+
+void ModeSelectBox::setWarning(const std::string &text) {
+    console_message.setForeground(Color::RED);
+    console_message.setText(text);
 }
 

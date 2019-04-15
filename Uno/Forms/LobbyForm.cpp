@@ -254,5 +254,6 @@ void LobbyForm::setMainPlayerName() {
     }
     else {
         CursesManager::Beep();
+        mode_select_box.setWarning("Name Must Have 1 Character");
     }
 }

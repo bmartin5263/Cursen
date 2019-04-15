@@ -35,6 +35,9 @@ public:
     void setText(const std::string &text) override;
     void setHidden(bool value) override;
 
+    void setMessage(const std::string& text);
+    void setWarning(const std::string& text);
+
 private:
 
     Box border;
