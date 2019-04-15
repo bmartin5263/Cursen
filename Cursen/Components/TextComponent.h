@@ -24,6 +24,8 @@ public:
     virtual void setBackground(const Color &color) override;
     virtual Color getBackground() override;
 
+    ColorPair& getCurrentDrawColor();
+
     virtual void cursorOn();
     virtual void cursorOff();
 
@@ -44,10 +46,6 @@ public:
     void animateGlow();
 
     void render() override;
-
-protected:
-
-    ColorPair& getCurrentDrawColor();
 
 private:
 

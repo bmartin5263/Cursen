@@ -33,10 +33,10 @@ void Cursor::setEnabled(bool value) {
             currentComponent->CallOnCursor();
         }
         else {
-            currentComponent->CallOffCursor();
             detachArrowPress();
             detachEnterPress();
             detachKeyPress();
+            currentComponent->CallOffCursor();
         }
     }
 }
@@ -114,7 +114,15 @@ void Cursor::initialize() {
 
 void Cursor::refresh() {
     if (currentComponent == nullptr || !currentComponent->isEnabled()) {
-        cursorDown();
+        if (!cursorDown()) {
+            if (!cursorUp()) {
+                if (!cursorLeft()) {
+                    if (!cursorRight()) {
+                        throw std::logic_error("Cursor is trapped.");
+                    }
+                }
+            }
+        }
     }
 }
 

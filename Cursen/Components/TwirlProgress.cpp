@@ -8,12 +8,12 @@
 #include "TwirlProgress.h"
 
 TwirlProgress::TwirlProgress() :
-        twirlIndex(0), spinning(false)
+        twirl_index(0), spinning(false)
 {
 }
 
 TwirlProgress::TwirlProgress(const Size &pos) :
-        twirlIndex(0), spinning(false)
+        twirl_index(0), spinning(false)
 {
 }
 
@@ -28,6 +28,7 @@ void TwirlProgress::initialize() {
 
 void TwirlProgress::start() {
     if (!spinning) {
+        twirl_index = 0;
         AlarmManager::StartAlarm(this, std::bind(&TwirlProgress::doTwirl, this), .09);
         twirl_label.setHidden(false);
         spinning = true;
@@ -43,8 +44,8 @@ void TwirlProgress::stop() {
 }
 
 void TwirlProgress::doTwirl() {
-    twirlIndex = (twirlIndex + 1) % TWIRL_LEN;
-    twirl_label.setText(TWIRL[twirlIndex]);
+    twirl_index = (twirl_index + 1) % TWIRL_LEN;
+    twirl_label.setText(TWIRL[twirl_index]);
 }
 
 void TwirlProgress::toggle() {

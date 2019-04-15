@@ -39,7 +39,7 @@ private:
     void doTwirl();
 
     Label twirl_label;
-    int twirlIndex;
+    int twirl_index;
     bool spinning;
 
 };

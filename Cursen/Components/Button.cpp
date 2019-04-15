@@ -70,3 +70,9 @@ void Button::setPosition(const Size &pos) {
     border.setPosition(pos);
     button_text.setPosition(pos + Size(1,1));
 }
+
+//TODO this should be standard in components
+void Button::emphasize() {
+    border.startGlow();
+    button_text.startGlow();
+}

@@ -36,4 +36,7 @@ void AggregateComponent::setPosition(const Size &pos) {
 
 void AggregateComponent::setForeground(const Color &color) {
     Component::setForeground(color);
+    for (auto child : getChildren()) {
+        child->setForeground(color);
+    }
 }

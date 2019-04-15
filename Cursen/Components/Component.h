@@ -52,19 +52,15 @@ public:
 
     // Common Attributes
     virtual void setForeground(const Color &color) {};
-    virtual void setForegroundAll(const Color &color);
     virtual Color getForeground() { return Color::NONE; };
 
     virtual void setBackground(const Color &color) {};
-    virtual void setBackgroundAll(const Color &color);
     virtual Color getBackground() { return Color::NONE; };
 
     virtual void setHighlight(const ColorPair &color) {};
-    virtual void setHighlightAll(const ColorPair &color);
     virtual ColorPair getHighlight() { return ColorPair::NONE; };
 
     virtual void setDisabled(const ColorPair &color) {};
-    virtual void setDisabledAll(const ColorPair &color);
     virtual ColorPair getDisabled() { return ColorPair::NONE; };
 
     virtual void setText(const std::string& text) {};

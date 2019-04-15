@@ -23,6 +23,8 @@ public:
     void cursorOn();
     void cursorOff();
 
+    void emphasize();
+
     void setText(const std::string &text) override;
     void setPosition(const Size &pos) override;
 

@@ -27,7 +27,7 @@ public:
     /**
      * @brief Create a new Alarm for a specified component
      *
-     * The Alarm is not immedietely created but rather the request is added to a queue.
+     * The Alarm is not immediately created but rather the request is added to a queue.
      * This is to make sure that the Alarm update list is not altered by one of its Alarms
      * during iteration. Before iteration, all requested Alarms are added.
      *
