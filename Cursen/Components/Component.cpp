@@ -214,13 +214,11 @@ void Component::CallOnCursor() {
 }
 
 void Component::CallOffCursor() {
-    if (enabled) {
-        try {
-            f_offCursor();
-        }
-        catch (std::bad_function_call) {
-            // Pass
-        }
+    try {
+        f_offCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
     }
 }
 
@@ -306,34 +304,6 @@ bool Component::isInvalid() {
     return invalid;
 }
 
-void Component::setForegroundAll(const Color &color) {
-    setForeground(color);
-    for (auto child : children) {
-        child->setForegroundAll(color);
-    }
-}
-
-void Component::setBackgroundAll(const Color &color) {
-    setBackground(color);
-    for (Component* child : children) {
-        child->setBackgroundAll(color);
-    }
-}
-
-void Component::setHighlightAll(const ColorPair &color) {
-    setHighlight(color);
-    for (Component* child : children) {
-        child->setHighlightAll(color);
-    }
-}
-
-void Component::setDisabledAll(const ColorPair &color) {
-    setDisabled(color);
-    for (Component* child : children) {
-        child->setDisabledAll(color);
-    }
-}
-
 Size Component::getPosition() const {
     return this->position;
 }
@@ -356,7 +326,7 @@ const std::vector<Component*>& Component::getChildren() {
 }
 
 Component::~Component() {
-
+    CursesManager::Deregister(this);
 }
 
 int Component::getDrawOrder() {
