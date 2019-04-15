@@ -21,6 +21,8 @@ public:
     void setEnabled(bool value) override;
     void setPosition(const Size& pos) override;
 
+    void setForeground(const Color &color) override;
+
 };
 
 

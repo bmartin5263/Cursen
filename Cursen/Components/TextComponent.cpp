@@ -96,8 +96,7 @@ ColorPair TextComponent::getDisabled() {
 
 
 Content * TextComponent::getContent() {
-    Content* c = &content;
-    return c;
+    return &content;
 }
 
 void TextComponent::setSize(const Size &size) {

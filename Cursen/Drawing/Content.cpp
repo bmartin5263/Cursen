@@ -8,8 +8,10 @@
 
 size_t Content::lineLen(Content::Line const line) {
     size_t i = 0;
+    char c = (char)line[i];
     while(line[i] != NULL_CHAR) {
         i++;
+        c = (char)line[i];
     }
     return i;
 }
@@ -148,7 +150,7 @@ void Content::writeLine(const Line line, const Size &loc, const TextAlignment &a
             case TextAlignment::CENTER:
                 len = lineLen(line);
                 center = dimensions.x / 2;
-                start = center - (int) ceil((double) len / 2.0);
+                start = center - (int) floor((double) len / 2.0);
                 index = 0;
                 for (int j = start; j < dimensions.x; j++) {
                     if (line[index] == NULL_CHAR) break;

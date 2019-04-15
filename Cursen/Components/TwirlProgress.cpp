@@ -28,7 +28,7 @@ void TwirlProgress::initialize() {
 
 void TwirlProgress::start() {
     if (!spinning) {
-        AlarmManager::StartAlarm(this, std::bind(&TwirlProgress::doTwirl, this), .1);
+        AlarmManager::StartAlarm(this, std::bind(&TwirlProgress::doTwirl, this), .09);
         twirl_label.setHidden(false);
         spinning = true;
     }

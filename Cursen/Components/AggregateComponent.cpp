@@ -33,3 +33,7 @@ void AggregateComponent::setPosition(const Size &pos) {
     Size difference = pos - getPosition();
     move(difference);
 }
+
+void AggregateComponent::setForeground(const Color &color) {
+    Component::setForeground(color);
+}
