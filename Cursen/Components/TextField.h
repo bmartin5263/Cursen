@@ -19,6 +19,9 @@ public:
     void initialize() override;
     void render() override;
 
+    void activate();
+    void deactivate();
+
     void keyPress(const Event& e);
     void deletePress(const Event& e);
 
@@ -26,8 +29,9 @@ public:
 
     void cursorOn() override;
 
-    void setSize(const Size &size) override;
+    void moveCursorLeftRight(const Event& event);
 
+    void setSize(const Size &size) override;
     void setText(const std::string &text) override;
 
     std::string getText() override;
@@ -36,6 +40,7 @@ private:
 
     std::string text;
     int max_len;
+    int cursor_x;
 
 };
 

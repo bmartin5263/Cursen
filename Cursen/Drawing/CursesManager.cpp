@@ -213,5 +213,15 @@ void CursesManager::privDraw() {
         }
     }
 
+    move(cursor_pos.y, cursor_pos.x);
+
     refresh();
+}
+
+void CursesManager::privMoveCursor(const Size &dim) {
+    cursor_pos = dim;
+}
+
+void CursesManager::privSetCursor(const int &level) {
+    curs_set(level);
 }

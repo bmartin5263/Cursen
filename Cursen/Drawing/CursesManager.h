@@ -65,6 +65,9 @@ public:
 
     static void Draw() { Instance().privDraw(); };
 
+    static void SetCursor(const int& level) { Instance().privSetCursor(level); }
+    static void MoveCursor(const Size& pos) { Instance().privMoveCursor(pos); }
+
     static void Register(Component* component) { Instance().privRegisterComponent(component); };
     static void Deregister(Component* component) { Instance().privDeregisterComponent(component); };
     static void SetDrawOrder(Component* component, int order) { Instance().privSetDrawOrder(component, order); };
@@ -78,6 +81,7 @@ private:
     // Instance Data
     ComponentMap componentMap;
     Size dimensions;
+    Size cursor_pos;
     int inputTimeout;
     ColorMap colorMap;
     ColorPairMap colorPairMap;
@@ -99,9 +103,11 @@ private:
     short privGetPairNumber(const ColorPair&);
     void privDraw();
     void privResize(const Size& dim);
+    void privMoveCursor(const Size& dim);
     void privRegisterComponent(Component* component);
     void privDeregisterComponent(Component* component);
     void privSetDrawOrder(Component* component, int order);
+    void privSetCursor(const int& level);
 
     void drawComponent(Component& component);
 

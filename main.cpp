@@ -124,5 +124,6 @@ int main() {
 
     //cursesTest();
     //CursenApplication::SetColorPalette(ColorPalette::LIGHT);
+    //std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     CursenApplication::Run(new LobbyForm());
 }

@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/15/19.
 //
 
+#include <Drawing/CursesManager.h>
 #include "TextField.h"
 
 TextField::TextField() :
@@ -16,9 +17,7 @@ TextField::TextField(const Size &pos) :
 
 void TextField::initialize() {
     TextComponent::initialize();
-
-    onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
-    onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
+    cursor_x = 0;
 }
 
 void TextField::render() {
@@ -27,6 +26,8 @@ void TextField::render() {
 
     content->clear();
     content->writeLine(text, Size(0,0), TextAlignment::LEFT, getCurrentDrawColor());
+
+    CursesManager::MoveCursor(getPosition() + Size(cursor_x, 0));
 }
 
 void TextField::cursorOn() {
@@ -35,14 +36,16 @@ void TextField::cursorOn() {
 
 void TextField::keyPress(const Event &e) {
     if (text.size() < max_len) {
-        text += e.key.code;
+        text.insert(text.begin() + cursor_x, (char)e.key.code);
+        cursor_x += 1;
         invalidate();
     }
 }
 
 void TextField::deletePress(const Event &e) {
     if (!text.empty()) {
-        text.pop_back();
+        text.erase(text.begin() + (cursor_x-1));
+        cursor_x -= 1;
         invalidate();
     }
 }
@@ -68,7 +71,30 @@ std::string TextField::getText() {
     return text;
 }
 
-TextField::~TextField() {
+void TextField::activate() {
+    CursesManager::SetCursor(1);
+    CursesManager::MoveCursor(getPosition() + Size((int)text.length(), 0));
+    onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
+    onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
+    onArrowPress(std::bind(&TextField::moveCursorLeftRight, this, std::placeholders::_1));
+}
+
+void TextField::deactivate() {
+    CursesManager::SetCursor(0);
     detachKeyPress();
     detachDeletePress();
+}
+
+TextField::~TextField() {
+    deactivate();
+}
+
+void TextField::moveCursorLeftRight(const Event &event) {
+    if (event.arrowPress.left && cursor_x > 0) {
+        cursor_x -= 1;
+        invalidate();
+    } else if (event.arrowPress.right && cursor_x < text.size()) {
+        cursor_x += 1;
+        invalidate();
+    }
 }
