@@ -52,66 +52,18 @@ void Cursor::keyClick(const Event &event) {
 }
 
 void Cursor::moveCursor(const Event &event) {
-    Component* originalComponent = currentComponent;
-    cursen::ArrowMap map = componentMap[currentComponent];
     if (event.arrowPress.right) {
-        currentComponent = map.right;
-        if (currentComponent == nullptr) {
-            currentComponent = originalComponent;
-            return;
-        }
-        while (!currentComponent->isEnabled()) {
-            currentComponent = componentMap[currentComponent].right;
-            if (currentComponent == nullptr) {
-                currentComponent = originalComponent;
-                return;
-            }
-        }
+        cursorRight();
     }
     else if (event.arrowPress.left) {
-        currentComponent = map.left;
-        if (currentComponent == nullptr) {
-            currentComponent = originalComponent;
-            return;
-        }
-        while (!currentComponent->isEnabled()) {
-            currentComponent = componentMap[currentComponent].left;
-            if (currentComponent == nullptr) {
-                currentComponent = originalComponent;
-                return;
-            }
-        }
+        cursorLeft();
     }
     else if (event.arrowPress.up) {
-        currentComponent = map.up;
-        if (currentComponent == nullptr) {
-            currentComponent = originalComponent;
-            return;
-        }
-        while (!currentComponent->isEnabled()) {
-            currentComponent = componentMap[currentComponent].up;
-            if (currentComponent == nullptr) {
-                currentComponent = originalComponent;
-                return;
-            }
-        }
+        cursorUp();
     }
     else if (event.arrowPress.down) {
-        currentComponent = map.down;
-        if (currentComponent == nullptr) {
-            currentComponent = originalComponent;
-            return;
-        }
-        while (!currentComponent->isEnabled()) {
-            currentComponent = componentMap[currentComponent].down;
-            if (currentComponent == nullptr) {
-                currentComponent = originalComponent;
-                return;
-            }
-        }
+        cursorDown();
     }
-    originalComponent->CallOffCursor();
-    currentComponent->CallOnCursor();
 }
 
 
@@ -129,11 +81,87 @@ void Cursor::initialize() {
 }
 
 void Cursor::refresh() {
-    if (currentComponent == nullptr) {
-        //TODO - move cursor away from disabled component
+    if (currentComponent == nullptr || !currentComponent->isEnabled()) {
+        cursorDown();
     }
 }
 
 void Cursor::moveTo(Component *start) {
     currentComponent = start;
+}
+
+void Cursor::cursorDown() {
+    Component* originalComponent = currentComponent;
+    cursen::ArrowMap map = componentMap[currentComponent];
+    currentComponent = map.down;
+    if (currentComponent == nullptr) {
+        currentComponent = originalComponent;
+        return;
+    }
+    while (!currentComponent->isEnabled()) {
+        currentComponent = componentMap[currentComponent].down;
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
+    }
+    originalComponent->CallOffCursor();
+    currentComponent->CallOnCursor();
+}
+
+void Cursor::cursorLeft() {
+    Component* originalComponent = currentComponent;
+    cursen::ArrowMap map = componentMap[currentComponent];
+    currentComponent = map.left;
+    if (currentComponent == nullptr) {
+        currentComponent = originalComponent;
+        return;
+    }
+    while (!currentComponent->isEnabled()) {
+        currentComponent = componentMap[currentComponent].left;
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
+    }
+    originalComponent->CallOffCursor();
+    currentComponent->CallOnCursor();
+}
+
+void Cursor::cursorRight() {
+    Component* originalComponent = currentComponent;
+    cursen::ArrowMap map = componentMap[currentComponent];
+    currentComponent = map.right;
+    if (currentComponent == nullptr) {
+        currentComponent = originalComponent;
+        return;
+    }
+    while (!currentComponent->isEnabled()) {
+        currentComponent = componentMap[currentComponent].right;
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
+    }
+    originalComponent->CallOffCursor();
+    currentComponent->CallOnCursor();
+}
+
+void Cursor::cursorUp() {
+    Component* originalComponent = currentComponent;
+    cursen::ArrowMap map = componentMap[currentComponent];
+    currentComponent = map.up;
+    if (currentComponent == nullptr) {
+        currentComponent = originalComponent;
+        return;
+    }
+    while (!currentComponent->isEnabled()) {
+        currentComponent = componentMap[currentComponent].up;
+        if (currentComponent == nullptr) {
+            currentComponent = originalComponent;
+            return;
+        }
+    }
+    originalComponent->CallOffCursor();
+    currentComponent->CallOnCursor();
 }
