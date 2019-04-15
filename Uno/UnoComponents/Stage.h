@@ -6,11 +6,14 @@
 #define CURSEN_STAGE_H
 
 
+#include <Components/TextField.h>
 #include "Components/AggregateComponent.h"
 #include "Components/Box.h"
 #include "Components/Label.h"
 #include "Components/TwirlProgress.h"
 #include "../GameObjects/Player.h"
+
+class Lobby;
 
 class Stage : public AggregateComponent {
 
@@ -23,12 +26,23 @@ public:
 
     void clear();
     void setPlayer(const Player& player);
+    void setTextToCancel();
+
+    void hoverOn();
+    void hoverOff();
+
+    void activateTextField();
+    void deactivateTextField();
 
     void searchIfEmtpy();
     void stopSearch();
 
     void setHidden(bool value) override;
+    void setStageColor(const Color& stageColor);
 
+    TextField& getTextField();
+
+    std::string getText() override;
 
 private:
 
@@ -36,6 +50,8 @@ private:
     Label playerName;
     Label points;
     TwirlProgress search_progress;
+    TextField textField;
+    Color stage_color;
 
 };
 

@@ -26,6 +26,11 @@ void Lobby::removePlayer(const int &index) {
     delete players[index];
     players[index] = nullptr;
     numPlayers--;
+
+    for (int i = index + 1; i < MAX_PLAYERS; i++) {
+        players[i-1] = players[i];
+        players[i] = nullptr;
+    }
 }
 
 Player* Lobby::getPlayer(const int &index) const {
@@ -51,7 +56,7 @@ void Lobby::stopSearch() {
     searching = false;
 }
 
-bool Lobby::isSearching() {
+bool Lobby::isSearching() const {
     return searching;
 }
 

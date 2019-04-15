@@ -37,7 +37,6 @@ void UnoConsole::initialize() {
     console_message.initialize();
     console_message.setPosition(Size(1,5));
     console_message.setForeground(Color::YELLOW);
-    console_message.setText("Welcome to Uno!");
     add(&console_message);
 
     title.initialize();
@@ -47,10 +46,20 @@ void UnoConsole::initialize() {
 }
 
 void UnoConsole::setText(const std::string &text) {
-    console_message.setText(text);
+    setMessage(text);
 }
 
 std::string UnoConsole::getText() {
     return console_message.getText();
+}
+
+void UnoConsole::setMessage(const std::string &text) {
+    console_message.setForeground(Color::YELLOW);
+    console_message.setText(text);
+}
+
+void UnoConsole::setWarning(const std::string &text) {
+    console_message.setForeground(Color::RED);
+    console_message.setText(text);
 }
 

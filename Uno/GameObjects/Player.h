@@ -22,11 +22,11 @@ public:
     void addPoints(const int& points);
     int getPoints() const;
 
+    static const std::string GetComputerName();
 
 private:
 
     static const std::string COMP_NAMES[];
-    static const std::string getComputerName(int i);
 
     std::string name;
     int points;

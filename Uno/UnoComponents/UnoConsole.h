@@ -23,6 +23,9 @@ public:
     void setText(const std::string &text) override;
     std::string getText() override;
 
+    void setMessage(const std::string &text);
+    void setWarning(const std::string &text);
+
 private:
 
     Box uno_box;

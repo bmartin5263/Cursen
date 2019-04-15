@@ -5,6 +5,7 @@
 #ifndef CURSEN_LOBBYFORM_H
 #define CURSEN_LOBBYFORM_H
 
+#include <Components/TextField.h>
 #include "Components/Form.h"
 #include "Components/Button.h"
 #include "Components/ASCIIArt.h"
@@ -28,6 +29,11 @@ public:
 
     void updateLobby();
     void toggleSearch();
+
+    void enableRemovePlayerCursor();
+    void removePlayer(const int& index);
+
+    void setMainPlayerName();
 
     void clickStart();
     void clickAddAI();
@@ -54,6 +60,7 @@ private:
     Button kick_button;
     Button close_button;
     Button settings_button;
+    TextField text_field;
     UnoConsole console;
     PlayerStaging playerStaging;
     ModeSelectBox mode_select_box;

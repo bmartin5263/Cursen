@@ -33,6 +33,8 @@ int Player::getPoints() const {
     return points;
 }
 
-const std::string Player::getComputerName(int i) {
+const std::string Player::GetComputerName() {
+    static int i = -1;
+    i = (i+1) % 4;
     return COMP_NAMES[i];
 }

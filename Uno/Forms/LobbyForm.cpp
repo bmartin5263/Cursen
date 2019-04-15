@@ -62,6 +62,7 @@ void LobbyForm::initialize() {
     console.initialize();
 
     playerStaging.initialize();
+    playerStaging.setCallBacks(this);
     playerStaging.setPosition(Size(0,6));
 
     art.initialize();
@@ -75,6 +76,8 @@ void LobbyForm::initialize() {
     mode_select_box.onHostClick(std::bind(&LobbyForm::clickHost, this));
     mode_select_box.onJoinClick(std::bind(&LobbyForm::clickJoin, this));
     mode_select_box.onExitClick(std::bind(&LobbyForm::clickExit, this));
+    mode_select_box.getMainPlayerStage().activateTextField();
+    mode_select_box.getMainPlayerStage().getTextField().onEnterPress(std::bind(&LobbyForm::setMainPlayerName, this));
 
     lobby_cursor.moveTo(&start_button);
     lobby_cursor.mapComponent(&start_button, ArrowMap(nullptr, &settings_button, nullptr, &add_ai_button));
@@ -84,7 +87,6 @@ void LobbyForm::initialize() {
     lobby_cursor.mapComponent(&close_button, ArrowMap(nullptr, &kick_button, nullptr, &settings_button));
     lobby_cursor.mapComponent(&settings_button, ArrowMap(nullptr, &close_button, nullptr, &start_button));
     //lobby_cursor.setEnabled(false);
-
 }
 
 void LobbyForm::clickStart() {
@@ -93,7 +95,10 @@ void LobbyForm::clickStart() {
 
 void LobbyForm::clickAddAI() {
     console.setText("Add AI Clicked!");
-    lobby->addPlayer(new Player());
+    Player* p = new Player(Player::GetComputerName());
+    lobby->addPlayer(p);
+    console.setMessage("Welcome, " + p->getName() + "!");
+    updateLobby();
 }
 
 void LobbyForm::clickSearch() {
@@ -106,6 +111,7 @@ void LobbyForm::toggleSearch() {
         lobby->startSearch();
         playerStaging.startSearching();
         search_button.setText("Stop Search");
+        console.setWarning("Searching For Players...");
     }
     else {
         lobby->stopSearch();
@@ -117,6 +123,7 @@ void LobbyForm::toggleSearch() {
 
 void LobbyForm::clickKick() {
     console.setText("Kick Clicked!");
+    enableRemovePlayerCursor();
 }
 
 void LobbyForm::clickClose() {
@@ -145,10 +152,8 @@ void LobbyForm::clickExit() {
 
 void LobbyForm::initializeLobby(LobbyType type) {
     lobby = new Lobby(type);
-    lobby->addPlayer(new Player("Fuck"));
-    lobby->addPlayer(new Player("This"));
-    lobby->addPlayer(new Player("Takes"));
-    lobby->addPlayer(new Player("Awhile"));
+
+    lobby->addPlayer(new Player(mode_select_box.getMainPlayerStage().getText()));
     mode_select_box.setHidden(true);
 
     updateLobby();
@@ -164,6 +169,8 @@ void LobbyForm::initializeLobby(LobbyType type) {
             lobby_cursor.moveTo(&close_button);
             break;
     }
+
+    console.setMessage("Welcome To Uno!");
 
     lobby_cursor.setEnabled(true);
 }
@@ -182,6 +189,8 @@ void LobbyForm::leaveLobby() {
     playerStaging.stopSearching();
     playerStaging.clear();
 
+    console.setMessage("");
+
     delete lobby;
     lobby = nullptr;
 }
@@ -194,25 +203,56 @@ void LobbyForm::updateLobby() {
     settings_button.setEnabled(false);
     kick_button.setEnabled(false);
     if (lobby != nullptr) {
-        if (!lobby->isSearching()) {
-            close_button.setEnabled(true);
-            if (lobby->getType() != LobbyType::JOIN) {
-                kick_button.setEnabled(true);
+        close_button.setEnabled(true);
+        if (lobby->getType() != LobbyType::JOIN) {
+            if (!lobby->isSearching()) {
                 if (lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START) {
                     start_button.setEnabled(true);
+                    start_button.emphasize();
                 }
-                if (lobby->getNumPlayers() < Lobby::MAX_PLAYERS) {
-                    add_ai_button.setEnabled(true);
-                    if (lobby->getType() == LobbyType::HOST) {
-                        search_button.setEnabled(true);
-                    }
+                if (lobby->getNumPlayers() > 1) {
+                    kick_button.setEnabled(true);
                 }
-                settings_button.setEnabled(true);
             }
-        }
-        else {
-            search_button.setEnabled(true);
+            if (lobby->getNumPlayers() < Lobby::MAX_PLAYERS) {
+                add_ai_button.setEnabled(true);
+                if (lobby->getType() == LobbyType::HOST) {
+                    search_button.setEnabled(true);
+                }
+            }
+            settings_button.setEnabled(true);
         }
     }
+    lobby_cursor.refresh();
     playerStaging.update(*lobby);
+}
+
+void LobbyForm::enableRemovePlayerCursor() {
+    lobby_cursor.setEnabled(false);
+    playerStaging.enableCursor();
+    console.setMessage("Select Player to Kick");
+}
+
+void LobbyForm::removePlayer(const int& playerNum) {
+    if (playerNum != 0) {
+        Player p = *lobby->getPlayer(playerNum);
+        lobby->removePlayer(playerNum);
+        console.setWarning("Later, " + p.getName());
+    } else {
+        console.setMessage("OK, Nevermind");
+    }
+    lobby_cursor.setEnabled(true);
+    playerStaging.disableCursor();
+    updateLobby();
+}
+
+void LobbyForm::setMainPlayerName() {
+    TextField& field = mode_select_box.getMainPlayerStage().getTextField();
+    if (!field.getText().empty()) {
+        mode_select_box.getMainPlayerStage().setPlayer(Player(field.getText()));
+        mode_select_box.start();
+    }
+    else {
+        CursesManager::Beep();
+    }
 }

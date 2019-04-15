@@ -27,7 +27,7 @@ public:
 
     void startSearch();
     void stopSearch();
-    bool isSearching();
+    bool isSearching() const;
 
     LobbyType getType() const;
 

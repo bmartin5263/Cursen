@@ -26,7 +26,11 @@ public:
     void onJoinClick( std::function<void()> f);
     void onExitClick( std::function<void()> f);
 
+    Stage& getMainPlayerStage();
+
     void initialize() override;
+
+    void start();
 
     void setText(const std::string &text) override;
     void setHidden(bool value) override;
