@@ -65,6 +65,7 @@ void TextComponent::cursorOff() {
 
 void TextComponent::setEnabled(bool value) {
     Component::setEnabled(value);
+    setCursable(value);
     invalidate();
 }
 

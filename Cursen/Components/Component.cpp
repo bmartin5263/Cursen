@@ -2,20 +2,22 @@
 // Created by Brandon Martin on 3/8/19.
 //
 
-#include <Drawing/CursesManager.h>
 #include <cassert>
 #include <CursenApplication.h>
+#include <algorithm>
+
+#include <Drawing/CursesManager.h>
 #include "Events/EventManager.h"
 #include "Component.h"
 
 Component::Component() :
-        enabled(true), invalid(true), hidden(false), silenced(false), drawOrder(0)
+        enabled(true), invalid(true), hidden(false), silenced(false), cursable(true), drawOrder(0)
 {
     CursesManager::Register(this);
 }
 
 Component::Component(const Size &pos) :
-        enabled(true), position(pos), hidden(false), invalid(true), drawOrder(0)
+        enabled(true), position(pos), hidden(false), invalid(true), cursable(true), drawOrder(0)
 {
     CursesManager::Register(this);
 }
@@ -30,12 +32,12 @@ void Component::add(Component *component) {
 void Component::addRelative(Component *component) {
     assert(component != nullptr);
     component->move(this->position);
-    component->setDrawOrder(this->drawOrder + 1);
     add(component);
 }
 
 void Component::remove(Component *component) {
     component->setParent(nullptr);
+    children.erase(std::remove(children.begin(), children.end(), component), children.end());
 }
 
 Component *Component::getParent() {
@@ -99,7 +101,7 @@ void Component::onClick(std::function<void()> f) {
 }
 
 void Component::setEnabled(bool value) {
-    enabled = value;
+    this->enabled = value;
 }
 
 bool Component::isEnabled() const {
@@ -115,7 +117,7 @@ bool Component::isHidden() const {
 }
 
 void Component::CallKeyPress(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_keyPress(e);
         }
@@ -126,7 +128,7 @@ void Component::CallKeyPress(const Event& e) {
 }
 
 void Component::CallEscapePress(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_escapePress(e);
         }
@@ -137,7 +139,7 @@ void Component::CallEscapePress(const Event& e) {
 }
 
 void Component::CallEnterPress(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_enterPress(e);
         }
@@ -148,7 +150,7 @@ void Component::CallEnterPress(const Event& e) {
 }
 
 void Component::CallSocketMessage(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_socketMessage(e);
         }
@@ -159,7 +161,7 @@ void Component::CallSocketMessage(const Event& e) {
 }
 
 void Component::CallSocketDisconnect(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_socketDisconnect(e);
         }
@@ -170,7 +172,7 @@ void Component::CallSocketDisconnect(const Event& e) {
 }
 
 void Component::CallSocketConnect(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_socketConnect(e);
         }
@@ -181,7 +183,7 @@ void Component::CallSocketConnect(const Event& e) {
 }
 
 void Component::CallDeletePress(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_deletePress(e);
         }
@@ -192,7 +194,7 @@ void Component::CallDeletePress(const Event& e) {
 }
 
 void Component::CallArrowPress(const Event& e) {
-    if (enabled) {
+    if (isEnabled()) {
         try {
             f_arrowPress(e);
         }
@@ -203,13 +205,11 @@ void Component::CallArrowPress(const Event& e) {
 }
 
 void Component::CallOnCursor() {
-    if (enabled) {
-        try {
-            f_onCursor();
-        }
-        catch (std::bad_function_call) {
-            // Pass
-        }
+    try {
+        f_onCursor();
+    }
+    catch (std::bad_function_call) {
+        // Pass
     }
 }
 
@@ -223,13 +223,11 @@ void Component::CallOffCursor() {
 }
 
 void Component::CallOnClick() {
-    if (enabled) {
-        try {
-            f_onClick();
-        }
-        catch (std::bad_function_call) {
-            // Pass
-        }
+    try {
+        f_onClick();
+    }
+    catch (std::bad_function_call) {
+        // Pass
     }
 }
 
@@ -328,4 +326,20 @@ int Component::getDrawOrder() {
 void Component::setDrawOrder(int order) {
     CursesManager::SetDrawOrder(this, order);
     drawOrder = order;
+}
+
+void Component::setSilenced(bool value) {
+    this->silenced = value;
+}
+
+bool Component::isSilenced() {
+    return silenced;
+}
+
+void Component::setCursable(bool value) {
+    this->cursable = value;
+}
+
+bool Component::isCursable() {
+    return cursable;
 }

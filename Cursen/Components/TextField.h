@@ -35,6 +35,8 @@ public:
 
     std::string getText() override;
 
+    void setEnabled(bool value) override;
+
 private:
 
     std::string text;

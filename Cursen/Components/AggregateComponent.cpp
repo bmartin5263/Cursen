@@ -24,6 +24,7 @@ void AggregateComponent::setHidden(bool value) {
 
 void AggregateComponent::setEnabled(bool value) {
     Component::setEnabled(value);
+    Component::setCursable(value);
     for (auto child : getChildren()) {
         child->setEnabled(value);
     }

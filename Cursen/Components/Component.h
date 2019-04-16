@@ -93,6 +93,12 @@ public:
     virtual void setEnabled(bool value);
     virtual bool isEnabled() const;
 
+    virtual void setSilenced(bool value);
+    virtual bool isSilenced();
+
+    virtual void setCursable(bool value);
+    virtual bool isCursable();
+
     /**
      * @brief Enable or Disable drawing of this Component
      *
@@ -373,6 +379,7 @@ private:
     bool invalid;   /// True if Component needs to be re-rendered, False if otherwise
     bool hidden;    /// True if Component should not be drawn, False if otherwise
     bool silenced;  /// True if Component should not respond to events, False if otherwise
+    bool cursable;  /// True if Cursor should cursor over Component, False if otherwise
 
 };
 

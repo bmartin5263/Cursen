@@ -17,6 +17,8 @@ TextField::TextField(const Size &pos) :
 
 void TextField::initialize() {
     TextComponent::initialize();
+    Component::setEnabled(false);
+
     cursor_x = 0;
 }
 
@@ -72,18 +74,10 @@ std::string TextField::getText() {
 }
 
 void TextField::activate() {
-    CursesManager::SetCursor(1);
-    CursesManager::MoveCursor(getPosition() + Size((int)text.length(), 0));
-    onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
-    onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
-    onArrowPress(std::bind(&TextField::moveCursor, this, std::placeholders::_1));
+
 }
 
 void TextField::deactivate() {
-    CursesManager::SetCursor(0);
-    detachKeyPress();
-    detachDeletePress();
-    detachArrowPress();
 }
 
 TextField::~TextField() {
@@ -97,5 +91,24 @@ void TextField::moveCursor(const Event &event) {
     } else if (event.arrowPress.right && cursor_x < text.size()) {
         cursor_x += 1;
         invalidate();
+    }
+}
+
+void TextField::setEnabled(bool value) {
+    if (value != isEnabled()) {
+        Component::setEnabled(value);
+        if (isEnabled()) {
+            CursesManager::SetCursor(1);
+            CursesManager::MoveCursor(getPosition() + Size((int)text.length(), 0));
+            onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
+            onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
+            onArrowPress(std::bind(&TextField::moveCursor, this, std::placeholders::_1));
+        }
+        else {
+            CursesManager::SetCursor(0);
+            detachKeyPress();
+            detachDeletePress();
+            detachArrowPress();
+        }
     }
 }

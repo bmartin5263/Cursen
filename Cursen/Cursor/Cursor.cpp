@@ -113,7 +113,7 @@ void Cursor::initialize() {
 }
 
 void Cursor::refresh() {
-    if (currentComponent == nullptr || !currentComponent->isEnabled()) {
+    if (currentComponent == nullptr || !currentComponent->isCursable()) {
         if (!cursorDown()) {
             if (!cursorUp()) {
                 if (!cursorLeft()) {
@@ -136,13 +136,13 @@ bool Cursor::cursorDown() {
     currentComponent = map.down;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return currentComponent->isEnabled();
+        return currentComponent->isCursable();
     }
-    while (!currentComponent->isEnabled()) {
+    while (!currentComponent->isCursable()) {
         currentComponent = componentMap[currentComponent].down;
         if (currentComponent == nullptr || currentComponent == originalComponent) {
             currentComponent = originalComponent;
-            return currentComponent->isEnabled();
+            return currentComponent->isCursable();
         }
     }
     originalComponent->CallOffCursor();
@@ -156,13 +156,13 @@ bool Cursor::cursorLeft() {
     currentComponent = map.left;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return currentComponent->isEnabled();
+        return currentComponent->isCursable();
     }
-    while (!currentComponent->isEnabled()) {
+    while (!currentComponent->isCursable()) {
         currentComponent = componentMap[currentComponent].left;
         if (currentComponent == nullptr || currentComponent == originalComponent) {
             currentComponent = originalComponent;
-            return currentComponent->isEnabled();
+            return currentComponent->isCursable();
         }
     }
     originalComponent->CallOffCursor();
@@ -176,13 +176,13 @@ bool Cursor::cursorRight() {
     currentComponent = map.right;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return currentComponent->isEnabled();
+        return currentComponent->isCursable();
     }
-    while (!currentComponent->isEnabled()) {
+    while (!currentComponent->isCursable()) {
         currentComponent = componentMap[currentComponent].right;
         if (currentComponent == nullptr || currentComponent == originalComponent) {
             currentComponent = originalComponent;
-            return currentComponent->isEnabled();
+            return currentComponent->isCursable();
         }
     }
     originalComponent->CallOffCursor();
@@ -196,13 +196,13 @@ bool Cursor::cursorUp() {
     currentComponent = map.up;
     if (currentComponent == nullptr) {
         currentComponent = originalComponent;
-        return currentComponent->isEnabled();
+        return currentComponent->isCursable();
     }
-    while (!currentComponent->isEnabled()) {
+    while (!currentComponent->isCursable()) {
         currentComponent = componentMap[currentComponent].up;
         if (currentComponent == nullptr || currentComponent == originalComponent) {
             currentComponent = originalComponent;
-            return currentComponent->isEnabled();
+            return currentComponent->isCursable();
         }
     }
     originalComponent->CallOffCursor();
