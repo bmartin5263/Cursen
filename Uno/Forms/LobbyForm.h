@@ -45,6 +45,8 @@ public:
     void clickHost();
     void clickJoin();
     void clickExit();
+    void clickChangeColor();
+    void clickChat();
 
 private:
 
@@ -59,7 +61,9 @@ private:
     Button search_button;
     Button kick_button;
     Button close_button;
-    Button settings_button;
+    //Button settings_button;
+    Button change_color_button;
+    Button chat_button;
     TextField text_field;
     UnoConsole console;
     PlayerStaging playerStaging;

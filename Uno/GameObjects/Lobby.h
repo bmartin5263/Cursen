@@ -29,6 +29,8 @@ public:
     void stopSearch();
     bool isSearching() const;
 
+    PlayerColor getAvailableColor() const;
+
     LobbyType getType() const;
 
 private:

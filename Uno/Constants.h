@@ -7,12 +7,14 @@
 
 
 #include <Drawing/Color.h>
+#include "GameObjects/PlayerColor.h"
 
 class Constants {
 
 public:
 
-    const static cursen::Color COLORS[4];
+    const static int NUM_COLORS = 6;
+    const static PlayerColor COLORS[NUM_COLORS];
     const static int MAX_NAME_LEN = 12;
 
 };

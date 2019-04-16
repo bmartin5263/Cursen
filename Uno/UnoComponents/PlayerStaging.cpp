@@ -35,22 +35,22 @@ void PlayerStaging::initialize() {
 
     stages[0].setPosition(Size(1,1));
     stages[0].setEnabled(false);
-    stages[0].setStageColor(Constants::COLORS[0]);
+    stages[0].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[0]);
 
     stages[1].setPosition(Size(35,1));
     stages[1].setEnabled(false);
-    stages[1].setStageColor(Constants::COLORS[1]);
+    stages[1].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[1]);
 
     stages[2].setPosition(Size(1,5));
     stages[2].setEnabled(false);
-    stages[2].setStageColor(Constants::COLORS[2]);
+    stages[2].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[2]);
 
     stages[3].setPosition(Size(35,5));
     stages[3].setEnabled(false);
-    stages[3].setStageColor(Constants::COLORS[3]);
+    stages[3].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[3]);
 
     stageCursor.mapComponent(&stages[0], ArrowMap(&stages[1], &stages[2], &stages[1], &stages[2]));

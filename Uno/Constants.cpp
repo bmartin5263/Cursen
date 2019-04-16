@@ -4,4 +4,11 @@
 
 #include "Constants.h"
 
-const cursen::Color Constants::COLORS[4] = {cursen::Color::BLUE, cursen::Color::RED, cursen::Color::GREEN, cursen::Color::YELLOW};
+const PlayerColor Constants::COLORS[NUM_COLORS] = {
+        PlayerColor::BLUE,
+        PlayerColor::RED,
+        PlayerColor::GREEN,
+        PlayerColor::YELLOW,
+        PlayerColor::PURPLE,
+        PlayerColor::ORANGE
+};

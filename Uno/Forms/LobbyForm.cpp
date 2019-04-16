@@ -53,12 +53,25 @@ void LobbyForm::initialize() {
     close_button.setEnabled(false);
     close_button.onClick(std::bind(&LobbyForm::clickClose, this));
 
-    settings_button.initialize();
-    settings_button.setPosition(Size(1,28));
-    settings_button.setLength(34);
-    settings_button.setText("Settings");
-    settings_button.setEnabled(false);
-    settings_button.onClick(std::bind(&LobbyForm::clickSettings, this));
+    //settings_button.initialize();
+    //settings_button.setPosition(Size(1,28));
+    //settings_button.setLength(34);
+    //settings_button.setText("Settings");
+    //settings_button.setEnabled(false);
+    //settings_button.onClick(std::bind(&LobbyForm::clickSettings, this));
+
+    change_color_button.initialize();
+    change_color_button.setPosition(Size(1,28));
+    change_color_button.setLength(17);
+    change_color_button.setText("Change Color");
+    change_color_button.setEnabled(false);
+    change_color_button.onClick(std::bind(&LobbyForm::clickChangeColor, this));
+
+    chat_button.initialize();
+    chat_button.setPosition(Size(18,28));
+    chat_button.setLength(17);
+    chat_button.setText("Chat");
+    chat_button.setEnabled(false);
 
     console.initialize();
 
@@ -81,12 +94,13 @@ void LobbyForm::initialize() {
     mode_select_box.getMainPlayerStage().getTextField().onEnterPress(std::bind(&LobbyForm::setMainPlayerName, this));
 
     lobby_cursor.moveTo(&start_button);
-    lobby_cursor.mapComponent(&start_button, ArrowMap(nullptr, &settings_button, nullptr, &add_ai_button));
+    lobby_cursor.mapComponent(&start_button, ArrowMap(nullptr, &change_color_button, nullptr, &add_ai_button));
     lobby_cursor.mapComponent(&add_ai_button, ArrowMap(&search_button, &start_button, &search_button, &kick_button));
     lobby_cursor.mapComponent(&search_button, ArrowMap(&add_ai_button, &start_button, &add_ai_button, &kick_button));
     lobby_cursor.mapComponent(&kick_button, ArrowMap(nullptr, &add_ai_button, nullptr, &close_button));
-    lobby_cursor.mapComponent(&close_button, ArrowMap(nullptr, &kick_button, nullptr, &settings_button));
-    lobby_cursor.mapComponent(&settings_button, ArrowMap(nullptr, &close_button, nullptr, &start_button));
+    lobby_cursor.mapComponent(&close_button, ArrowMap(nullptr, &kick_button, nullptr, &change_color_button));
+    lobby_cursor.mapComponent(&change_color_button, ArrowMap(&chat_button, &close_button, &chat_button, &start_button));
+    lobby_cursor.mapComponent(&chat_button, ArrowMap(&change_color_button, &close_button, &change_color_button, &start_button));
 
     //lobby_cursor.setEnabled(false);
 }
@@ -97,7 +111,7 @@ void LobbyForm::clickStart() {
 
 void LobbyForm::clickAddAI() {
     console.setText("Add AI Clicked!");
-    Player* p = new Player(Player::GetComputerName());
+    Player* p = new Player(Player::GetComputerName(), lobby->getAvailableColor());
     lobby->addPlayer(p);
     console.setMessage("Welcome, " + p->getName() + "!");
     updateLobby();
@@ -155,7 +169,7 @@ void LobbyForm::clickExit() {
 void LobbyForm::initializeLobby(LobbyType type) {
     lobby = new Lobby(type);
 
-    lobby->addPlayer(new Player(mode_select_box.getMainPlayerStage().getText()));
+    lobby->addPlayer(new Player(mode_select_box.getMainPlayerStage().getText(), lobby->getAvailableColor()));
     mode_select_box.setHidden(true);
 
     updateLobby();
@@ -185,8 +199,10 @@ void LobbyForm::leaveLobby() {
     start_button.setEnabled(false);
     search_button.setEnabled(false);
     close_button.setEnabled(false);
-    settings_button.setEnabled(false);
+    //settings_button.setEnabled(false);
     kick_button.setEnabled(false);
+    change_color_button.setEnabled(false);
+    chat_button.setEnabled(false);
 
     playerStaging.stopSearching();
     playerStaging.clear();
@@ -202,7 +218,9 @@ void LobbyForm::updateLobby() {
     start_button.setEnabled(false);
     search_button.setEnabled(false);
     close_button.setEnabled(false);
-    settings_button.setEnabled(false);
+    //settings_button.setEnabled(false);
+    change_color_button.setEnabled(false);
+    chat_button.setEnabled(false);
     kick_button.setEnabled(false);
     if (lobby != nullptr) {
         close_button.setEnabled(true);
@@ -222,8 +240,9 @@ void LobbyForm::updateLobby() {
                     search_button.setEnabled(true);
                 }
             }
-            settings_button.setEnabled(true);
         }
+        change_color_button.setEnabled(true);
+        chat_button.setEnabled(true);
     }
     lobby_cursor.refresh();
     playerStaging.update(*lobby);
@@ -251,7 +270,7 @@ void LobbyForm::removePlayer(const int& playerNum) {
 void LobbyForm::setMainPlayerName() {
     TextField& field = mode_select_box.getMainPlayerStage().getTextField();
     if (!field.getText().empty()) {
-        mode_select_box.getMainPlayerStage().setPlayer(Player(field.getText()));
+        mode_select_box.getMainPlayerStage().setPlayer(Player(field.getText(), PlayerColor::BLUE));
         field.setEnabled(false);
         mode_select_box.start();
     }
@@ -259,4 +278,13 @@ void LobbyForm::setMainPlayerName() {
         CursesManager::Beep();
         mode_select_box.setWarning("Name Must Have 1 Character");
     }
+}
+
+void LobbyForm::clickChat() {
+
+}
+
+void LobbyForm::clickChangeColor() {
+    lobby->getPlayer(0)->setColor(lobby->getAvailableColor());
+    updateLobby();
 }

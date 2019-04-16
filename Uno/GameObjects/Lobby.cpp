@@ -3,6 +3,7 @@
 //
 
 #include "Lobby.h"
+#include "../Constants.h"
 
 Lobby::Lobby(LobbyType type) :
     lobbyType(type), numPlayers(0), searching(false)
@@ -63,5 +64,24 @@ bool Lobby::isSearching() const {
 Lobby::~Lobby() {
     while (numPlayers > 0) {
         removePlayer(numPlayers - 1);
+    }
+}
+
+PlayerColor Lobby::getAvailableColor() const {
+    static int i = 0;
+
+    int start = i;
+    while (true) {
+        PlayerColor color = Constants::COLORS[i];
+        i = (i + 1) % Constants::NUM_COLORS;
+        bool ok = true;
+        for (int j = 0; j < numPlayers; j++) {
+            if (players[j]->getColor() == color) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok) return color;
+        if (i == start) throw std::logic_error("Not enough colors");
     }
 }

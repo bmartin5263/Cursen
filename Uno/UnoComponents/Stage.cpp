@@ -81,13 +81,16 @@ void Stage::clear() {
 }
 
 void Stage::setPlayer(const Player & player) {
-    setEnabled(true);
     playerName.setText(player.getName());
     points.setText("Points: " + std::to_string(player.getPoints()));
+
+    setStageColor(Player::ConvertColor(player.getColor()));
     setForeground(stage_color);
     if (search_progress.isSpinning()) {
         search_progress.stop();
     }
+
+    setEnabled(true);
 }
 
 void Stage::hoverOn() {

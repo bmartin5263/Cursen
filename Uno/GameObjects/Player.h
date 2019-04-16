@@ -8,13 +8,14 @@
 
 #include <string>
 #include "Drawing/Color.h"
+#include "PlayerColor.h"
 
 class Player {
 
 public:
 
     Player();
-    Player(const std::string& name);
+    Player(const std::string& name, const PlayerColor& color);
 
     void setName(const std::string& name);
     std::string getName() const;
@@ -22,13 +23,19 @@ public:
     void addPoints(const int& points);
     int getPoints() const;
 
+    void setColor(const PlayerColor& color);
+    PlayerColor getColor() const;
+
     static const std::string GetComputerName();
+    static cursen::Color ConvertColor(const PlayerColor& color);
 
 private:
 
     static const std::string COMP_NAMES[];
 
+
     std::string name;
+    PlayerColor color;
     int points;
 
 };
