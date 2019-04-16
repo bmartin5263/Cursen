@@ -4,6 +4,7 @@
 
 #include "Stage.h"
 #include "../GameObjects/Player.h"
+#include "../Constants.h"
 
 Stage::Stage() :
     stage_color(Color::PURPLE)
@@ -39,7 +40,7 @@ void Stage::initialize() {
     textField.initialize();
     textField.setPosition(Size(1,1));
     textField.setForeground(stage_color);
-    textField.setSize(Size(32,1));
+    textField.setSize(Size(Constants::MAX_NAME_LEN, 1));
     textField.setHidden(true);
     addRelative(&textField);
 
@@ -104,13 +105,14 @@ void Stage::setTextToCancel() {
 
 void Stage::activateTextField() {
     textField.setHidden(false);
-    textField.activate();
+    textField.setEnabled(true);
     textField.setForeground(stage_color);
 }
 
 void Stage::deactivateTextField() {
     textField.setHidden(true);
-    textField.deactivate();
+    textField.setEnabled(false);
+    //textField.deactivate();
 }
 
 TextField &Stage::getTextField() {
@@ -119,4 +121,10 @@ TextField &Stage::getTextField() {
 
 std::string Stage::getText() {
     return playerName.getText();
+}
+
+void Stage::setEnabled(bool value) {
+    bool text_field_enabled = textField.isEnabled();
+    AggregateComponent::setEnabled(value);
+    textField.setEnabled(text_field_enabled);
 }

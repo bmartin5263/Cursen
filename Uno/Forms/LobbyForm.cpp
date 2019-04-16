@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
+#include <Events/EventManager.h>
 #include "LobbyForm.h"
 #include "Drawing/CursesManager.h"
 #include "../GameObjects/LobbyType.h"
@@ -86,6 +87,7 @@ void LobbyForm::initialize() {
     lobby_cursor.mapComponent(&kick_button, ArrowMap(nullptr, &add_ai_button, nullptr, &close_button));
     lobby_cursor.mapComponent(&close_button, ArrowMap(nullptr, &kick_button, nullptr, &settings_button));
     lobby_cursor.mapComponent(&settings_button, ArrowMap(nullptr, &close_button, nullptr, &start_button));
+
     //lobby_cursor.setEnabled(false);
 }
 
@@ -250,6 +252,7 @@ void LobbyForm::setMainPlayerName() {
     TextField& field = mode_select_box.getMainPlayerStage().getTextField();
     if (!field.getText().empty()) {
         mode_select_box.getMainPlayerStage().setPlayer(Player(field.getText()));
+        field.setEnabled(false);
         mode_select_box.start();
     }
     else {
