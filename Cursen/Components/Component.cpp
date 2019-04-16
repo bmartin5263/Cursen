@@ -9,13 +9,13 @@
 #include "Component.h"
 
 Component::Component() :
-        enabled(true), invalid(true), drawOrder(0)
+        enabled(true), invalid(true), hidden(false), silenced(false), drawOrder(0)
 {
     CursesManager::Register(this);
 }
 
 Component::Component(const Size &pos) :
-        enabled(true), position(pos), invalid(true), drawOrder(0)
+        enabled(true), position(pos), hidden(false), invalid(true), drawOrder(0)
 {
     CursesManager::Register(this);
 }

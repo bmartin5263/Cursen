@@ -368,9 +368,11 @@ private:
     std::vector<Component*> children;
     Size position;
     int drawOrder;
-    bool enabled;
-    bool invalid;
-    bool hidden;
+
+    bool enabled;   /// True if Component is active, False if otherwise
+    bool invalid;   /// True if Component needs to be re-rendered, False if otherwise
+    bool hidden;    /// True if Component should not be drawn, False if otherwise
+    bool silenced;  /// True if Component should not respond to events, False if otherwise
 
 };
 
