@@ -76,20 +76,21 @@ void TextField::activate() {
     CursesManager::MoveCursor(getPosition() + Size((int)text.length(), 0));
     onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
     onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
-    onArrowPress(std::bind(&TextField::moveCursorLeftRight, this, std::placeholders::_1));
+    onArrowPress(std::bind(&TextField::moveCursor, this, std::placeholders::_1));
 }
 
 void TextField::deactivate() {
     CursesManager::SetCursor(0);
     detachKeyPress();
     detachDeletePress();
+    detachArrowPress();
 }
 
 TextField::~TextField() {
     deactivate();
 }
 
-void TextField::moveCursorLeftRight(const Event &event) {
+void TextField::moveCursor(const Event &event) {
     if (event.arrowPress.left && cursor_x > 0) {
         cursor_x -= 1;
         invalidate();

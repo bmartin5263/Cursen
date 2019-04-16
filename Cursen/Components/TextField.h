@@ -24,12 +24,11 @@ public:
 
     void keyPress(const Event& e);
     void deletePress(const Event& e);
+    void moveCursor(const Event &event);
 
     void setMaxLength(const int& len);
 
     void cursorOn() override;
-
-    void moveCursorLeftRight(const Event& event);
 
     void setSize(const Size &size) override;
     void setText(const std::string &text) override;
