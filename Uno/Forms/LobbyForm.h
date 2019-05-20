@@ -31,6 +31,8 @@ public:
     void toggleSearch();
 
     void enableRemovePlayerCursor();
+
+    void selectPlayerToRemove(const int& index);
     void removePlayer(const int& index);
 
     void setMainPlayerName();

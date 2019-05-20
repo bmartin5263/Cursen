@@ -118,7 +118,7 @@ void LobbyForm::clickStart()
 void LobbyForm::clickAddAI()
 {
     console.setText("Add AI Clicked!");
-    Player *p = new Player(Player::GetComputerName(), lobby->getAvailableColor());
+    Player *p = new Player(Player::GetComputerName(), lobby->getAvailableColorRGBY());
     lobby->addPlayer(p);
     console.setMessage("Welcome, " + p->getName() + "!");
     updateLobby();
@@ -185,7 +185,7 @@ void LobbyForm::initializeLobby(LobbyType type)
 {
     lobby = new Lobby(type);
 
-    lobby->addPlayer(new Player(mode_select_box.getMainPlayerStage().getText(), lobby->getAvailableColor()));
+    lobby->addPlayer(new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE));
     mode_select_box.setHidden(true);
 
     updateLobby();
@@ -282,8 +282,6 @@ void LobbyForm::removePlayer(const int &playerNum)
     } else {
         console.setMessage("OK, Nevermind");
     }
-    lobby_cursor.setEnabled(true);
-    playerStaging.disableCursor();
     updateLobby();
 }
 
@@ -309,4 +307,11 @@ void LobbyForm::clickChangeColor()
 {
     lobby->getPlayer(0)->setColor(lobby->getAvailableColor());
     updateLobby();
+}
+
+void LobbyForm::selectPlayerToRemove(const int& playerNum)
+{
+    removePlayer(playerNum);
+    lobby_cursor.setEnabled(true);
+    playerStaging.disableCursor();
 }

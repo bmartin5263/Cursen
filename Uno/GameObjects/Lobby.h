@@ -29,7 +29,10 @@ public:
     void stopSearch();
     bool isSearching() const;
 
+    bool colorTaken(PlayerColor color) const;
+
     PlayerColor getAvailableColor() const;
+    PlayerColor getAvailableColorRGBY() const;
 
     LobbyType getType() const;
 

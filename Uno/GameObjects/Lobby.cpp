@@ -85,3 +85,26 @@ PlayerColor Lobby::getAvailableColor() const {
         if (i == start) throw std::logic_error("Not enough colors");
     }
 }
+
+PlayerColor Lobby::getAvailableColorRGBY() const {
+    static int i = 0;
+
+    int num_colors_rgb = Constants::NUM_COLORS - 2;
+    int start = i;
+    while (true) {
+        PlayerColor color = Constants::COLORS[i];
+        if (!colorTaken(color)) return color;
+        i = (i + 1) % num_colors_rgb;
+        if (i == start) throw std::logic_error("Not enough colors");
+    }
+}
+
+bool Lobby::colorTaken(PlayerColor color) const
+{
+    for (int j = 0; j < numPlayers; j++) {
+        if (players[j]->getColor() == color) {
+           return true;
+        }
+    }
+    return false;
+}

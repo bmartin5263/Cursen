@@ -12,6 +12,8 @@
 #include "Demo/TestForm.h"
 #include "Demo/SimpleForm.h"
 #include "Uno/Forms/LobbyForm.h"
+#include "Uno/Data/DataManager.h"
+#include "Uno/Network/NetworkManager.h"
 
 void cursesTest()
 {
@@ -126,5 +128,11 @@ void speedTest()
 int main()
 {
     using namespace cursen;
+
+    CursenApplication::OnUpdate([]() {
+        NetworkManager::ProcessNetworkMessages();
+        DataManager::ProcessDataMessages();
+    });
+
     CursenApplication::Run(new LobbyForm());
 }
