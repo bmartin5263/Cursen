@@ -29,7 +29,7 @@ public:
     void setBackground(const Color &color) override;
     Color getBackground() override;
 
-    void setPosition(const Size &size) override;;
+    void setPosition(const Size &size) override;
 
 private:
 

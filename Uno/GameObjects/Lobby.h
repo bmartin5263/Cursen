@@ -36,8 +36,8 @@ public:
 private:
 
     Player* players[MAX_PLAYERS];
-    int numPlayers;
     LobbyType lobbyType;
+    int numPlayers;
     bool searching;
 
 };

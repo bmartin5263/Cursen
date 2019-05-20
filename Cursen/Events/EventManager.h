@@ -20,8 +20,10 @@ class EventManager {
 
 public:
 
-    static Event PollEvent() { return Instance().pollEvent(); };
-    static void ProcessEvent(const Event& event) { Instance().processEvent(event); }
+    static Event PollEvent() { return Instance().privPollEvent(); };
+    static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
+
+    static void ProcessEvents() { Instance().privProcessEvents(); }
 
     static void PushEvent(Event e) { Instance().privPushEvent(e); }
 
@@ -41,14 +43,15 @@ private:
     typedef std::unordered_map<EventType, ComponentList, EnumClassHash> EventComponentMap;
 
     // Methods
-    Event pollEvent();
-    void processEvent(const Event& event);
-    void processKeyboardInput(int limit);
+    Event privPollEvent();
+    void privProcessEvent(const Event &event);
+    void processKeyboardInput();
     void registerComponent(Component& component, EventType eventFlag);
     SoloRegistrationKey* registerComponentSolo(Component& component, EventType eventFlag);
     void deregisterComponent(Component& component, EventType events);
     void deregisterComponentSolo(SoloRegistrationKey* key, EventType events);
     void privPushEvent(Event e);
+    void privProcessEvents();
     EventQueue* privGetEventQueue();
 
     // Instance Data

@@ -5,7 +5,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <thread>
-#include <Events/AlarmManager.h>
+#include "Events/AlarmManager.h"
+#include "Events/InputManager.h"
 #include "CursenApplication.h"
 #include "Events/EventManager.h"
 #include "Drawing/CursesManager.h"
@@ -35,11 +36,12 @@ void CursenApplication::privRun(Form *form) {
 
     CursesManager::Initialize(currentForm->getSize());
     currentForm->initialize();
-    
+    CursesManager::Draw();
+
     while (running) {
+        InputManager::ProcessInput();
+        EventManager::ProcessEvents();
         CursesManager::Draw();
-        Event e = EventManager::PollEvent();
-        EventManager::ProcessEvent(e);
     }
 
     CursesManager::Terminate();

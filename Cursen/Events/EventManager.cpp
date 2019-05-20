@@ -11,8 +11,7 @@
 
 EventManager* EventManager::instance = nullptr;
 
-void EventManager::processKeyboardInput(int limit) {
-    int keysProcessed = 0;
+void EventManager::processKeyboardInput() {
     int key = getch();
     while(key != ERR) {
 
@@ -27,10 +26,6 @@ void EventManager::processKeyboardInput(int limit) {
             Event event;
             event.type = EventType::Null;
             eventQueue.push(event);
-            keysProcessed++;
-            if (keysProcessed == limit) {
-                return;
-            }
         }
         else {
             Event event;
@@ -75,26 +70,32 @@ void EventManager::processKeyboardInput(int limit) {
                 event.key.code = key;
             }
             eventQueue.push(event);
-            keysProcessed++;
-            if (keysProcessed == limit) {
-                return;
-            }
         }
         key = getch();
     }
 }
 
-Event EventManager::pollEvent() {
+Event EventManager::privPollEvent() {
     Event event;
     while (eventQueue.isEmpty()) {
-        processKeyboardInput(10);
+        processKeyboardInput();
         AlarmManager::ProcessAlarms();
     }
     eventQueue.pop(event);
     return event;
 }
 
-void EventManager::processEvent(const Event &event) {
+
+void EventManager::privProcessEvents() {
+    //processKeyboardInput();
+    while(!eventQueue.isEmpty()) {
+        Event e;
+        eventQueue.pop(e);
+        privProcessEvent(e);
+    }
+}
+
+void EventManager::privProcessEvent(const Event &event) {
     ComponentList componentList;
     switch (event.type) {
         case EventType::KeyPressed:
