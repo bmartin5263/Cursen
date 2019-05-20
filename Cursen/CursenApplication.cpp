@@ -20,6 +20,8 @@ namespace cursen {
             currentForm(nullptr), running(false)
     {
         privInitialize();
+        user_function = [](){};
+        after_draw_function = [](){};
     }
 
     void CursenApplication::privInitialize()
@@ -45,7 +47,10 @@ namespace cursen {
             AlarmManager::ProcessAlarms();
             InputManager::ProcessInput();
             EventManager::ProcessEvents();
+            user_function();
             CursesManager::Draw();
+            after_draw_function();
+            CursesManager::Refresh();
         }
 
         CursesManager::Terminate();
@@ -80,6 +85,16 @@ namespace cursen {
     CursenApplication::~CursenApplication()
     {
 
+    }
+
+    void CursenApplication::OnUpdate(UserFunction user_callback)
+    {
+        Instance().user_function = user_callback;
+    }
+
+    void CursenApplication::AfterDraw(UserFunction user_callback)
+    {
+        Instance().after_draw_function = user_callback;
     }
 
 }

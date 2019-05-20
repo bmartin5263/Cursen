@@ -181,9 +181,7 @@ namespace cursen {
 
         // Clear the old screen
         erase();
-        //bkgd(GetColorPair(ColorPair(CursenApplication::GetColorPalette().getForeground(), CursenApplication::GetColorPalette().getBackground())));
 
-        // Set up the queue for a BFS traversal
 
         for (auto pair = componentMap.begin(); pair != componentMap.end(); ++pair) {
             for (auto componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter) {
@@ -209,7 +207,7 @@ namespace cursen {
 
         move(cursor_pos.y, cursor_pos.x);
 
-        refresh();
+        //refresh();
     }
 
     void CursesManager::privMoveCursor(const Vect2 &dim) {

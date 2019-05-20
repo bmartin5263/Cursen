@@ -8,11 +8,13 @@
 #include <StopWatch.h>
 #include <Cursor/Cursor.h>
 #include "CursenApplication.h"
+#include "Drawing/CursesManager.h"
 #include "Demo/TestForm.h"
 #include "Demo/SimpleForm.h"
 #include "Uno/Forms/LobbyForm.h"
 
-void cursesTest() {
+void cursesTest()
+{
     initscr();                  // First step to initialize curses
     start_color();              // Allow color
     curs_set(0);                // Turn off cursor
@@ -27,7 +29,7 @@ void cursesTest() {
     addstr("start writing some chars");
     refresh();
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-    while(getch() != ERR) {
+    while (getch() != ERR) {
         addch('1');
     }
     refresh();
@@ -36,7 +38,8 @@ void cursesTest() {
     endwin();
 }
 
-void speedTest() {
+void speedTest()
+{
 
     int x = 0;
     int y = 0;
@@ -48,21 +51,21 @@ void speedTest() {
 
     for (int j = 0; j < 100000; j++) {
         erase();
-        for (int i = 1; i < length-1; i++) {
-            mvaddch(y, x+i, ACS_HLINE);
-            mvaddch(y+2, x+i, ACS_HLINE);
+        for (int i = 1; i < length - 1; i++) {
+            mvaddch(y, x + i, ACS_HLINE);
+            mvaddch(y + 2, x + i, ACS_HLINE);
         }
         mvaddch(y, x, ACS_ULCORNER);
-        mvaddch(y+height-1, x, ACS_LLCORNER);
-        mvaddch(y+1, x, ACS_VLINE);
-        mvaddch(y+1, x+length-1, ACS_VLINE);
-        mvaddch(y, x+length-1, ACS_URCORNER);
-        mvaddch(y+height-1, x+length-1, ACS_LRCORNER);
+        mvaddch(y + height - 1, x, ACS_LLCORNER);
+        mvaddch(y + 1, x, ACS_VLINE);
+        mvaddch(y + 1, x + length - 1, ACS_VLINE);
+        mvaddch(y, x + length - 1, ACS_URCORNER);
+        mvaddch(y + height - 1, x + length - 1, ACS_LRCORNER);
 
         int textField = length - 2;
-        int center = (int)floor(textField/2);
-        int offset = (int)floor(11/2);
-        mvaddstr(y+1, x+1+center-offset, "Hello World");
+        int center = (int) floor(textField / 2);
+        int offset = (int) floor(11 / 2);
+        mvaddstr(y + 1, x + 1 + center - offset, "Hello World");
 
         refresh();
     }
@@ -75,7 +78,7 @@ void speedTest() {
     // Construct Body
 
     std::vector<std::vector<chtype>> body;
-    std::vector<chtype> userContent = {'H','e','l','l','o',' ','W','o','r','l','d','\0'};
+    std::vector<chtype> userContent = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '\0'};
 
     std::vector<chtype> line1(21);
     std::vector<chtype> line2(21);
@@ -85,9 +88,9 @@ void speedTest() {
     line2[0] = ACS_VLINE;
     line3[0] = ACS_LLCORNER;
     for (int i = 0; i < 18; i++) {
-        line1[1+i] = ACS_HLINE | COLOR_PAIR(1);
-        line2[1+i] = ' ';
-        line3[1+i] = ACS_HLINE;
+        line1[1 + i] = ACS_HLINE | COLOR_PAIR(1);
+        line2[1 + i] = ' ';
+        line3[1 + i] = ACS_HLINE;
     }
     line1[19] = ACS_URCORNER;
     line2[19] = ACS_VLINE;
@@ -120,10 +123,8 @@ void speedTest() {
 
 }
 
-int main() {
-
-    //cursesTest();
-    //CursenApplication::SetColorPalette(ColorPalette::LIGHT);
-    //std::this_thread::sleep_for(std::chrono::milliseconds(7000));
-    cursen::CursenApplication::Run(new LobbyForm());
+int main()
+{
+    using namespace cursen;
+    CursenApplication::Run(new LobbyForm());
 }

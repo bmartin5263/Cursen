@@ -43,19 +43,19 @@ namespace cursen {
             Alarm *alarmEntry;
         };
 
-        EventType type;
-
-        union {
-            KeyEvent key;
-            ArrowEvent arrowPress;
-            AlarmEvent alarm;
-        };
-
         Event() {
             key = KeyEvent();
             arrowPress = ArrowEvent();
             alarm = AlarmEvent();
         }
+
+        EventType type;
+        union
+        {
+            KeyEvent key;
+            ArrowEvent arrowPress;
+            AlarmEvent alarm;
+        };
 
     };
 

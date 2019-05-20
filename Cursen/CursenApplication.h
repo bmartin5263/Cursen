@@ -13,6 +13,8 @@ namespace cursen {
     class Form;
     class InspectionPointer;
 
+    typedef std::function<void()> UserFunction;
+
     class CursenApplication {
 
     public:
@@ -24,12 +26,23 @@ namespace cursen {
         static void Quit() { Instance().privQuit(); }
         static Form* GetCurrentForm() { return Instance().privGetCurrentForm(); }
 
+        /**
+         * @brief Set a callback function to be called after processing events.
+         *
+         * @param user_callback Callback function
+         */
+        static void OnUpdate(UserFunction user_callback);
+
+        static void AfterDraw(UserFunction user_callback);
+
         static CursenDebugger& GetDebugger() { return Instance().privGetDebugger(); };
 
     private:
 
         // Instance Data
         Form* currentForm;
+        UserFunction user_function;
+        UserFunction after_draw_function;
         CursenDebugger cursenDebugger;
         ColorPalette palette;
         bool running;

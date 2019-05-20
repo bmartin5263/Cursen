@@ -65,6 +65,7 @@ namespace cursen {
         static void Resize(const Vect2& dim) { Instance().privResize(dim); }
 
         static void Draw() { Instance().privDraw(); };
+        static void Refresh() { refresh(); }
 
         static void SetCursor(const int& level) { Instance().privSetCursor(level); }
         static void MoveCursor(const Vect2& pos) { Instance().privMoveCursor(pos); }
