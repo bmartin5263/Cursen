@@ -5,33 +5,36 @@
 #ifndef CURSEN_INPUTMANAGER_H
 #define CURSEN_INPUTMANAGER_H
 
+namespace cursen {
 
-class InputManager {
 
-public:
+    class InputManager {
 
-    static void ProcessInput() { Instance().privProcessInput(); };
+    public:
 
-private:
+        static void ProcessInput() { Instance().privProcessInput(); };
 
-    void privProcessInput();
+    private:
 
-    static InputManager* instance;
+        void privProcessInput();
 
-    static InputManager& Instance() {
-        if (instance == nullptr)
-            instance = new InputManager;
-        return *instance;
-    }
+        static InputManager* instance;
 
-    InputManager() = default;
-    InputManager(const InputManager& other) = delete;
-    InputManager(InputManager&& other) noexcept = delete;
-    InputManager& operator = (const InputManager& other) = delete;
-    InputManager& operator = (InputManager&& other) = delete;
-    ~InputManager() = default;
+        static InputManager& Instance() {
+            if (instance == nullptr)
+                instance = new InputManager;
+            return *instance;
+        }
 
-};
+        InputManager() = default;
+        InputManager(const InputManager& other) = delete;
+        InputManager(InputManager&& other) noexcept = delete;
+        InputManager& operator = (const InputManager& other) = delete;
+        InputManager& operator = (InputManager&& other) = delete;
+        ~InputManager() = default;
 
+    };
+
+}
 
 #endif //CURSEN_INPUTMANAGER_H

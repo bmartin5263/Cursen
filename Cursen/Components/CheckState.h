@@ -5,8 +5,12 @@
 #ifndef CURSEN_CHECKSTATE_H
 #define CURSEN_CHECKSTATE_H
 
-enum class CheckState {
-    CHECK, UNCHECKED, INDETERMINATE
-};
+namespace cursen {
+
+    enum class CheckState {
+        CHECK, UNCHECKED, INDETERMINATE
+    };
+
+}
 
 #endif //CURSEN_CHECKSTATE_H

@@ -8,41 +8,40 @@
 #include "Label.h"
 #include "AggregateComponent.h"
 
-class TwirlProgress : public AggregateComponent {
+namespace cursen {
 
-public:
+    class TwirlProgress : public AggregateComponent {
 
-    TwirlProgress();
-    TwirlProgress(const Vect2 &pos);
+    public:
 
-    void start();
-    void stop();
-    void toggle();
-    void setState(const bool& on);
+        TwirlProgress();
+        TwirlProgress(const Vect2 &pos);
 
-    bool isSpinning();
+        void start();
+        void stop();
+        void toggle();
+        void setState(const bool &on);
+        bool isSpinning();
+        void initialize() override;
+        void setForeground(const Color &color) override;
+        Color getForeground() override;
+        void setBackground(const Color &color) override;
+        Color getBackground() override;
+        void setPosition(const Vect2 &size) override;
 
-    void initialize() override;
+    private:
 
-    void setForeground(const Color &color) override;
-    Color getForeground() override;
-    void setBackground(const Color &color) override;
-    Color getBackground() override;
+        static const char TWIRL_LEN = 4;
+        const char *TWIRL[TWIRL_LEN] = {"|", "/", "-", "\\"};
 
-    void setPosition(const Vect2 &size) override;
+        void doTwirl();
 
-private:
+        Label twirl_label;
+        int twirl_index;
+        bool spinning;
 
-    static const char TWIRL_LEN = 4;
-    const char* TWIRL[TWIRL_LEN] = {"|", "/", "-", "\\"};
-
-    void doTwirl();
-
-    Label twirl_label;
-    int twirl_index;
-    bool spinning;
-
-};
+    };
+}
 
 
 #endif //CURSEN_TWIRLPROGRESS_H

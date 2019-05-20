@@ -10,36 +10,45 @@
 #include "CheckState.h"
 #include "AggregateComponent.h"
 
-class CheckBox : public AggregateComponent {
+namespace cursen {
 
-public:
+    class CheckBox : public AggregateComponent {
 
-    CheckBox();
-    CheckBox(const Vect2 &pos);
+    public:
 
-    void initialize() override;
-    void setText(const std::string& text) override;
+        CheckBox();
 
-    void setState(const CheckState& state);
-    void setState(const bool& state);
-    void toggle();
-    void check();
-    void uncheck();
+        CheckBox(const Vect2 &pos);
 
-    bool isChecked();
+        void initialize() override;
 
-    void cursorOn();
-    void cursorOff();
+        void setText(const std::string &text) override;
 
-    void setPosition(const Vect2 &size) override;
+        void setState(const CheckState &state);
 
-protected:
+        void setState(const bool &state);
 
-    Label box;
-    Label text;
-    CheckState state;
+        void toggle();
 
-};
+        void check();
 
+        void uncheck();
+
+        bool isChecked();
+
+        void cursorOn();
+
+        void cursorOff();
+
+        void setPosition(const Vect2 &size) override;
+
+    protected:
+
+        Label box;
+        Label text;
+        CheckState state;
+
+    };
+}
 
 #endif //CURSEN_CHECKBOX_H

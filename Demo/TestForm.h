@@ -14,15 +14,15 @@
 #include <Cursor/Cursor.h>
 #include <Components/Button.h>
 
-class TestForm : public Form {
+class TestForm : public cursen::Form {
 
 public:
 
     TestForm();
 
     void initialize() override;
-    void keyPress(const Event& event);
-    void moveComponent(const Event& event);
+    void keyPress(const cursen::Event& event);
+    void moveComponent(const cursen::Event& event);
     void disable();
     void alarmFunction();
     void activateTwirl();
@@ -35,21 +35,21 @@ public:
 
 private:
 
-    Cursor cursor;
-    Button pressMe;
-    Label flashLabel;
-    Label messageLabel;
-    Label beepLabel;
-    Label changeColorLabel;
-    Label exitLabel;
-    Label smileyFace;
-    Label label6;
-    CheckBox checkBox;
-    CheckBox checkBox2;
-    CheckBox twirlCheck;
-    Box box;
-    Box titleBox;
-    TwirlProgress twirlProgress;
+    cursen::Cursor cursor;
+    cursen::Button pressMe;
+    cursen::Label flashLabel;
+    cursen::Label messageLabel;
+    cursen::Label beepLabel;
+    cursen::Label changeColorLabel;
+    cursen::Label exitLabel;
+    cursen::Label smileyFace;
+    cursen::Label label6;
+    cursen::CheckBox checkBox;
+    cursen::CheckBox checkBox2;
+    cursen::CheckBox twirlCheck;
+    cursen::Box box;
+    cursen::Box titleBox;
+    cursen::TwirlProgress twirlProgress;
 
 };
 

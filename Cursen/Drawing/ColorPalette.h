@@ -7,34 +7,36 @@
 
 #include "Color.h"
 
-using namespace cursen;
+namespace cursen {
 
-class ColorPalette {
+    class ColorPalette {
 
-public:
+    public:
 
-    static const ColorPalette LIGHT;
-    static const ColorPalette DARK;
+        static const ColorPalette LIGHT;
+        static const ColorPalette DARK;
 
-    ColorPalette();
-    ColorPalette(const Color& foreground, const Color& background, const Color& disabled, const Color& highlight);
-    ColorPalette(const ColorPalette& other);
-    ColorPalette& operator = (const ColorPalette& other);
-    ~ColorPalette() = default;
+        ColorPalette();
+        ColorPalette(const Color& foreground, const Color& background, const Color& disabled, const Color& highlight);
+        ColorPalette(const ColorPalette& other);
+        ColorPalette& operator = (const ColorPalette& other);
+        ~ColorPalette() = default;
 
-    Color getHighlight() { return highlight; }
-    Color getForeground() { return foreground; }
-    Color getBackground() { return background; }
-    Color getDisabled() { return disabled; }
+        Color getHighlight() { return highlight; }
+        Color getForeground() { return foreground; }
+        Color getBackground() { return background; }
+        Color getDisabled() { return disabled; }
 
-private:
+    private:
 
-    Color foreground;
-    Color background;
-    Color highlight;
-    Color disabled;
+        Color foreground;
+        Color background;
+        Color highlight;
+        Color disabled;
 
-};
+    };
+
+}
 
 
 #endif //CURSEN_COLORPALETTE_H

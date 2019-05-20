@@ -7,40 +7,40 @@
 #include "../Constants.h"
 
 Stage::Stage() :
-    stage_color(Color::PURPLE)
+    stage_color(cursen::Color::PURPLE)
 {
 
 }
 
-Stage::Stage(const Vect2 &pos) : AggregateComponent(pos),
-    stage_color(Color::PURPLE)
+Stage::Stage(const cursen::Vect2 &pos) : AggregateComponent(pos),
+    stage_color(cursen::Color::PURPLE)
 {
 
 }
 
 void Stage::initialize() {
     border.initialize();
-    border.setSize(Vect2(34,4));
+    border.setSize(cursen::Vect2(34,4));
     addRelative(&border);
 
     playerName.initialize();
     playerName.setText("No Player");
-    playerName.setPosition(Vect2(1,1));
+    playerName.setPosition(cursen::Vect2(1,1));
     addRelative(&playerName);
 
     points.initialize();
     points.setText("Points: 0");
-    points.setPosition(Vect2(1, 2));
+    points.setPosition(cursen::Vect2(1, 2));
     addRelative(&points);
 
     search_progress.initialize();
-    search_progress.setPosition(Vect2(11, 1));
+    search_progress.setPosition(cursen::Vect2(11, 1));
     addRelative(&search_progress);
 
     textField.initialize();
-    textField.setPosition(Vect2(1,1));
+    textField.setPosition(cursen::Vect2(1,1));
     textField.setForeground(stage_color);
-    textField.setSize(Vect2(Constants::MAX_NAME_LEN, 1));
+    textField.setSize(cursen::Vect2(Constants::MAX_NAME_LEN, 1));
     textField.setHidden(true);
     addRelative(&textField);
 
@@ -48,7 +48,7 @@ void Stage::initialize() {
     offCursor(std::bind(&Stage::hoverOff, this));
 }
 
-void Stage::setStageColor(const Color &stageColor) {
+void Stage::setStageColor(const cursen::Color &stageColor) {
     this->stage_color = stageColor;
 }
 
@@ -94,7 +94,7 @@ void Stage::setPlayer(const Player & player) {
 }
 
 void Stage::hoverOn() {
-    setForeground(Color::WHITE);
+    setForeground(cursen::Color::WHITE);
 }
 
 void Stage::hoverOff() {
@@ -118,7 +118,7 @@ void Stage::deactivateTextField() {
     //textField.deactivate();
 }
 
-TextField &Stage::getTextField() {
+cursen::TextField &Stage::getTextField() {
     return textField;
 }
 

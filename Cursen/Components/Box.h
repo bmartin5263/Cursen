@@ -9,45 +9,47 @@
 #include "Component.h"
 #include "TextComponent.h"
 
-using namespace cursen;
+namespace cursen {
 
-class Box : public TextComponent {
+    class Box : public TextComponent {
 
-public:
+    public:
 
-    Box();
-    Box(const Vect2& pos, const Vect2& dim);
+        Box();
+        Box(const Vect2& pos, const Vect2& dim);
 
-    void setBorder(chtype ul = ACS_ULCORNER, chtype top = ACS_HLINE, chtype ur = ACS_URCORNER,
-                    chtype left = ACS_VLINE, chtype fill = ' ', chtype right = ACS_VLINE,
-                    chtype ll = ACS_LLCORNER, chtype bottom = ACS_HLINE, chtype lr = ACS_LRCORNER);
+        void setBorder(chtype ul = ACS_ULCORNER, chtype top = ACS_HLINE, chtype ur = ACS_URCORNER,
+                       chtype left = ACS_VLINE, chtype fill = ' ', chtype right = ACS_VLINE,
+                       chtype ll = ACS_LLCORNER, chtype bottom = ACS_HLINE, chtype lr = ACS_LRCORNER);
 
 
-    void setUpperLeft(const chtype& upperLeft);
-    void setUpperRight(const chtype& upperRight);
-    void setUpper(const chtype& upper);
-    void setLower(const chtype& lower);
-    void setLowerLeft(const chtype& lowerLeft);
-    void setLowerRight(const chtype& lowerRight);
-    void setLeft(const chtype& left);
-    void setRight(const chtype& right);
-    void setFill(const chtype& fill);
+        void setUpperLeft(const chtype& upperLeft);
+        void setUpperRight(const chtype& upperRight);
+        void setUpper(const chtype& upper);
+        void setLower(const chtype& lower);
+        void setLowerLeft(const chtype& lowerLeft);
+        void setLowerRight(const chtype& lowerRight);
+        void setLeft(const chtype& left);
+        void setRight(const chtype& right);
+        void setFill(const chtype& fill);
 
-    void initialize() override;
-    void render() override;
+        void initialize() override;
+        void render() override;
 
-private:
+    private:
 
-    chtype upperLeft;
-    chtype upper;
-    chtype upperRight;
-    chtype left;
-    chtype fill;
-    chtype right;
-    chtype lowerLeft;
-    chtype lower;
-    chtype lowerRight;
-};
+        chtype upperLeft;
+        chtype upper;
+        chtype upperRight;
+        chtype left;
+        chtype fill;
+        chtype right;
+        chtype lowerLeft;
+        chtype lower;
+        chtype lowerRight;
+    };
 
+
+}
 
 #endif //CURSEN_BOX_H

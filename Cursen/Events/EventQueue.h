@@ -9,27 +9,32 @@
 #include "Event.h"
 #include <queue>
 
-class EventQueue {
+namespace cursen {
 
-public:
+    class EventQueue {
 
-    EventQueue() = default;
-    EventQueue(const EventQueue& other) = delete;
-    EventQueue& operator = (const EventQueue& other) = delete;
-    ~EventQueue() = default;
+    public:
 
-    void push(Event event);
-    Event pop();
-    void wait();
-    bool isEmpty();
+        EventQueue() = default;
+        EventQueue(const EventQueue& other) = delete;
+        EventQueue& operator = (const EventQueue& other) = delete;
+        ~EventQueue() = default;
+
+        void push(Event event);
+        Event pop();
+        void wait();
+        bool isEmpty();
 
 
-private:
+    private:
 
-    std::queue<Event> eventQueue;
-    std::mutex mu;
-    std::condition_variable cond;
+        std::queue<Event> eventQueue;
+        std::mutex mu;
+        std::condition_variable cond;
 
-};
+    };
+
+}
+
 
 #endif //CURSEN_EVENTQUEUE_H

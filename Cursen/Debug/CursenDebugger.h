@@ -8,22 +8,23 @@
 
 #include "InspectionPointer.h"
 
-class CursenDebugger {
+namespace cursen {
 
-public:
+    class CursenDebugger {
 
-    CursenDebugger();
+    public:
 
-    void activateInspection();
-    void deactivateInspection();
+        CursenDebugger();
+        void activateInspection();
+        void deactivateInspection();
+        InspectionPointer *getInspectionPointer();
 
-    InspectionPointer* getInspectionPointer();
+    private:
 
-private:
+        InspectionPointer *inspectionPointer;
 
-    InspectionPointer* inspectionPointer;
-
-};
+    };
+}
 
 
 #endif //CURSEN_CURSENDEBUGGER_H

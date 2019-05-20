@@ -12,7 +12,7 @@ PlayerStaging::PlayerStaging() :
 
 }
 
-PlayerStaging::PlayerStaging(const Vect2 &loc) :
+PlayerStaging::PlayerStaging(const cursen::Vect2 &loc) :
         AggregateComponent(loc), spinning(false)
 {
 
@@ -21,8 +21,8 @@ PlayerStaging::PlayerStaging(const Vect2 &loc) :
 void PlayerStaging::initialize() {
 
     border.initialize();
-    border.setPosition(Vect2(0,0));
-    border.setSize(Vect2(70,10));
+    border.setPosition(cursen::Vect2(0,0));
+    border.setSize(cursen::Vect2(70,10));
     border.setLowerRight(ACS_RTEE);
     border.setUpperRight(ACS_RTEE);
     border.setLowerLeft(ACS_LTEE);
@@ -33,30 +33,30 @@ void PlayerStaging::initialize() {
         stage.initialize();
     }
 
-    stages[0].setPosition(Vect2(1,1));
+    stages[0].setPosition(cursen::Vect2(1,1));
     stages[0].setEnabled(false);
-    stages[0].setStageColor(Color::DARK_BLUE);
+    stages[0].setStageColor(cursen::Color::DARK_BLUE);
     addRelative(&stages[0]);
 
-    stages[1].setPosition(Vect2(35,1));
+    stages[1].setPosition(cursen::Vect2(35,1));
     stages[1].setEnabled(false);
-    stages[1].setStageColor(Color::DARK_BLUE);
+    stages[1].setStageColor(cursen::Color::DARK_BLUE);
     addRelative(&stages[1]);
 
-    stages[2].setPosition(Vect2(1,5));
+    stages[2].setPosition(cursen::Vect2(1,5));
     stages[2].setEnabled(false);
-    stages[2].setStageColor(Color::DARK_BLUE);
+    stages[2].setStageColor(cursen::Color::DARK_BLUE);
     addRelative(&stages[2]);
 
-    stages[3].setPosition(Vect2(35,5));
+    stages[3].setPosition(cursen::Vect2(35,5));
     stages[3].setEnabled(false);
-    stages[3].setStageColor(Color::DARK_BLUE);
+    stages[3].setStageColor(cursen::Color::DARK_BLUE);
     addRelative(&stages[3]);
 
-    stageCursor.mapComponent(&stages[0], ArrowMap(&stages[1], &stages[2], &stages[1], &stages[2]));
-    stageCursor.mapComponent(&stages[1], ArrowMap(&stages[0], &stages[3], &stages[0], &stages[3]));
-    stageCursor.mapComponent(&stages[2], ArrowMap(&stages[3], &stages[0], &stages[3], &stages[0]));
-    stageCursor.mapComponent(&stages[3], ArrowMap(&stages[2], &stages[1], &stages[2], &stages[1]));
+    stageCursor.mapComponent(&stages[0], cursen::ArrowMap(&stages[1], &stages[2], &stages[1], &stages[2]));
+    stageCursor.mapComponent(&stages[1], cursen::ArrowMap(&stages[0], &stages[3], &stages[0], &stages[3]));
+    stageCursor.mapComponent(&stages[2], cursen::ArrowMap(&stages[3], &stages[0], &stages[3], &stages[0]));
+    stageCursor.mapComponent(&stages[3], cursen::ArrowMap(&stages[2], &stages[1], &stages[2], &stages[1]));
     stageCursor.setEnabled(false);
 }
 

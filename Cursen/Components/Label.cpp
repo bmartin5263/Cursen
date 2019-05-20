@@ -6,50 +6,52 @@
 #include <Events/AlarmManager.h>
 #include "Label.h"
 
-Label::Label() :
-        TextComponent(Vect2(0,0), Vect2(1,1))
-{
-}
+namespace cursen {
 
-Label::Label(const Vect2& pos, const Vect2& dim) :
-        TextComponent(pos, dim)
-{
-}
+    Label::Label() :
+            TextComponent(Vect2(0, 0), Vect2(1, 1)) {
+    }
 
-void Label::initialize() {
-    TextComponent::initialize();
-    this->text = "";
-    this->alignment = TextAlignment::LEFT;
-}
+    Label::Label(const Vect2 &pos, const Vect2 &dim) :
+            TextComponent(pos, dim) {
+    }
 
-void Label::render() {
-    TextComponent::render();
-    Content* content = getContent();
-    ColorPair& draw_color = getCurrentDrawColor();
+    void Label::initialize() {
+        TextComponent::initialize();
+        this->text = "";
+        this->alignment = TextAlignment::LEFT;
+    }
 
-    content->clear();
-    content->writeLine(text, Vect2(0,0), alignment, draw_color);
-}
+    void Label::render() {
+        TextComponent::render();
+        Content *content = getContent();
+        ColorPair &draw_color = getCurrentDrawColor();
 
-void Label::emplaceText(const std::string& text) {
-    this->text = text;
-    invalidate();
-}
+        content->clear();
+        content->writeLine(text, Vect2(0, 0), alignment, draw_color);
+    }
 
-void Label::setText(const std::string& text) {
-    setSize(Vect2((int)text.length(), 1));
-    emplaceText(text);
-}
+    void Label::emplaceText(const std::string &text) {
+        this->text = text;
+        invalidate();
+    }
 
-void Label::setTextAlignment(const TextAlignment new_alignment) {
-    alignment = new_alignment;
-    invalidate();
-}
+    void Label::setText(const std::string &text) {
+        setSize(Vect2((int) text.length(), 1));
+        emplaceText(text);
+    }
 
-TextAlignment Label::getTextAlignment() {
-    return alignment;
-}
+    void Label::setTextAlignment(const TextAlignment new_alignment) {
+        alignment = new_alignment;
+        invalidate();
+    }
 
-std::string Label::getText() {
-    return text;
+    TextAlignment Label::getTextAlignment() {
+        return alignment;
+    }
+
+    std::string Label::getText() {
+        return text;
+    }
+
 }

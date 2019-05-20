@@ -5,10 +5,14 @@
 #ifndef CURSEN_CLICKFLAG_H
 #define CURSEN_CLICKFLAG_H
 
-enum class ClickFlag {
+namespace cursen {
 
-    ENTER = 1, SPACE = 2;
+    enum class ClickFlag {
 
-};
+        ENTER = 1, SPACE = 2;
+
+    };
+
+}
 
 #endif //CURSEN_CLICKFLAG_H

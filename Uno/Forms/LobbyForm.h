@@ -17,7 +17,7 @@
 
 class Lobby;
 
-class LobbyForm : public Form {
+class LobbyForm : public cursen::Form {
 
 public:
 
@@ -54,21 +54,21 @@ private:
     Lobby* lobby;
 
     // Components
-    ASCIIArt art;
-    Box border;
-    Button start_button;
-    Button add_ai_button;
-    Button search_button;
-    Button kick_button;
-    Button close_button;
-    //Button settings_button;
-    Button change_color_button;
-    Button chat_button;
-    TextField text_field;
+    cursen::ASCIIArt art;
+    cursen::Box border;
+    cursen::Button start_button;
+    cursen::Button add_ai_button;
+    cursen::Button search_button;
+    cursen::Button kick_button;
+    cursen::Button close_button;
+    cursen::Button change_color_button;
+    cursen::Button chat_button;
+    cursen::TextField text_field;
+    cursen::Cursor lobby_cursor;
+
     UnoConsole console;
     PlayerStaging playerStaging;
     ModeSelectBox mode_select_box;
-    Cursor lobby_cursor;
 
 };
 

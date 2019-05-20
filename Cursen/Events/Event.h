@@ -8,65 +8,64 @@
 #include <cstdio>
 #include "Events/EventType.h"
 
-class Component;
-class Alarm;
+namespace cursen {
 
-class Event {
+    class Component;
+    class Alarm;
 
-public:
+    class Event {
 
-    struct KeyEvent
-    {
-        int code;
-    };
+    public:
 
-    struct ArrowEvent
-    {
-        ArrowEvent() {
-            left = false;
-            up = false;
-            right = false;
-            down = false;
+        struct KeyEvent {
+            int code;
+        };
+
+        struct ArrowEvent {
+            ArrowEvent() {
+                left = false;
+                up = false;
+                right = false;
+                down = false;
+            }
+
+            bool left;
+            bool up;
+            bool right;
+            bool down;
+        };
+
+        struct AlarmEvent {
+            AlarmEvent() {
+                alarmEntry = nullptr;
+            }
+
+            Alarm *alarmEntry;
+        };
+
+        EventType type;
+
+        union {
+            KeyEvent key;
+            ArrowEvent arrowPress;
+            AlarmEvent alarm;
+        };
+
+        Event() {
+            key = KeyEvent();
+            arrowPress = ArrowEvent();
+            alarm = AlarmEvent();
         }
-        bool left;
-        bool up;
-        bool right;
-        bool down;
+
     };
 
-    struct AlarmEvent
-    {
-        AlarmEvent() {
-            alarmEntry = nullptr;
+    struct EnumClassHash {
+        template<typename T>
+        std::size_t operator()(T t) const {
+            return static_cast<std::size_t>(t);
         }
-        Alarm* alarmEntry;
     };
 
-    EventType type;
-
-    union
-    {
-        KeyEvent key;
-        ArrowEvent arrowPress;
-        AlarmEvent alarm;
-    };
-
-    Event() {
-        key = KeyEvent();
-        arrowPress = ArrowEvent();
-        alarm = AlarmEvent();
-    }
-
-};
-
-struct EnumClassHash
-{
-    template <typename T>
-    std::size_t operator()(T t) const
-    {
-        return static_cast<std::size_t>(t);
-    }
-};
-
+}
 
 #endif //CURSEN_EVENT_H

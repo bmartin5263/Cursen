@@ -7,61 +7,65 @@
 
 #include "Components/Component.h"
 
-class TextComponent : public Component {
+namespace cursen {
 
-public:
+    class TextComponent : public Component {
 
-    TextComponent();
-    TextComponent(const Vect2& pos);
-    TextComponent(const Vect2& pos, const Vect2& dim);
-    ~TextComponent() = default;
+    public:
 
-    virtual void initialize() override;
+        TextComponent();
+        TextComponent(const Vect2& pos);
+        TextComponent(const Vect2& pos, const Vect2& dim);
+        ~TextComponent() = default;
 
-    virtual void setForeground(const Color &color) override;
-    virtual Color getForeground() override;
+        virtual void initialize() override;
 
-    virtual void setBackground(const Color &color) override;
-    virtual Color getBackground() override;
+        virtual void setForeground(const Color &color) override;
+        virtual Color getForeground() override;
 
-    ColorPair& getCurrentDrawColor();
+        virtual void setBackground(const Color &color) override;
+        virtual Color getBackground() override;
 
-    virtual void cursorOn();
-    virtual void cursorOff();
+        ColorPair& getCurrentDrawColor();
 
-    void setEnabled(bool value) override;
+        virtual void cursorOn();
+        virtual void cursorOff();
 
-    void setHighlight(const ColorPair &color) override;
-    ColorPair getHighlight() override;
+        void setEnabled(bool value) override;
 
-    void setDisabled(const ColorPair &color) override;
-    ColorPair getDisabled() override;
+        void setHighlight(const ColorPair &color) override;
+        ColorPair getHighlight() override;
 
-    Content * getContent() override;
+        void setDisabled(const ColorPair &color) override;
+        ColorPair getDisabled() override;
 
-    virtual void setSize(const Vect2 &size);
-    Vect2 getSize();
+        Content * getContent() override;
 
-    void startGlow();
-    void stopGlow();
-    void animateGlow();
+        virtual void setSize(const Vect2 &size);
+        Vect2 getSize();
 
-    void render() override;
+        void startGlow();
+        void stopGlow();
+        void animateGlow();
 
-private:
+        void render() override;
 
-    Content content;
-    ColorPair draw_color;
-    Color foreground;
-    Color background;
-    Color highlight_foreground;
-    Color highlight_background;
-    Color disabled_foreground;
-    Color disabled_background;
-    int glow_frame;
-    bool isHovered;
+    private:
 
-};
+        Content content;
+        ColorPair draw_color;
+        Color foreground;
+        Color background;
+        Color highlight_foreground;
+        Color highlight_background;
+        Color disabled_foreground;
+        Color disabled_background;
+        int glow_frame;
+        bool isHovered;
 
+    };
+
+
+}
 
 #endif //CURSEN_TEXTCOMPONENT_H

@@ -5,45 +5,53 @@
 #ifndef CURSEN_TEXTFIELD_H
 #define CURSEN_TEXTFIELD_H
 
-
 #include "TextComponent.h"
 
-class TextField : public TextComponent {
+namespace cursen {
 
-public:
+    class TextField : public TextComponent {
 
-    TextField();
-    TextField(const Vect2& size);
-    virtual ~TextField();
+    public:
 
-    void initialize() override;
-    void render() override;
+        TextField();
 
-    void activate();
-    void deactivate();
+        TextField(const Vect2 &size);
 
-    void keyPress(const Event& e);
-    void deletePress(const Event& e);
-    void moveCursor(const Event &event);
+        virtual ~TextField();
 
-    void setMaxLength(const int& len);
+        void initialize() override;
 
-    void cursorOn() override;
+        void render() override;
 
-    void setSize(const Vect2 &size) override;
-    void setText(const std::string &text) override;
+        void activate();
 
-    std::string getText() override;
+        void deactivate();
 
-    void setEnabled(bool value) override;
+        void keyPress(const Event &e);
 
-private:
+        void deletePress(const Event &e);
 
-    std::string text;
-    int max_len;
-    int cursor_x;
+        void moveCursor(const Event &event);
 
-};
+        void setMaxLength(const int &len);
 
+        void cursorOn() override;
+
+        void setSize(const Vect2 &size) override;
+
+        void setText(const std::string &text) override;
+
+        std::string getText() override;
+
+        void setEnabled(bool value) override;
+
+    private:
+
+        std::string text;
+        int max_len;
+        int cursor_x;
+
+    };
+}
 
 #endif //CURSEN_TEXTFIELD_H

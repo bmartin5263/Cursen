@@ -7,43 +7,47 @@
 
 #include <functional>
 
-class Component;
+namespace cursen {
 
-class Alarm {
+    class Component;
 
-public:
+    class Alarm {
 
-    typedef std::function<void()> VoidFun;
+    public:
 
-    static void VOID() {};
+        typedef std::function<void()> VoidFun;
 
-    Alarm(Component* component, VoidFun alarmFunction, double interval, VoidFun cancel_function);
-    Alarm(Component* component, VoidFun alarmFunction, double interval,  VoidFun cancel_function, double total_time);
+        static void VOID() {};
 
-    ~Alarm();
+        Alarm(Component* component, VoidFun alarmFunction, double interval, VoidFun cancel_function);
+        Alarm(Component* component, VoidFun alarmFunction, double interval,  VoidFun cancel_function, double total_time);
 
-    void updateTime(double elapsed);
+        ~Alarm();
 
-    bool ready();
-    bool expired();
+        void updateTime(double elapsed);
 
-    void reset();
-    void callInterval();
-    void callExpire();
+        bool ready();
+        bool expired();
 
-    Component* getComponent();
+        void reset();
+        void callInterval();
+        void callExpire();
 
-private:
+        Component* getComponent();
 
-    Component* component;
-    VoidFun interval_function;
-    VoidFun cancel_function;
-    double interval;
-    double remaining;
-    double total_time;
-    bool has_total;
+    private:
 
-};
+        Component* component;
+        VoidFun interval_function;
+        VoidFun cancel_function;
+        double interval;
+        double remaining;
+        double total_time;
+        bool has_total;
+
+    };
+
+}
 
 
 #endif //CURSEN_ALARMENTRY_H

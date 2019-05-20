@@ -11,12 +11,12 @@
 #include "Components/Label.h"
 #include "UnoTitle.h"
 
-class UnoConsole : public AggregateComponent {
+class UnoConsole : public cursen::AggregateComponent {
 
 public:
 
     UnoConsole();
-    UnoConsole(const Vect2& pos);
+    UnoConsole(const cursen::Vect2& pos);
 
     void initialize() override;
 
@@ -28,9 +28,9 @@ public:
 
 private:
 
-    Box uno_box;
-    Box console_box;
-    Label console_message;
+    cursen::Box uno_box;
+    cursen::Box console_box;
+    cursen::Label console_message;
     UnoTitle title;
 
 };

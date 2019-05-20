@@ -12,61 +12,74 @@
 #include "Drawing/CursesManager.h"
 #include "Components/Form.h"
 
+namespace cursen {
 
-CursenApplication* CursenApplication::engineInstance = nullptr;
+    CursenApplication *CursenApplication::engineInstance = nullptr;
 
-CursenApplication::CursenApplication() :
-    currentForm(nullptr), running(false)
-{
-    privInitialize();
-}
-
-void CursenApplication::privInitialize() {
-
-}
-
-/*
- * Main Loop of the engine
- */
-void CursenApplication::privRun(Form *form) {
-    running = true;
-    currentForm = form;
-
-    srand((unsigned)time(0));
-
-    CursesManager::Initialize(currentForm->getSize());
-    currentForm->initialize();
-    CursesManager::Draw();
-
-    while (running) {
-        InputManager::ProcessInput();
-        EventManager::ProcessEvents();
-        CursesManager::Draw();
+    CursenApplication::CursenApplication() :
+            currentForm(nullptr), running(false)
+    {
+        privInitialize();
     }
 
-    CursesManager::Terminate();
+    void CursenApplication::privInitialize()
+    {
 
-}
+    }
 
-void CursenApplication::privQuit() {
-    running = false;
-}
+    /*
+     * Main Loop of the engine
+     */
+    void CursenApplication::main(Form *form)
+    {
+        running = true;
+        currentForm = form;
 
-Form* CursenApplication::privGetCurrentForm() {
-    return this->currentForm;
-}
+        srand((unsigned) time(0));
 
-void CursenApplication::privSetColorPalette(const ColorPalette &palette) {
-    this->palette = palette;
-}
+        CursesManager::Initialize(currentForm->getSize());
+        currentForm->initialize();
+        CursesManager::Draw();
 
-ColorPalette &CursenApplication::privGetColorPalette() {
-    return this->palette;
-}
+        while (running) {
+            AlarmManager::ProcessAlarms();
+            InputManager::ProcessInput();
+            EventManager::ProcessEvents();
+            CursesManager::Draw();
+        }
 
-CursenDebugger &CursenApplication::privGetDebugger() {
-    return cursenDebugger;
-}
+        CursesManager::Terminate();
 
-CursenApplication::~CursenApplication() {
+    }
+
+    void CursenApplication::privQuit()
+    {
+        running = false;
+    }
+
+    Form *CursenApplication::privGetCurrentForm()
+    {
+        return this->currentForm;
+    }
+
+    void CursenApplication::privSetColorPalette(const ColorPalette &palette)
+    {
+        this->palette = palette;
+    }
+
+    ColorPalette &CursenApplication::privGetColorPalette()
+    {
+        return this->palette;
+    }
+
+    CursenDebugger &CursenApplication::privGetDebugger()
+    {
+        return cursenDebugger;
+    }
+
+    CursenApplication::~CursenApplication()
+    {
+
+    }
+
 }

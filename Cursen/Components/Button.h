@@ -10,31 +10,35 @@
 #include "Box.h"
 #include "Label.h"
 
-class Button : public AggregateComponent {
+namespace cursen {
 
-public:
+    class Button : public AggregateComponent {
 
-    Button();
-    Button(const Vect2 &pos);
+    public:
 
-    void initialize() override;
-    void setLength(const int& len);
+        Button();
+        Button(const Vect2 &pos);
 
-    void cursorOn();
-    void cursorOff();
+        void initialize() override;
+        void setLength(const int& len);
 
-    void emphasize();
+        void cursorOn();
+        void cursorOff();
 
-    void setText(const std::string &text) override;
-    void setPosition(const Vect2 &pos) override;
+        void emphasize();
 
-private:
+        void setText(const std::string &text) override;
+        void setPosition(const Vect2 &pos) override;
 
-    Box border;
-    Label button_text;
-    int length;
+    private:
 
-};
+        Box border;
+        Label button_text;
+        int length;
 
+    };
+
+
+}
 
 #endif //CURSEN_BUTTON_H

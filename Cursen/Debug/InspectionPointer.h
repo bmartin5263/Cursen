@@ -6,32 +6,36 @@
 #define CURSEN_INSPECTORPOINTER_H
 
 
-#include <Components/TextComponent.h>
+#include "Components/TextComponent.h"
 
-class InspectionPointer : public TextComponent {
+namespace cursen {
 
-public:
+    class InspectionPointer : public TextComponent {
 
-    static const char POINTER = '@';
+    public:
 
-    InspectionPointer();
-    ~InspectionPointer();
+        static const char POINTER = '@';
 
-    void render() override;
-    void initialize() override;
+        InspectionPointer();
+        ~InspectionPointer();
 
-    void movePointer(const Event& event);
-    void pressSpace(const Event& event);
+        void render() override;
+        void initialize() override;
 
-    Vect2 getBoxSize() { return boxSize; };
-    Vect2 getBoxLoc() { return boxLoc; };
+        void movePointer(const Event& event);
+        void pressSpace(const Event& event);
 
-private:
+        Vect2 getBoxSize() { return boxSize; };
+        Vect2 getBoxLoc() { return boxLoc; };
 
-    Vect2 boxSize;
-    Vect2 boxLoc;
+    private:
 
-};
+        Vect2 boxSize;
+        Vect2 boxLoc;
+
+    };
+
+}
 
 
 #endif //CURSEN_INSPECTORPOINTER_H

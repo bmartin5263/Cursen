@@ -11,21 +11,22 @@
 #include "TextComponent.h"
 #include "AggregateComponent.h"
 
-using namespace cursen;
+namespace cursen {
 
-class Form : public AggregateComponent {
+    class Form : public AggregateComponent {
 
-public:
+    public:
 
-    Form(const Vect2& dim);
+        Form(const Vect2& dim);
 
-    Vect2 getSize();
+        Vect2 getSize();
 
-private:
+    private:
 
-    Vect2 dimensions;
+        Vect2 dimensions;
 
-};
+    };
 
+}
 
 #endif //CURSEN_FORM_H

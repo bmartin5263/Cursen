@@ -7,12 +7,12 @@
 
 #include "Components/TextComponent.h"
 
-class UnoTitle : public TextComponent {
+class UnoTitle : public cursen::TextComponent {
 
 public:
 
     UnoTitle();
-    UnoTitle(const Vect2& pos);
+    UnoTitle(const cursen::Vect2& pos);
 
     void initialize() override;
     void render() override;

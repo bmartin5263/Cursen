@@ -11,32 +11,33 @@
 #include <Drawing/TextAlignment.h>
 #include "TextComponent.h"
 
-using namespace cursen;
+namespace cursen {
 
-class Label : public TextComponent {
+    class Label : public TextComponent {
 
-public:
+    public:
 
-    Label();
-    Label(const Vect2& pos, const Vect2& dim);
+        Label();
+        Label(const Vect2& pos, const Vect2& dim);
 
-    void initialize() override;
-    void render() override;
+        void initialize() override;
+        void render() override;
 
-    void emplaceText(const std::string& text);
-    void setText(const std::string& text) override;
+        void emplaceText(const std::string& text);
+        void setText(const std::string& text) override;
 
-    void setTextAlignment(const TextAlignment new_alignment);
-    TextAlignment getTextAlignment();
+        void setTextAlignment(const TextAlignment new_alignment);
+        TextAlignment getTextAlignment();
 
-    std::string getText() override;
+        std::string getText() override;
 
-private:
+    private:
 
-    std::string text;
-    TextAlignment alignment;
+        std::string text;
+        TextAlignment alignment;
 
-};
+    };
 
+}
 
 #endif //CURSEN_LABEL_H

@@ -8,7 +8,7 @@
 #include "TestForm.h"
 
 TestForm::TestForm() :
-    Form(Vect2(70,33))
+    Form(cursen::Vect2(70,33))
 {
 
 }
@@ -17,71 +17,71 @@ void TestForm::initialize() {
     setHidden(true);
 
     box.initialize();
-    box.setPosition(Vect2(2,3));
-    box.setSize(Vect2(21, 10));
+    box.setPosition(cursen::Vect2(2,3));
+    box.setSize(cursen::Vect2(21, 10));
     box.setHidden(false);
 
     titleBox.initialize();
-    titleBox.setPosition(Vect2(0,0));
-    titleBox.setSize(Vect2(getSize().x, 3));
+    titleBox.setPosition(cursen::Vect2(0,0));
+    titleBox.setSize(cursen::Vect2(getSize().x, 3));
     titleBox.setLowerRight(ACS_RTEE);
     titleBox.setLowerLeft(ACS_LTEE);
     titleBox.setDrawOrder(100);
 
     flashLabel.initialize();
-    flashLabel.setPosition(Vect2(1,1));
-    //flashLabel.setSize(Vect2(40,1));
+    flashLabel.setPosition(cursen::Vect2(1,1));
+    //flashLabel.setSize(cursen::Vect2(40,1));
     flashLabel.setText("Flash");
     flashLabel.onClick(std::bind(&TestForm::flash, this));
 
     beepLabel.initialize();
-    beepLabel.setPosition(Vect2(1,2));
-    //beepLabel.setSize(Vect2(40,1));
+    beepLabel.setPosition(cursen::Vect2(1,2));
+    //beepLabel.setSize(cursen::Vect2(40,1));
     beepLabel.setText("Beep");
     beepLabel.onClick(std::bind(&TestForm::beep, this));
 
     changeColorLabel.initialize();
-    changeColorLabel.setPosition(Vect2(1,3));
-    changeColorLabel.setSize(Vect2(40,1));
+    changeColorLabel.setPosition(cursen::Vect2(1,3));
+    changeColorLabel.setSize(cursen::Vect2(40,1));
     changeColorLabel.setText("Change Color");
     changeColorLabel.onClick(std::bind(&TestForm::changeColor, this));
 
     exitLabel.initialize();
-    exitLabel.setPosition(Vect2(1,4));
-    exitLabel.setSize(Vect2(40,1));
+    exitLabel.setPosition(cursen::Vect2(1,4));
+    exitLabel.setSize(cursen::Vect2(40,1));
     exitLabel.setText("Exit");
     exitLabel.onClick(std::bind(&TestForm::quitGame, this));
 
     smileyFace.initialize();
-    smileyFace.setPosition(Vect2(30,30));
-    smileyFace.setSize(Vect2(40,1));
+    smileyFace.setPosition(cursen::Vect2(30,30));
+    smileyFace.setSize(cursen::Vect2(40,1));
     smileyFace.setText(":)");
 
     messageLabel.initialize();
-    messageLabel.setPosition(Vect2(1,1));
-    messageLabel.setSize(Vect2(getSize().x - 2,1));
+    messageLabel.setPosition(cursen::Vect2(1,1));
+    messageLabel.setSize(cursen::Vect2(getSize().x - 2,1));
     messageLabel.setText("Welcome to Cursen!");
-    messageLabel.setForeground(Color::YELLOW);
+    messageLabel.setForeground(cursen::Color::YELLOW);
 
-    //checkBox = new CheckBox(Vect2(1,6));
+    //checkBox = new CheckBox(cursen::Vect2(1,6));
     checkBox.initialize();
-    checkBox.setPosition(Vect2(1,6));
+    checkBox.setPosition(cursen::Vect2(1,6));
     checkBox.setText("Exit Enabled");
-    checkBox.setState(CheckState::INDETERMINATE);
+    checkBox.setState(cursen::CheckState::INDETERMINATE);
     checkBox.onClick(std::bind(&TestForm::disable, this));
 
     checkBox2.initialize();
-    checkBox2.setPosition(Vect2(1,7));
+    checkBox2.setPosition(cursen::Vect2(1,7));
     checkBox2.setText("Rainbow Enabled");
     checkBox2.onClick(std::bind(&TestForm::doRainbow, this));
 
     twirlCheck.initialize();
-    twirlCheck.setPosition(Vect2(1,8));
+    twirlCheck.setPosition(cursen::Vect2(1,8));
     twirlCheck.setText("Twirl Enabled");
     twirlCheck.onClick(std::bind(&TestForm::activateTwirl, this));
 
     twirlProgress.initialize();
-    twirlProgress.setPosition(Vect2(20, 4));
+    twirlProgress.setPosition(cursen::Vect2(20, 4));
 
     box.add(&twirlProgress);
     titleBox.addRelative(&messageLabel);
@@ -96,19 +96,19 @@ void TestForm::initialize() {
     pressMe.initialize();
     pressMe.setLength(21);
     pressMe.setText("");
-    pressMe.setPosition(Vect2(2,13));
+    pressMe.setPosition(cursen::Vect2(2,13));
     //pressMe.setText("Hello");
     add(&pressMe);
 
     cursor.moveTo(&flashLabel);
-    cursor.mapComponent(&flashLabel, ArrowMap(nullptr, &pressMe, nullptr, &beepLabel));
-    cursor.mapComponent(&beepLabel, ArrowMap(nullptr, &flashLabel, nullptr, &changeColorLabel));
-    cursor.mapComponent(&changeColorLabel, ArrowMap(nullptr, &beepLabel, nullptr, &exitLabel));
-    cursor.mapComponent(&exitLabel, ArrowMap(nullptr, &changeColorLabel, nullptr, &checkBox));
-    cursor.mapComponent(&checkBox, ArrowMap(nullptr, &exitLabel, nullptr, &checkBox2));
-    cursor.mapComponent(&checkBox2, ArrowMap(nullptr, &checkBox, nullptr, &twirlCheck));
-    cursor.mapComponent(&twirlCheck, ArrowMap(nullptr, &checkBox2, nullptr, &pressMe));
-    cursor.mapComponent(&pressMe, ArrowMap(nullptr, &twirlCheck, nullptr, &flashLabel));
+    cursor.mapComponent(&flashLabel, cursen::ArrowMap(nullptr, &pressMe, nullptr, &beepLabel));
+    cursor.mapComponent(&beepLabel, cursen::ArrowMap(nullptr, &flashLabel, nullptr, &changeColorLabel));
+    cursor.mapComponent(&changeColorLabel, cursen::ArrowMap(nullptr, &beepLabel, nullptr, &exitLabel));
+    cursor.mapComponent(&exitLabel, cursen::ArrowMap(nullptr, &changeColorLabel, nullptr, &checkBox));
+    cursor.mapComponent(&checkBox, cursen::ArrowMap(nullptr, &exitLabel, nullptr, &checkBox2));
+    cursor.mapComponent(&checkBox2, cursen::ArrowMap(nullptr, &checkBox, nullptr, &twirlCheck));
+    cursor.mapComponent(&twirlCheck, cursen::ArrowMap(nullptr, &checkBox2, nullptr, &pressMe));
+    cursor.mapComponent(&pressMe, cursen::ArrowMap(nullptr, &twirlCheck, nullptr, &flashLabel));
     cursor.setEnabled(true);
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
@@ -119,12 +119,12 @@ void TestForm::activateTwirl() {
     twirlCheck.toggle();
 }
 
-void TestForm::keyPress(const Event &event) {
+void TestForm::keyPress(const cursen::Event &event) {
     if (event.key.code == 'q') {
         cursor.setEnabled(!cursor.isEnabled());
     }
     if (event.key.code == 'g') {
-        if (!AlarmManager::HasActiveAlarm(&flashLabel))
+        if (!cursen::AlarmManager::HasActiveAlarm(&flashLabel))
             flashLabel.startGlow();
         else
             flashLabel.stopGlow();
@@ -132,16 +132,16 @@ void TestForm::keyPress(const Event &event) {
 }
 
 void TestForm::quitGame() {
-    CursenApplication::Quit();
+    cursen::CursenApplication::Quit();
 }
 
 void TestForm::flash() {
-    CursesManager::Flash();
+    cursen::CursesManager::Flash();
     messageLabel.setText("Flashy Flash");
 }
 
 void TestForm::beep() {
-    CursesManager::Beep();
+    cursen::CursesManager::Beep();
     messageLabel.setText("Beep Boop");
 }
 
@@ -150,42 +150,42 @@ void TestForm::changeColor() {
     i++;
     i = i % 6;
     if (i == 0) {
-        box.setForeground(Color::RED);
+        box.setForeground(cursen::Color::RED);
     }
     else if (i == 1) {
-        box.setForeground(Color::ORANGE);
+        box.setForeground(cursen::Color::ORANGE);
     }
     else if (i == 2) {
-        box.setForeground(Color::YELLOW);
+        box.setForeground(cursen::Color::YELLOW);
     }
     else if (i == 3) {
-        box.setForeground(Color::GREEN);
+        box.setForeground(cursen::Color::GREEN);
     }
     else if (i == 4) {
-        box.setForeground(Color::BLUE);
+        box.setForeground(cursen::Color::BLUE);
     }
     else if (i == 5) {
-        box.setForeground(Color::VIOLET);
+        box.setForeground(cursen::Color::VIOLET);
     }
 
 }
 
-void TestForm::moveComponent(const Event &event) {
+void TestForm::moveComponent(const cursen::Event &event) {
     if (event.arrowPress.right) {
-        box.move(Vect2(1, 0));
+        box.move(cursen::Vect2(1, 0));
         changeColor();
     }
     if (event.arrowPress.left) {
-        box.move(Vect2(-1, 0));
+        box.move(cursen::Vect2(-1, 0));
         changeColor();
     }
     if (!cursor.isEnabled()) {
         if (event.arrowPress.up) {
-            box.move(Vect2(0, -1));
+            box.move(cursen::Vect2(0, -1));
             changeColor();
         }
         if (event.arrowPress.down) {
-            box.move(Vect2(0, 1));
+            box.move(cursen::Vect2(0, 1));
             changeColor();
         }
     }
@@ -203,11 +203,11 @@ void TestForm::alarmFunction() {
 void TestForm::doRainbow() {
     static bool flashing = false;
     if (flashing) {
-        AlarmManager::StopAlarm(this);
-        box.setForeground(Color::WHITE);
+        cursen::AlarmManager::StopAlarm(this);
+        box.setForeground(cursen::Color::WHITE);
     }
     else {
-        AlarmManager::StartAlarm(this, std::bind(&TestForm::alarmFunction, this), .06);
+        cursen::AlarmManager::StartAlarm(this, std::bind(&TestForm::alarmFunction, this), .06);
     }
     flashing = !flashing;
     checkBox2.toggle();

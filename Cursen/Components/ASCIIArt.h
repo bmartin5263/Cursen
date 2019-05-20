@@ -8,23 +8,26 @@
 
 #include "TextComponent.h"
 
-class ASCIIArt : public TextComponent {
+namespace cursen {
 
-public:
+    class ASCIIArt : public TextComponent {
 
-    ASCIIArt();
-    ASCIIArt(const Vect2& pos);
+    public:
 
-    void render() override;
+        ASCIIArt();
+        ASCIIArt(const Vect2& pos);
 
-    void loadFromFile(const char* filename);
+        void render() override;
 
-private:
+        void loadFromFile(const char* filename);
 
-    std::vector<std::string> raw_data;
-    int max_columns;
+    private:
 
-};
+        std::vector<std::string> raw_data;
+        int max_columns;
 
+    };
+
+}
 
 #endif //CURSEN_ASCIIART_H

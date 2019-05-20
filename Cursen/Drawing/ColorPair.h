@@ -36,12 +36,12 @@ namespace cursen {
         }
     };
 
+    chtype operator | (chtype c, const ColorPair& n);
+    chtype operator | (const ColorPair& n, chtype c);
+
+    ColorPair operator | (const Color c, const ColorPair& n);
+    ColorPair operator | (const ColorPair& n, const Color c);
+
 }
-
-chtype operator | (chtype c, const cursen::ColorPair& n);
-chtype operator | (const cursen::ColorPair& n, chtype c);
-
-cursen::ColorPair operator | (const cursen::Color c, const cursen::ColorPair& n);
-cursen::ColorPair operator | (const cursen::ColorPair& n, const cursen::Color c);
 
 #endif //CURSEN_COLORPAIR_H

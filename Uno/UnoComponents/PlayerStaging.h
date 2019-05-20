@@ -14,12 +14,12 @@
 
 class LobbyForm;
 
-class PlayerStaging : public AggregateComponent {
+class PlayerStaging : public cursen::AggregateComponent {
 
 public:
 
     PlayerStaging();
-    PlayerStaging(const Vect2& loc);
+    PlayerStaging(const cursen::Vect2& loc);
 
     void initialize() override;
     void setCallBacks(LobbyForm* lobby);
@@ -35,9 +35,9 @@ public:
 
 private:
 
-    Box border;
+    cursen::Box border;
     Stage stages[Lobby::MAX_PLAYERS];
-    Cursor stageCursor;
+    cursen::Cursor stageCursor;
     bool spinning;
 
 };

@@ -8,8 +8,9 @@
 #include <Components/CheckBox.h>
 #include "Components/Form.h"
 #include "Components/Label.h"
+#include "../Uno/UnoComponents/ModeSelectBox.h"
 
-class SimpleForm : public Form {
+class SimpleForm : public cursen::Form {
 
 public:
 
@@ -18,9 +19,7 @@ public:
 
 private:
 
-    Label l1;
-    Label l2;
-    CheckBox c;
+    ModeSelectBox modeSelectBox;
 
 };
 

@@ -4,22 +4,24 @@
 
 #include "CursenDebugger.h"
 
-CursenDebugger::CursenDebugger() :
-    inspectionPointer(nullptr)
-{
-}
+namespace cursen {
+
+    CursenDebugger::CursenDebugger() :
+            inspectionPointer(nullptr) {
+    }
 
 
-void CursenDebugger::activateInspection() {
-    inspectionPointer = new InspectionPointer();
-    inspectionPointer->initialize();
-}
+    void CursenDebugger::activateInspection() {
+        inspectionPointer = new InspectionPointer();
+        inspectionPointer->initialize();
+    }
 
-void CursenDebugger::deactivateInspection() {
-    delete inspectionPointer;
-    inspectionPointer = nullptr;
-}
+    void CursenDebugger::deactivateInspection() {
+        delete inspectionPointer;
+        inspectionPointer = nullptr;
+    }
 
-InspectionPointer *CursenDebugger::getInspectionPointer() {
-    return inspectionPointer;
+    InspectionPointer *CursenDebugger::getInspectionPointer() {
+        return inspectionPointer;
+    }
 }

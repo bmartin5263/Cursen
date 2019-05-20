@@ -15,12 +15,12 @@
 
 class Lobby;
 
-class Stage : public AggregateComponent {
+class Stage : public cursen::AggregateComponent {
 
 public:
 
     Stage();
-    Stage(const Vect2& pos);
+    Stage(const cursen::Vect2& pos);
 
     void initialize() override;
 
@@ -38,9 +38,9 @@ public:
     void stopSearch();
 
     void setHidden(bool value) override;
-    void setStageColor(const Color& stageColor);
+    void setStageColor(const cursen::Color& stageColor);
 
-    TextField& getTextField();
+    cursen::TextField& getTextField();
 
     std::string getText() override;
 
@@ -48,12 +48,12 @@ public:
 
 private:
 
-    Box border;
-    Label playerName;
-    Label points;
-    TwirlProgress search_progress;
-    TextField textField;
-    Color stage_color;
+    cursen::Box border;
+    cursen::Label playerName;
+    cursen::Label points;
+    cursen::TwirlProgress search_progress;
+    cursen::TextField textField;
+    cursen::Color stage_color;
 
 };
 

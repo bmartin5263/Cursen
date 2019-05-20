@@ -13,69 +13,73 @@
 #include "Events/EventType.h"
 #include "EventQueue.h"
 
-class Component;
-class SoloRegistrationKey;
+namespace cursen {
 
-class EventManager {
+    class Component;
+    class SoloRegistrationKey;
 
-public:
+    class EventManager {
 
-    static Event PollEvent() { return Instance().privPollEvent(); };
-    static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
+    public:
 
-    static void ProcessEvents() { Instance().privProcessEvents(); }
+        static Event PollEvent() { return Instance().privPollEvent(); };
+        static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
 
-    static void PushEvent(Event e) { Instance().privPushEvent(e); }
+        static void ProcessEvents() { Instance().privProcessEvents(); }
 
-    static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
-    static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
+        static void PushEvent(Event e) { Instance().privPushEvent(e); }
 
-    static SoloRegistrationKey* RegisterSolo(Component& component, EventType events) { return Instance().registerComponentSolo(component, events); }
-    static void DeregisterSolo(SoloRegistrationKey* key, EventType events) { Instance().deregisterComponentSolo(key, events); }
+        static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
+        static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
 
-    static EventQueue* GetEventQueue() { return Instance().privGetEventQueue(); }
+        static SoloRegistrationKey* RegisterSolo(Component& component, EventType events) { return Instance().registerComponentSolo(component, events); }
+        static void DeregisterSolo(SoloRegistrationKey* key, EventType events) { Instance().deregisterComponentSolo(key, events); }
 
-private:
+        static EventQueue* GetEventQueue() { return Instance().privGetEventQueue(); }
 
-    typedef int BitFlags;
-    typedef std::unordered_set<Component*> ComponentList;
-    typedef std::unordered_map<Component*, BitFlags> ComponentRegistrationMap;
-    typedef std::unordered_map<EventType, ComponentList, EnumClassHash> EventComponentMap;
+    private:
 
-    // Methods
-    Event privPollEvent();
-    void privProcessEvent(const Event &event);
-    void registerComponent(Component& component, EventType eventFlag);
-    SoloRegistrationKey* registerComponentSolo(Component& component, EventType eventFlag);
-    void deregisterComponent(Component& component, EventType events);
-    void deregisterComponentSolo(SoloRegistrationKey* key, EventType events);
-    void privPushEvent(Event e);
-    void privProcessEvents();
-    EventQueue* privGetEventQueue();
+        typedef int BitFlags;
+        typedef std::unordered_set<Component*> ComponentList;
+        typedef std::unordered_map<Component*, BitFlags> ComponentRegistrationMap;
+        typedef std::unordered_map<EventType, ComponentList, EnumClassHash> EventComponentMap;
 
-    // Instance Data
-    EventComponentMap dispatchMap;
-    ComponentRegistrationMap registrationMap;
-    EventQueue eventQueue;
+        // Methods
+        Event privPollEvent();
+        void privProcessEvent(const Event &event);
+        void registerComponent(Component& component, EventType eventFlag);
+        SoloRegistrationKey* registerComponentSolo(Component& component, EventType eventFlag);
+        void deregisterComponent(Component& component, EventType events);
+        void deregisterComponentSolo(SoloRegistrationKey* key, EventType events);
+        void privPushEvent(Event e);
+        void privProcessEvents();
+        EventQueue* privGetEventQueue();
 
-    // Static Data
+        // Instance Data
+        EventComponentMap dispatchMap;
+        ComponentRegistrationMap registrationMap;
+        EventQueue eventQueue;
 
-    static EventManager* instance;
+        // Static Data
 
-    static EventManager& Instance() {
-        if (instance == nullptr)
-            instance = new EventManager;
-        return *instance;
-    }
+        static EventManager* instance;
 
-    EventManager() = default;
-    EventManager(const EventManager& other) = delete;
-    EventManager(EventManager&& other) noexcept = delete;
-    EventManager& operator = (const EventManager& other) = delete;
-    EventManager& operator = (EventManager&& other) = delete;
-    ~EventManager() = default;
+        static EventManager& Instance() {
+            if (instance == nullptr)
+                instance = new EventManager;
+            return *instance;
+        }
 
-};
+        EventManager() = default;
+        EventManager(const EventManager& other) = delete;
+        EventManager(EventManager&& other) noexcept = delete;
+        EventManager& operator = (const EventManager& other) = delete;
+        EventManager& operator = (EventManager&& other) = delete;
+        ~EventManager() = default;
+
+    };
+
+}
 
 
 #endif //CURSEN_EVENTMANAGER_H

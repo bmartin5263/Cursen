@@ -14,12 +14,12 @@
 #include "Stage.h"
 #include <functional>
 
-class ModeSelectBox : public AggregateComponent {
+class ModeSelectBox : public cursen::AggregateComponent {
 
 public:
 
     ModeSelectBox();
-    ModeSelectBox(const Vect2& pos);
+    ModeSelectBox(const cursen::Vect2& pos);
 
     void onLocalClick( std::function<void()> f);
     void onHostClick( std::function<void()> f);
@@ -40,16 +40,15 @@ public:
 
 private:
 
-    Box border;
-    Box console_box;
-    Label console_message;
+    cursen::Box border;
     Stage player_stage;
-    Button local_button;
-    Button host_button;
-    Button join_button;
-    Button exit_button;
-
-    Cursor mode_cursor;
+    cursen::Box console_box;
+    cursen::Label console_message;
+    cursen::Button local_button;
+    cursen::Button host_button;
+    cursen::Button join_button;
+    cursen::Button exit_button;
+    cursen::Cursor mode_cursor;
 
 };
 

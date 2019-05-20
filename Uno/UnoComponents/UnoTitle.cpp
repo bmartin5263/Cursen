@@ -8,28 +8,28 @@ UnoTitle::UnoTitle() {
 
 }
 
-UnoTitle::UnoTitle(const Vect2 &pos) : TextComponent(pos) {
+UnoTitle::UnoTitle(const cursen::Vect2 &pos) : TextComponent(pos) {
 
 }
 
 void UnoTitle::initialize() {
     TextComponent::initialize();
-    setSize(Vect2(20, 3));
+    setSize(cursen::Vect2(20, 3));
 }
 
 void UnoTitle::render() {
-    Content* content = getContent();
+    cursen::Content* content = getContent();
 
     chtype line1[] =
             {'|','|',' ','|','|',' ','|','|','\\',' ','|','|',' ',' ','/','/',' ','\\','\\',' '};
 
     for (int i = 0; i < getSize().x; i++) {
         if (i < 5)
-            line1[i] = line1[i] | Color::BLUE;
+            line1[i] = line1[i] | cursen::Color::BLUE;
         else if (i < 12)
-            line1[i] = line1[i] | Color::GREEN;
+            line1[i] = line1[i] | cursen::Color::GREEN;
         else
-            line1[i] = line1[i] | Color::RED;
+            line1[i] = line1[i] | cursen::Color::RED;
     }
 
     chtype line2[] =
@@ -37,11 +37,11 @@ void UnoTitle::render() {
 
     for (int i = 0; i < getSize().x; i++) {
         if (i < 5)
-            line2[i] = line2[i] | Color::BLUE;
+            line2[i] = line2[i] | cursen::Color::BLUE;
         else if (i < 12)
-            line2[i] = line2[i] | Color::GREEN;
+            line2[i] = line2[i] | cursen::Color::GREEN;
         else
-            line2[i] = line2[i] | Color::RED;
+            line2[i] = line2[i] | cursen::Color::RED;
     }
 
     chtype line3[] =
@@ -49,15 +49,15 @@ void UnoTitle::render() {
 
     for (int i = 0; i < getSize().x; i++) {
         if (i < 5)
-            line3[i] = line3[i] | Color::BLUE;
+            line3[i] = line3[i] | cursen::Color::BLUE;
         else if (i < 12)
-            line3[i] = line3[i] | Color::GREEN;
+            line3[i] = line3[i] | cursen::Color::GREEN;
         else
-            line3[i] = line3[i] | Color::RED;
+            line3[i] = line3[i] | cursen::Color::RED;
     }
 
-    content->writeLine(line1, Vect2(0,0));
-    content->writeLine(line2, Vect2(0,1));
-    content->writeLine(line3, Vect2(0,2));
+    content->writeLine(line1, cursen::Vect2(0,0));
+    content->writeLine(line2, cursen::Vect2(0,1));
+    content->writeLine(line3, cursen::Vect2(0,2));
 }
 

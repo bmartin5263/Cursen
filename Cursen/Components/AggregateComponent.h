@@ -7,23 +7,29 @@
 
 #include "Components/Component.h"
 
-class AggregateComponent : public Component {
+namespace cursen {
 
-public:
+    class AggregateComponent : public Component {
 
-    AggregateComponent();
-    AggregateComponent(const Vect2& pos);
+    public:
 
-    void render() override {};                         // Aggregates don't render any content
-    Content * getContent() override {return nullptr;}
+        AggregateComponent();
+        AggregateComponent(const Vect2& pos);
 
-    void setHidden(bool value) override;
-    void setEnabled(bool value) override;
-    void setPosition(const Vect2& pos) override;
+        void render() override {};                         // Aggregates don't render any content
+        Content * getContent() override {return nullptr;}
 
-    void setForeground(const Color &color) override;
+        void setHidden(bool value) override;
+        void setEnabled(bool value) override;
+        void setPosition(const Vect2& pos) override;
+        void setForeground(const Color &color) override;
 
-};
+        void setDrawOrder(int order) override;
+
+
+    };
+
+}
 
 
 #endif //CURSEN_AGGREGATECOMPONENT_H
