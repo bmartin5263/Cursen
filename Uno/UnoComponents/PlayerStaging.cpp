@@ -12,7 +12,7 @@ PlayerStaging::PlayerStaging() :
 
 }
 
-PlayerStaging::PlayerStaging(const Size &loc) :
+PlayerStaging::PlayerStaging(const Vect2 &loc) :
         AggregateComponent(loc), spinning(false)
 {
 
@@ -21,8 +21,8 @@ PlayerStaging::PlayerStaging(const Size &loc) :
 void PlayerStaging::initialize() {
 
     border.initialize();
-    border.setPosition(Size(0,0));
-    border.setSize(Size(70,10));
+    border.setPosition(Vect2(0,0));
+    border.setSize(Vect2(70,10));
     border.setLowerRight(ACS_RTEE);
     border.setUpperRight(ACS_RTEE);
     border.setLowerLeft(ACS_LTEE);
@@ -33,22 +33,22 @@ void PlayerStaging::initialize() {
         stage.initialize();
     }
 
-    stages[0].setPosition(Size(1,1));
+    stages[0].setPosition(Vect2(1,1));
     stages[0].setEnabled(false);
     stages[0].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[0]);
 
-    stages[1].setPosition(Size(35,1));
+    stages[1].setPosition(Vect2(35,1));
     stages[1].setEnabled(false);
     stages[1].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[1]);
 
-    stages[2].setPosition(Size(1,5));
+    stages[2].setPosition(Vect2(1,5));
     stages[2].setEnabled(false);
     stages[2].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[2]);
 
-    stages[3].setPosition(Size(35,5));
+    stages[3].setPosition(Vect2(35,5));
     stages[3].setEnabled(false);
     stages[3].setStageColor(Color::DARK_BLUE);
     addRelative(&stages[3]);

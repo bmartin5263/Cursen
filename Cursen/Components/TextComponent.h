@@ -12,8 +12,8 @@ class TextComponent : public Component {
 public:
 
     TextComponent();
-    TextComponent(const Size& pos);
-    TextComponent(const Size& pos, const Size& dim);
+    TextComponent(const Vect2& pos);
+    TextComponent(const Vect2& pos, const Vect2& dim);
     ~TextComponent() = default;
 
     virtual void initialize() override;
@@ -39,8 +39,8 @@ public:
 
     Content * getContent() override;
 
-    virtual void setSize(const Size &size);
-    Size getSize();
+    virtual void setSize(const Vect2 &size);
+    Vect2 getSize();
 
     void startGlow();
     void stopGlow();

@@ -18,7 +18,7 @@ public:
 
     // Construction
     Component();
-    Component(const Size& pos);
+    Component(const Vect2& pos);
     virtual ~Component();
 
     virtual void initialize() = 0;
@@ -78,9 +78,9 @@ public:
     bool isInvalid();
 
     virtual void render() = 0;
-    Size getPosition() const;
-    virtual void setPosition(const Size& pos);
-    virtual void move(const Size& movement);
+    Vect2 getPosition() const;
+    virtual void setPosition(const Vect2& pos);
+    virtual void move(const Vect2& movement);
 
     // Component Relationship
     void add(Component *);
@@ -372,7 +372,7 @@ private:
 
     Component* parent;
     std::vector<Component*> children;
-    Size position;
+    Vect2 position;
     int drawOrder;
 
     bool enabled;   /// True if Component is active, False if otherwise

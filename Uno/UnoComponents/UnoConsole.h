@@ -16,7 +16,7 @@ class UnoConsole : public AggregateComponent {
 public:
 
     UnoConsole();
-    UnoConsole(const Size& pos);
+    UnoConsole(const Vect2& pos);
 
     void initialize() override;
 

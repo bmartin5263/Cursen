@@ -12,7 +12,7 @@ Stage::Stage() :
 
 }
 
-Stage::Stage(const Size &pos) : AggregateComponent(pos),
+Stage::Stage(const Vect2 &pos) : AggregateComponent(pos),
     stage_color(Color::PURPLE)
 {
 
@@ -20,27 +20,27 @@ Stage::Stage(const Size &pos) : AggregateComponent(pos),
 
 void Stage::initialize() {
     border.initialize();
-    border.setSize(Size(34,4));
+    border.setSize(Vect2(34,4));
     addRelative(&border);
 
     playerName.initialize();
     playerName.setText("No Player");
-    playerName.setPosition(Size(1,1));
+    playerName.setPosition(Vect2(1,1));
     addRelative(&playerName);
 
     points.initialize();
     points.setText("Points: 0");
-    points.setPosition(Size(1, 2));
+    points.setPosition(Vect2(1, 2));
     addRelative(&points);
 
     search_progress.initialize();
-    search_progress.setPosition(Size(11, 1));
+    search_progress.setPosition(Vect2(11, 1));
     addRelative(&search_progress);
 
     textField.initialize();
-    textField.setPosition(Size(1,1));
+    textField.setPosition(Vect2(1,1));
     textField.setForeground(stage_color);
-    textField.setSize(Size(Constants::MAX_NAME_LEN, 1));
+    textField.setSize(Vect2(Constants::MAX_NAME_LEN, 1));
     textField.setHidden(true);
     addRelative(&textField);
 

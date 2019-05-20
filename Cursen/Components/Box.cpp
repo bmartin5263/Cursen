@@ -6,12 +6,12 @@
 #include "Box.h"
 
 Box::Box() :
-        TextComponent(Size(0,0), Size(2,2))
+        TextComponent(Vect2(0,0), Vect2(2,2))
 {
     //initialize();
 }
 
-Box::Box(const Size &pos, const Size &dim) :
+Box::Box(const Vect2 &pos, const Vect2 &dim) :
         TextComponent(pos, dim)
 {
     if (dim.x < 2 || dim.y < 2) throw std::logic_error("Box requires dimensions > 1");
@@ -27,7 +27,7 @@ void Box::render() {
     TextComponent::render();
     Content* content = getContent();
     ColorPair& draw_color = getCurrentDrawColor();
-    Size dimensions = content->getDimensions();
+    Vect2 dimensions = content->getDimensions();
     content->clear();
 
     // Render Top and Bottom Line
@@ -41,7 +41,7 @@ void Box::render() {
     }
     top[dimensions.x - 1] = upperRight | draw_color;
     bottom[dimensions.x - 1] = lowerRight | draw_color;
-    content->writeLine(top, Size(0,0));
+    content->writeLine(top, Vect2(0,0));
     for (int i = 1; i < dimensions.y - 1; i++) {
         chtype row[dimensions.x];
         row[0] = left | draw_color;
@@ -49,9 +49,9 @@ void Box::render() {
         for (int j = 1; j < dimensions.x - 1; j++) {
             row[j] = fill | draw_color;
         }
-        content->writeLine(row, Size(0,i));
+        content->writeLine(row, Vect2(0,i));
     }
-    content->writeLine(bottom, Size(0,dimensions.y - 1));
+    content->writeLine(bottom, Vect2(0,dimensions.y - 1));
 }
 
 void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, chtype right, chtype ll, chtype bottom,

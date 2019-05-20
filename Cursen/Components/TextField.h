@@ -13,7 +13,7 @@ class TextField : public TextComponent {
 public:
 
     TextField();
-    TextField(const Size& size);
+    TextField(const Vect2& size);
     virtual ~TextField();
 
     void initialize() override;
@@ -30,7 +30,7 @@ public:
 
     void cursorOn() override;
 
-    void setSize(const Size &size) override;
+    void setSize(const Vect2 &size) override;
     void setText(const std::string &text) override;
 
     std::string getText() override;

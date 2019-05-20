@@ -9,7 +9,7 @@ ASCIIArt::ASCIIArt() :
     TextComponent(), max_columns(0)
 {}
 
-ASCIIArt::ASCIIArt(const Size &pos) :
+ASCIIArt::ASCIIArt(const Vect2 &pos) :
     TextComponent(pos), max_columns(0)
 {}
 
@@ -18,11 +18,11 @@ ASCIIArt::ASCIIArt(const Size &pos) :
 void ASCIIArt::render() {
     TextComponent::render();
     Content* content = getContent();
-    content->resize(Size(max_columns, (int)raw_data.size()));
+    content->resize(Vect2(max_columns, (int)raw_data.size()));
 
     int offset = 0;
     for (auto line : raw_data) {
-        content->writeLine(line, Size(0, offset), TextAlignment::LEFT, getCurrentDrawColor());
+        content->writeLine(line, Vect2(0, offset), TextAlignment::LEFT, getCurrentDrawColor());
         offset++;
     }
 }

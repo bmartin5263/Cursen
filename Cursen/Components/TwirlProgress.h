@@ -13,7 +13,7 @@ class TwirlProgress : public AggregateComponent {
 public:
 
     TwirlProgress();
-    TwirlProgress(const Size &pos);
+    TwirlProgress(const Vect2 &pos);
 
     void start();
     void stop();
@@ -29,7 +29,7 @@ public:
     void setBackground(const Color &color) override;
     Color getBackground() override;
 
-    void setPosition(const Size &size) override;
+    void setPosition(const Vect2 &size) override;
 
 private:
 

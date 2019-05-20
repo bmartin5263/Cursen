@@ -13,7 +13,7 @@ class ASCIIArt : public TextComponent {
 public:
 
     ASCIIArt();
-    ASCIIArt(const Size& pos);
+    ASCIIArt(const Vect2& pos);
 
     void render() override;
 

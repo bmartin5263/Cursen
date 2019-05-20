@@ -9,74 +9,74 @@
 
 namespace cursen {
 
-    struct Size {
+    struct Vect2 {
 
-        Size() :
+        Vect2() :
                 x(0), y(0)
         {
         }
 
-        Size(int x, int y) :
+        Vect2(int x, int y) :
                 x(x), y(y)
         {
         }
 
-        Size(const Size& other) :
+        Vect2(const Vect2& other) :
                 x(other.x), y(other.y)
         {
         }
 
-        Size& operator = (const Size& other) {
+        Vect2& operator = (const Vect2& other) {
             this->x = other.x;
             this->y = other.y;
             return *this;
         }
 
-        Size operator + (Size const &size) const {
-            return Size(x + size.x, y + size.y);
+        Vect2 operator + (Vect2 const &size) const {
+            return Vect2(x + size.x, y + size.y);
         }
 
-        Size& operator += (const Size& size){
+        Vect2& operator += (const Vect2& size){
             this->x += size.x;
             this->y += size.y;
             return *this;
         }
 
-        Size operator - (Size const &size) const {
-            return Size(x - size.x, y - size.y);
+        Vect2 operator - (Vect2 const &size) const {
+            return Vect2(x - size.x, y - size.y);
         }
 
-        Size& operator -= (const Size& size){
+        Vect2& operator -= (const Vect2& size){
             this->x -= size.x;
             this->y -= size.y;
             return *this;
         }
 
-        Size operator * (Size const &size) const {
-            return Size(x * size.x, y * size.y);
+        Vect2 operator * (Vect2 const &size) const {
+            return Vect2(x * size.x, y * size.y);
         }
 
-        Size& operator *= (const Size& size){
+        Vect2& operator *= (const Vect2& size){
             this->x *= size.x;
             this->y *= size.y;
             return *this;
         }
 
-        Size operator / (Size const &size) const {
-            return Size(x / size.x, y / size.y);
+        Vect2 operator / (Vect2 const &size) const {
+            return Vect2(x / size.x, y / size.y);
         }
 
-        Size& operator /= (const Size& size){
+        Vect2& operator /= (const Vect2& size){
             this->x /= size.x;
             this->y /= size.y;
             return *this;
         }
 
-        bool operator == (const Size& other) {
+        bool operator == (const Vect2& other) {
             return x == other.x && y == other.y;
         }
 
-        bool operator != (const Size& other) {
+        bool operator != (const Vect2& other) {
             return x != other.x && y != other.y;
         }
 

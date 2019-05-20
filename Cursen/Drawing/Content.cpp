@@ -15,12 +15,12 @@ size_t Content::lineLen(Content::Line const line) {
 }
 
 Content::Content() :
-    dimensions(Size(0,0)), body(nullptr)
+    dimensions(Vect2(0,0)), body(nullptr)
 {
     resize(dimensions);
 }
 
-Content::Content(const Size& dimensions) :
+Content::Content(const Vect2& dimensions) :
     dimensions(dimensions), body(nullptr)
 {
     resize(dimensions);
@@ -48,7 +48,7 @@ void Content::clear() {
     }
 }
 
-void Content::resize(Size dimensions) {
+void Content::resize(Vect2 dimensions) {
     deleteBody();
     this->dimensions = dimensions;
     empty = dimensions.x <= 0 || dimensions.y <= 0;
@@ -83,11 +83,11 @@ void Content::clearColumn(const int x) {
     }
 }
 
-void Content::writeBody(const Line *const body, const Size &size) {
-    writeBody(body, size, Size(0,0));
+void Content::writeBody(const Line *const body, const Vect2 &size) {
+    writeBody(body, size, Vect2(0,0));
 }
 
-void Content::writeBody(const Line *const body, const Size &size, const Size &loc) {
+void Content::writeBody(const Line *const body, const Vect2 &size, const Vect2 &loc) {
     //int rowIndex = 0;
     //int colIndex = 0;
     //for (int i = loc.y; i < dimensions.y && rowIndex < size.y; i++) {
@@ -106,14 +106,14 @@ void Content::writeBody(const Line *const body, const Size &size, const Size &lo
     }
 }
 
-void Content::replaceBody(const Line *const body, const Size &size) {
+void Content::replaceBody(const Line *const body, const Vect2 &size) {
     clear();
     writeBody(body, size);
 }
 
 void Content::replaceLine(Line line, const int y) {
     clearLine(y);
-    writeLine(line, Size(0, y));
+    writeLine(line, Vect2(0, y));
 }
 
 void Content::replaceColumn(Line line, const int x) {
@@ -121,7 +121,7 @@ void Content::replaceColumn(Line line, const int x) {
     writeColumn(line, x);
 }
 
-void Content::writeLine(const std::string &line, const Size &pos, const TextAlignment &alignment, const ColorPair &color) {
+void Content::writeLine(const std::string &line, const Vect2 &pos, const TextAlignment &alignment, const ColorPair &color) {
     size_t len = line.length();
     chtype converted[len + 1];
     for (int i = 0; i < len; i++) {
@@ -132,10 +132,10 @@ void Content::writeLine(const std::string &line, const Size &pos, const TextAlig
 }
 
 void Content::writeColumn(const Line column, const int x) {
-    writeColumn(column, Size(x, 0));
+    writeColumn(column, Vect2(x, 0));
 }
 
-void Content::writeLine(const Line line, const Size &loc, const TextAlignment &alignment) {
+void Content::writeLine(const Line line, const Vect2 &loc, const TextAlignment &alignment) {
     if (!empty) {
         assertRange(loc.x, loc.y);
         int index;
@@ -177,7 +177,7 @@ void Content::writeLine(const Line line, const Size &loc, const TextAlignment &a
     }
 }
 
-void Content::writeColumn(const Line column, const Size &loc) {
+void Content::writeColumn(const Line column, const Vect2 &loc) {
     if (!empty) {
         assertRange(loc.x, loc.y);
         int columnIndex = 0;

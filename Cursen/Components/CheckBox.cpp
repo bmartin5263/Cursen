@@ -10,14 +10,14 @@ CheckBox::CheckBox() :
 {
 }
 
-CheckBox::CheckBox(const Size &pos) :
+CheckBox::CheckBox(const Vect2 &pos) :
         AggregateComponent(pos)
 {
 }
 
 void CheckBox::initialize() {
     text.initialize();
-    text.setPosition(getPosition() + Size(4,0));
+    text.setPosition(getPosition() + Vect2(4,0));
     add(&text);
 
     box.initialize();
@@ -90,8 +90,8 @@ bool CheckBox::isChecked() {
     return state == CheckState::CHECK;
 }
 
-void CheckBox::setPosition(const Size &size) {
+void CheckBox::setPosition(const Vect2 &size) {
     Component::setPosition(size);
-    text.setPosition(getPosition() + Size(4,0));
+    text.setPosition(getPosition() + Vect2(4,0));
     box.setPosition(getPosition());
 }

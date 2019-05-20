@@ -9,7 +9,7 @@ AggregateComponent::AggregateComponent()
 
 }
 
-AggregateComponent::AggregateComponent(const Size &pos) :
+AggregateComponent::AggregateComponent(const Vect2 &pos) :
     Component(pos)
 {
 
@@ -30,8 +30,8 @@ void AggregateComponent::setEnabled(bool value) {
     }
 }
 
-void AggregateComponent::setPosition(const Size &pos) {
-    Size difference = pos - getPosition();
+void AggregateComponent::setPosition(const Vect2 &pos) {
+    Vect2 difference = pos - getPosition();
     move(difference);
 }
 

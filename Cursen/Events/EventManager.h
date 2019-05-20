@@ -45,7 +45,6 @@ private:
     // Methods
     Event privPollEvent();
     void privProcessEvent(const Event &event);
-    void processKeyboardInput();
     void registerComponent(Component& component, EventType eventFlag);
     SoloRegistrationKey* registerComponentSolo(Component& component, EventType eventFlag);
     void deregisterComponent(Component& component, EventType events);

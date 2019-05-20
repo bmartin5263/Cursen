@@ -8,7 +8,7 @@
 
 #include <ncurses.h>
 #include <vector>
-#include "Size.h"
+#include "Vect2.h"
 #include "ColorPair.h"
 #include "TextAlignment.h"
 
@@ -25,7 +25,7 @@ public:
     static size_t lineLen(const Line line);
 
     Content();
-    Content(const Size& dimensions);
+    Content(const Vect2& dimensions);
     ~Content();
 
     void clear();
@@ -34,28 +34,28 @@ public:
 
     void replaceLine(const Line line, const int y);
     void replaceColumn(const Line line, const int x);
-    void replaceBody(const Line* const body, const Size &size);
+    void replaceBody(const Line* const body, const Vect2 &size);
 
     /**
      * Line writing.
      */
-    void writeLine(const std::string &line, const Size &pos,
+    void writeLine(const std::string &line, const Vect2 &pos,
                    const TextAlignment& alignment = TextAlignment::LEFT, const ColorPair &color = ColorPair::NONE);
-    void writeLine(const Line line, const Size &loc, const TextAlignment& alignment = TextAlignment::LEFT);
+    void writeLine(const Line line, const Vect2 &loc, const TextAlignment& alignment = TextAlignment::LEFT);
 
     void writeColumn(const Line column, const int x);
-    void writeColumn(const Line column, const Size &loc);
+    void writeColumn(const Line column, const Vect2 &loc);
 
-    void writeBody(const Line *const body, const Size &size);
-    void writeBody(const Line *const body, const Size &size, const Size &loc);
+    void writeBody(const Line *const body, const Vect2 &size);
+    void writeBody(const Line *const body, const Vect2 &size, const Vect2 &loc);
     void fillBody(const chtype& c);
 
     void colorize(const ColorPair& color);
 
     chtype** getText() { return body; }
-    Size getDimensions() { return dimensions; }
+    Vect2 getDimensions() { return dimensions; }
 
-    void resize(Size dimensions);
+    void resize(Vect2 dimensions);
 
 private:
 
@@ -67,7 +67,7 @@ private:
     void initializeBody();
 
     chtype** body;
-    Size dimensions;
+    Vect2 dimensions;
     bool empty;
 
 };

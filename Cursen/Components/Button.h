@@ -15,7 +15,7 @@ class Button : public AggregateComponent {
 public:
 
     Button();
-    Button(const Size &pos);
+    Button(const Vect2 &pos);
 
     void initialize() override;
     void setLength(const int& len);
@@ -26,7 +26,7 @@ public:
     void emphasize();
 
     void setText(const std::string &text) override;
-    void setPosition(const Size &pos) override;
+    void setPosition(const Vect2 &pos) override;
 
 private:
 

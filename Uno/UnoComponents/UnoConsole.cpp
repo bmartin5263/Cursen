@@ -5,12 +5,12 @@
 #include "UnoConsole.h"
 
 UnoConsole::UnoConsole() :
-    AggregateComponent(Size(0,0))
+    AggregateComponent(Vect2(0,0))
 {
 
 }
 
-UnoConsole::UnoConsole(const Size &pos) :
+UnoConsole::UnoConsole(const Vect2 &pos) :
         AggregateComponent(pos)
 {
 
@@ -19,15 +19,15 @@ UnoConsole::UnoConsole(const Size &pos) :
 void UnoConsole::initialize() {
 
     uno_box.initialize();
-    uno_box.setPosition(Size(0,0));
-    uno_box.setSize(Size(70,5));
+    uno_box.setPosition(Vect2(0,0));
+    uno_box.setSize(Vect2(70,5));
     uno_box.setLowerLeft(ACS_LTEE);
     uno_box.setLowerRight(ACS_RTEE);
     add(&uno_box);
 
     console_box.initialize();
-    console_box.setPosition(Size(0,4));
-    console_box.setSize(Size(70,3));
+    console_box.setPosition(Vect2(0,4));
+    console_box.setSize(Vect2(70,3));
     console_box.setLowerLeft(ACS_LTEE);
     console_box.setLowerRight(ACS_RTEE);
     console_box.setUpperLeft(ACS_LTEE);
@@ -35,12 +35,12 @@ void UnoConsole::initialize() {
     add(&console_box);
 
     console_message.initialize();
-    console_message.setPosition(Size(1,5));
+    console_message.setPosition(Vect2(1,5));
     console_message.setForeground(Color::YELLOW);
     add(&console_message);
 
     title.initialize();
-    title.setPosition(Size(25, 1));
+    title.setPosition(Vect2(25, 1));
     add(&title);
 
 }

@@ -19,7 +19,7 @@ class ModeSelectBox : public AggregateComponent {
 public:
 
     ModeSelectBox();
-    ModeSelectBox(const Size& pos);
+    ModeSelectBox(const Vect2& pos);
 
     void onLocalClick( std::function<void()> f);
     void onHostClick( std::function<void()> f);

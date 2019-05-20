@@ -15,7 +15,7 @@ class CheckBox : public AggregateComponent {
 public:
 
     CheckBox();
-    CheckBox(const Size &pos);
+    CheckBox(const Vect2 &pos);
 
     void initialize() override;
     void setText(const std::string& text) override;
@@ -31,7 +31,7 @@ public:
     void cursorOn();
     void cursorOff();
 
-    void setPosition(const Size &size) override;
+    void setPosition(const Vect2 &size) override;
 
 protected:
 

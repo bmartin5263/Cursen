@@ -20,7 +20,7 @@ class Stage : public AggregateComponent {
 public:
 
     Stage();
-    Stage(const Size& pos);
+    Stage(const Vect2& pos);
 
     void initialize() override;
 

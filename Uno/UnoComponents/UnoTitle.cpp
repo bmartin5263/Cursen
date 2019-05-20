@@ -8,13 +8,13 @@ UnoTitle::UnoTitle() {
 
 }
 
-UnoTitle::UnoTitle(const Size &pos) : TextComponent(pos) {
+UnoTitle::UnoTitle(const Vect2 &pos) : TextComponent(pos) {
 
 }
 
 void UnoTitle::initialize() {
     TextComponent::initialize();
-    setSize(Size(20, 3));
+    setSize(Vect2(20, 3));
 }
 
 void UnoTitle::render() {
@@ -56,8 +56,8 @@ void UnoTitle::render() {
             line3[i] = line3[i] | Color::RED;
     }
 
-    content->writeLine(line1, Size(0,0));
-    content->writeLine(line2, Size(0,1));
-    content->writeLine(line3, Size(0,2));
+    content->writeLine(line1, Vect2(0,0));
+    content->writeLine(line2, Vect2(0,1));
+    content->writeLine(line3, Vect2(0,2));
 }
 

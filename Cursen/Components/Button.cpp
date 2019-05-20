@@ -5,12 +5,12 @@
 #include "Button.h"
 
 Button::Button() :
-    AggregateComponent(Size(0,0)), length(2)
+    AggregateComponent(Vect2(0,0)), length(2)
 {
 
 }
 
-Button::Button(const Size &pos) :
+Button::Button(const Vect2 &pos) :
     AggregateComponent(pos), length(2)
 {
 }
@@ -21,22 +21,22 @@ void Button::setLength(const int& len) {
     } else{
         length = len;
     }
-    border.setSize(Size(len, 3));
-    button_text.setSize(Size(len-2,1));
+    border.setSize(Vect2(len, 3));
+    button_text.setSize(Vect2(len-2,1));
     invalidate();
 }
 
 void Button::initialize() {
-    const Size pos = getPosition();
+    const Vect2 pos = getPosition();
 
     border.initialize();
     border.setPosition(pos);
-    border.setSize(Size(length, 3));
+    border.setSize(Vect2(length, 3));
     add(&border);
 
     button_text.initialize();
-    button_text.setPosition(pos + Size(1,1));
-    button_text.setSize(Size(length-2, 1));
+    button_text.setPosition(pos + Vect2(1,1));
+    button_text.setSize(Vect2(length-2, 1));
     button_text.setTextAlignment(TextAlignment::CENTER);
     add(&button_text);
 
@@ -65,10 +65,10 @@ void Button::cursorOff() {
     button_text.CallOffCursor();
 }
 
-void Button::setPosition(const Size &pos) {
+void Button::setPosition(const Vect2 &pos) {
     Component::setPosition(pos);
     border.setPosition(pos);
-    button_text.setPosition(pos + Size(1,1));
+    button_text.setPosition(pos + Vect2(1,1));
 }
 
 //TODO this should be standard in components

@@ -19,7 +19,7 @@ class PlayerStaging : public AggregateComponent {
 public:
 
     PlayerStaging();
-    PlayerStaging(const Size& loc);
+    PlayerStaging(const Vect2& loc);
 
     void initialize() override;
     void setCallBacks(LobbyForm* lobby);

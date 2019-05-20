@@ -23,13 +23,13 @@ public:
     void movePointer(const Event& event);
     void pressSpace(const Event& event);
 
-    Size getBoxSize() { return boxSize; };
-    Size getBoxLoc() { return boxLoc; };
+    Vect2 getBoxSize() { return boxSize; };
+    Vect2 getBoxLoc() { return boxLoc; };
 
 private:
 
-    Size boxSize;
-    Size boxLoc;
+    Vect2 boxSize;
+    Vect2 boxLoc;
 
 };
 

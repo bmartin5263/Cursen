@@ -8,20 +8,20 @@ ModeSelectBox::ModeSelectBox() {
 
 }
 
-ModeSelectBox::ModeSelectBox(const Size &pos) : AggregateComponent(pos) {
+ModeSelectBox::ModeSelectBox(const Vect2 &pos) : AggregateComponent(pos) {
 
 }
 
 void ModeSelectBox::initialize() {
 
     border.initialize();
-    border.setPosition(Size(0,0));
-    border.setSize(Size(36, 21));
+    border.setPosition(Vect2(0,0));
+    border.setSize(Vect2(36, 21));
     addRelative(&border);
 
     console_box.initialize();
-    console_box.setSize(Size(36, 3));
-    console_box.setPosition(Size(0,5));
+    console_box.setSize(Vect2(36, 3));
+    console_box.setPosition(Vect2(0,5));
     console_box.setLowerRight(ACS_RTEE);
     console_box.setLowerLeft(ACS_LTEE);
     console_box.setUpperRight(ACS_RTEE);
@@ -29,40 +29,40 @@ void ModeSelectBox::initialize() {
     addRelative(&console_box);
 
     console_message.initialize();
-    console_message.setPosition(Size(1,6));
+    console_message.setPosition(Vect2(1,6));
     console_message.setForeground(Color::YELLOW);
     console_message.setText("Please Enter Your Name");
     addRelative(&console_message);
 
     player_stage.initialize();
-    player_stage.setPosition(Size(1,1));
+    player_stage.setPosition(Vect2(1,1));
     player_stage.setForeground(Color::GRAY);
     player_stage.setStageColor(Color::BLUE);
     addRelative(&player_stage);
 
     local_button.initialize();
-    local_button.setPosition(Size(1,8));
+    local_button.setPosition(Vect2(1,8));
     local_button.setLength(34);
     local_button.setText("Local Singleplayer");
     local_button.setEnabled(false);
     addRelative(&local_button);
 
     host_button.initialize();
-    host_button.setPosition(Size(1,11));
+    host_button.setPosition(Vect2(1,11));
     host_button.setLength(34);
     host_button.setText("Host Multiplayer");
     host_button.setEnabled(false);
     addRelative(&host_button);
 
     join_button.initialize();
-    join_button.setPosition(Size(1,14));
+    join_button.setPosition(Vect2(1,14));
     join_button.setLength(34);
     join_button.setText("Join Multiplayer");
     join_button.setEnabled(false);
     addRelative(&join_button);
 
     exit_button.initialize();
-    exit_button.setPosition(Size(1,17));
+    exit_button.setPosition(Vect2(1,17));
     exit_button.setLength(34);
     exit_button.setText("Exit");
     exit_button.setEnabled(false);

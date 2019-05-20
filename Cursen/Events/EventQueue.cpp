@@ -4,10 +4,12 @@
 
 #include "EventQueue.h"
 
-void EventQueue::pop(Event &event) {
+Event EventQueue::pop() {
     std::lock_guard<std::mutex> locker(mu);
+    Event event;
     event = eventQueue.front();
     eventQueue.pop();
+    return event;
 }
 
 void EventQueue::push(Event event) {

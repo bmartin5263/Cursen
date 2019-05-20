@@ -28,7 +28,7 @@ int CursesManager::getCharacter() {
     return c;
 }
 
-void CursesManager::initializeCurses(const Size& dim) {
+void CursesManager::initializeCurses(const Vect2& dim) {
     dimensions = dim;
     Resize(dimensions);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -116,7 +116,7 @@ short CursesManager::privGetPairNumber(const ColorPair &colorPair) {
     }
 }
 
-void CursesManager::privResize(const Size &dim) {
+void CursesManager::privResize(const Vect2 &dim) {
     std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
     printf("%s", resizeString.c_str());
     fflush(stdout);
@@ -133,8 +133,8 @@ void CursesManager::drawComponent(Component &component) {
 
     if (content != nullptr) {
         chtype** text = content->getText();
-        Size dimensions = content->getDimensions();
-        Size position = component.getPosition();
+        Vect2 dimensions = content->getDimensions();
+        Vect2 position = component.getPosition();
 
         for (int i = 0; i < dimensions.y; i++) {
             chtype* row = text[i];
@@ -205,9 +205,9 @@ void CursesManager::privDraw() {
         InspectionPointer* inspectionPointer = debugger.getInspectionPointer();
         drawComponent(*inspectionPointer);
         privDrawStringBottomRight(&(*inspectionPointer->getPosition().toString().c_str()));
-        Size boxSize = inspectionPointer->getBoxSize();
+        Vect2 boxSize = inspectionPointer->getBoxSize();
         privDrawStringBottomLeft(boxSize.toString().c_str());
-        Size boxPos = inspectionPointer->getBoxLoc();
+        Vect2 boxPos = inspectionPointer->getBoxLoc();
         for (int y = 0; y < boxSize.y; y++) {
             mvchgat(boxPos.y + y, boxPos.x , boxSize.x, A_NORMAL, privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
         }
@@ -218,7 +218,7 @@ void CursesManager::privDraw() {
     refresh();
 }
 
-void CursesManager::privMoveCursor(const Size &dim) {
+void CursesManager::privMoveCursor(const Vect2 &dim) {
     cursor_pos = dim;
 }
 

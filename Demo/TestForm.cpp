@@ -8,7 +8,7 @@
 #include "TestForm.h"
 
 TestForm::TestForm() :
-    Form(Size(70,33))
+    Form(Vect2(70,33))
 {
 
 }
@@ -17,71 +17,71 @@ void TestForm::initialize() {
     setHidden(true);
 
     box.initialize();
-    box.setPosition(Size(2,3));
-    box.setSize(Size(21, 10));
+    box.setPosition(Vect2(2,3));
+    box.setSize(Vect2(21, 10));
     box.setHidden(false);
 
     titleBox.initialize();
-    titleBox.setPosition(Size(0,0));
-    titleBox.setSize(Size(getSize().x, 3));
+    titleBox.setPosition(Vect2(0,0));
+    titleBox.setSize(Vect2(getSize().x, 3));
     titleBox.setLowerRight(ACS_RTEE);
     titleBox.setLowerLeft(ACS_LTEE);
     titleBox.setDrawOrder(100);
 
     flashLabel.initialize();
-    flashLabel.setPosition(Size(1,1));
-    //flashLabel.setSize(Size(40,1));
+    flashLabel.setPosition(Vect2(1,1));
+    //flashLabel.setSize(Vect2(40,1));
     flashLabel.setText("Flash");
     flashLabel.onClick(std::bind(&TestForm::flash, this));
 
     beepLabel.initialize();
-    beepLabel.setPosition(Size(1,2));
-    //beepLabel.setSize(Size(40,1));
+    beepLabel.setPosition(Vect2(1,2));
+    //beepLabel.setSize(Vect2(40,1));
     beepLabel.setText("Beep");
     beepLabel.onClick(std::bind(&TestForm::beep, this));
 
     changeColorLabel.initialize();
-    changeColorLabel.setPosition(Size(1,3));
-    changeColorLabel.setSize(Size(40,1));
+    changeColorLabel.setPosition(Vect2(1,3));
+    changeColorLabel.setSize(Vect2(40,1));
     changeColorLabel.setText("Change Color");
     changeColorLabel.onClick(std::bind(&TestForm::changeColor, this));
 
     exitLabel.initialize();
-    exitLabel.setPosition(Size(1,4));
-    exitLabel.setSize(Size(40,1));
+    exitLabel.setPosition(Vect2(1,4));
+    exitLabel.setSize(Vect2(40,1));
     exitLabel.setText("Exit");
     exitLabel.onClick(std::bind(&TestForm::quitGame, this));
 
     smileyFace.initialize();
-    smileyFace.setPosition(Size(30,30));
-    smileyFace.setSize(Size(40,1));
+    smileyFace.setPosition(Vect2(30,30));
+    smileyFace.setSize(Vect2(40,1));
     smileyFace.setText(":)");
 
     messageLabel.initialize();
-    messageLabel.setPosition(Size(1,1));
-    messageLabel.setSize(Size(getSize().x - 2,1));
+    messageLabel.setPosition(Vect2(1,1));
+    messageLabel.setSize(Vect2(getSize().x - 2,1));
     messageLabel.setText("Welcome to Cursen!");
     messageLabel.setForeground(Color::YELLOW);
 
-    //checkBox = new CheckBox(Size(1,6));
+    //checkBox = new CheckBox(Vect2(1,6));
     checkBox.initialize();
-    checkBox.setPosition(Size(1,6));
+    checkBox.setPosition(Vect2(1,6));
     checkBox.setText("Exit Enabled");
     checkBox.setState(CheckState::INDETERMINATE);
     checkBox.onClick(std::bind(&TestForm::disable, this));
 
     checkBox2.initialize();
-    checkBox2.setPosition(Size(1,7));
+    checkBox2.setPosition(Vect2(1,7));
     checkBox2.setText("Rainbow Enabled");
     checkBox2.onClick(std::bind(&TestForm::doRainbow, this));
 
     twirlCheck.initialize();
-    twirlCheck.setPosition(Size(1,8));
+    twirlCheck.setPosition(Vect2(1,8));
     twirlCheck.setText("Twirl Enabled");
     twirlCheck.onClick(std::bind(&TestForm::activateTwirl, this));
 
     twirlProgress.initialize();
-    twirlProgress.setPosition(Size(20, 4));
+    twirlProgress.setPosition(Vect2(20, 4));
 
     box.add(&twirlProgress);
     titleBox.addRelative(&messageLabel);
@@ -96,7 +96,7 @@ void TestForm::initialize() {
     pressMe.initialize();
     pressMe.setLength(21);
     pressMe.setText("");
-    pressMe.setPosition(Size(2,13));
+    pressMe.setPosition(Vect2(2,13));
     //pressMe.setText("Hello");
     add(&pressMe);
 
@@ -172,20 +172,20 @@ void TestForm::changeColor() {
 
 void TestForm::moveComponent(const Event &event) {
     if (event.arrowPress.right) {
-        box.move(Size(1, 0));
+        box.move(Vect2(1, 0));
         changeColor();
     }
     if (event.arrowPress.left) {
-        box.move(Size(-1, 0));
+        box.move(Vect2(-1, 0));
         changeColor();
     }
     if (!cursor.isEnabled()) {
         if (event.arrowPress.up) {
-            box.move(Size(0, -1));
+            box.move(Vect2(0, -1));
             changeColor();
         }
         if (event.arrowPress.down) {
-            box.move(Size(0, 1));
+            box.move(Vect2(0, 1));
             changeColor();
         }
     }

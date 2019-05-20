@@ -16,7 +16,7 @@ class Box : public TextComponent {
 public:
 
     Box();
-    Box(const Size& pos, const Size& dim);
+    Box(const Vect2& pos, const Vect2& dim);
 
     void setBorder(chtype ul = ACS_ULCORNER, chtype top = ACS_HLINE, chtype ur = ACS_URCORNER,
                     chtype left = ACS_VLINE, chtype fill = ' ', chtype right = ACS_VLINE,

@@ -12,7 +12,7 @@ TwirlProgress::TwirlProgress() :
 {
 }
 
-TwirlProgress::TwirlProgress(const Size &pos) :
+TwirlProgress::TwirlProgress(const Vect2 &pos) :
         twirl_index(0), spinning(false)
 {
 }
@@ -74,7 +74,7 @@ Color TwirlProgress::getBackground() {
     return twirl_label.getBackground();
 }
 
-void TwirlProgress::setPosition(const Size &pos) {
+void TwirlProgress::setPosition(const Vect2 &pos) {
     Component::setPosition(pos);
     twirl_label.setPosition(pos);
 }

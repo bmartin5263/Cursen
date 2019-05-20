@@ -12,7 +12,7 @@ class UnoTitle : public TextComponent {
 public:
 
     UnoTitle();
-    UnoTitle(const Size& pos);
+    UnoTitle(const Vect2& pos);
 
     void initialize() override;
     void render() override;

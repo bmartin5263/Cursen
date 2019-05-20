@@ -19,7 +19,7 @@ public:
     ~EventQueue() = default;
 
     void push(Event event);
-    void pop(Event& event);
+    Event pop();
     void wait();
     bool isEmpty();
 

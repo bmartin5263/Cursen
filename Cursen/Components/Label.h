@@ -18,7 +18,7 @@ class Label : public TextComponent {
 public:
 
     Label();
-    Label(const Size& pos, const Size& dim);
+    Label(const Vect2& pos, const Vect2& dim);
 
     void initialize() override;
     void render() override;

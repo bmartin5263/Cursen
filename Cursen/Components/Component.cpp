@@ -16,7 +16,7 @@ Component::Component() :
     CursesManager::Register(this);
 }
 
-Component::Component(const Size &pos) :
+Component::Component(const Vect2 &pos) :
         enabled(true), position(pos), hidden(false), invalid(true), cursable(true), drawOrder(0)
 {
     CursesManager::Register(this);
@@ -283,7 +283,7 @@ void Component::detachOffCursor(){
     f_offCursor = 0;
 }
 
-void Component::move(const Size& movement) {
+void Component::move(const Vect2& movement) {
     position += movement;
     for (auto child : children) {
         child->move(movement);
@@ -302,11 +302,11 @@ bool Component::isInvalid() {
     return invalid;
 }
 
-Size Component::getPosition() const {
+Vect2 Component::getPosition() const {
     return this->position;
 }
 
-void Component::setPosition(const Size &pos) {
+void Component::setPosition(const Vect2 &pos) {
     this->position = pos;
     invalidate();
 }

@@ -17,13 +17,13 @@ class Form : public AggregateComponent {
 
 public:
 
-    Form(const Size& dim);
+    Form(const Vect2& dim);
 
-    Size getSize();
+    Vect2 getSize();
 
 private:
 
-    Size dimensions;
+    Vect2 dimensions;
 
 };
 

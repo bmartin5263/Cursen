@@ -6,11 +6,11 @@
 #include "TextField.h"
 
 TextField::TextField() :
-    TextComponent(Size(1,1))
+    TextComponent(Vect2(1,1))
 {
 }
 
-TextField::TextField(const Size &pos) :
+TextField::TextField(const Vect2 &pos) :
     TextComponent(pos)
 {
 }
@@ -27,9 +27,9 @@ void TextField::render() {
     Content* content = getContent();
 
     content->clear();
-    content->writeLine(text, Size(0,0), TextAlignment::LEFT, getCurrentDrawColor());
+    content->writeLine(text, Vect2(0,0), TextAlignment::LEFT, getCurrentDrawColor());
 
-    CursesManager::MoveCursor(getPosition() + Size(cursor_x, 0));
+    CursesManager::MoveCursor(getPosition() + Vect2(cursor_x, 0));
 }
 
 void TextField::cursorOn() {
@@ -56,7 +56,7 @@ void TextField::setMaxLength(const int &len) {
     max_len = len;
 }
 
-void TextField::setSize(const Size &size) {
+void TextField::setSize(const Vect2 &size) {
     if (size.y < 1) {
         throw std::range_error("Y Must Be At Least 1");
     }
@@ -99,7 +99,7 @@ void TextField::setEnabled(bool value) {
         Component::setEnabled(value);
         if (isEnabled()) {
             CursesManager::SetCursor(1);
-            CursesManager::MoveCursor(getPosition() + Size((int)text.length(), 0));
+            CursesManager::MoveCursor(getPosition() + Vect2((int)text.length(), 0));
             onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
             onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
             onArrowPress(std::bind(&TextField::moveCursor, this, std::placeholders::_1));

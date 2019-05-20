@@ -7,16 +7,16 @@
 #include "CursenApplication.h"
 
 TextComponent::TextComponent() :
-        Component(Size(0,0))
+        Component(Vect2(0,0))
 {
 }
 
-TextComponent::TextComponent(const Size &pos) :
+TextComponent::TextComponent(const Vect2 &pos) :
         Component(pos)
 {
 }
 
-TextComponent::TextComponent(const Size &pos, const Size &dim) :
+TextComponent::TextComponent(const Vect2 &pos, const Vect2 &dim) :
         Component(pos), content(dim)
 {
 }
@@ -98,12 +98,12 @@ Content * TextComponent::getContent() {
     return &content;
 }
 
-void TextComponent::setSize(const Size &size) {
+void TextComponent::setSize(const Vect2 &size) {
     content.resize(size);
     invalidate();
 }
 
-Size TextComponent::getSize() {
+Vect2 TextComponent::getSize() {
     return content.getDimensions();
 }
 

@@ -42,7 +42,7 @@ public:
     static const chtype HLINE;
 
 
-    static void Initialize(const Size& dim) { Instance().initializeCurses(dim); }
+    static void Initialize(const Vect2& dim) { Instance().initializeCurses(dim); }
     static void Terminate() { Instance().terminateCurses(); }
 
     static void DrawChar(int c) { instance->putCharacter(c); }
@@ -61,12 +61,12 @@ public:
 
     static void Beep() { instance->doBeep(); }
     static void Flash() { instance->doFlash(); }
-    static void Resize(const Size& dim) { Instance().privResize(dim); }
+    static void Resize(const Vect2& dim) { Instance().privResize(dim); }
 
     static void Draw() { Instance().privDraw(); };
 
     static void SetCursor(const int& level) { Instance().privSetCursor(level); }
-    static void MoveCursor(const Size& pos) { Instance().privMoveCursor(pos); }
+    static void MoveCursor(const Vect2& pos) { Instance().privMoveCursor(pos); }
 
     static void Register(Component* component) { Instance().privRegisterComponent(component); };
     static void Deregister(Component* component) { Instance().privDeregisterComponent(component); };
@@ -80,14 +80,14 @@ private:
 
     // Instance Data
     ComponentMap componentMap;
-    Size dimensions;
-    Size cursor_pos;
+    Vect2 dimensions;
+    Vect2 cursor_pos;
     int inputTimeout;
     ColorMap colorMap;
     ColorPairMap colorPairMap;
 
     // Methods
-    void initializeCurses(const Size& dim);
+    void initializeCurses(const Vect2& dim);
     void terminateCurses();
 
     // Static to Instance Methods
@@ -102,8 +102,8 @@ private:
     short privGetColorPair(const ColorPair&);
     short privGetPairNumber(const ColorPair&);
     void privDraw();
-    void privResize(const Size& dim);
-    void privMoveCursor(const Size& dim);
+    void privResize(const Vect2& dim);
+    void privMoveCursor(const Vect2& dim);
     void privRegisterComponent(Component* component);
     void privDeregisterComponent(Component* component);
     void privSetDrawOrder(Component* component, int order);

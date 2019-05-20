@@ -11,87 +11,18 @@
 
 EventManager* EventManager::instance = nullptr;
 
-void EventManager::processKeyboardInput() {
-    int key = getch();
-    while(key != ERR) {
-
-        if (key == '@') {
-            CursenDebugger& debugger = CursenApplication::GetDebugger();
-            if (debugger.getInspectionPointer() != nullptr) {
-                debugger.deactivateInspection();
-            }
-            else {
-                debugger.activateInspection();
-            }
-            Event event;
-            event.type = EventType::Null;
-            eventQueue.push(event);
-        }
-        else {
-            Event event;
-            if (key == CursesManager::ESCAPE) {
-                event.type = EventType::EscPressed;
-                event.key.code = key;
-            }
-            else if (key == CursesManager::BACKSPACE)
-            {
-                event.type = EventType::DeletePressed;
-                event.key.code = key;
-            }
-            else if (key == CursesManager::ENTER)
-            {
-                event.type = EventType::EnterPressed;
-                event.key.code = key;
-            }
-            else if (key == CursesManager::UP)
-            {
-                event.type = EventType::ArrowPressed;
-                event.arrowPress.up = true;
-            }
-            else if (key == CursesManager::DOWN)
-            {
-                event.type = EventType::ArrowPressed;
-                event.arrowPress.down = true;
-            }
-            else if (key == CursesManager::LEFT)
-            {
-                event.type = EventType::ArrowPressed;
-                event.arrowPress.left = true;
-
-            }
-            else if (key == CursesManager::RIGHT)
-            {
-                event.type = EventType::ArrowPressed;
-                event.arrowPress.right = true;
-            }
-            else
-            {
-                event.type = EventType::KeyPressed;
-                event.key.code = key;
-            }
-            eventQueue.push(event);
-        }
-        key = getch();
-    }
-}
-
+// Deprecated
 Event EventManager::privPollEvent() {
-    Event event;
     while (eventQueue.isEmpty()) {
-        processKeyboardInput();
         AlarmManager::ProcessAlarms();
     }
-    eventQueue.pop(event);
-    return event;
+    return eventQueue.pop();
 }
 
 
 void EventManager::privProcessEvents() {
-    //processKeyboardInput();
     while(!eventQueue.isEmpty()) {
-        Event e;
-        eventQueue.pop(e);
-        privProcessEvent(e);
+        privProcessEvent(eventQueue.pop());
     }
 }
 

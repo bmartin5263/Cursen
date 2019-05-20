@@ -7,11 +7,11 @@
 #include "Label.h"
 
 Label::Label() :
-        TextComponent(Size(0,0), Size(1,1))
+        TextComponent(Vect2(0,0), Vect2(1,1))
 {
 }
 
-Label::Label(const Size& pos, const Size& dim) :
+Label::Label(const Vect2& pos, const Vect2& dim) :
         TextComponent(pos, dim)
 {
 }
@@ -28,7 +28,7 @@ void Label::render() {
     ColorPair& draw_color = getCurrentDrawColor();
 
     content->clear();
-    content->writeLine(text, Size(0,0), alignment, draw_color);
+    content->writeLine(text, Vect2(0,0), alignment, draw_color);
 }
 
 void Label::emplaceText(const std::string& text) {
@@ -37,7 +37,7 @@ void Label::emplaceText(const std::string& text) {
 }
 
 void Label::setText(const std::string& text) {
-    setSize(Size((int)text.length(), 1));
+    setSize(Vect2((int)text.length(), 1));
     emplaceText(text);
 }
 

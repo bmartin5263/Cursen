@@ -12,14 +12,14 @@ class AggregateComponent : public Component {
 public:
 
     AggregateComponent();
-    AggregateComponent(const Size& pos);
+    AggregateComponent(const Vect2& pos);
 
     void render() override {};                         // Aggregates don't render any content
     Content * getContent() override {return nullptr;}
 
     void setHidden(bool value) override;
     void setEnabled(bool value) override;
-    void setPosition(const Size& pos) override;
+    void setPosition(const Vect2& pos) override;
 
     void setForeground(const Color &color) override;
 
