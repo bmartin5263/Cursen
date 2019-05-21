@@ -2,9 +2,9 @@
 // Created by Brandon Martin on 4/3/19.
 //
 
-#include <Events/AlarmManager.h>
+#include "Cursen/CursenApplication.h"
+#include "Cursen/Events/AlarmManager.h"
 #include "TextComponent.h"
-#include "CursenApplication.h"
 
 namespace cursen {
 

@@ -2,12 +2,12 @@
 // Created by Brandon Martin on 3/7/19.
 //
 
-#include <CursenApplication.h>
-#include <Components/Component.h>
-#include "EventManager.h"
-#include "Drawing/CursesManager.h"
-#include "Events/EventType.h"
+#include "Cursen/CursenApplication.h"
+#include "Cursen/Components/Component.h"
+#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Events/EventType.h"
 #include "AlarmManager.h"
+#include "EventManager.h"
 
 namespace cursen {
 

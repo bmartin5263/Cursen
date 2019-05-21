@@ -4,7 +4,7 @@
 
 #include <cassert>
 #include "DataManager.h"
-#include "../Network/NetworkManager.h"
+#include "Uno/Network/NetworkManager.h"
 
 DataManager* DataManager::instance = nullptr;
 

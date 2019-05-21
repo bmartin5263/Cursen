@@ -3,8 +3,8 @@
 //
 
 #include "PlayerStaging.h"
-#include "../Constants.h"
-#include "../Forms/LobbyForm.h"
+#include "Uno/Constants.h"
+#include "Uno/Forms/LobbyForm.h"
 
 PlayerStaging::PlayerStaging() :
         spinning(false)

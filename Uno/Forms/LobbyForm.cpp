@@ -2,14 +2,14 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
-#include <Events/EventManager.h>
+#include "Cursen/Events/EventManager.h"
+#include "Cursen/Drawing/CursesManager.h"
 #include "LobbyForm.h"
-#include "Drawing/CursesManager.h"
-#include "../GameObjects/LobbyType.h"
-#include "../Lobby/LobbyController.h"
-#include "../Lobby/HostController.h"
-#include "../Lobby/LocalController.h"
-#include "../Lobby/ClientController.h"
+#include "Uno/GameObjects/LobbyType.h"
+#include "Uno/Lobby/LobbyController.h"
+#include "Uno/Lobby/HostController.h"
+#include "Uno/Lobby/LocalController.h"
+#include "Uno/Lobby/ClientController.h"
 
 LobbyForm::LobbyForm() :
         Form(cursen::Vect2(70, 33)), lobby(nullptr)

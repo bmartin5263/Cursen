@@ -5,7 +5,7 @@
 #ifndef CURSEN_UNOTITLE_H
 #define CURSEN_UNOTITLE_H
 
-#include "Components/TextComponent.h"
+#include "Cursen/Components/TextComponent.h"
 
 class UnoTitle : public cursen::TextComponent {
 

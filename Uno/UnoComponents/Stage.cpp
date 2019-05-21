@@ -3,8 +3,8 @@
 //
 
 #include "Stage.h"
-#include "../GameObjects/Player.h"
-#include "../Constants.h"
+#include "Uno/GameObjects/Player.h"
+#include "Uno/Constants.h"
 
 Stage::Stage() :
     stage_color(cursen::Color::PURPLE)

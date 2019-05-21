@@ -5,7 +5,7 @@
 #ifndef CURSEN_AGGREGATECOMPONENT_H
 #define CURSEN_AGGREGATECOMPONENT_H
 
-#include "Components/Component.h"
+#include "Component.h"
 
 namespace cursen {
 

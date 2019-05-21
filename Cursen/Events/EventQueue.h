@@ -6,8 +6,9 @@
 #define CURSEN_EVENTQUEUE_H
 
 #include <mutex>
-#include "Event.h"
 #include <queue>
+
+#include "Event.h"
 
 namespace cursen {
 

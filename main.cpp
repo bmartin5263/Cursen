@@ -1,4 +1,4 @@
-#include "CursenApplication.h"
+#include "Cursen/CursenApplication.h"
 #include "Uno/Network/NetworkManager.h"
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/LobbyForm.h"

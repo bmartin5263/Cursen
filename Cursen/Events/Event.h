@@ -6,7 +6,8 @@
 #define CURSEN_EVENT_H
 
 #include <cstdio>
-#include "Events/EventType.h"
+
+#include "EventType.h"
 
 namespace cursen {
 

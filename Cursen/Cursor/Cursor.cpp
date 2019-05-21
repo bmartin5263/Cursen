@@ -2,8 +2,8 @@
 // Created by Brandon Martin on 3/8/19.
 //
 
-#include <Events/EventManager.h>
-#include <Drawing/CursesManager.h>
+#include "Cursen/Events/EventManager.h"
+#include "Cursen/Drawing/CursesManager.h"
 #include "Cursor.h"
 
 namespace cursen {

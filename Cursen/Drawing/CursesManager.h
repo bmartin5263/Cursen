@@ -12,8 +12,8 @@
 #include <set>
 #include <map>
 
-#include "Components/Form.h"
-#include "CursenApplication.h"
+#include "Cursen/Components/Form.h"
+#include "Cursen/CursenApplication.h"
 #include "Color.h"
 #include "ColorPair.h"
 

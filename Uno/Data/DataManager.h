@@ -7,7 +7,7 @@
 
 
 #include <queue>
-#include "../Messages/DataMessage.h"
+#include "Uno/Messages/DataMessage.h"
 #include "QueueEntry.h"
 #include "MessageQueue.h"
 

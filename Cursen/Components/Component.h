@@ -6,11 +6,11 @@
 #define CURSEN_COMPONENT_H
 
 #include <functional>
-#include <Events/Event.h>
 #include <vector>
 #include <string>
-#include <ncurses.h>
-#include <Drawing/Content.h>
+
+#include "Cursen/Events/Event.h"
+#include "Cursen/Drawing/Content.h"
 
 namespace cursen {
 

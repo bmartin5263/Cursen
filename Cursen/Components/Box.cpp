@@ -2,7 +2,6 @@
 // Created by Brandon Martin on 3/17/19.
 //
 
-#include <Drawing/CursesManager.h>
 #include "Box.h"
 
 namespace cursen {

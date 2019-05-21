@@ -5,10 +5,10 @@
 #ifndef CURSEN_CURSOR_H
 #define CURSEN_CURSOR_H
 
-#include "ArrowMap.h"
-#include "Components/Component.h"
-#include "Components/TextComponent.h"
 #include <unordered_map>
+
+#include "ArrowMap.h"
+#include "Cursen/Components/TextComponent.h"
 
 namespace cursen {
 

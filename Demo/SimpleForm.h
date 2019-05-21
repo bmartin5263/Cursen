@@ -5,10 +5,10 @@
 #ifndef CURSEN_SIMPLEFORM_H
 #define CURSEN_SIMPLEFORM_H
 
-#include <Components/CheckBox.h>
-#include "Components/Form.h"
-#include "Components/Label.h"
-#include "../Uno/UnoComponents/ModeSelectBox.h"
+#include "Cursen/Components/CheckBox.h"
+#include "Cursen/Components/Form.h"
+#include "Cursen/Components/Label.h"
+#include "Uno/UnoComponents/ModeSelectBox.h"
 
 class SimpleForm : public cursen::Form {
 

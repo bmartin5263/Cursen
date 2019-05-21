@@ -2,9 +2,10 @@
 // Created by Brandon Martin on 4/1/19.
 //
 
-#include <Events/AlarmManager.h>
 #include <string>
-#include <Drawing/CursesManager.h>
+
+#include "Cursen/Events/AlarmManager.h"
+#include "Cursen/Drawing/CursesManager.h"
 #include "TwirlProgress.h"
 
 namespace cursen {

@@ -6,7 +6,8 @@
 #define CURSEN_FORM_H
 
 #include <string>
-#include "Events/Event.h"
+
+#include "Cursen/Events/Event.h"
 #include "Component.h"
 #include "TextComponent.h"
 #include "AggregateComponent.h"

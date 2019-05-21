@@ -5,14 +5,14 @@
 #ifndef CURSEN_MODESELECTBOX_H
 #define CURSEN_MODESELECTBOX_H
 
-
-#include "Components/AggregateComponent.h"
-#include "Components/Label.h"
-#include "Components/Box.h"
-#include "Components/Button.h"
-#include "Cursor/Cursor.h"
-#include "Stage.h"
 #include <functional>
+
+#include "Cursen/Components/AggregateComponent.h"
+#include "Cursen/Components/Label.h"
+#include "Cursen/Components/Box.h"
+#include "Cursen/Components/Button.h"
+#include "Cursen/Cursor/Cursor.h"
+#include "Stage.h"
 
 class ModeSelectBox : public cursen::AggregateComponent {
 

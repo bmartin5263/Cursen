@@ -2,7 +2,6 @@
 // Created by Brandon Martin on 3/21/19.
 //
 
-#include <CursenApplication.h>
 #include "CheckBox.h"
 
 namespace cursen {

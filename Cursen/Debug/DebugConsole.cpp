@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 12/17/18.
 //
 
+/*
 #include "DebugConsole.h"
 #include "SFML/Time.hpp"
 
@@ -47,3 +48,4 @@ DebugConsole::~DebugConsole() {
         privDisconnect();
     }
 }
+ */

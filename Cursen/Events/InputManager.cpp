@@ -4,8 +4,8 @@
 
 #include "InputManager.h"
 #include "EventManager.h"
-#include "CursenApplication.h"
-#include "Drawing/CursesManager.h"
+#include "Cursen/CursenApplication.h"
+#include "Cursen/Drawing/CursesManager.h"
 
 namespace cursen {
 

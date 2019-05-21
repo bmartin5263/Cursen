@@ -5,7 +5,6 @@
 #ifndef CURSEN_BUTTON_H
 #define CURSEN_BUTTON_H
 
-
 #include "AggregateComponent.h"
 #include "Box.h"
 #include "Label.h"

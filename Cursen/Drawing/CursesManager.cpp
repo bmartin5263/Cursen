@@ -2,11 +2,12 @@
 // Created by Brandon Martin on 3/7/19.
 //
 
-#include <Components/Component.h>
 #include <thread>
+
+#include "Cursen/Components/Component.h"
 #include "CursesManager.h"
 #include "ncurses.h"
-#include "Drawing/Content.h"
+#include "Content.h"
 
 namespace cursen {
 

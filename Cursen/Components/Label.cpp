@@ -2,8 +2,7 @@
 // Created by Brandon Martin on 3/11/19.
 //
 
-#include <Drawing/CursesManager.h>
-#include <Events/AlarmManager.h>
+#include "Cursen/Events/AlarmManager.h"
 #include "Label.h"
 
 namespace cursen {

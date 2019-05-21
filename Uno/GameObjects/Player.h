@@ -5,9 +5,9 @@
 #ifndef CURSEN_PLAYER_H
 #define CURSEN_PLAYER_H
 
-
 #include <string>
-#include "Drawing/Color.h"
+
+#include "Cursen/Drawing/Color.h"
 #include "PlayerColor.h"
 
 class Player {

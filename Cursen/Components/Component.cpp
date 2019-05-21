@@ -3,11 +3,11 @@
 //
 
 #include <cassert>
-#include <CursenApplication.h>
 #include <algorithm>
 
-#include <Drawing/CursesManager.h>
-#include "Events/EventManager.h"
+#include "Cursen/CursenApplication.h"
+#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Events/EventManager.h"
 #include "Component.h"
 
 namespace cursen {

@@ -5,9 +5,8 @@
 #ifndef CURSEN_QUEUEENTRY_H
 #define CURSEN_QUEUEENTRY_H
 
-
-#include "../Messages/MessageType.h"
-#include "../Messages/DataMessage.h"
+#include "Uno/Messages/MessageType.h"
+#include "Uno/Messages/DataMessage.h"
 
 class QueueEntry
 {

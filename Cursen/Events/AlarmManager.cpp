@@ -2,7 +2,7 @@
 // Created by Brandon Martin on 4/1/19.
 //
 
-#include <Drawing/CursesManager.h>
+#include "Cursen/Drawing/CursesManager.h"
 #include "AlarmManager.h"
 #include "EventManager.h"
 

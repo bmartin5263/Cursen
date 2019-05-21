@@ -5,10 +5,8 @@
 #ifndef CURSEN_LABEL_H
 #define CURSEN_LABEL_H
 
-
-#include <Components/Component.h>
-#include <string>
-#include <Drawing/TextAlignment.h>
+#include "Cursen/Components/Component.h"
+#include "Cursen/Drawing/TextAlignment.h"
 #include "TextComponent.h"
 
 namespace cursen {

@@ -5,8 +5,6 @@
 #ifndef CURSEN_CONSTANTS_H
 #define CURSEN_CONSTANTS_H
 
-
-#include <Drawing/Color.h>
 #include "GameObjects/PlayerColor.h"
 
 class Constants {

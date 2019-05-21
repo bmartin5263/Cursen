@@ -5,8 +5,7 @@
 #ifndef CURSEN_DEBUGCONSOLE_H
 #define CURSEN_DEBUGCONSOLE_H
 
-
-#include <SFML/Network.hpp>
+#include <string>
 
 class DebugConsole {
 
@@ -36,7 +35,6 @@ private:
     void privDisconnect();
     void privOut(const char* message, const long& length);
 
-    sf::TcpSocket clientSocket;
     bool connected;
 
     static DebugConsole* instance;

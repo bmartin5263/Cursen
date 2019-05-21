@@ -5,7 +5,6 @@
 #ifndef CURSEN_BOX_H
 #define CURSEN_BOX_H
 
-
 #include "Component.h"
 #include "TextComponent.h"
 

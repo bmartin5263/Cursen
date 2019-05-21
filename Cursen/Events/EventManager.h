@@ -9,8 +9,9 @@
 #include <unordered_set>
 #include <queue>
 #include <thread>
+
 #include "Event.h"
-#include "Events/EventType.h"
+#include "EventType.h"
 #include "EventQueue.h"
 
 namespace cursen {

@@ -5,7 +5,7 @@
 #ifndef CURSEN_TEXTCOMPONENT_H
 #define CURSEN_TEXTCOMPONENT_H
 
-#include "Components/Component.h"
+#include "Cursen/Components/Component.h"
 
 namespace cursen {
 

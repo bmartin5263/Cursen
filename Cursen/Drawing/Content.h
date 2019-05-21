@@ -7,7 +7,7 @@
 
 
 #include <ncurses.h>
-#include <vector>
+
 #include "Vect2.h"
 #include "ColorPair.h"
 #include "TextAlignment.h"

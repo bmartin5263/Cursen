@@ -6,12 +6,12 @@
 #define CURSEN_STAGE_H
 
 
-#include <Components/TextField.h>
-#include "Components/AggregateComponent.h"
-#include "Components/Box.h"
-#include "Components/Label.h"
-#include "Components/TwirlProgress.h"
-#include "../GameObjects/Player.h"
+#include "Cursen/Components/TextField.h"
+#include "Cursen/Components/AggregateComponent.h"
+#include "Cursen/Components/Box.h"
+#include "Cursen/Components/Label.h"
+#include "Cursen/Components/TwirlProgress.h"
+#include "Uno/GameObjects/Player.h"
 
 class Lobby;
 

@@ -5,12 +5,11 @@
 #ifndef CURSEN_PLAYERSTAGING_H
 #define CURSEN_PLAYERSTAGING_H
 
-
-#include "Components/AggregateComponent.h"
-#include "Components/Box.h"
-#include "Cursor/Cursor.h"
+#include "Cursen/Components/AggregateComponent.h"
+#include "Cursen/Components/Box.h"
+#include "Cursen/Cursor/Cursor.h"
 #include "Stage.h"
-#include "../GameObjects/Lobby.h"
+#include "Uno/GameObjects/Lobby.h"
 
 class LobbyForm;
 

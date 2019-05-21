@@ -5,15 +5,15 @@
 #ifndef CURSEN_LOBBYFORM_H
 #define CURSEN_LOBBYFORM_H
 
-#include <Components/TextField.h>
-#include "Components/Form.h"
-#include "Components/Button.h"
-#include "Components/ASCIIArt.h"
-#include "Cursor/Cursor.h"
-#include "../UnoComponents/UnoConsole.h"
-#include "../UnoComponents/PlayerStaging.h"
-#include "../UnoComponents/ModeSelectBox.h"
-#include "../GameObjects/Lobby.h"
+#include "Cursen/Components/TextField.h"
+#include "Cursen/Components/Form.h"
+#include "Cursen/Components/Button.h"
+#include "Cursen/Components/ASCIIArt.h"
+#include "Cursen/Cursor/Cursor.h"
+#include "Uno/UnoComponents/UnoConsole.h"
+#include "Uno/UnoComponents/PlayerStaging.h"
+#include "Uno/UnoComponents/ModeSelectBox.h"
+#include "Uno/GameObjects/Lobby.h"
 
 class Lobby;
 class LobbyController;

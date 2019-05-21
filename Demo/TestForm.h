@@ -6,13 +6,13 @@
 #define CURSEN_TESTFORM_H
 
 
-#include <Components/Form.h>
-#include <Components/Box.h>
-#include <Components/CheckBox.h>
-#include <Components/Label.h>
-#include <Components/TwirlProgress.h>
-#include <Cursor/Cursor.h>
-#include <Components/Button.h>
+#include "Cursen/Components/Form.h"
+#include "Cursen/Components/Box.h"
+#include "Cursen/Components/CheckBox.h"
+#include "Cursen/Components/Label.h"
+#include "Cursen/Components/TwirlProgress.h"
+#include "Cursen/Cursor/Cursor.h"
+#include "Cursen/Components/Button.h"
 
 class TestForm : public cursen::Form {
 

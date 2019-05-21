@@ -6,7 +6,7 @@
 #define CURSEN_INSPECTORPOINTER_H
 
 
-#include "Components/TextComponent.h"
+#include "Cursen/Components/TextComponent.h"
 
 namespace cursen {
 

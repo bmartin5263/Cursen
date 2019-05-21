@@ -5,7 +5,6 @@
 #ifndef CURSEN_ASCIIART_H
 #define CURSEN_ASCIIART_H
 
-
 #include "TextComponent.h"
 
 namespace cursen {

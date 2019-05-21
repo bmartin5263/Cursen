@@ -6,9 +6,9 @@
 #define CURSEN_UNOCONSOLE_H
 
 
-#include "Components/AggregateComponent.h"
-#include "Components/Box.h"
-#include "Components/Label.h"
+#include "Cursen/Components/AggregateComponent.h"
+#include "Cursen/Components/Box.h"
+#include "Cursen/Components/Label.h"
 #include "UnoTitle.h"
 
 class UnoConsole : public cursen::AggregateComponent {
