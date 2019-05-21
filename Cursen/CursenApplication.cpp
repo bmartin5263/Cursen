@@ -45,6 +45,7 @@ namespace cursen {
         CursesManager::Initialize(currentForm->getSize());
         currentForm->initialize();
         CursesManager::Draw();
+        CursesManager::Refresh();
         while (running)
         {
             watch.tick();
@@ -55,6 +56,7 @@ namespace cursen {
             user_function();
             CursesManager::Draw();
             after_draw_function();
+            CursesManager::Refresh();
 
             watch.tock();
 

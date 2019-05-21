@@ -20,7 +20,6 @@ int main()
     CursenApplication::OnDraw([]() {
        static int num_updates = 0;
        num_updates++;
-       //CursesManager::DrawStringBottomLeft(std::to_string(num_updates));
     });
 
     //std::this_thread::sleep_for(std::chrono::seconds(7));

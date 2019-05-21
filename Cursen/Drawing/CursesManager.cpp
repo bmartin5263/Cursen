@@ -141,9 +141,25 @@ namespace cursen {
                     offset = -position.x;
                 }
                 if (offset < dimensions.x) {
-                    mvaddchstr(position.y + i, position.x + offset, &row[0 + offset]);
+                    mvaddchstr(position.y + i, position.x + offset, &row[offset]);
                 }
             }
+
+            //for (int y = 0; y < dimensions.y; ++y) {
+            //    chtype* row = text[y];
+            //    int offset = 0;
+            //    if (position.x < 0) {
+            //        offset = -position.x;
+            //    }
+            //    if (offset < dimensions.x) {
+            //        int i = 0;
+            //        mvaddchstr(position.y + y, position.x + offset, &row[0 + offset]);
+            //        for (int x = position.x + offset; x < dimensions.x; ++x) {
+            //            mvaddch(position.y + y, x, row[offset + i]);
+            //            i++;
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -182,7 +198,6 @@ namespace cursen {
 
         // Clear the old screen
         erase();
-
 
         for (auto pair = componentMap.begin(); pair != componentMap.end(); ++pair) {
             for (auto componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter) {
