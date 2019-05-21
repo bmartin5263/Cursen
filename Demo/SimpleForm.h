@@ -19,7 +19,8 @@ public:
 
 private:
 
-    ModeSelectBox modeSelectBox;
+    cursen::Box myBox;
+    cursen::Label myLabel;
 
 };
 

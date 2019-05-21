@@ -6,6 +6,7 @@
 #include "Uno/Network/NetworkManager.h"
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/LobbyForm.h"
+#include "Demo/SimpleForm.h"
 
 int main()
 {
@@ -23,5 +24,5 @@ int main()
     });
 
     //std::this_thread::sleep_for(std::chrono::seconds(7));
-    CursenApplication::Run(new LobbyForm());
+    CursenApplication::Run(new SimpleForm());
 }

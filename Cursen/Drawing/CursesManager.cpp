@@ -9,9 +9,10 @@
 #include "ncurses.h"
 #include "Content.h"
 
-namespace cursen {
+namespace cursen
+{
 
-    CursesManager *CursesManager::instance = nullptr;
+    CursesManager* CursesManager::instance = nullptr;
 
     const chtype CursesManager::LOWER_LEFT = ACS_LLCORNER;
     const chtype CursesManager::LOWER_RIGHT = ACS_LRCORNER;
@@ -22,15 +23,18 @@ namespace cursen {
     const chtype CursesManager::LEFT_T = ACS_LTEE;
     const chtype CursesManager::RIGHT_T = ACS_RTEE;
 
-    CursesManager::CursesManager() {
+    CursesManager::CursesManager()
+    {
     }
 
-    int CursesManager::getCharacter() {
+    int CursesManager::getCharacter()
+    {
         int c = getch();
         return c;
     }
 
-    void CursesManager::initializeCurses(const Vect2 &dim) {
+    void CursesManager::initializeCurses(const Vect2& dim)
+    {
         dimensions = dim;
         Resize(dimensions);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -49,50 +53,60 @@ namespace cursen {
         refresh();
     }
 
-    void CursesManager::putCharacter(int c) {
+    void CursesManager::putCharacter(int c)
+    {
         addch((chtype) c);
         refresh();
     }
 
-    void CursesManager::terminateCurses() {
+    void CursesManager::terminateCurses()
+    {
         delete instance;
         instance = nullptr;
     }
 
-    CursesManager::~CursesManager() {
+    CursesManager::~CursesManager()
+    {
         flushinp();     // Flush any remaining curses input
         endwin();       // End curses
     }
 
-    void CursesManager::doBeep() {
+    void CursesManager::doBeep()
+    {
         beep();
     }
 
-    void CursesManager::doFlash() {
+    void CursesManager::doFlash()
+    {
         flash();
     }
 
-    void CursesManager::drawString(const char *string) {
+    void CursesManager::drawString(const char* string)
+    {
         short i = privGetColorPair(ColorPair());
         attron(i);
         addstr(string);
         attroff(i);
     }
 
-    void CursesManager::drawString(const char *string, int x, int y) {
+    void CursesManager::drawString(const char* string, int x, int y)
+    {
         short i = privGetColorPair(ColorPair());
         attron(i);
         mvaddstr(y, x, string);
         attroff(i);
     }
 
-    short CursesManager::privGetColorPair(const ColorPair &colorPair) {
+    short CursesManager::privGetColorPair(const ColorPair& colorPair)
+    {
         ColorPairMap::iterator it;
 
         it = colorPairMap.find(colorPair);
-        if (it != colorPairMap.end()) {
+        if (it != colorPairMap.end())
+        {
             return COLOR_PAIR(colorPairMap[colorPair]);
-        } else {
+        } else
+        {
             short pairNum = (short) (colorPairMap.size() + 1);
             init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
             colorPairMap[colorPair] = pairNum;
@@ -100,13 +114,16 @@ namespace cursen {
         }
     }
 
-    short CursesManager::privGetPairNumber(const ColorPair &colorPair) {
+    short CursesManager::privGetPairNumber(const ColorPair& colorPair)
+    {
         ColorPairMap::iterator it;
 
         it = colorPairMap.find(colorPair);
-        if (it != colorPairMap.end()) {
+        if (it != colorPairMap.end())
+        {
             return colorPairMap[colorPair];
-        } else {
+        } else
+        {
             short pairNum = (short) (colorPairMap.size() + 1);
             init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
             colorPairMap[colorPair] = pairNum;
@@ -114,108 +131,131 @@ namespace cursen {
         }
     }
 
-    void CursesManager::privResize(const Vect2 &dim) {
+    void CursesManager::privResize(const Vect2& dim)
+    {
         std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
         printf("%s", resizeString.c_str());
         fflush(stdout);
     }
 
-    void CursesManager::drawComponent(Component &component) {
+    void CursesManager::drawComponent(Component& component)
+    {
         // Check if component needs a redraw
-        if (component.isInvalid()) {
+        if (component.isInvalid())
+        {
             component.render();
             component.validate();
         }
 
-        Content *content = component.getContent();
+        Content* content = component.getContent();
 
-        if (content != nullptr) {
-            chtype **text = content->getText();
+        if (content != nullptr)
+        {
+            chtype** text = content->getText();
             Vect2 dimensions = content->getDimensions();
             Vect2 position = component.getPosition();
 
-            for (int i = 0; i < dimensions.y; i++) {
-                chtype *row = text[i];
+//            for (int i = 0; i < dimensions.y; i++) {
+//                chtype *row = text[i];
+//                int offset = 0;
+//                if (position.x < 0) {
+//                    offset = -position.x;
+//                }
+//                if (offset < dimensions.x) {
+//                    mvaddchstr(position.y + i, position.x + offset, &row[offset]);
+//                }
+//            }
+
+            for (int y = 0; y < dimensions.y; ++y)
+            {
+                chtype* row = text[y];
                 int offset = 0;
-                if (position.x < 0) {
+                if (position.x < 0)
+                {
                     offset = -position.x;
                 }
-                if (offset < dimensions.x) {
-                    mvaddchstr(position.y + i, position.x + offset, &row[offset]);
+                if (offset < dimensions.x)
+                {
+                    int i = 0;
+                    for (int x = offset; x < dimensions.x; ++x)
+                    {
+                        chtype c = row[x];
+                        if (c != Content::INVISIBLE) {
+                            mvaddch(position.y + y, position.x + i, c);
+                        }
+                        i++;
+                    }
                 }
             }
-
-            //for (int y = 0; y < dimensions.y; ++y) {
-            //    chtype* row = text[y];
-            //    int offset = 0;
-            //    if (position.x < 0) {
-            //        offset = -position.x;
-            //    }
-            //    if (offset < dimensions.x) {
-            //        int i = 0;
-            //        mvaddchstr(position.y + y, position.x + offset, &row[0 + offset]);
-            //        for (int x = position.x + offset; x < dimensions.x; ++x) {
-            //            mvaddch(position.y + y, x, row[offset + i]);
-            //            i++;
-            //        }
-            //    }
-            //}
         }
     }
 
-    void CursesManager::privDrawStringBottomRight(const char *string) {
+    void CursesManager::privDrawStringBottomRight(const char* string)
+    {
         int x = (int) (dimensions.x - strlen(string));
         int y = dimensions.y - 1;
         drawString(string, x, y);
     }
 
-    void CursesManager::privDrawStringBottomLeft(const char *string) {
+    void CursesManager::privDrawStringBottomLeft(const char* string)
+    {
         int y = dimensions.y - 1;
         drawString(string, 0, y);
     }
 
-    void CursesManager::privRegisterComponent(Component *component) {
+    void CursesManager::privRegisterComponent(Component* component)
+    {
         auto it = componentMap[component->drawOrder].find(component);
-        if (it == componentMap[component->drawOrder].end()) {
+        if (it == componentMap[component->drawOrder].end())
+        {
             componentMap[component->drawOrder].insert(component);
         }
     }
 
-    void CursesManager::privDeregisterComponent(Component *component) {
+    void CursesManager::privDeregisterComponent(Component* component)
+    {
         auto it = componentMap[component->drawOrder].find(component);
-        if (it != componentMap[component->drawOrder].end()) {
+        if (it != componentMap[component->drawOrder].end())
+        {
             componentMap[component->drawOrder].erase(component);
         }
     }
 
-    void CursesManager::privSetDrawOrder(Component *component, int order) {
+    void CursesManager::privSetDrawOrder(Component* component, int order)
+    {
         componentMap[component->getDrawOrder()].erase(component);
         componentMap[order].insert(component);
     }
 
-    void CursesManager::privDraw() {
-        CursenDebugger &debugger = CursenApplication::GetDebugger();
+    void CursesManager::privDraw()
+    {
+        CursenDebugger& debugger = CursenApplication::GetDebugger();
 
         // Clear the old screen
         erase();
 
-        for (auto pair = componentMap.begin(); pair != componentMap.end(); ++pair) {
-            for (auto componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter) {
-                Component &component = *(*componentIter);
-                if (!component.isHidden()) {
+        for (auto pair = componentMap.begin(); pair != componentMap.end(); ++pair)
+        {
+            for (auto componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter)
+            {
+                Component& component = *(*componentIter);
+                if (!component.isHidden())
+                {
                     drawComponent(component);
                 }
             }
         }
 
-        if (debugger.getInspectionPointer() != nullptr) {
-            InspectionPointer *inspectionPointer = debugger.getInspectionPointer();
+        if (debugger.getInspectionPointer() != nullptr)
+        {
+            InspectionPointer* inspectionPointer = debugger.getInspectionPointer();
             drawComponent(*inspectionPointer);
             privDrawStringBottomRight(&(*inspectionPointer->getPosition().toString().c_str()));
             Vect2 boxSize = inspectionPointer->getBoxSize();
             privDrawStringBottomLeft(boxSize.toString().c_str());
             Vect2 boxPos = inspectionPointer->getBoxLoc();
-            for (int y = 0; y < boxSize.y; y++) {
+            for (int y = 0; y < boxSize.y; y++)
+            {
                 mvchgat(boxPos.y + y, boxPos.x, boxSize.x, A_NORMAL,
                         privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
             }
@@ -226,11 +266,13 @@ namespace cursen {
         //refresh();
     }
 
-    void CursesManager::privMoveCursor(const Vect2 &dim) {
+    void CursesManager::privMoveCursor(const Vect2& dim)
+    {
         cursor_pos = dim;
     }
 
-    void CursesManager::privSetCursor(const int &level) {
+    void CursesManager::privSetCursor(const int& level)
+    {
         curs_set(level);
     }
 }

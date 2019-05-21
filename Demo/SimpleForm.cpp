@@ -10,9 +10,18 @@ SimpleForm::SimpleForm() :
 
 }
 
-void SimpleForm::initialize() {
+void SimpleForm::initialize()
+{
+    myBox.initialize();
+    myBox.setSize(cursen::Vect2(30,3));
+    myBox.setPosition(cursen::Vect2(1,1));
+    myBox.setForeground(cursen::Color::VIOLET);
+    myBox.setFill(cursen::Content::INVISIBLE);
+    myBox.setDrawOrder(100);
 
-    modeSelectBox.initialize();
-    modeSelectBox.setPosition(cursen::Vect2(17, 7));
-    modeSelectBox.getMainPlayerStage().activateTextField();
+    myLabel.initialize();
+    myLabel.setPosition(cursen::Vect2(2,2));
+    myLabel.setText("Hello World!");
+    myLabel.setForeground(cursen::Color::YELLOW);
+    myLabel.setDrawOrder(1);
 }
