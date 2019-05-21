@@ -8,14 +8,14 @@
 #include <unordered_map>
 
 #include "ArrowMap.h"
-#include "Cursen/Components/TextComponent.h"
+#include "Cursen/Components/StandardComponent.h"
 
 namespace cursen {
 
 /**
  * Cursor is a specialized component for creating a virtual cursor.
  */
-    class Cursor : public TextComponent {
+    class Cursor : public StandardComponent {
 
     public:
 

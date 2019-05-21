@@ -5,11 +5,11 @@
 #ifndef CURSEN_TEXTFIELD_H
 #define CURSEN_TEXTFIELD_H
 
-#include "TextComponent.h"
+#include "StandardComponent.h"
 
 namespace cursen {
 
-    class TextField : public TextComponent {
+    class TextField : public StandardComponent {
 
     public:
 

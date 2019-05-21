@@ -8,17 +8,17 @@
 namespace cursen {
 
     ASCIIArt::ASCIIArt() :
-            TextComponent(), max_columns(0)
+            StandardComponent(), max_columns(0)
     {}
 
     ASCIIArt::ASCIIArt(const Vect2 &pos) :
-            TextComponent(pos), max_columns(0)
+            StandardComponent(pos), max_columns(0)
     {}
 
 
 
     void ASCIIArt::render() {
-        TextComponent::render();
+        StandardComponent::render();
         Content& content = getContent();
 
         content.resize(Vect2(max_columns, (int)raw_data.size()));

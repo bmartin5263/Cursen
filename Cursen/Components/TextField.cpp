@@ -8,22 +8,22 @@
 namespace cursen {
 
     TextField::TextField() :
-            TextComponent(Vect2(1, 1)) {
+            StandardComponent(Vect2(1, 1)) {
     }
 
     TextField::TextField(const Vect2 &pos) :
-            TextComponent(pos) {
+            StandardComponent(pos) {
     }
 
     void TextField::initialize() {
-        TextComponent::initialize();
+        StandardComponent::initialize();
         Component::setEnabled(false);
 
         cursor_x = 0;
     }
 
     void TextField::render() {
-        TextComponent::render();
+        StandardComponent::render();
         Content& content = getContent();
 
         content.clear();
@@ -33,7 +33,7 @@ namespace cursen {
     }
 
     void TextField::cursorOn() {
-        TextComponent::cursorOn();
+        StandardComponent::cursorOn();
     }
 
     void TextField::keyPress(const Event &e) {
@@ -60,7 +60,7 @@ namespace cursen {
         if (size.y < 1) {
             throw std::range_error("Y Must Be At Least 1");
         }
-        TextComponent::setSize(size);
+        StandardComponent::setSize(size);
         max_len = size.x;
     }
 

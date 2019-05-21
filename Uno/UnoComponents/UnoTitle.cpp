@@ -8,12 +8,12 @@ UnoTitle::UnoTitle() {
 
 }
 
-UnoTitle::UnoTitle(const cursen::Vect2 &pos) : TextComponent(pos) {
+UnoTitle::UnoTitle(const cursen::Vect2 &pos) : StandardComponent(pos) {
 
 }
 
 void UnoTitle::initialize() {
-    TextComponent::initialize();
+    StandardComponent::initialize();
     setSize(cursen::Vect2(20, 3));
 }
 

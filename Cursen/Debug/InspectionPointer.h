@@ -6,11 +6,11 @@
 #define CURSEN_INSPECTORPOINTER_H
 
 
-#include "Cursen/Components/TextComponent.h"
+#include "Cursen/Components/StandardComponent.h"
 
 namespace cursen {
 
-    class InspectionPointer : public TextComponent {
+    class InspectionPointer : public StandardComponent {
 
     public:
 

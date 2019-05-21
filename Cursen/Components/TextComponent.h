@@ -18,55 +18,17 @@ namespace cursen {
         TextComponent(const Vect2& pos, const Vect2& dim);
         ~TextComponent();
 
-        virtual void setDrawOrder(int order) override ;
-
-        virtual void initialize() override;
-
-        virtual void setForeground(const Color &color) override;
-        virtual Color getForeground() override;
-
-        virtual void setBackground(const Color &color) override;
-        virtual Color getBackground() override;
-
-        ColorPair& getCurrentDrawColor();
-
-        virtual void cursorOn();
-        virtual void cursorOff();
-
-        void setEnabled(bool value) override;
-
-        void setHighlight(const ColorPair &color) override;
-        ColorPair getHighlight() override;
-
-        void setDisabled(const ColorPair &color) override;
-        ColorPair getDisabled() override;
+        virtual void setSize(const Vect2 &size);
+        virtual Vect2 getSize();
 
         virtual Content& getContent();
-        virtual void render();
-
-        virtual void setSize(const Vect2 &size);
-        Vect2 getSize();
-
-        void startGlow();
-        void stopGlow();
-        void animateGlow();
+        virtual void render() = 0;
 
     private:
 
         Content content;
-        ColorPair draw_color;
-        Color foreground;
-        Color background;
-        Color highlight_foreground;
-        Color highlight_background;
-        Color disabled_foreground;
-        Color disabled_background;
-        int glow_frame;
-        bool isHovered;
 
     };
-
-
 }
 
 #endif //CURSEN_TEXTCOMPONENT_H

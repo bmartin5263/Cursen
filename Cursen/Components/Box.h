@@ -5,12 +5,11 @@
 #ifndef CURSEN_BOX_H
 #define CURSEN_BOX_H
 
-#include "Component.h"
-#include "TextComponent.h"
+#include "StandardComponent.h"
 
 namespace cursen {
 
-    class Box : public TextComponent {
+    class Box : public StandardComponent {
 
     public:
 

@@ -7,25 +7,25 @@
 namespace cursen {
 
     Box::Box() :
-            TextComponent(Vect2(0,0), Vect2(2,2))
+            StandardComponent(Vect2(0,0), Vect2(2,2))
     {
         //initialize();
     }
 
     Box::Box(const Vect2 &pos, const Vect2 &dim) :
-            TextComponent(pos, dim)
+            StandardComponent(pos, dim)
     {
         if (dim.x < 2 || dim.y < 2) throw std::logic_error("Box requires dimensions > 1");
         //initialize();
     }
 
     void Box::initialize() {
-        TextComponent::initialize();
+        StandardComponent::initialize();
         setBorder();
     }
 
     void Box::render() {
-        TextComponent::render();
+        StandardComponent::render();
         Content& content = getContent();
 
         ColorPair& draw_color = getCurrentDrawColor();

@@ -5,13 +5,12 @@
 #ifndef CURSEN_LABEL_H
 #define CURSEN_LABEL_H
 
-#include "Cursen/Components/Component.h"
 #include "Cursen/Drawing/TextAlignment.h"
-#include "TextComponent.h"
+#include "StandardComponent.h"
 
 namespace cursen {
 
-    class Label : public TextComponent {
+    class Label : public StandardComponent {
 
     public:
 

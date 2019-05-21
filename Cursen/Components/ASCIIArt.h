@@ -5,11 +5,11 @@
 #ifndef CURSEN_ASCIIART_H
 #define CURSEN_ASCIIART_H
 
-#include "TextComponent.h"
+#include "StandardComponent.h"
 
 namespace cursen {
 
-    class ASCIIArt : public TextComponent {
+    class ASCIIArt : public StandardComponent {
 
     public:
 

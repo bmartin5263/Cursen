@@ -7,13 +7,13 @@
 namespace cursen {
 
     InspectionPointer::InspectionPointer() :
-            TextComponent(Vect2(0, 0), Vect2(1, 1)) {
+            StandardComponent(Vect2(0, 0), Vect2(1, 1)) {
 
     }
 
 
     void InspectionPointer::initialize() {
-        TextComponent::initialize();
+        StandardComponent::initialize();
 
         onArrowPress(std::bind(&InspectionPointer::movePointer, this, std::placeholders::_1));
         onKeyPress(std::bind(&InspectionPointer::pressSpace, this, std::placeholders::_1));

@@ -8,21 +8,22 @@
 namespace cursen {
 
     Label::Label() :
-            TextComponent(Vect2(0, 0), Vect2(1, 1)) {
+            StandardComponent(Vect2(0, 0), Vect2(1, 1)) {
     }
 
     Label::Label(const Vect2 &pos, const Vect2 &dim) :
-            TextComponent(pos, dim) {
+            StandardComponent(pos, dim) {
     }
 
     void Label::initialize() {
-        TextComponent::initialize();
+        StandardComponent::initialize();
         this->text = "";
         this->alignment = TextAlignment::LEFT;
     }
 
     void Label::render() {
-        TextComponent::render();
+        StandardComponent::render();
+
         Content& content = getContent();
         ColorPair &draw_color = getCurrentDrawColor();
 
