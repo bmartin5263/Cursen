@@ -3,7 +3,7 @@
 //
 
 #include "DebugConsole.h"
-#include "SFML/System/Time.hpp"
+#include "SFML/Time.hpp"
 
 DebugConsole* DebugConsole::instance = nullptr;
 

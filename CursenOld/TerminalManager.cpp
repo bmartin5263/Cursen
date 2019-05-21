@@ -4,7 +4,7 @@
 
 #include <thread>
 #include "SpriteFrame.h"
-#include "DebugConsole.h"
+#include "Debug/DebugConsole.h"
 #include "TerminalManager.h"
 #include "SFML/Graphics.hpp"
 

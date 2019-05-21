@@ -6,7 +6,7 @@
 #include "UITools.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "DebugConsole.h"
+#include "Debug/DebugConsole.h"
 
 SceneManager* SceneManager::manager = nullptr;
 

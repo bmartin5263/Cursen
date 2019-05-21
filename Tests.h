@@ -11,7 +11,7 @@
 #include <ncurses.h>
 #include <thread>
 #include <TerminalManager.h>
-#include <StopWatch.h>
+#include <Tools/StopWatch.h>
 
 void cursesTest()
 {

@@ -4,7 +4,7 @@
 
 #include <thread>
 #include <curses.h>
-#include "DebugConsole.h"
+#include "Debug/DebugConsole.h"
 #include "Engine.h"
 #include "SceneManager.h"
 #include "TerminalManager.h"

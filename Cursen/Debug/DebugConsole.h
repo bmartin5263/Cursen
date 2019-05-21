@@ -6,7 +6,7 @@
 #define CURSEN_DEBUGCONSOLE_H
 
 
-#include <SFML/network.hpp>
+#include <SFML/Network.hpp>
 
 class DebugConsole {
 
