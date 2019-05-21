@@ -16,43 +16,32 @@ void ClientController::initialize()
 
 void ClientController::destroy()
 {
-
+    lobbyForm->leaveClient();
 }
 
 void ClientController::clickStart()
 {
-    lobbyForm->getConsole().setText("Start Clicked!");
+    throw std::logic_error("Client cannot start game.");
 }
 
 void ClientController::clickAddAI()
 {
-    Lobby& lobby = lobbyForm->getLobby();
-    UnoConsole& console = lobbyForm->getConsole();
-
-    console.setText("Add AI Clicked!");
-    Player *p = new Player(Player::GetComputerName(), lobbyForm->getLobby().getAvailableColorRGBY());
-    lobby.addPlayer(p);
-    console.setMessage("Welcome, " + p->getName() + "!");
-    update();
+    throw std::logic_error("Client cannot add AI.");
 }
 
 void ClientController::clickSearch()
 {
-    UnoConsole& console = lobbyForm->getConsole();
-    console.setText("Search Clicked!");
-    lobbyForm->toggleSearch();
+    throw std::logic_error("Client cannot search.");
 }
 
 void ClientController::clickKick()
 {
-    UnoConsole& console = lobbyForm->getConsole();
-    console.setText("Kick Clicked!");
-    lobbyForm->enableRemovePlayerCursor();
+    throw std::logic_error("Client cannot kick.");
 }
 
 void ClientController::clickClose()
 {
-    lobbyForm->leaveLobby();
+    destroy();
 }
 
 void ClientController::clickChangeColor()

@@ -153,6 +153,45 @@ void LobbyForm::initializeForClient()
     lobby_cursor.setEnabled(true);
 }
 
+void LobbyForm::cleanLobby()
+{
+    mode_select_box.setHidden(false);
+    lobby_cursor.setEnabled(false);
+
+    add_ai_button.setEnabled(false);
+    start_button.setEnabled(false);
+    search_button.setEnabled(false);
+    close_button.setEnabled(false);
+    kick_button.setEnabled(false);
+    change_color_button.setEnabled(false);
+    chat_button.setEnabled(false);
+
+    playerStaging.stopSearching();
+    playerStaging.clear();
+
+    console.setMessage("");
+
+    delete lobby;
+    delete controller;
+    lobby = nullptr;
+    controller = nullptr;
+}
+
+void LobbyForm::leaveLocal()
+{
+    cleanLobby();
+}
+
+void LobbyForm::leaveHost()
+{
+    cleanLobby();
+}
+
+void LobbyForm::leaveClient()
+{
+    cleanLobby();
+}
+
 
 void LobbyForm::clickStart()
 {
@@ -220,30 +259,6 @@ void LobbyForm::clickJoin()
 void LobbyForm::clickExit()
 {
     cursen::CursenApplication::Quit();
-}
-
-void LobbyForm::leaveLobby()
-{
-    mode_select_box.setHidden(false);
-    lobby_cursor.setEnabled(false);
-
-    add_ai_button.setEnabled(false);
-    start_button.setEnabled(false);
-    search_button.setEnabled(false);
-    close_button.setEnabled(false);
-    kick_button.setEnabled(false);
-    change_color_button.setEnabled(false);
-    chat_button.setEnabled(false);
-
-    playerStaging.stopSearching();
-    playerStaging.clear();
-
-    console.setMessage("");
-
-    delete lobby;
-    delete controller;
-    lobby = nullptr;
-    controller = nullptr;
 }
 
 void LobbyForm::enableRemovePlayerCursor()

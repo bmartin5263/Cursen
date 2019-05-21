@@ -24,11 +24,15 @@ public:
 
     LobbyForm();
     void initialize() override;
-    void leaveLobby();
+    void cleanLobby();
 
     void initializeForLocal();
     void initializeForHost();
     void initializeForClient();
+
+    void leaveLocal();
+    void leaveHost();
+    void leaveClient();
 
     void updateForLocal();
     void updateForHost();

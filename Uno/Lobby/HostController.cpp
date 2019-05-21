@@ -15,7 +15,7 @@ void HostController::initialize()
 
 void HostController::destroy()
 {
-
+    lobbyForm->leaveHost();
 }
 
 void HostController::clickStart()
@@ -57,7 +57,7 @@ void HostController::clickKick()
 void HostController::clickClose()
 {
     // Broadcast close
-    lobbyForm->leaveLobby();
+    destroy();
 }
 
 void HostController::clickChangeColor()

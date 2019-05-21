@@ -16,8 +16,14 @@ void LocalController::initialize()
 
 void LocalController::destroy()
 {
-
+    lobbyForm->leaveLocal();
 }
+
+void LocalController::update()
+{
+    lobbyForm->updateForLocal();
+}
+
 
 void LocalController::clickStart()
 {
@@ -38,9 +44,7 @@ void LocalController::clickAddAI()
 
 void LocalController::clickSearch()
 {
-    UnoConsole& console = lobbyForm->getConsole();
-    console.setText("Search Clicked!");
-    lobbyForm->toggleSearch();
+    throw std::logic_error("Local cannot search.");
 }
 
 void LocalController::clickKick()
@@ -52,7 +56,7 @@ void LocalController::clickKick()
 
 void LocalController::clickClose()
 {
-    lobbyForm->leaveLobby();
+    destroy();
 }
 
 void LocalController::clickChangeColor()
@@ -64,10 +68,5 @@ void LocalController::clickChangeColor()
 
 void LocalController::clickChat()
 {
-
-}
-
-void LocalController::update()
-{
-    lobbyForm->updateForLocal();
+    throw std::logic_error("Local cannot chat.");
 }
