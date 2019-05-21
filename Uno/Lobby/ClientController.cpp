@@ -11,7 +11,7 @@ ClientController::ClientController(LobbyForm* form) : LobbyController(form)
 
 void ClientController::initialize()
 {
-    lobbyForm->initializeLobby(LobbyType::JOIN);
+    lobbyForm->initializeForClient();
 }
 
 void ClientController::destroy()
@@ -33,7 +33,7 @@ void ClientController::clickAddAI()
     Player *p = new Player(Player::GetComputerName(), lobbyForm->getLobby().getAvailableColorRGBY());
     lobby.addPlayer(p);
     console.setMessage("Welcome, " + p->getName() + "!");
-    lobbyForm->updateLobby();
+    update();
 }
 
 void ClientController::clickSearch()
@@ -59,10 +59,15 @@ void ClientController::clickChangeColor()
 {
     Lobby& lobby = lobbyForm->getLobby();
     lobby.getPlayer(0)->setColor(lobby.getAvailableColor());
-    lobbyForm->updateLobby();
+    update();
 }
 
 void ClientController::clickChat()
 {
 
+}
+
+void ClientController::update()
+{
+    lobbyForm->updateForClient();
 }

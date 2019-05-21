@@ -24,15 +24,17 @@ public:
 
     LobbyForm();
     void initialize() override;
-
-    void initializeLobby(LobbyType lobbyType);
     void leaveLobby();
 
     void initializeForLocal();
     void initializeForHost();
     void initializeForClient();
 
-    void updateLobby();
+    void updateForLocal();
+    void updateForHost();
+    void updateForClient();
+    void disableButtons();
+
     void toggleSearch();
 
     void enableRemovePlayerCursor();

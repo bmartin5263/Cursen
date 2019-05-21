@@ -10,7 +10,7 @@ HostController::HostController(LobbyForm* lobbyForm) : LobbyController(lobbyForm
 
 void HostController::initialize()
 {
-    lobbyForm->initializeLobby(LobbyType::HOST);
+    lobbyForm->initializeForHost();
 }
 
 void HostController::destroy()
@@ -33,7 +33,7 @@ void HostController::clickAddAI()
     Player *p = new Player(Player::GetComputerName(), lobbyForm->getLobby().getAvailableColorRGBY());
     lobby.addPlayer(p);
     console.setMessage("Welcome, " + p->getName() + "!");
-    lobbyForm->updateLobby();
+    update();
     // Broadcast message to add an AI
 }
 
@@ -65,11 +65,16 @@ void HostController::clickChangeColor()
     // Broadcast color change
     Lobby& lobby = lobbyForm->getLobby();
     lobby.getPlayer(0)->setColor(lobby.getAvailableColor());
-    lobbyForm->updateLobby();
+    update();
 }
 
 void HostController::clickChat()
 {
 
+}
+
+void HostController::update()
+{
+    lobbyForm->updateForHost();
 }
 

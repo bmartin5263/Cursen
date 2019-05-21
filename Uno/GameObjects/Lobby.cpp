@@ -5,8 +5,8 @@
 #include "Lobby.h"
 #include "../Constants.h"
 
-Lobby::Lobby(LobbyType type) :
-    lobbyType(type), numPlayers(0), searching(false)
+Lobby::Lobby() :
+    numPlayers(0), searching(false)
 {
     for (int i = 0; i < MAX_PLAYERS; i++) {
         players[i] = nullptr;
@@ -43,10 +43,6 @@ Player* Lobby::getPlayer(const int &index) const {
 
 int Lobby::getNumPlayers() const {
     return numPlayers;
-}
-
-LobbyType Lobby::getType() const {
-    return lobbyType;
 }
 
 void Lobby::startSearch() {

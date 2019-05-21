@@ -15,6 +15,7 @@ public:
     ClientController(LobbyForm* form);
     void initialize() override;
     void destroy() override;
+    void update() override;
     void clickStart() override;
     void clickAddAI() override;
     void clickSearch() override;

@@ -20,6 +20,7 @@ public:
 
     virtual void initialize() = 0;
     virtual void destroy() = 0;
+    virtual void update() = 0;
     virtual void clickStart() = 0;          // HOST, LOCAL
     virtual void clickAddAI() = 0;          // HOST, LOCAL
     virtual void clickSearch() = 0;         // HOST

@@ -17,7 +17,7 @@ public:
     static const int MAX_PLAYERS = 4;
     static const int MIN_PLAYERS_TO_START = 2;
 
-    Lobby(LobbyType type);
+    Lobby();
     ~Lobby();
 
     void addPlayer(Player * const player);
@@ -34,12 +34,10 @@ public:
     PlayerColor getAvailableColor() const;
     PlayerColor getAvailableColorRGBY() const;
 
-    LobbyType getType() const;
 
 private:
 
     Player* players[MAX_PLAYERS];
-    LobbyType lobbyType;
     int numPlayers;
     bool searching;
 

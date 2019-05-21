@@ -11,7 +11,7 @@ LocalController::LocalController(LobbyForm* form) : LobbyController(form)
 
 void LocalController::initialize()
 {
-    lobbyForm->initializeLobby(LobbyType::LOCAL);
+    lobbyForm->initializeForLocal();
 }
 
 void LocalController::destroy()
@@ -33,7 +33,7 @@ void LocalController::clickAddAI()
     Player *p = new Player(Player::GetComputerName(), lobbyForm->getLobby().getAvailableColorRGBY());
     lobby.addPlayer(p);
     console.setMessage("Welcome, " + p->getName() + "!");
-    lobbyForm->updateLobby();
+    update();
 }
 
 void LocalController::clickSearch()
@@ -59,10 +59,15 @@ void LocalController::clickChangeColor()
 {
     Lobby& lobby = lobbyForm->getLobby();
     lobby.getPlayer(0)->setColor(lobby.getAvailableColor());
-    lobbyForm->updateLobby();
+    update();
 }
 
 void LocalController::clickChat()
 {
 
+}
+
+void LocalController::update()
+{
+    lobbyForm->updateForLocal();
 }
