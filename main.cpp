@@ -1,3 +1,5 @@
+#include "Cursen/Drawing/CursesManager.h"
+#include "Demo/TestForm.h"
 #include "Cursen/CursenApplication.h"
 #include "Uno/Network/NetworkManager.h"
 #include "Uno/Data/DataManager.h"
@@ -11,6 +13,12 @@ int main()
     CursenApplication::OnUpdate([]() {
         NetworkManager::ProcessNetworkMessages();
         DataManager::ProcessDataMessages();
+    });
+
+    CursenApplication::OnDraw([]() {
+       static int num_updates = 0;
+       num_updates++;
+       CursesManager::DrawStringBottomLeft(std::to_string(num_updates));
     });
 
     CursenApplication::Run(new LobbyForm());

@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <set>
 #include <map>
+#include <thread>
 
 #include "Cursen/Components/Form.h"
 #include "Cursen/CursenApplication.h"
@@ -87,6 +88,7 @@ namespace cursen {
         int inputTimeout;
         ColorMap colorMap;
         ColorPairMap colorPairMap;
+        std::mutex mtx;
 
         // Methods
         void initializeCurses(const Vect2& dim);

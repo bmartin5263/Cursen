@@ -33,7 +33,7 @@ namespace cursen {
          */
         static void OnUpdate(UserFunction user_callback);
 
-        static void AfterDraw(UserFunction user_callback);
+        static void OnDraw(UserFunction user_callback);
 
         static CursenDebugger& GetDebugger() { return Instance().privGetDebugger(); };
 

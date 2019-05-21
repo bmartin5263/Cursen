@@ -168,7 +168,25 @@ namespace cursen {
         } else if (glow_frame == 22) {
             setForeground(Color(195));
         }
-        glow_frame = (glow_frame + 1) % 23;
+        else if (glow_frame == 23) {
+            setForeground(Color(195));
+        }
+        else if (glow_frame == 24) {
+            setForeground(Color(195));
+        }
+        else if (glow_frame == 25) {
+            setForeground(Color(195));
+        }
+        else if (glow_frame == 26) {
+            setForeground(Color(195));
+        }
+        else if (glow_frame == 27) {
+            setForeground(Color(195));
+        }
+        else if (glow_frame == 28) {
+            setForeground(Color(195));
+        }
+        glow_frame = (glow_frame + 1) % 29;
     }
 
     void TextComponent::render() {

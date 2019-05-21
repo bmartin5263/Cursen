@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <thread>
+#include <Cursen/Tools/StopWatch.h>
 #include "Events/AlarmManager.h"
 #include "Events/InputManager.h"
 #include "CursenApplication.h"
@@ -34,6 +35,8 @@ namespace cursen {
      */
     void CursenApplication::main(Form *form)
     {
+        StopWatch watch;
+
         running = true;
         currentForm = form;
 
@@ -44,6 +47,7 @@ namespace cursen {
         CursesManager::Draw();
 
         while (running) {
+            watch.tick();
             AlarmManager::ProcessAlarms();
             InputManager::ProcessInput();
             EventManager::ProcessEvents();
@@ -51,6 +55,8 @@ namespace cursen {
             CursesManager::Draw();
             after_draw_function();
             CursesManager::Refresh();
+            watch.tock();
+            std::this_thread::sleep_for(std::chrono::milliseconds(16 - watch.getMilliseconds()));
         }
 
         CursesManager::Terminate();
@@ -92,7 +98,7 @@ namespace cursen {
         Instance().user_function = user_callback;
     }
 
-    void CursenApplication::AfterDraw(UserFunction user_callback)
+    void CursenApplication::OnDraw(UserFunction user_callback)
     {
         Instance().after_draw_function = user_callback;
     }
