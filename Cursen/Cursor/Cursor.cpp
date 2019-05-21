@@ -108,18 +108,13 @@ namespace cursen {
 
     }
 
-    void Cursor::refresh() {
+    bool Cursor::refresh() {
         if (currentComponent == nullptr || !currentComponent->isCursable()) {
-            if (!cursorDown()) {
-                if (!cursorUp()) {
-                    if (!cursorLeft()) {
-                        if (!cursorRight()) {
-                            throw std::logic_error("Cursor is trapped.");
-                        }
-                    }
-                }
+            if (!cursorDown() || !cursorUp() || !cursorLeft() || !cursorRight()) {
+                return false;
             }
         }
+        return true;
     }
 
     void Cursor::moveTo(Component *start) {

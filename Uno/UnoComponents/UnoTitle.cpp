@@ -59,5 +59,6 @@ void UnoTitle::render() {
     content->writeLine(line1, cursen::Vect2(0,0));
     content->writeLine(line2, cursen::Vect2(0,1));
     content->writeLine(line3, cursen::Vect2(0,2));
+
 }
 

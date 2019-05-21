@@ -1,3 +1,5 @@
+#include <chrono>
+#include <thread>
 #include "Cursen/Drawing/CursesManager.h"
 #include "Demo/TestForm.h"
 #include "Cursen/CursenApplication.h"
@@ -18,8 +20,9 @@ int main()
     CursenApplication::OnDraw([]() {
        static int num_updates = 0;
        num_updates++;
-       CursesManager::DrawStringBottomLeft(std::to_string(num_updates));
+       //CursesManager::DrawStringBottomLeft(std::to_string(num_updates));
     });
 
+    //std::this_thread::sleep_for(std::chrono::seconds(7));
     CursenApplication::Run(new LobbyForm());
 }

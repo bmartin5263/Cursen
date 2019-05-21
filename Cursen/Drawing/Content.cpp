@@ -221,4 +221,9 @@ namespace cursen {
         }
     }
 
+    Content::Line& Content::operator[](int y)
+    {
+        return body[y];
+    }
+
 }

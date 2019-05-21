@@ -34,7 +34,7 @@ namespace cursen {
         bool cursorUp();
         void initialize() override;
         void render() override {};  // no rendering
-        void refresh();
+        bool refresh();
 
     private:
 

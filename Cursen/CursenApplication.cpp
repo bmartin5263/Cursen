@@ -45,21 +45,24 @@ namespace cursen {
         CursesManager::Initialize(currentForm->getSize());
         currentForm->initialize();
         CursesManager::Draw();
-
-        while (running) {
+        while (running)
+        {
             watch.tick();
+
             AlarmManager::ProcessAlarms();
             InputManager::ProcessInput();
             EventManager::ProcessEvents();
             user_function();
             CursesManager::Draw();
             after_draw_function();
-            CursesManager::Refresh();
+
             watch.tock();
-            std::this_thread::sleep_for(std::chrono::milliseconds(16 - watch.getMilliseconds()));
+
+            std::this_thread::sleep_for(std::chrono::nanoseconds(16000000 - watch.getNanoseconds()));
         }
 
         CursesManager::Terminate();
+        delete currentForm;
 
     }
 

@@ -28,6 +28,8 @@ namespace cursen {
         Content(const Vect2& dimensions);
         ~Content();
 
+        Line& operator [](int);
+
         void clear();
         void clearLine(const int y);
         void clearColumn(const int x);
