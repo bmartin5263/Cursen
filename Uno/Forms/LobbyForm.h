@@ -16,6 +16,7 @@
 #include "../GameObjects/Lobby.h"
 
 class Lobby;
+class LobbyController;
 
 class LobbyForm : public cursen::Form {
 
@@ -26,6 +27,10 @@ public:
 
     void initializeLobby(LobbyType lobbyType);
     void leaveLobby();
+
+    void initializeForLocal();
+    void initializeForHost();
+    void initializeForClient();
 
     void updateLobby();
     void toggleSearch();
@@ -50,10 +55,15 @@ public:
     void clickChangeColor();
     void clickChat();
 
+    UnoConsole& getConsole() { return this->console; };
+    Lobby& getLobby() { return *this->lobby; };
+
 private:
 
     // Instance Data
     Lobby* lobby;
+    LobbyController* controller;
+    Player my_player;
 
     // Components
     cursen::ASCIIArt art;

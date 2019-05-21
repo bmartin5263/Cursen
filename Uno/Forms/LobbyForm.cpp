@@ -6,6 +6,10 @@
 #include "LobbyForm.h"
 #include "Drawing/CursesManager.h"
 #include "../GameObjects/LobbyType.h"
+#include "../Lobby/LobbyController.h"
+#include "../Lobby/HostController.h"
+#include "../Lobby/LocalController.h"
+#include "../Lobby/ClientController.h"
 
 LobbyForm::LobbyForm() :
         Form(cursen::Vect2(70, 33)), lobby(nullptr)
@@ -54,13 +58,6 @@ void LobbyForm::initialize()
     close_button.setEnabled(false);
     close_button.onClick(std::bind(&LobbyForm::clickClose, this));
 
-    //settings_button.initialize();
-    //settings_button.setPosition(cursen::Vect2(1,28));
-    //settings_button.setLength(34);
-    //settings_button.setText("Settings");
-    //settings_button.setEnabled(false);
-    //settings_button.onClick(std::bind(&LobbyForm::clickSettings, this));
-
     change_color_button.initialize();
     change_color_button.setPosition(cursen::Vect2(1, 28));
     change_color_button.setLength(17);
@@ -106,28 +103,70 @@ void LobbyForm::initialize()
                               cursen::ArrowMap(&chat_button, &close_button, &chat_button, &start_button));
     lobby_cursor.mapComponent(&chat_button, cursen::ArrowMap(&change_color_button, &close_button, &change_color_button,
                                                              &start_button));
-
-    //lobby_cursor.setEnabled(false);
 }
+
+void LobbyForm::initializeForLocal()
+{
+    lobby = new Lobby(LobbyType::LOCAL);
+
+    Player* p = new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE);
+    my_player = *p;
+
+    lobby->addPlayer(p);
+    updateLobby();
+
+    console.setMessage("Welcome To Uno!");
+    mode_select_box.setHidden(true);
+    lobby_cursor.moveTo(&add_ai_button);
+    lobby_cursor.setEnabled(true);
+}
+
+void LobbyForm::initializeForHost()
+{
+    lobby = new Lobby(LobbyType::HOST);
+
+    Player* p = new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE);
+    my_player = *p;
+
+    lobby->addPlayer(p);
+    updateLobby();
+
+    console.setMessage("Welcome To Uno!");
+    mode_select_box.setHidden(true);
+    lobby_cursor.moveTo(&add_ai_button);
+    lobby_cursor.setEnabled(true);
+}
+
+void LobbyForm::initializeForClient()
+{
+    lobby = new Lobby(LobbyType::JOIN);
+
+    Player* p = new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE);
+    my_player = *p;
+
+    lobby->addPlayer(p);
+    updateLobby();
+
+    console.setMessage("Welcome To Uno!");
+    mode_select_box.setHidden(true);
+    lobby_cursor.moveTo(&close_button);
+    lobby_cursor.setEnabled(true);
+}
+
 
 void LobbyForm::clickStart()
 {
-    console.setText("Start Clicked!");
+    controller->clickStart();
 }
 
 void LobbyForm::clickAddAI()
 {
-    console.setText("Add AI Clicked!");
-    Player *p = new Player(Player::GetComputerName(), lobby->getAvailableColorRGBY());
-    lobby->addPlayer(p);
-    console.setMessage("Welcome, " + p->getName() + "!");
-    updateLobby();
+    controller->clickAddAI();
 }
 
 void LobbyForm::clickSearch()
 {
-    console.setText("Search Clicked!");
-    toggleSearch();
+    controller->clickSearch();
 }
 
 void LobbyForm::toggleSearch()
@@ -147,13 +186,12 @@ void LobbyForm::toggleSearch()
 
 void LobbyForm::clickKick()
 {
-    console.setText("Kick Clicked!");
-    enableRemovePlayerCursor();
+    controller->clickKick();
 }
 
 void LobbyForm::clickClose()
 {
-    leaveLobby();
+    controller->clickClose();
 }
 
 void LobbyForm::clickSettings()
@@ -163,17 +201,20 @@ void LobbyForm::clickSettings()
 
 void LobbyForm::clickLocal()
 {
-    initializeLobby(LobbyType::LOCAL);
+    controller = new LocalController(this);
+    controller->initialize();
 }
 
 void LobbyForm::clickHost()
 {
-    initializeLobby(LobbyType::HOST);
+    controller = new HostController(this);
+    controller->initialize();
 }
 
 void LobbyForm::clickJoin()
 {
-    initializeLobby(LobbyType::JOIN);
+    controller = new ClientController(this);
+    controller->initialize();
 }
 
 void LobbyForm::clickExit()
@@ -185,7 +226,10 @@ void LobbyForm::initializeLobby(LobbyType type)
 {
     lobby = new Lobby(type);
 
-    lobby->addPlayer(new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE));
+    Player* p = new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE);
+    lobby->addPlayer(p);
+    my_player = *p;
+
     mode_select_box.setHidden(true);
 
     updateLobby();
@@ -216,7 +260,6 @@ void LobbyForm::leaveLobby()
     start_button.setEnabled(false);
     search_button.setEnabled(false);
     close_button.setEnabled(false);
-    //settings_button.setEnabled(false);
     kick_button.setEnabled(false);
     change_color_button.setEnabled(false);
     chat_button.setEnabled(false);
@@ -227,7 +270,9 @@ void LobbyForm::leaveLobby()
     console.setMessage("");
 
     delete lobby;
+    delete controller;
     lobby = nullptr;
+    controller = nullptr;
 }
 
 void LobbyForm::updateLobby()
@@ -236,7 +281,6 @@ void LobbyForm::updateLobby()
     start_button.setEnabled(false);
     search_button.setEnabled(false);
     close_button.setEnabled(false);
-    //settings_button.setEnabled(false);
     change_color_button.setEnabled(false);
     chat_button.setEnabled(false);
     kick_button.setEnabled(false);
@@ -300,13 +344,12 @@ void LobbyForm::setMainPlayerName()
 
 void LobbyForm::clickChat()
 {
-
+    controller->clickChat();
 }
 
 void LobbyForm::clickChangeColor()
 {
-    lobby->getPlayer(0)->setColor(lobby->getAvailableColor());
-    updateLobby();
+    controller->clickChangeColor();
 }
 
 void LobbyForm::selectPlayerToRemove(const int& playerNum)

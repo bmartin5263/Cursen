@@ -2,17 +2,17 @@
 // Created by Brandon Martin on 5/20/19.
 //
 
-#ifndef CURSEN_HOSTCONTROLLER_H
-#define CURSEN_HOSTCONTROLLER_H
+#ifndef CURSEN_CLIENTCONTROLLER_H
+#define CURSEN_CLIENTCONTROLLER_H
 
 
 #include "LobbyController.h"
 
-class HostController : public LobbyController
+class ClientController : public LobbyController
 {
 public:
 
-    HostController(LobbyForm* lobbyForm);
+    ClientController(LobbyForm* form);
     void initialize() override;
     void destroy() override;
     void clickStart() override;
@@ -26,4 +26,4 @@ public:
 };
 
 
-#endif //CURSEN_HOSTCONTROLLER_H
+#endif //CURSEN_CLIENTCONTROLLER_H

@@ -21,10 +21,10 @@ public:
     ModeSelectBox();
     ModeSelectBox(const cursen::Vect2& pos);
 
-    void onLocalClick( std::function<void()> f);
-    void onHostClick( std::function<void()> f);
-    void onJoinClick( std::function<void()> f);
-    void onExitClick( std::function<void()> f);
+    void onLocalClick(std::function<void()> f);
+    void onHostClick(std::function<void()> f);
+    void onJoinClick(std::function<void()> f);
+    void onExitClick(std::function<void()> f);
 
     Stage& getMainPlayerStage();
 

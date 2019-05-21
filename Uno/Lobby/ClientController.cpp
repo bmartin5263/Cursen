@@ -2,29 +2,29 @@
 // Created by Brandon Martin on 5/20/19.
 //
 
-#include "HostController.h"
+#include "ClientController.h"
 
-HostController::HostController(LobbyForm* lobbyForm) : LobbyController(lobbyForm)
-{}
-
-
-void HostController::initialize()
-{
-    lobbyForm->initializeLobby(LobbyType::HOST);
-}
-
-void HostController::destroy()
+ClientController::ClientController(LobbyForm* form) : LobbyController(form)
 {
 
 }
 
-void HostController::clickStart()
+void ClientController::initialize()
 {
-    // Broadcast message to start the game
+    lobbyForm->initializeLobby(LobbyType::JOIN);
+}
+
+void ClientController::destroy()
+{
+
+}
+
+void ClientController::clickStart()
+{
     lobbyForm->getConsole().setText("Start Clicked!");
 }
 
-void HostController::clickAddAI()
+void ClientController::clickAddAI()
 {
     Lobby& lobby = lobbyForm->getLobby();
     UnoConsole& console = lobbyForm->getConsole();
@@ -34,42 +34,35 @@ void HostController::clickAddAI()
     lobby.addPlayer(p);
     console.setMessage("Welcome, " + p->getName() + "!");
     lobbyForm->updateLobby();
-    // Broadcast message to add an AI
 }
 
-void HostController::clickSearch()
+void ClientController::clickSearch()
 {
-    // Broadcast message to twirl
     UnoConsole& console = lobbyForm->getConsole();
     console.setText("Search Clicked!");
     lobbyForm->toggleSearch();
 }
 
-void HostController::clickKick()
+void ClientController::clickKick()
 {
-    // First select player
-    // then broadcast message
     UnoConsole& console = lobbyForm->getConsole();
     console.setText("Kick Clicked!");
     lobbyForm->enableRemovePlayerCursor();
 }
 
-void HostController::clickClose()
+void ClientController::clickClose()
 {
-    // Broadcast close
     lobbyForm->leaveLobby();
 }
 
-void HostController::clickChangeColor()
+void ClientController::clickChangeColor()
 {
-    // Broadcast color change
     Lobby& lobby = lobbyForm->getLobby();
     lobby.getPlayer(0)->setColor(lobby.getAvailableColor());
     lobbyForm->updateLobby();
 }
 
-void HostController::clickChat()
+void ClientController::clickChat()
 {
 
 }
-
