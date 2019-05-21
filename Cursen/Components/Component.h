@@ -42,21 +42,21 @@ namespace cursen {
          * @note Returning a nullptr will cause the CursesManager to skip over drawing/rendering this component.
          * This is utilized by AggregateComponent.
          */
-        virtual Content * getContent() = 0;
+        //virtual Content * getContent() = 0;
 
         /**
          * @brief Get the draw order for this Component
          *
          * @return Draw Order
          */
-        int getDrawOrder();
+        virtual int getDrawOrder();
 
-        virtual /**
+         /**
          * @brief Set the draw order for this Component
          *
          * @param order New Draw Order
          */
-        void setDrawOrder(int order);
+        virtual void setDrawOrder(int order);
 
         /**
          * @brief Sets 'invalid' flag to True, causing Component to be re-rendered next Screen Draw
@@ -79,7 +79,7 @@ namespace cursen {
          */
         bool isInvalid();
 
-        virtual void render() = 0;
+        //virtual void render() = 0;
         Vect2 getPosition() const;
         virtual void setPosition(const Vect2& pos);
         virtual void move(const Vect2& movement);

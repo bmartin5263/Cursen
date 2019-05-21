@@ -23,11 +23,11 @@ namespace cursen {
 
     void Label::render() {
         TextComponent::render();
-        Content *content = getContent();
+        Content& content = getContent();
         ColorPair &draw_color = getCurrentDrawColor();
 
-        content->clear();
-        content->writeLine(text, Vect2(0, 0), alignment, draw_color);
+        content.clear();
+        content.writeLine(text, Vect2(0, 0), alignment, draw_color);
     }
 
     void Label::emplaceText(const std::string &text) {

@@ -16,8 +16,7 @@ void SimpleForm::initialize()
     myBox.setSize(cursen::Vect2(30,3));
     myBox.setPosition(cursen::Vect2(1,1));
     myBox.setForeground(cursen::Color::VIOLET);
-    myBox.setFill(cursen::Content::INVISIBLE);
-    myBox.setDrawOrder(100);
+    myBox.setDrawOrder(10);
 
     myLabel.initialize();
     myLabel.setPosition(cursen::Vect2(2,2));

@@ -24,10 +24,10 @@ namespace cursen {
 
     void TextField::render() {
         TextComponent::render();
-        Content *content = getContent();
+        Content& content = getContent();
 
-        content->clear();
-        content->writeLine(text, Vect2(0, 0), TextAlignment::LEFT, getCurrentDrawColor());
+        content.clear();
+        content.writeLine(text, Vect2(0, 0), TextAlignment::LEFT, getCurrentDrawColor());
 
         CursesManager::MoveCursor(getPosition() + Vect2(cursor_x, 0));
     }

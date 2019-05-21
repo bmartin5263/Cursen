@@ -16,7 +16,9 @@ namespace cursen {
         TextComponent();
         TextComponent(const Vect2& pos);
         TextComponent(const Vect2& pos, const Vect2& dim);
-        ~TextComponent() = default;
+        ~TextComponent();
+
+        virtual void setDrawOrder(int order) override ;
 
         virtual void initialize() override;
 
@@ -39,7 +41,8 @@ namespace cursen {
         void setDisabled(const ColorPair &color) override;
         ColorPair getDisabled() override;
 
-        Content * getContent() override;
+        virtual Content& getContent();
+        virtual void render();
 
         virtual void setSize(const Vect2 &size);
         Vect2 getSize();
@@ -47,8 +50,6 @@ namespace cursen {
         void startGlow();
         void stopGlow();
         void animateGlow();
-
-        void render() override;
 
     private:
 

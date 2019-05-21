@@ -19,12 +19,12 @@ namespace cursen {
 
     void ASCIIArt::render() {
         TextComponent::render();
-        Content* content = getContent();
-        content->resize(Vect2(max_columns, (int)raw_data.size()));
+        Content& content = getContent();
 
+        content.resize(Vect2(max_columns, (int)raw_data.size()));
         int offset = 0;
         for (auto line : raw_data) {
-            content->writeLine(line, Vect2(0, offset), TextAlignment::LEFT, getCurrentDrawColor());
+            content.writeLine(line, Vect2(0, offset), TextAlignment::LEFT, getCurrentDrawColor());
             offset++;
         }
     }

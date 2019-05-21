@@ -18,7 +18,7 @@ void UnoTitle::initialize() {
 }
 
 void UnoTitle::render() {
-    cursen::Content* content = getContent();
+    cursen::Content& content = getContent();
 
     chtype line1[] =
             {'|','|',' ','|','|',' ','|','|','\\',' ','|','|',' ',' ','/','/',' ','\\','\\',' '};
@@ -56,9 +56,9 @@ void UnoTitle::render() {
             line3[i] = line3[i] | cursen::Color::RED;
     }
 
-    content->writeLine(line1, cursen::Vect2(0,0));
-    content->writeLine(line2, cursen::Vect2(0,1));
-    content->writeLine(line3, cursen::Vect2(0,2));
+    content.writeLine(line1, cursen::Vect2(0,0));
+    content.writeLine(line2, cursen::Vect2(0,1));
+    content.writeLine(line3, cursen::Vect2(0,2));
 
 }
 

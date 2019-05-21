@@ -16,9 +16,6 @@ namespace cursen {
         AggregateComponent();
         AggregateComponent(const Vect2& pos);
 
-        void render() override {};                         // Aggregates don't render any content
-        Content * getContent() override {return nullptr;}
-
         void setHidden(bool value) override;
         void setEnabled(bool value) override;
         void setPosition(const Vect2& pos) override;

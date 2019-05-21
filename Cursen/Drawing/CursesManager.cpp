@@ -4,7 +4,7 @@
 
 #include <thread>
 
-#include "Cursen/Components/Component.h"
+#include "Cursen/Components/TextComponent.h"
 #include "CursesManager.h"
 #include "ncurses.h"
 #include "Content.h"
@@ -138,7 +138,7 @@ namespace cursen
         fflush(stdout);
     }
 
-    void CursesManager::drawComponent(Component& component)
+    void CursesManager::drawComponent(TextComponent& component)
     {
         // Check if component needs a redraw
         if (component.isInvalid())
@@ -147,44 +147,30 @@ namespace cursen
             component.validate();
         }
 
-        Content* content = component.getContent();
+        Content& content = component.getContent();
 
-        if (content != nullptr)
+        chtype** text = content.getText();
+        Vect2 dimensions = content.getDimensions();
+        Vect2 position = component.getPosition();
+
+        for (int y = 0; y < dimensions.y; ++y)
         {
-            chtype** text = content->getText();
-            Vect2 dimensions = content->getDimensions();
-            Vect2 position = component.getPosition();
-
-//            for (int i = 0; i < dimensions.y; i++) {
-//                chtype *row = text[i];
-//                int offset = 0;
-//                if (position.x < 0) {
-//                    offset = -position.x;
-//                }
-//                if (offset < dimensions.x) {
-//                    mvaddchstr(position.y + i, position.x + offset, &row[offset]);
-//                }
-//            }
-
-            for (int y = 0; y < dimensions.y; ++y)
+            chtype* row = text[y];
+            int offset = 0;
+            if (position.x < 0)
             {
-                chtype* row = text[y];
-                int offset = 0;
-                if (position.x < 0)
+                offset = -position.x;
+            }
+            if (offset < dimensions.x)
+            {
+                int i = 0;
+                for (int x = offset; x < dimensions.x; ++x)
                 {
-                    offset = -position.x;
-                }
-                if (offset < dimensions.x)
-                {
-                    int i = 0;
-                    for (int x = offset; x < dimensions.x; ++x)
-                    {
-                        chtype c = row[x];
-                        if (c != Content::INVISIBLE) {
-                            mvaddch(position.y + y, position.x + i, c);
-                        }
-                        i++;
+                    chtype c = row[x];
+                    if (c != Content::INVISIBLE) {
+                        mvaddch(position.y + y, position.x + i, c);
                     }
+                    i++;
                 }
             }
         }
@@ -203,7 +189,7 @@ namespace cursen
         drawString(string, 0, y);
     }
 
-    void CursesManager::privRegisterComponent(Component* component)
+    void CursesManager::privRegisterComponent(TextComponent* component)
     {
         auto it = componentMap[component->drawOrder].find(component);
         if (it == componentMap[component->drawOrder].end())
@@ -212,7 +198,7 @@ namespace cursen
         }
     }
 
-    void CursesManager::privDeregisterComponent(Component* component)
+    void CursesManager::privDeregisterComponent(TextComponent* component)
     {
         auto it = componentMap[component->drawOrder].find(component);
         if (it != componentMap[component->drawOrder].end())
@@ -221,7 +207,7 @@ namespace cursen
         }
     }
 
-    void CursesManager::privSetDrawOrder(Component* component, int order)
+    void CursesManager::privSetDrawOrder(TextComponent* component, int order)
     {
         componentMap[component->getDrawOrder()].erase(component);
         componentMap[order].insert(component);
@@ -238,7 +224,7 @@ namespace cursen
         {
             for (auto componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter)
             {
-                Component& component = *(*componentIter);
+                TextComponent& component = *(*componentIter);
                 if (!component.isHidden())
                 {
                     drawComponent(component);

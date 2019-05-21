@@ -60,7 +60,7 @@ namespace cursen {
 
             watch.tock();
 
-            std::this_thread::sleep_for(std::chrono::nanoseconds(16000000 - watch.getNanoseconds()));
+            std::this_thread::sleep_for(std::chrono::nanoseconds(8000000 - watch.getNanoseconds()));
         }
 
         CursesManager::Terminate();

@@ -4,20 +4,24 @@
 
 #include "Cursen/CursenApplication.h"
 #include "Cursen/Events/AlarmManager.h"
+#include "Cursen/Drawing/CursesManager.h"
 #include "TextComponent.h"
 
 namespace cursen {
 
     TextComponent::TextComponent() :
             Component(Vect2(0, 0)) {
+        CursesManager::Register(this);
     }
 
     TextComponent::TextComponent(const Vect2 &pos) :
             Component(pos) {
+        CursesManager::Register(this);
     }
 
     TextComponent::TextComponent(const Vect2 &pos, const Vect2 &dim) :
             Component(pos), content(dim) {
+        CursesManager::Register(this);
     }
 
     void TextComponent::initialize() {
@@ -32,6 +36,11 @@ namespace cursen {
         this->glow_frame = 8;
         this->onCursor(std::bind(&TextComponent::cursorOn, this));
         this->offCursor(std::bind(&TextComponent::cursorOff, this));
+    }
+
+    void TextComponent::setDrawOrder(int order) {
+        CursesManager::SetDrawOrder(this, order);
+        Component::setDrawOrder(order);
     }
 
     void TextComponent::setForeground(const Color &color) {
@@ -93,8 +102,8 @@ namespace cursen {
     }
 
 
-    Content *TextComponent::getContent() {
-        return &content;
+    Content& TextComponent::getContent() {
+        return content;
     }
 
     void TextComponent::setSize(const Vect2 &size) {
@@ -202,6 +211,11 @@ namespace cursen {
             draw_color.fg = disabled_foreground;
             draw_color.bg = disabled_background;
         }
+    }
+
+    TextComponent::~TextComponent()
+    {
+        CursesManager::Deregister(this);
     }
 
 }

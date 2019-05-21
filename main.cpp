@@ -24,5 +24,5 @@ int main()
     });
 
     //std::this_thread::sleep_for(std::chrono::seconds(7));
-    CursenApplication::Run(new SimpleForm());
+    CursenApplication::Run(new LobbyForm());
 }

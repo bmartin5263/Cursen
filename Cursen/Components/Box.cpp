@@ -26,10 +26,11 @@ namespace cursen {
 
     void Box::render() {
         TextComponent::render();
-        Content* content = getContent();
+        Content& content = getContent();
+
         ColorPair& draw_color = getCurrentDrawColor();
-        Vect2 dimensions = content->getDimensions();
-        content->clear();
+        Vect2 dimensions = content.getDimensions();
+        content.clear();
 
         // Render Top and Bottom Line
         chtype top[dimensions.x];
@@ -42,7 +43,7 @@ namespace cursen {
         }
         top[dimensions.x - 1] = upperRight | draw_color;
         bottom[dimensions.x - 1] = lowerRight | draw_color;
-        content->writeLine(top, Vect2(0,0));
+        content.writeLine(top, Vect2(0,0));
         for (int i = 1; i < dimensions.y - 1; i++) {
             chtype row[dimensions.x];
             row[0] = left | draw_color;
@@ -50,9 +51,9 @@ namespace cursen {
             for (int j = 1; j < dimensions.x - 1; j++) {
                 row[j] = fill | draw_color;
             }
-            content->writeLine(row, Vect2(0,i));
+            content.writeLine(row, Vect2(0,i));
         }
-        content->writeLine(bottom, Vect2(0,dimensions.y - 1));
+        content.writeLine(bottom, Vect2(0,dimensions.y - 1));
     }
 
     void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, chtype right, chtype ll, chtype bottom,

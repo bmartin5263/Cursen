@@ -17,7 +17,7 @@
 #include "Color.h"
 #include "ColorPair.h"
 
-class Component;
+class TextComponent;
 
 namespace cursen {
 
@@ -70,15 +70,15 @@ namespace cursen {
         static void SetCursor(const int& level) { Instance().privSetCursor(level); }
         static void MoveCursor(const Vect2& pos) { Instance().privMoveCursor(pos); }
 
-        static void Register(Component* component) { Instance().privRegisterComponent(component); };
-        static void Deregister(Component* component) { Instance().privDeregisterComponent(component); };
-        static void SetDrawOrder(Component* component, int order) { Instance().privSetDrawOrder(component, order); };
+        static void Register(TextComponent* component) { Instance().privRegisterComponent(component); };
+        static void Deregister(TextComponent* component) { Instance().privDeregisterComponent(component); };
+        static void SetDrawOrder(TextComponent* component, int order) { Instance().privSetDrawOrder(component, order); };
 
     private:
 
         typedef std::unordered_map<Color, short, color_hash> ColorMap;
         typedef std::unordered_map<ColorPair, short, color_pair_hash> ColorPairMap;
-        typedef std::map<int, std::set<Component*> > ComponentMap;
+        typedef std::map<int, std::set<TextComponent*> > ComponentMap;
 
         // Instance Data
         ComponentMap componentMap;
@@ -106,12 +106,12 @@ namespace cursen {
         void privDraw();
         void privResize(const Vect2& dim);
         void privMoveCursor(const Vect2& dim);
-        void privRegisterComponent(Component* component);
-        void privDeregisterComponent(Component* component);
-        void privSetDrawOrder(Component* component, int order);
+        void privRegisterComponent(TextComponent* component);
+        void privDeregisterComponent(TextComponent* component);
+        void privSetDrawOrder(TextComponent* component, int order);
         void privSetCursor(const int& level);
 
-        void drawComponent(Component& component);
+        void drawComponent(TextComponent& component);
 
         // Static Data
 

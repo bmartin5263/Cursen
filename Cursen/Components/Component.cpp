@@ -14,13 +14,11 @@ namespace cursen {
 
     Component::Component() :
             enabled(true), invalid(true), hidden(false), silenced(false), cursable(true), drawOrder(0) {
-        CursesManager::Register(this);
         id = "n/a";
     }
 
     Component::Component(const Vect2 &pos) :
             enabled(true), position(pos), hidden(false), invalid(true), cursable(true), drawOrder(0) {
-        CursesManager::Register(this);
         id = "n/a";
     }
 
@@ -318,7 +316,6 @@ namespace cursen {
     }
 
     Component::~Component() {
-        CursesManager::Deregister(this);
     }
 
     int Component::getDrawOrder() {
@@ -326,7 +323,6 @@ namespace cursen {
     }
 
     void Component::setDrawOrder(int order) {
-        CursesManager::SetDrawOrder(this, order);
         drawOrder = order;
     }
 
