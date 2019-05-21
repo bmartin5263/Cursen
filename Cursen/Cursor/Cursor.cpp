@@ -110,7 +110,7 @@ namespace cursen {
 
     bool Cursor::refresh() {
         if (currentComponent == nullptr || !currentComponent->isCursable()) {
-            if (!cursorDown() || !cursorUp() || !cursorLeft() || !cursorRight()) {
+            if (!cursorDown() && !cursorUp() && !cursorLeft() && !cursorRight()) {
                 return false;
             }
         }
