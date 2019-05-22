@@ -31,14 +31,8 @@ namespace cursen {
 
     private:
 
-        static const char TWIRL_LEN = 4;
-        const char *TWIRL[TWIRL_LEN] = {"|", "/", "-", "\\"};
-
-        void doTwirl();
-
+        Animation animation;
         Label twirl_label;
-        int twirl_index;
-        bool spinning;
 
     };
 }

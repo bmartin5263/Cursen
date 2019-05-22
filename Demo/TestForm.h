@@ -13,6 +13,7 @@
 #include "Cursen/Components/TwirlProgress.h"
 #include "Cursen/Cursor/Cursor.h"
 #include "Cursen/Components/Button.h"
+#include "Cursen/Drawing/Animation.h"
 
 class TestForm : public cursen::Form {
 
@@ -24,17 +25,16 @@ public:
     void keyPress(const cursen::Event& event);
     void moveComponent(const cursen::Event& event);
     void disable();
-    void alarmFunction();
     void activateTwirl();
 
     void flash();
     void beep();
     void doRainbow();
-    void changeColor();
     void quitGame();
 
 private:
 
+    cursen::Animation rainbow;
     cursen::Cursor cursor;
     cursen::Button pressMe;
     cursen::Label flashLabel;

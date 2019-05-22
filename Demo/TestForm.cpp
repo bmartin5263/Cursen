@@ -44,7 +44,7 @@ void TestForm::initialize() {
     changeColorLabel.setPosition(cursen::Vect2(1,3));
     changeColorLabel.setSize(cursen::Vect2(40,1));
     changeColorLabel.setText("Change Color");
-    changeColorLabel.onClick(std::bind(&TestForm::changeColor, this));
+    changeColorLabel.onClick(std::bind([&]() { rainbow.nextFrame(); }));
 
     exitLabel.initialize();
     exitLabel.setPosition(cursen::Vect2(1,4));
@@ -112,6 +112,15 @@ void TestForm::initialize() {
     cursor.setEnabled(true);
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
+
+    rainbow.setSpeed(.06f);
+    rainbow.addFrame([&](){ box.setForeground(cursen::Color::RED); });
+    rainbow.addFrame([&](){ box.setForeground(cursen::Color::ORANGE); });
+    rainbow.addFrame([&](){ box.setForeground(cursen::Color::YELLOW); });
+    rainbow.addFrame([&](){ box.setForeground(cursen::Color::GREEN); });
+    rainbow.addFrame([&](){ box.setForeground(cursen::Color::BLUE); });
+    rainbow.addFrame([&](){ box.setForeground(cursen::Color::VIOLET); });
+
 }
 
 void TestForm::activateTwirl() {
@@ -145,48 +154,19 @@ void TestForm::beep() {
     messageLabel.setText("Beep Boop");
 }
 
-void TestForm::changeColor() {
-    static int i = 0;
-    i++;
-    i = i % 6;
-    if (i == 0) {
-        box.setForeground(cursen::Color::RED);
-    }
-    else if (i == 1) {
-        box.setForeground(cursen::Color::ORANGE);
-    }
-    else if (i == 2) {
-        box.setForeground(cursen::Color::YELLOW);
-    }
-    else if (i == 3) {
-        box.setForeground(cursen::Color::GREEN);
-    }
-    else if (i == 4) {
-        box.setForeground(cursen::Color::BLUE);
-    }
-    else if (i == 5) {
-        box.setForeground(cursen::Color::VIOLET);
-    }
-
-}
-
 void TestForm::moveComponent(const cursen::Event &event) {
     if (event.arrowPress.right) {
         box.move(cursen::Vect2(1, 0));
-        changeColor();
     }
     if (event.arrowPress.left) {
         box.move(cursen::Vect2(-1, 0));
-        changeColor();
     }
     if (!cursor.isEnabled()) {
         if (event.arrowPress.up) {
             box.move(cursen::Vect2(0, -1));
-            changeColor();
         }
         if (event.arrowPress.down) {
             box.move(cursen::Vect2(0, 1));
-            changeColor();
         }
     }
 }
@@ -196,18 +176,16 @@ void TestForm::disable() {
     exitLabel.setEnabled(checkBox.isChecked());
 }
 
-void TestForm::alarmFunction() {
-    changeColor();
-}
-
 void TestForm::doRainbow() {
     static bool flashing = false;
     if (flashing) {
-        cursen::AlarmManager::StopAlarm(this);
+        //animation.stop();
+        rainbow.stop();
         box.setForeground(cursen::Color::WHITE);
     }
     else {
-        cursen::AlarmManager::StartAlarm(this, std::bind(&TestForm::alarmFunction, this), .06);
+        //cursen::AlarmManager::StartAlarm(this, std::bind(&TestForm::alarmFunction, this), .06);
+        rainbow.start();
     }
     flashing = !flashing;
     checkBox2.toggle();

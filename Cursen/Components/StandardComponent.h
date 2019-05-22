@@ -6,6 +6,7 @@
 #define CURSEN_STANDARDCOMPONENT_H
 
 
+#include <Cursen/Drawing/Animation.h>
 #include "Cursen/Components/Component.h"
 #include "TextComponent.h"
 
@@ -47,10 +48,10 @@ namespace cursen {
 
         void startGlow();
         void stopGlow();
-        void animateGlow();
 
     private:
 
+        Animation animation;
         ColorPair draw_color;
         Color foreground;
         Color background;

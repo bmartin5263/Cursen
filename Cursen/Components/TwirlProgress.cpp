@@ -11,11 +11,12 @@
 namespace cursen {
 
     TwirlProgress::TwirlProgress() :
-            twirl_index(0), spinning(false) {
+            AggregateComponent()
+    {
     }
 
     TwirlProgress::TwirlProgress(const Vect2 &pos) :
-            twirl_index(0), spinning(false) {
+            AggregateComponent(pos) {
     }
 
     void TwirlProgress::initialize() {
@@ -25,32 +26,30 @@ namespace cursen {
         twirl_label.setForeground(Color::WHITE);
         twirl_label.setHidden(true);
         add(&twirl_label);
+
+        animation.setSpeed(.09);
+        animation.addFrame([&]() { this->twirl_label.setText("/"); });
+        animation.addFrame([&]() { this->twirl_label.setText("-"); });
+        animation.addFrame([&]() { this->twirl_label.setText("\\"); });
+        animation.addFrame([&]() { this->twirl_label.setText("|"); });
     }
 
     void TwirlProgress::start() {
-        if (!spinning) {
-            twirl_index = 0;
-            AlarmManager::StartAlarm(this, std::bind(&TwirlProgress::doTwirl, this), .09);
+        if (!animation.isRunning()) {
             twirl_label.setHidden(false);
-            spinning = true;
+            animation.start();
         }
     }
 
     void TwirlProgress::stop() {
-        if (spinning) {
-            AlarmManager::StopAlarm(this);
+        if (animation.isRunning()) {
             twirl_label.setHidden(true);
-            spinning = false;
+            animation.stop();
         }
     }
 
-    void TwirlProgress::doTwirl() {
-        twirl_index = (twirl_index + 1) % TWIRL_LEN;
-        twirl_label.setText(TWIRL[twirl_index]);
-    }
-
     void TwirlProgress::toggle() {
-        if (spinning) stop();
+        if (animation.isRunning()) stop();
         else start();
     }
 
@@ -81,7 +80,7 @@ namespace cursen {
     }
 
     bool TwirlProgress::isSpinning() {
-        return spinning;
+        return animation.isRunning();
     }
 
 }
