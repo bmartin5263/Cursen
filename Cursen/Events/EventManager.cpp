@@ -149,4 +149,10 @@ namespace cursen {
     void EventManager::privPushEvent(Event e) {
         eventQueue.push(e);
     }
+
+    void EventManager::Terminate()
+    {
+        delete instance;
+        instance = nullptr;
+    }
 }

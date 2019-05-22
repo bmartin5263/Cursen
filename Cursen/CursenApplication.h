@@ -19,52 +19,54 @@ namespace cursen {
 
     public:
 
-        static void SetColorPalette(const ColorPalette& palette) { Instance().privSetColorPalette(palette); }
-        static ColorPalette& GetColorPalette() { return Instance().privGetColorPalette(); }
 
-        static void Run(Form* startForm) { Instance().main(startForm); };
-        static void Quit() { Instance().privQuit(); }
-        static Form* GetCurrentForm() { return Instance().privGetCurrentForm(); }
+        static void SetColorPalette(const ColorPalette& palette);
+        static ColorPalette& GetColorPalette();
+
+        static void Run(Form* startForm);
+        static void Quit();
+
+        static void OpenForm(Form* form);
+        static Form* GetCurrentForm();
 
         /**
-         * @brief Set a callback function to be called after processing events.
+         * @brief Sets a callback function to be called after processing events.
          *
          * @param user_callback Callback function
          */
         static void OnUpdate(UserFunction user_callback);
 
+        /**
+         * @brief Sets a callback function to be called after drawing the components
+         *
+         * @param user_callback Callback function
+         */
         static void OnDraw(UserFunction user_callback);
 
-        static CursenDebugger& GetDebugger() { return Instance().privGetDebugger(); };
+        static CursenDebugger& GetDebugger();
 
     private:
 
         // Instance Data
         Form* currentForm;
-        UserFunction user_function;
-        UserFunction after_draw_function;
+        UserFunction UserUpdate;
+        UserFunction UserDraw;
         CursenDebugger cursenDebugger;
         ColorPalette palette;
         bool running;
 
         // Static Data
+        static void Terminate();
 
-        // Static-Instance Methods
-        void privInitialize();
-        void main(Form *startForm);
-        void privQuit();
-        CursenDebugger& privGetDebugger();
+        // Instance Methods
+        void initialize();
 
-        void privSetColorPalette(const ColorPalette& palette);
-        ColorPalette& privGetColorPalette();
-        Form* privGetCurrentForm();
-
-        static CursenApplication* engineInstance;
+        static CursenApplication* instance;
 
         static CursenApplication& Instance() {
-            if (engineInstance == nullptr)
-                engineInstance = new CursenApplication;
-            return *engineInstance;
+            if (instance == nullptr)
+                instance = new CursenApplication;
+            return *instance;
         }
 
     private:

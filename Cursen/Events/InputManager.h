@@ -12,6 +12,8 @@ namespace cursen {
 
     public:
 
+        static void Terminate();
+
         static void ProcessInput() { Instance().privProcessInput(); };
 
     private:

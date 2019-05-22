@@ -15,97 +15,112 @@
 
 namespace cursen {
 
-    CursenApplication *CursenApplication::engineInstance = nullptr;
+    CursenApplication *CursenApplication::instance = nullptr;
 
     CursenApplication::CursenApplication() :
             currentForm(nullptr), running(false)
     {
-        privInitialize();
-        user_function = [](){};
-        after_draw_function = [](){};
+        initialize();
     }
 
-    void CursenApplication::privInitialize()
+    void CursenApplication::initialize()
     {
-
+        srand((unsigned) time(0));
+        UserUpdate = [](){};
+        UserDraw = [](){};
     }
 
     /*
      * Main Loop of the engine
      */
-    void CursenApplication::main(Form *form)
+    void CursenApplication::Run(Form* startupForm)
     {
         StopWatch watch;
 
-        running = true;
-        currentForm = form;
+        Instance().running = true;
 
-        srand((unsigned) time(0));
+        /* Very Important! Curses must be initialized BEFORE we call initialize on a Form */
+        CursesManager::Initialize(startupForm->getSize());
+        Instance().OpenForm(startupForm);
 
-        CursesManager::Initialize(currentForm->getSize());
-        currentForm->initialize();
         CursesManager::Draw();
         CursesManager::Refresh();
-        while (running)
+        while (Instance().running)
         {
             watch.tick();
 
             AlarmManager::ProcessAlarms();
             InputManager::ProcessInput();
             EventManager::ProcessEvents();
-            user_function();
+            Instance().UserUpdate();
             CursesManager::Draw();
-            after_draw_function();
+            Instance().UserDraw();
             CursesManager::Refresh();
 
             watch.tock();
 
+            // Cheap Frame-rate limiter so I don't chug CPU cycles
             std::this_thread::sleep_for(std::chrono::nanoseconds(8000000 - watch.getNanoseconds()));
         }
 
+        EventManager::Terminate();
+        AlarmManager::Terminate();
+        InputManager::Terminate();
         CursesManager::Terminate();
-        delete currentForm;
 
+        Terminate();
     }
 
-    void CursenApplication::privQuit()
+    void CursenApplication::Quit()
     {
-        running = false;
+        Instance().running = false;
     }
 
-    Form *CursenApplication::privGetCurrentForm()
+    void CursenApplication::SetColorPalette(const cursen::ColorPalette& palette)
     {
-        return this->currentForm;
+        Instance().palette = palette;
     }
 
-    void CursenApplication::privSetColorPalette(const ColorPalette &palette)
+    ColorPalette& CursenApplication::GetColorPalette()
     {
-        this->palette = palette;
+        return Instance().palette;
     }
 
-    ColorPalette &CursenApplication::privGetColorPalette()
+    void CursenApplication::OpenForm(Form* form)
     {
-        return this->palette;
-    }
-
-    CursenDebugger &CursenApplication::privGetDebugger()
-    {
-        return cursenDebugger;
-    }
-
-    CursenApplication::~CursenApplication()
-    {
-
+        form->initialize();
+        Instance().currentForm = form;
     }
 
     void CursenApplication::OnUpdate(UserFunction user_callback)
     {
-        Instance().user_function = user_callback;
+        Instance().UserUpdate = user_callback;
     }
 
     void CursenApplication::OnDraw(UserFunction user_callback)
     {
-        Instance().after_draw_function = user_callback;
+        Instance().UserDraw = user_callback;
     }
 
+    void CursenApplication::Terminate()
+    {
+        delete instance;
+        instance = nullptr;
+    }
+
+    CursenDebugger& CursenApplication::GetDebugger()
+    {
+        return Instance().cursenDebugger;
+    }
+
+    Form* CursenApplication::GetCurrentForm()
+    {
+        return Instance().currentForm;
+    }
+
+    CursenApplication::~CursenApplication()
+    {
+        delete currentForm;
+        currentForm = nullptr;
+    }
 }

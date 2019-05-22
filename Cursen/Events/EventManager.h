@@ -23,6 +23,8 @@ namespace cursen {
 
     public:
 
+        static void Terminate();
+
         static Event PollEvent() { return Instance().privPollEvent(); };
         static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
 

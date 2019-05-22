@@ -95,4 +95,10 @@ namespace cursen {
         return it != alarms.end();
     }
 
+    void AlarmManager::Terminate()
+    {
+        delete instance;
+        instance = nullptr;
+    }
+
 }

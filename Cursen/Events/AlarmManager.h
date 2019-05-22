@@ -22,6 +22,8 @@ namespace cursen {
 
         typedef std::function<void()> VoidFunc;
 
+        static void Terminate();
+
         /**
          * @brief Iterate through the alarms and call their interval functions if ready
          */
