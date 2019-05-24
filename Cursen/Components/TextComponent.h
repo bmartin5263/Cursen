@@ -23,6 +23,7 @@ namespace cursen {
 
         virtual Content& getContent();
         virtual void render() = 0;
+        void setDrawOrder(int order) override;
 
     private:
 

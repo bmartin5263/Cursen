@@ -14,14 +14,14 @@ namespace cursen
 
     CursesManager* CursesManager::instance = nullptr;
 
-    const chtype CursesManager::LOWER_LEFT = ACS_LLCORNER;
-    const chtype CursesManager::LOWER_RIGHT = ACS_LRCORNER;
-    const chtype CursesManager::HLINE = ACS_HLINE;
-    const chtype CursesManager::VLINE = ACS_VLINE;
-    const chtype CursesManager::UPPER_LEFT = ACS_ULCORNER;
-    const chtype CursesManager::UPPER_RIGHT = ACS_URCORNER;
-    const chtype CursesManager::LEFT_T = ACS_LTEE;
-    const chtype CursesManager::RIGHT_T = ACS_RTEE;
+    chtype CursesManager::LLCORNER = '?';
+    chtype CursesManager::LRCORNER = '?';
+    chtype CursesManager::HLINE = '?';
+    chtype CursesManager::VLINE = '?';
+    chtype CursesManager::ULCORNER = '?';
+    chtype CursesManager::URCORNER = '?';
+    chtype CursesManager::LTEE = '?';
+    chtype CursesManager::RTEE = '?';
 
     CursesManager::CursesManager()
     {
@@ -47,6 +47,15 @@ namespace cursen
         keypad(stdscr, TRUE);
         noecho();                   // Don't echo characters
         nodelay(stdscr, TRUE);
+
+        CursesManager::LLCORNER = ACS_LLCORNER;
+        CursesManager::LRCORNER = ACS_LRCORNER;
+        CursesManager::HLINE = ACS_HLINE;
+        CursesManager::VLINE = ACS_VLINE;
+        CursesManager::ULCORNER = ACS_ULCORNER;
+        CursesManager::URCORNER = ACS_URCORNER;
+        CursesManager::LTEE = ACS_LTEE;
+        CursesManager::RTEE = ACS_RTEE;
 
         // Draw A box onto main window 'stdscr'
         box(stdscr, 0, 0);
@@ -105,7 +114,8 @@ namespace cursen
         if (it != colorPairMap.end())
         {
             return COLOR_PAIR(colorPairMap[colorPair]);
-        } else
+        }
+        else
         {
             short pairNum = (short) (colorPairMap.size() + 1);
             init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
@@ -122,7 +132,8 @@ namespace cursen
         if (it != colorPairMap.end())
         {
             return colorPairMap[colorPair];
-        } else
+        }
+        else
         {
             short pairNum = (short) (colorPairMap.size() + 1);
             init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
@@ -167,7 +178,8 @@ namespace cursen
                 for (int x = offset; x < dimensions.x; ++x)
                 {
                     chtype c = row[x];
-                    if (c != Content::INVISIBLE) {
+                    if (c != Content::INVISIBLE)
+                    {
                         mvaddch(position.y + y, position.x + i, c);
                     }
                     i++;

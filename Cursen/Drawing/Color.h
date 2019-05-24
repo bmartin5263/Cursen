@@ -61,6 +61,10 @@ namespace cursen {
 
 chtype operator | (chtype c, const cursen::Color& n);
 chtype operator | (const cursen::Color& n, chtype c);
+chtype& operator |= (chtype& c, const cursen::Color& n);
+chtype operator ^ (chtype c, const cursen::Color& n);
+chtype operator ^ (const cursen::Color& n, chtype c);
+chtype& operator ^= (chtype& c, const cursen::Color& n);
 //bool operator == (const cursen::Color& lhs, const cursen::Color& rhs);
 
 #endif //CURSEN_COLOR_H

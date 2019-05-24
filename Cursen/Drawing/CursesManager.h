@@ -33,14 +33,14 @@ namespace cursen {
         static const int LEFT = KEY_LEFT;
         static const int RIGHT = KEY_RIGHT;
 
-        static const chtype LOWER_LEFT;
-        static const chtype LOWER_RIGHT;
-        static const chtype UPPER_LEFT;
-        static const chtype UPPER_RIGHT;
-        static const chtype LEFT_T;
-        static const chtype RIGHT_T;
-        static const chtype VLINE;
-        static const chtype HLINE;
+        static chtype LLCORNER;
+        static chtype LRCORNER;
+        static chtype ULCORNER;
+        static chtype URCORNER;
+        static chtype LTEE;
+        static chtype RTEE;
+        static chtype VLINE;
+        static chtype HLINE;
 
 
         static void Initialize(const Vect2& dim) { Instance().initializeCurses(dim); }

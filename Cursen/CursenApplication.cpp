@@ -6,6 +6,7 @@
 #include <ctime>
 #include <thread>
 #include <Cursen/Tools/StopWatch.h>
+#include <zconf.h>
 #include "Events/AlarmManager.h"
 #include "Events/InputManager.h"
 #include "CursenApplication.h"
@@ -60,7 +61,7 @@ namespace cursen {
             watch.tock();
 
             // Cheap Frame-rate limiter so I don't chug CPU cycles
-            std::this_thread::sleep_for(std::chrono::nanoseconds(8000000 - watch.getNanoseconds()));
+            std::this_thread::sleep_for(std::chrono::milliseconds(16 - watch.getMilliseconds()));
         }
 
         EventManager::Terminate();

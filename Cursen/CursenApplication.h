@@ -19,11 +19,19 @@ namespace cursen {
 
     public:
 
-
         static void SetColorPalette(const ColorPalette& palette);
         static ColorPalette& GetColorPalette();
 
+        /**
+         * @brief Starts the main loop of the CursenApplication.
+         *
+         * @param startForm First Form to be loaded
+         */
         static void Run(Form* startForm);
+
+        /**
+         * @brief Signals Cursen to terminate after the completion of the current loop.
+         */
         static void Quit();
 
         static void OpenForm(Form* form);
@@ -39,6 +47,9 @@ namespace cursen {
         /**
          * @brief Sets a callback function to be called after drawing the components
          *
+         * Cursen will call this callback after it finishes drawing all of it's components
+         * but before it refreshes the screen.
+         *
          * @param user_callback Callback function
          */
         static void OnDraw(UserFunction user_callback);
@@ -49,8 +60,8 @@ namespace cursen {
 
         // Instance Data
         Form* currentForm;
-        UserFunction UserUpdate;
-        UserFunction UserDraw;
+        UserFunction UserUpdate;            /// User callback for after Updates
+        UserFunction UserDraw;              /// User callback for after Draws
         CursenDebugger cursenDebugger;
         ColorPalette palette;
         bool running;

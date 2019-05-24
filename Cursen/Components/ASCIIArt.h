@@ -17,7 +17,6 @@ namespace cursen {
         ASCIIArt(const Vect2& pos);
 
         void render() override;
-
         void loadFromFile(const char* filename);
 
     private:

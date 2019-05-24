@@ -42,4 +42,10 @@ namespace cursen {
         CursesManager::Deregister(this);
     }
 
+    void TextComponent::setDrawOrder(int order)
+    {
+        CursesManager::SetDrawOrder(this, order);
+        Component::setDrawOrder(order);
+    }
+
 }
