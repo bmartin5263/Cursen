@@ -294,6 +294,14 @@ namespace cursen {
         void onClick(std::function<void()> f);
 
         /**
+         * @brief Set the callback for each update cycle
+         *
+         * @param f Click Function
+         * @sa Cursor
+         */
+        void onUpdate(std::function<void()> f);
+
+        /**
          * @brief Removes the callback for Key Presses and deregisters itself from Key Events
          */
         void detachKeyPress();
@@ -338,6 +346,11 @@ namespace cursen {
          */
         void detachEnableIf();
 
+        /**
+         * @brief Removes the update callback
+         */
+        void detachUpdate();
+
         void CallKeyPress(const Event&);
         void CallEscapePress(const Event&);
         void CallEnterPress(const Event&);
@@ -348,6 +361,7 @@ namespace cursen {
         void CallOnClick();
 
         std::function<bool()>& GetEnableIf();
+        std::function<void()>& GetUpdate();
 
         std::string id;
         void setId(std::string id) { this->id = id; }
@@ -365,6 +379,10 @@ namespace cursen {
         std::function<void(const Event&)> f_enterPress;
         std::function<void(const Event&)> f_deletePress;
         std::function<void(const Event&)> f_arrowPress;
+
+        std::function<void()> f_update;
+
+        /* Cursor Callbacks */
         std::function<void()> f_onCursor;
         std::function<void()> f_offCursor;
         std::function<void()> f_onClick;

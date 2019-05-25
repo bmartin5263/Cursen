@@ -21,17 +21,27 @@ namespace cursen {
         return eventQueue.pop();
     }
 
-
-    void EventManager::privProcessEvents() {
-        while (!eventQueue.isEmpty()) {
-            privProcessEvent(eventQueue.pop());
-        }
+    void EventManager::processUpdates()
+    {
         ComponentList& componentList = dispatchMap[EventType::Update];
         for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
-            std::function<bool()>& f = (*listItem)->GetEnableIf();
-            if (f) {
-                (*listItem)->setEnabled(f());
+            std::function<bool()>& enableFunction = (*listItem)->GetEnableIf();
+            std::function<void()>& updateFunction = (*listItem)->GetUpdate();
+            if (enableFunction)
+            {
+                (*listItem)->setEnabled(enableFunction());
             }
+            if (updateFunction)
+            {
+                updateFunction();
+            }
+        }
+    }
+
+    void EventManager::privProcessEvents() {
+        processUpdates();
+        while (!eventQueue.isEmpty()) {
+            privProcessEvent(eventQueue.pop());
         }
     }
 
@@ -140,4 +150,5 @@ namespace cursen {
         delete instance;
         instance = nullptr;
     }
+
 }

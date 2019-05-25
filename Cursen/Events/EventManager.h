@@ -48,6 +48,7 @@ namespace cursen {
         typedef std::unordered_map<EventType, ComponentList, EnumClassHash> EventComponentMap;
 
         // Methods
+        void processUpdates();
         Event privPollEvent();
         void privProcessEvent(const Event &event);
         void registerComponent(Component& component, EventType eventFlag);

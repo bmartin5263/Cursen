@@ -96,6 +96,15 @@ namespace cursen {
         f_onClick = f;
     }
 
+    void Component::onUpdate(std::function<void()> f)
+    {
+        if (!registeredForUpdates) {
+            EventManager::Register(*this, EventType::Update);
+            registeredForUpdates = true;
+        }
+        f_update = f;
+    }
+
     void Component::setEnabled(bool value) {
         this->enabled = value;
     }
@@ -199,6 +208,11 @@ namespace cursen {
         return f_enableIf;
     }
 
+    std::function<void()>& Component::GetUpdate()
+    {
+        return f_update;
+    }
+
     void Component::detachKeyPress() {
         EventManager::Deregister(*this, EventType::KeyPressed);
         f_keyPress = 0;
@@ -239,6 +253,11 @@ namespace cursen {
     void Component::detachEnableIf()
     {
         f_enableIf = 0;
+    }
+
+    void Component::detachUpdate()
+    {
+        f_update = 0;
     }
 
     void Component::move(const Vect2 &movement) {
