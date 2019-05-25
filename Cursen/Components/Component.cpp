@@ -13,12 +13,14 @@
 namespace cursen {
 
     Component::Component() :
-            enabled(true), invalid(true), hidden(false), silenced(false), cursable(true), drawOrder(0) {
+            enabled(true), invalid(true), hidden(false), silenced(false), cursable(true), registeredForUpdates(false),
+            drawOrder(0) {
         id = "n/a";
     }
 
     Component::Component(const Vect2 &pos) :
-            enabled(true), position(pos), hidden(false), invalid(true), cursable(true), drawOrder(0) {
+            enabled(true), position(pos), hidden(false), invalid(true), cursable(true), registeredForUpdates(false),
+            drawOrder(0) {
         id = "n/a";
     }
 
@@ -63,21 +65,6 @@ namespace cursen {
         f_enterPress = f;
     }
 
-    void Component::onSocketMessage(std::function<void(const Event &)> f) {
-        EventManager::Register(*this, EventType::SocketMessage);
-        f_socketMessage = f;
-    }
-
-    void Component::onSocketConnect(std::function<void(const Event &)> f) {
-        EventManager::Register(*this, EventType::SocketConnected);
-        f_socketConnect = f;
-    }
-
-    void Component::onSocketDisconnect(std::function<void(const Event &)> f) {
-        EventManager::Register(*this, EventType::SocketDisconnected);
-        f_socketDisconnect = f;
-    }
-
     void Component::onDeletePress(std::function<void(const Event &)> f) {
         EventManager::Register(*this, EventType::DeletePressed);
         f_deletePress = f;
@@ -86,6 +73,15 @@ namespace cursen {
     void Component::onArrowPress(std::function<void(const Event &)> f) {
         EventManager::Register(*this, EventType::ArrowPressed);
         f_arrowPress = f;
+    }
+
+    void Component::enableIf(std::function<bool()> f)
+    {
+        if (!registeredForUpdates) {
+            EventManager::Register(*this, EventType::Update);
+            registeredForUpdates = true;
+        }
+        f_enableIf = f;
     }
 
     void Component::onCursor(std::function<void()> f) {
@@ -231,6 +227,11 @@ namespace cursen {
         }
     }
 
+    std::function<bool()>& Component::GetEnableIf()
+    {
+        return f_enableIf;
+    }
+
     void Component::detachKeyPress() {
         EventManager::Deregister(*this, EventType::KeyPressed);
         f_keyPress = 0;
@@ -244,21 +245,6 @@ namespace cursen {
     void Component::detachEnterPress() {
         EventManager::Deregister(*this, EventType::EnterPressed);
         f_enterPress = 0;
-    }
-
-    void Component::detachSocketMessage() {
-        EventManager::Deregister(*this, EventType::SocketMessage);
-        f_socketMessage = 0;
-    }
-
-    void Component::detachSocketConnect() {
-        EventManager::Deregister(*this, EventType::SocketConnected);
-        f_socketConnect = 0;
-    }
-
-    void Component::detachSocketDisconnect() {
-        EventManager::Deregister(*this, EventType::SocketDisconnected);
-        f_socketDisconnect = 0;
     }
 
     void Component::detachDeletePress() {
@@ -281,6 +267,11 @@ namespace cursen {
 
     void Component::detachOffCursor() {
         f_offCursor = 0;
+    }
+
+    void Component::detachEnableIf()
+    {
+        f_enableIf = 0;
     }
 
     void Component::move(const Vect2 &movement) {
@@ -341,5 +332,6 @@ namespace cursen {
     bool Component::isCursable() {
         return cursable;
     }
+
 
 }

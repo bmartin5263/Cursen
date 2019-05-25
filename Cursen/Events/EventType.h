@@ -14,12 +14,10 @@ namespace cursen {
         DeletePressed = 4,
         EnterPressed = 8,
         ArrowPressed = 16,
-        SocketConnected = 32,
-        SocketDisconnected = 64,
-        SocketMessage = 128,
-        AlarmInterval = 256,
-        AlarmExpire = 512,
-        Null = 1028
+        AlarmInterval = 32,
+        AlarmExpire = 64,
+        Update = 128,
+        Null = 256
     };
 
 }

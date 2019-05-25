@@ -21,8 +21,6 @@ namespace cursen {
         StandardComponent(const Vect2& pos, const Vect2& dim);
         ~StandardComponent();
 
-        virtual void setDrawOrder(int order) override ;
-
         virtual void initialize() override;
 
         virtual void setForeground(const Color &color) override;

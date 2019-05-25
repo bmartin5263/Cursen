@@ -26,6 +26,13 @@ namespace cursen {
         while (!eventQueue.isEmpty()) {
             privProcessEvent(eventQueue.pop());
         }
+        ComponentList& componentList = dispatchMap[EventType::Update];
+        for (ComponentList::iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
+            std::function<bool()>& f = (*listItem)->GetEnableIf();
+            if (f) {
+                (*listItem)->setEnabled(f());
+            }
+        }
     }
 
     void EventManager::privProcessEvent(const Event &event) {
@@ -55,27 +62,6 @@ namespace cursen {
                     (*listItem)->CallEnterPress(event);
                 }
                 break;
-            case EventType::SocketConnected:
-                componentList = dispatchMap[EventType::SocketConnected];
-                for (ComponentList::iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
-                    (*listItem)->CallSocketConnect(event);
-                }
-                break;
-            case EventType::SocketDisconnected:
-                componentList = dispatchMap[EventType::SocketDisconnected];
-                for (ComponentList::iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
-                    (*listItem)->CallSocketDisconnect(event);
-                }
-                break;
-            case EventType::SocketMessage:
-                componentList = dispatchMap[EventType::SocketMessage];
-                for (ComponentList::iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
-                    (*listItem)->CallSocketMessage(event);
-                }
-                break;
             case EventType::ArrowPressed:
                 componentList = dispatchMap[EventType::ArrowPressed];
                 for (ComponentList::iterator listItem = componentList.begin();
@@ -89,6 +75,7 @@ namespace cursen {
             case EventType::AlarmExpire:
                 event.alarm.alarmEntry->callExpire();
                 break;
+            case EventType::Update:
             case EventType::Null:
                 break;
         }
@@ -101,8 +88,7 @@ namespace cursen {
         if (it != registrationMap.end()) {
             BitFlags currentFlags = it->second;
 
-            for (BitFlags flag = (BitFlags) EventType::KeyPressed;
-                 flag <= (BitFlags) EventType::SocketMessage; flag = flag << 1) {
+            for (BitFlags flag = (BitFlags) EventType::KeyPressed; flag < (BitFlags) EventType::Null; flag = flag << 1) {
                 if (flag & currentFlags & (BitFlags) eventFlag) {
                     dispatchMap[(EventType) flag].erase(&component);
                     it->second -= flag;
@@ -125,8 +111,7 @@ namespace cursen {
             currentFlags = 0;
         }
 
-        for (BitFlags flag = (BitFlags) EventType::KeyPressed;
-             flag <= (BitFlags) EventType::SocketMessage; flag = flag << 1) {
+        for (BitFlags flag = (BitFlags) EventType::KeyPressed; flag < (BitFlags) EventType::Null; flag = flag << 1) {
             if (flag & ~currentFlags & (BitFlags) eventFlag) {
                 dispatchMap[(EventType) flag].insert(&component);
                 registrationMap[&component] += flag;

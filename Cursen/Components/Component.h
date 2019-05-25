@@ -94,6 +94,7 @@ namespace cursen {
         // Attributes
         virtual void setEnabled(bool value);
         virtual bool isEnabled() const;
+        virtual void enableIf(std::function<bool()> f);
 
         virtual void setSilenced(bool value);
         virtual bool isSilenced();
@@ -247,10 +248,6 @@ namespace cursen {
          */
         void onEnterPress(std::function<void(const Event &)> f);
 
-        void onSocketMessage(std::function<void(const Event &)> f);
-        void onSocketConnect(std::function<void(const Event &)> f);
-        void onSocketDisconnect(std::function<void(const Event &)> f);
-
         /**
          * @brief Set the callback for when delete is pressed.
          *
@@ -311,10 +308,6 @@ namespace cursen {
          */
         void detachEnterPress();
 
-        void detachSocketMessage();
-        void detachSocketConnect();
-        void detachSocketDisconnect();
-
         /**
          * @brief Removes the callback for Delete Presses and deregisters itself from Delete Events
          */
@@ -340,6 +333,8 @@ namespace cursen {
          */
         void detachOnCursor();
 
+        void detachEnableIf();
+
         void CallKeyPress(const Event&);
         void CallEscapePress(const Event&);
         void CallEnterPress(const Event&);
@@ -351,6 +346,8 @@ namespace cursen {
         void CallOnCursor();
         void CallOffCursor();
         void CallOnClick();
+
+        std::function<bool()>& GetEnableIf();
 
         std::string id;
         void setId(std::string id) { this->id = id; }
@@ -375,6 +372,8 @@ namespace cursen {
         std::function<void()> f_offCursor;
         std::function<void()> f_onClick;
 
+        std::function<bool()> f_enableIf;
+
         Component* parent;
         std::vector<Component*> children;
         Vect2 position;
@@ -385,6 +384,7 @@ namespace cursen {
         bool hidden;    /// True if Component should not be drawn, False if otherwise
         bool silenced;  /// True if Component should not respond to events, False if otherwise
         bool cursable;  /// True if Cursor should cursor over Component, False if otherwise
+        bool registeredForUpdates;
 
     };
 
