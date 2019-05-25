@@ -145,39 +145,6 @@ namespace cursen {
         }
     }
 
-    void Component::CallSocketMessage(const Event &e) {
-        if (isEnabled()) {
-            try {
-                f_socketMessage(e);
-            }
-            catch (std::bad_function_call) {
-                // Pass
-            }
-        }
-    }
-
-    void Component::CallSocketDisconnect(const Event &e) {
-        if (isEnabled()) {
-            try {
-                f_socketDisconnect(e);
-            }
-            catch (std::bad_function_call) {
-                // Pass
-            }
-        }
-    }
-
-    void Component::CallSocketConnect(const Event &e) {
-        if (isEnabled()) {
-            try {
-                f_socketConnect(e);
-            }
-            catch (std::bad_function_call) {
-                // Pass
-            }
-        }
-    }
-
     void Component::CallDeletePress(const Event &e) {
         if (isEnabled()) {
             try {

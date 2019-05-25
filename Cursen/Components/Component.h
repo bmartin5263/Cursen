@@ -333,14 +333,14 @@ namespace cursen {
          */
         void detachOnCursor();
 
+        /**
+         * @brief Removes the callback enable if
+         */
         void detachEnableIf();
 
         void CallKeyPress(const Event&);
         void CallEscapePress(const Event&);
         void CallEnterPress(const Event&);
-        void CallSocketMessage(const Event&);
-        void CallSocketDisconnect(const Event&);
-        void CallSocketConnect(const Event&);
         void CallDeletePress(const Event&);
         void CallArrowPress(const Event&);
         void CallOnCursor();
@@ -363,9 +363,6 @@ namespace cursen {
         std::function<void(const Event&)> f_keyPress;
         std::function<void(const Event&)> f_escapePress;
         std::function<void(const Event&)> f_enterPress;
-        std::function<void(const Event&)> f_socketMessage;
-        std::function<void(const Event&)> f_socketConnect;
-        std::function<void(const Event&)> f_socketDisconnect;
         std::function<void(const Event&)> f_deletePress;
         std::function<void(const Event&)> f_arrowPress;
         std::function<void()> f_onCursor;

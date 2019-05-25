@@ -15,12 +15,11 @@ namespace cursen {
 /**
  * Cursor is a specialized component for creating a virtual cursor.
  */
-    class Cursor : public StandardComponent {
+    class Cursor : public Component {
 
     public:
 
         Cursor();
-
         Cursor(Component *start);
 
         // Override
@@ -33,7 +32,6 @@ namespace cursen {
         bool cursorRight();
         bool cursorUp();
         void initialize() override;
-        void render() override {};  // no rendering
         bool refresh();
 
     private:

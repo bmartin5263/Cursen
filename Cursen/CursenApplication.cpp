@@ -5,8 +5,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <thread>
-#include <Cursen/Tools/StopWatch.h>
-#include <zconf.h>
+#include "Cursen/Tools/StopWatch.h"
+#include "Cursen/Cursor/CursorManager.h"
 #include "Events/AlarmManager.h"
 #include "Events/InputManager.h"
 #include "CursenApplication.h"
@@ -54,6 +54,8 @@ namespace cursen {
             InputManager::ProcessInput();
             EventManager::ProcessEvents();
             Instance().UserUpdate();
+            CursorManager::RefreshCursors();
+
             CursesManager::Draw();
             Instance().UserDraw();
             CursesManager::Refresh();

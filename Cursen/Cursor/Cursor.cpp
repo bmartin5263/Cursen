@@ -5,15 +5,18 @@
 #include "Cursen/Events/EventManager.h"
 #include "Cursen/Drawing/CursesManager.h"
 #include "Cursor.h"
+#include "CursorManager.h"
 
 namespace cursen {
 
     Cursor::Cursor() :
             currentComponent(nullptr) {
+        CursorManager::Register(this);
     }
 
     Cursor::Cursor(Component *start) :
             currentComponent(start) {
+        CursorManager::Register(this);
     }
 
     void Cursor::mapComponent(Component *component, cursen::ArrowMap arrowMap) {
@@ -108,10 +111,16 @@ namespace cursen {
 
     }
 
-    bool Cursor::refresh() {
-        if (currentComponent == nullptr || !currentComponent->isCursable()) {
-            if (!cursorDown() && !cursorUp() && !cursorLeft() && !cursorRight()) {
-                return false;
+    bool Cursor::refresh()
+    {
+        if (enabled)
+        {
+            if (currentComponent == nullptr || !currentComponent->isCursable())
+            {
+                if (!cursorDown() && !cursorUp() && !cursorLeft() && !cursorRight())
+                {
+                    return false;
+                }
             }
         }
         return true;
