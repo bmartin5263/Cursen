@@ -10,7 +10,7 @@
 #include "Uno/Forms/LobbyForm.h"
 #include "Demo/SimpleForm.h"
 
-int main()
+int main(int argc, char **argv)
 {
     using namespace cursen;
 
@@ -122,6 +122,9 @@ int main()
        num_updates++;
     });
 
+    CursenApplication::SetCommandLineArgs(argc, argv);
+
+    //std::this_thread::sleep_for(std::chrono::seconds(7));
     CursenApplication::Run(new LobbyForm());
 
 }

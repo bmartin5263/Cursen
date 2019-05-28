@@ -16,12 +16,18 @@ namespace cursen {
         AggregateComponent();
         AggregateComponent(const Vect2& pos);
 
-        void setHidden(bool value) override;
-        void setEnabled(bool value) override;
-        void setPosition(const Vect2& pos) override;
-        void setForeground(const Color &color) override;
-
-        void setDrawOrder(int order) override;
+        virtual void setHidden(bool value) override;
+        virtual void setEnabled(bool value) override;
+        virtual void setPosition(const Vect2& pos) override;
+        virtual void setForeground(const Color &color) override;
+        virtual void setDrawOrder(int order) override;
+        virtual void setHighlight(const ColorPair& colorPair) override;
+        void move(const Vect2& movement) override;
+        void setSilenced(bool value) override;
+        void setCursable(bool value) override;
+        void setBackground(const Color& color) override;
+        void setDisabled(const ColorPair& color) override;
+        void setText(const std::string& text) override;
 
 
     };

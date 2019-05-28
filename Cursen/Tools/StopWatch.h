@@ -22,6 +22,7 @@ public:
 
     long long int getMilliseconds();
     long long int getNanoseconds();
+    long long int getMicroseconds();
 
 private:
     std::chrono::time_point<std::chrono::high_resolution_clock> start;

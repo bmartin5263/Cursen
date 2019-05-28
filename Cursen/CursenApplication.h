@@ -19,6 +19,10 @@ namespace cursen {
 
     public:
 
+        static void SetCommandLineArgs(int argc, char** argv);
+        static int GetArgc();
+        static char** GetArgv();
+
         static void SetColorPalette(const ColorPalette& palette);
         static ColorPalette& GetColorPalette();
 
@@ -64,6 +68,8 @@ namespace cursen {
         UserFunction UserDraw;              /// User callback for after Draws
         CursenDebugger cursenDebugger;
         ColorPalette palette;
+        int argc;
+        char** argv;
         bool running;
 
         // Static Data

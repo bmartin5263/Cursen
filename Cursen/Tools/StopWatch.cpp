@@ -19,3 +19,8 @@ long long int StopWatch::getMilliseconds() {
 long long int StopWatch::getNanoseconds(){
     return std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 }
+
+long long int StopWatch::getMicroseconds()
+{
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+}

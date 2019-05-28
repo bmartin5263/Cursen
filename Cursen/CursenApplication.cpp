@@ -19,7 +19,7 @@ namespace cursen {
     CursenApplication *CursenApplication::instance = nullptr;
 
     CursenApplication::CursenApplication() :
-            currentForm(nullptr), running(false)
+            currentForm(nullptr), running(false), argc(0), argv(nullptr)
     {
         initialize();
     }
@@ -125,5 +125,21 @@ namespace cursen {
     {
         delete currentForm;
         currentForm = nullptr;
+    }
+
+    void CursenApplication::SetCommandLineArgs(int argc, char** argv)
+    {
+        Instance().argc = argc;
+        Instance().argv = argv;
+    }
+
+    int CursenApplication::GetArgc()
+    {
+        return Instance().argc;
+    }
+
+    char** CursenApplication::GetArgv()
+    {
+        return Instance().argv;
     }
 }
