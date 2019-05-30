@@ -10,6 +10,7 @@
 #include "Cursen/Components/Button.h"
 #include "Cursen/Components/ASCIIArt.h"
 #include "Cursen/Cursor/Cursor.h"
+#include "Uno/UnoComponents/LobbyGlowBorder.h"
 #include "Uno/UnoComponents/UnoConsole.h"
 #include "Uno/UnoComponents/PlayerStaging.h"
 #include "Uno/UnoComponents/ModeSelectBox.h"
@@ -37,7 +38,6 @@ public:
     void updateForLocal();
     void updateForHost();
     void updateForClient();
-    void disableButtons();
 
     void toggleSearch();
 
@@ -87,6 +87,8 @@ private:
     UnoConsole console;
     PlayerStaging playerStaging;
     ModeSelectBox mode_select_box;
+
+    LobbyGlowBorder glowBorder;
 
 };
 

@@ -15,6 +15,12 @@ public:
     const static PlayerColor COLORS[NUM_COLORS];
     const static int MAX_NAME_LEN = 12;
 
+    int turnOffK(int n, int k)
+    {
+        if (k <= 0) return n;
+        return (n & ~(1 << (k - 1)));
+    }
+
 };
 
 #endif //CURSEN_CONSTANTS_H

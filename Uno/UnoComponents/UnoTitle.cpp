@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
+#include <Cursen/Drawing/CursesManager.h>
 #include "UnoTitle.h"
 
 UnoTitle::UnoTitle() {
@@ -25,11 +26,11 @@ void UnoTitle::render() {
 
     for (int i = 0; i < getSize().x; i++) {
         if (i < 5)
-            line1[i] = line1[i] | cursen::Color::BLUE;
+            line1[i] |= cursen::Color::BLUE;
         else if (i < 12)
-            line1[i] = line1[i] | cursen::Color::GREEN;
+            line1[i] |= cursen::Color::GREEN;
         else
-            line1[i] = line1[i] | cursen::Color::RED;
+            line1[i] |= cursen::Color::RED;
     }
 
     chtype line2[] =
@@ -37,11 +38,11 @@ void UnoTitle::render() {
 
     for (int i = 0; i < getSize().x; i++) {
         if (i < 5)
-            line2[i] = line2[i] | cursen::Color::BLUE;
+            line2[i] |= cursen::Color::BLUE;
         else if (i < 12)
-            line2[i] = line2[i] | cursen::Color::GREEN;
+            line2[i] |= cursen::Color::GREEN;
         else
-            line2[i] = line2[i] | cursen::Color::RED;
+            line2[i] |= cursen::Color::RED;
     }
 
     chtype line3[] =
@@ -49,11 +50,11 @@ void UnoTitle::render() {
 
     for (int i = 0; i < getSize().x; i++) {
         if (i < 5)
-            line3[i] = line3[i] | cursen::Color::BLUE;
+            line3[i] |= cursen::Color::BLUE;
         else if (i < 12)
-            line3[i] = line3[i] | cursen::Color::GREEN;
+            line3[i] |= cursen::Color::GREEN;
         else
-            line3[i] = line3[i] | cursen::Color::RED;
+            line3[i] |= cursen::Color::RED;
     }
 
     content.writeLine(line1, cursen::Vect2(0,0));

@@ -88,17 +88,19 @@ void PlayerStaging::stopSearching()
 
 void PlayerStaging::update(const Lobby& lobby)
 {
-    int i;
-    for (i = 0; i < lobby.getNumPlayers(); i++)
-    {
-        stages[i].setPlayer(*lobby.getPlayer(i));
-    }
-
-    for (; i < Lobby::MAX_PLAYERS; i++)
-    {
-        if (!lobby.isSearching())
+    if (!stageCursor.isEnabled()) {
+        int i;
+        for (i = 0; i < lobby.getNumPlayers(); i++)
         {
-            stages[i].clear();
+            stages[i].setPlayer(*lobby.getPlayer(i));
+        }
+
+        for (; i < Lobby::MAX_PLAYERS; i++)
+        {
+            if (!lobby.isSearching())
+            {
+                stages[i].clear();
+            }
         }
     }
 }
