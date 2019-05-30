@@ -133,10 +133,10 @@ void TestForm::keyPress(const cursen::Event &event) {
         cursor.setEnabled(!cursor.isEnabled());
     }
     if (event.key.code == 'g') {
-        if (!cursen::AlarmManager::HasActiveAlarm(&flashLabel))
-            flashLabel.startGlow();
-        else
-            flashLabel.stopGlow();
+        //if (!cursen::AlarmManager::HasActiveAlarm(&flashLabel))
+        //    flashLabel.startGlow();
+        //else
+        //    flashLabel.stopGlow();
     }
 }
 

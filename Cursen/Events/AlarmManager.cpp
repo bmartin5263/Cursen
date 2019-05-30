@@ -2,13 +2,16 @@
 // Created by Brandon Martin on 4/1/19.
 //
 
+#include <cassert>
 #include "Cursen/Drawing/CursesManager.h"
 #include "AlarmManager.h"
+#include "AlarmHandle.h"
 #include "EventManager.h"
 
 namespace cursen {
 
     AlarmManager *AlarmManager::instance = nullptr;
+    unsigned int AlarmManager::ID = 0;
 
     AlarmManager::AlarmManager() {
         lastUpdate = std::chrono::system_clock::now();
@@ -33,7 +36,7 @@ namespace cursen {
                 EventManager::PushEvent(event);
             }
             if (entry->expired()) {
-                privStopAlarm(entry->getComponent());
+                privStopAlarm(entry->getId());
                 Event event;
                 event.type = EventType::AlarmExpire;
                 event.alarm.alarmEntry = it->second;
@@ -45,28 +48,18 @@ namespace cursen {
 
     }
 
-    void AlarmManager::privStartAlarm(Component *component, VoidFunc interval_function, double seconds, VoidFunc cf) {
-        startRequests.push(new Alarm(component, interval_function, seconds, cf));
-    }
-
-    void AlarmManager::privStartAutoAlarm(Component *component, VoidFunc interval_function, double seconds,
-                                          double total_time, VoidFunc cf) {
-        startRequests.push(new Alarm(component, interval_function, seconds, cf, total_time));
-    }
-
-    void AlarmManager::privStopAlarm(Component *component) {
-        stopRequests.push(component);
+    void AlarmManager::privStopAlarm(unsigned int id) {
+        stopRequests.push(id);
     }
 
     void AlarmManager::handleStartRequests() {
         Alarm *alarmEntry;
-        std::unordered_map<Component *, Alarm *>::iterator it;
         while (!startRequests.empty()) {
             alarmEntry = startRequests.front();
 
-            it = alarms.find(alarmEntry->getComponent());
+            AlarmMap::iterator it = alarms.find(alarmEntry->getId());
             if (it == alarms.end()) {
-                alarms[alarmEntry->getComponent()] = alarmEntry;
+                alarms[alarmEntry->getId()] = alarmEntry;
             }
 
             startRequests.pop();
@@ -74,24 +67,24 @@ namespace cursen {
     }
 
     void AlarmManager::handleStopRequests() {
-        Component *component;
-        std::unordered_map<Component *, Alarm *>::iterator it;
+        unsigned int id;
+        std::unordered_map<unsigned int, Alarm *>::iterator it;
         while (!stopRequests.empty()) {
-            component = stopRequests.front();
+            id = stopRequests.front();
 
-            it = alarms.find(component);
+            it = alarms.find(id);
             if (it != alarms.end()) {
                 Alarm *entry = it->second;
                 delete entry;
-                alarms.erase(component);
+                alarms.erase(id);
             }
 
             stopRequests.pop();
         }
     }
 
-    bool AlarmManager::privHasActiveAlarm(Component *component) {
-        auto it = alarms.find(component);
+    bool AlarmManager::privHasActiveAlarm(unsigned int id) {
+        auto it = alarms.find(id);
         return it != alarms.end();
     }
 
@@ -99,6 +92,55 @@ namespace cursen {
     {
         delete instance;
         instance = nullptr;
+    }
+
+    AlarmHandle AlarmManager::SetTimeout(AlarmManager::VoidFunc callback, double seconds)
+    {
+        unsigned int id = ++ID;
+
+        AlarmHandle handle(id);
+        Alarm* alarm = new Alarm(id, callback, seconds, Alarm::VOID, 0.0);
+        alarm->reset();
+        Instance().startRequests.push(alarm);
+
+        return handle;
+    }
+
+    AlarmHandle AlarmManager::SetAlarm(VoidFunc callback, double seconds, double max_time, VoidFunc cancel_callback)
+    {
+        unsigned int id = ++ID;
+
+        AlarmHandle handle(id);
+        Alarm* alarm = new Alarm(id, callback, seconds, cancel_callback, max_time);
+        alarm->reset();
+        Instance().startRequests.push(alarm);
+
+        return handle;
+    }
+
+    AlarmHandle AlarmManager::SetInterval(VoidFunc callback, double seconds)
+    {
+        unsigned int id = ++ID;
+
+        AlarmHandle handle(id);
+        Alarm* alarm = new Alarm(id, callback, seconds, Alarm::VOID, 0.0);
+        alarm->reset();
+        Instance().startRequests.push(alarm);
+
+        return handle;
+    }
+
+    void AlarmManager::CancelAlarm(unsigned int id)
+    {
+        Instance().stopRequests.push(id);
+    }
+
+    void AlarmManager::ResetAlarm(unsigned int id)
+    {
+        auto& alarms = Instance().alarms;
+        auto found = alarms.find(id);
+        assert(found != alarms.end());
+        found->second->reset();
     }
 
 }

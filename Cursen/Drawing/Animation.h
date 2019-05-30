@@ -9,6 +9,7 @@
 
 #include "Frame.h"
 #include "Cursen/Components/Component.h"
+#include "Cursen/Events/AlarmManager.h"
 
 namespace cursen {
 
@@ -42,6 +43,8 @@ namespace cursen {
         void nextFrame();
 
     private:
+
+        AlarmHandle animationHandle;
 
         double speed;
         size_t currentFrame;

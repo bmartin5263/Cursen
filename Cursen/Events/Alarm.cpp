@@ -7,17 +7,11 @@
 
 namespace cursen {
 
-    Alarm::Alarm(Component *component, VoidFun alarmFunction, double interval, VoidFun cancel_function) :
-            component(component), interval_function(alarmFunction), interval(interval), remaining(0.0), total_time(0.0),
-            cancel_function(cancel_function), has_total(false) {
-
-    }
-
-    Alarm::Alarm(Component *component, VoidFun alarmFunction, double interval, VoidFun cancel_function,
-                 double total_time) :
-            component(component), interval_function(alarmFunction), interval(interval), remaining(0.0),
-            total_time(total_time),
-            cancel_function(cancel_function), has_total(true) {
+    Alarm::Alarm(unsigned int id, Alarm::VoidFun callback, double interval, Alarm::VoidFun cancel_callback,
+                 double max_time) :
+        id(id), interval_function(callback), interval(interval), remaining(interval), cancel_function(cancel_callback),
+        total_time(max_time), has_total(total_time > 0.0)
+    {
 
     }
 
@@ -50,8 +44,8 @@ namespace cursen {
         remaining = interval;
     }
 
-    Component *Alarm::getComponent() {
-        return component;
+    unsigned int Alarm::getId() {
+        return id;
     }
 
     Alarm::~Alarm() {

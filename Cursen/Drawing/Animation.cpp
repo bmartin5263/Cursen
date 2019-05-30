@@ -55,13 +55,13 @@ namespace cursen
     void Animation::start()
     {
         currentFrame = 0;
-        AlarmManager::StartAlarm(this, std::bind(&Animation::nextFrame, this), speed); //.03
+        animationHandle = AlarmManager::SetInterval(std::bind(&Animation::nextFrame, this), speed);
         running = true;
     }
 
     void Animation::stop()
     {
-        AlarmManager::StopAlarm(this);
+        animationHandle.cancel();
         running = false;
     }
 

@@ -18,11 +18,12 @@ namespace cursen {
         TextComponent(const Vect2& pos, const Vect2& dim);
         ~TextComponent();
 
+        virtual void render() = 0;
+
         virtual void setSize(const Vect2 &size);
         virtual Vect2 getSize();
 
         virtual Content& getContent();
-        virtual void render() = 0;
         void setDrawOrder(int order) override;
 
     private:

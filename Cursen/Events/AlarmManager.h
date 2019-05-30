@@ -7,10 +7,12 @@
 
 #include <functional>
 #include <unordered_map>
+#include <unordered_set>
 #include <queue>
 #include <chrono>
 
 #include "Alarm.h"
+#include "AlarmHandle.h"
 
 namespace cursen {
 
@@ -41,18 +43,21 @@ namespace cursen {
          * @param seconds Seconds between each callback
          * @param cancel_function Optional callback for when the Alarm is cancelled
          */
-        static void StartAlarm(Component *component, VoidFunc interval_function, double seconds,
-                               VoidFunc cancel_function = Alarm::VOID)
-        {
-            Instance().privStartAlarm(component, interval_function, seconds, cancel_function);
-        };
+        //static void StartAlarm(Component *component, VoidFunc interval_function, double seconds,
+        //                       VoidFunc cancel_function = Alarm::VOID)
+        //{
+        //    Instance().privStartAlarm(component, interval_function, seconds, cancel_function);
+        //};
 
         /**
          * @brief Stops and removes an Alarm from the update list
          *
          * @param component Component to deregister
          */
-        static void StopAlarm(Component *component) { Instance().privStopAlarm(component); };
+        static void StopAlarm(unsigned int id) { Instance().privStopAlarm(id); };
+
+
+        static void CancelAlarm(unsigned int id);
 
         /**
          * @brief Create a new Alarm that will automatically cancel itself after a specified time
@@ -63,11 +68,11 @@ namespace cursen {
          * @param total_time Seconds before Alarm cancels itself
          * @param cancel_function Optional callback for when the Alarm is cancelled
          */
-        static void StartAutoAlarm(Component *component, VoidFunc interval_function, double seconds, double total_time,
-                                   VoidFunc cancel_function = Alarm::VOID)
-        {
-            Instance().privStartAutoAlarm(component, interval_function, seconds, total_time, cancel_function);
-        }
+        //static void StartAutoAlarm(Component *component, VoidFunc interval_function, double seconds, double total_time,
+        //                           VoidFunc cancel_function = Alarm::VOID)
+        //{
+        //    Instance().privStartAutoAlarm(component, interval_function, seconds, total_time, cancel_function);
+        //}
 
         /**
          * @brief Check if Component has an Alarm in the update loop
@@ -75,25 +80,34 @@ namespace cursen {
          * @param component Component to check
          * @return True if component has active alarm, false if otherwise
          */
-        static bool HasActiveAlarm(Component* component) { return Instance().privHasActiveAlarm(component); }
+        static bool HasActiveAlarm(unsigned int id) { return Instance().privHasActiveAlarm(id); }
+
+
+        static AlarmHandle SetTimeout(VoidFunc callback, double seconds);
+        static AlarmHandle SetAlarm(VoidFunc callback, double seconds, double max_time, VoidFunc cancel_callback);
+        static AlarmHandle SetInterval(VoidFunc callback, double seconds);
+
+        static void ResetAlarm(unsigned int id);
 
     private:
 
-        typedef std::queue<Alarm*> AlarmQueue;
-        typedef std::queue<Component*> ComponentQueue;
-        typedef std::unordered_map<Component*, Alarm*> AlarmMap;
+        static unsigned int ID;
 
-        void privStartAlarm(Component *component, VoidFunc interval_function, double seconds, VoidFunc cf);
-        void privStartAutoAlarm(Component *component, VoidFunc interval_function, double seconds, double total_time, VoidFunc cf);
-        void privStopAlarm(Component *component);
+        typedef std::queue<Alarm*> AlarmQueue;
+        typedef std::queue<unsigned int> IntQueue;
+        typedef std::unordered_map<unsigned int, Alarm*> AlarmMap;
+
+        //void privStartAlarm(Component *component, VoidFunc interval_function, double seconds, VoidFunc cf);
+        //void privStartAutoAlarm(Component *component, VoidFunc interval_function, double seconds, double total_time, VoidFunc cf);
+        void privStopAlarm(unsigned int id);
         void privProcessAlarms();
-        bool privHasActiveAlarm(Component* component);
+        bool privHasActiveAlarm(unsigned int id);
 
         void handleStopRequests();
         void handleStartRequests();
 
         AlarmQueue startRequests;       /// Queue for Component's requests to start Alarms
-        ComponentQueue stopRequests;    /// Queue for Component's requests to cancel Alarms
+        IntQueue stopRequests;    /// Queue for Component's requests to cancel Alarms
         AlarmMap alarms;                /// Map Component* -> Alarm*
         std::chrono::system_clock::time_point lastUpdate;
 

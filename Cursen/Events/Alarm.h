@@ -19,8 +19,7 @@ namespace cursen {
 
         static void VOID() {};
 
-        Alarm(Component* component, VoidFun alarmFunction, double interval, VoidFun cancel_function);
-        Alarm(Component* component, VoidFun alarmFunction, double interval,  VoidFun cancel_function, double total_time);
+        Alarm(unsigned int id, VoidFun callback, double interval, VoidFun cancel_callback, double max_time);
 
         ~Alarm();
 
@@ -33,11 +32,11 @@ namespace cursen {
         void callInterval();
         void callExpire();
 
-        Component* getComponent();
+        unsigned int getId();
 
     private:
 
-        Component* component;
+        unsigned int id;
         VoidFun interval_function;
         VoidFun cancel_function;
         double interval;

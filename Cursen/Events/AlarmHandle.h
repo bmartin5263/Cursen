@@ -1,0 +1,35 @@
+//
+// Created by Brandon Martin on 5/29/19.
+//
+
+#ifndef CURSEN_ALARMHANDLE_H
+#define CURSEN_ALARMHANDLE_H
+
+#include "Cursen/Handle/Handle.h"
+
+namespace cursen {
+
+    class AlarmHandle
+    {
+
+    public:
+
+        AlarmHandle();
+        AlarmHandle(unsigned int id);
+
+        void cancel();
+        void reset();
+
+        void getId(unsigned int& id);
+
+    private:
+
+        unsigned int id;
+        //HANDLE_VARIABLE
+
+    };
+
+
+}
+
+#endif //CURSEN_ALARMHANDLE_H
