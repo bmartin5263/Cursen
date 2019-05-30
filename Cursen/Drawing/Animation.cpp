@@ -10,9 +10,8 @@ namespace cursen
 {
 
     Animation::Animation() :
-            currentFrame(0), numFrames(0), running(false)
+            currentFrame(0), numFrames(0), default_duration(1.0), running(false), paused(false)
     {
-
     }
 
     Frame& Animation::operator[](size_t i)
@@ -20,7 +19,7 @@ namespace cursen
         return frames[i];
     }
 
-    Frame& Animation::addFrame(VoidFunction fn)
+    Frame& Animation::addFrame(Frame::VoidFunction fn)
     {
         frames.push_back(Frame(fn));
         numFrames++;
@@ -54,9 +53,17 @@ namespace cursen
 
     void Animation::start()
     {
-        currentFrame = 0;
-        animationHandle = AlarmManager::SetInterval(std::bind(&Animation::nextFrame, this), speed);
         running = true;
+        currentFrame = 0;
+
+        nextFrame();
+
+        double time = frames[currentFrame].getDuration();
+        if (time <= 0.0) {
+            time = default_duration;
+        }
+
+        animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
     }
 
     void Animation::stop()
@@ -69,26 +76,43 @@ namespace cursen
     {
         frames[currentFrame]();
         currentFrame = (currentFrame + 1) % numFrames;
+
+        if (running && !paused) {
+            double time = frames[currentFrame].getDuration();
+            if (time <= 0.0) {
+                time = default_duration;
+            }
+
+            animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
+        }
+
     }
 
-    void Animation::initialize()
+    void Animation::setDefaultFrameDuration(double time)
     {
-        // TODO AlarmManager should not need components to operate
+        this->default_duration = time;
     }
 
-    void Animation::setSpeed(double time)
+    double Animation::getDefaultFrameDuration()
     {
-        this->speed = time;
-    }
-
-    double Animation::getSpeed()
-    {
-        return this->speed;
+        return this->default_duration;
     }
 
     bool Animation::isRunning()
     {
         return this->running;
+    }
+
+    void Animation::pause()
+    {
+        this->paused = true;
+        animationHandle.pause();
+    }
+
+    void Animation::resume()
+    {
+        this->paused = false;
+        animationHandle.resume();
     }
 
 }

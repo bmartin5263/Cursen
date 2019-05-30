@@ -20,11 +20,12 @@ namespace cursen {
 
     class AlarmManager {
 
-    public:
+    private:
 
         typedef std::function<void()> VoidFunc;
+        typedef std::chrono::system_clock::time_point TimePoint;
 
-        static void Terminate();
+    public:
 
         /**
          * @brief Iterate through the alarms and call their interval functions if ready
@@ -32,62 +33,38 @@ namespace cursen {
         static void ProcessAlarms() { Instance().privProcessAlarms(); }
 
         /**
-         * @brief Create a new Alarm for a specified component
-         *
-         * The Alarm is not immediately created but rather the request is added to a queue.
-         * This is to make sure that the Alarm update list is not altered by one of its Alarms
-         * during iteration. Before iteration, all requested Alarms are added.
-         *
-         * @param component Component to register
-         * @param interval_function Callback for each interval
-         * @param seconds Seconds between each callback
-         * @param cancel_function Optional callback for when the Alarm is cancelled
-         */
-        //static void StartAlarm(Component *component, VoidFunc interval_function, double seconds,
-        //                       VoidFunc cancel_function = Alarm::VOID)
-        //{
-        //    Instance().privStartAlarm(component, interval_function, seconds, cancel_function);
-        //};
-
-        /**
          * @brief Stops and removes an Alarm from the update list
          *
-         * @param component Component to deregister
+         * @param id Id of Alarm to cancel
          */
-        static void StopAlarm(unsigned int id) { Instance().privStopAlarm(id); };
-
-
         static void CancelAlarm(unsigned int id);
 
         /**
-         * @brief Create a new Alarm that will automatically cancel itself after a specified time
+         * @brief Pauses an alarm so its internal clock won't update with each cycle
          *
-         * @param component Component to register
-         * @param interval_function Callback for each interval
-         * @param seconds Seconds between each callback
-         * @param total_time Seconds before Alarm cancels itself
-         * @param cancel_function Optional callback for when the Alarm is cancelled
+         * @param id Id of Alarm to pause
          */
-        //static void StartAutoAlarm(Component *component, VoidFunc interval_function, double seconds, double total_time,
-        //                           VoidFunc cancel_function = Alarm::VOID)
-        //{
-        //    Instance().privStartAutoAlarm(component, interval_function, seconds, total_time, cancel_function);
-        //}
+        static void PauseAlarm(unsigned int id);
 
         /**
-         * @brief Check if Component has an Alarm in the update loop
+         * @brief Resume an alarm so its internal clock will update with each cycle
          *
-         * @param component Component to check
-         * @return True if component has active alarm, false if otherwise
+         * @param id Id of Alarm to resume
          */
-        static bool HasActiveAlarm(unsigned int id) { return Instance().privHasActiveAlarm(id); }
+        static void ResumeAlarm(unsigned int id);
 
+        /**
+         * @brief Toggle an Alarm's status between paused and not paused
+         *
+         * @param id Id of Alarm to toggle
+         */
+        static void ToggleAlarm(unsigned int id);
+
+        static void ResetAlarm(unsigned int id);
 
         static AlarmHandle SetTimeout(VoidFunc callback, double seconds);
         static AlarmHandle SetAlarm(VoidFunc callback, double seconds, double max_time, VoidFunc cancel_callback);
         static AlarmHandle SetInterval(VoidFunc callback, double seconds);
-
-        static void ResetAlarm(unsigned int id);
 
     private:
 
@@ -97,26 +74,19 @@ namespace cursen {
         typedef std::queue<unsigned int> IntQueue;
         typedef std::unordered_map<unsigned int, Alarm*> AlarmMap;
 
-        //void privStartAlarm(Component *component, VoidFunc interval_function, double seconds, VoidFunc cf);
-        //void privStartAutoAlarm(Component *component, VoidFunc interval_function, double seconds, double total_time, VoidFunc cf);
-        void privStopAlarm(unsigned int id);
         void privProcessAlarms();
-        bool privHasActiveAlarm(unsigned int id);
-
+        unsigned int nextId();
         void handleStopRequests();
         void handleStartRequests();
 
-        AlarmQueue startRequests;       /// Queue for Component's requests to start Alarms
-        IntQueue stopRequests;    /// Queue for Component's requests to cancel Alarms
-        AlarmMap alarms;                /// Map Component* -> Alarm*
-        std::chrono::system_clock::time_point lastUpdate;
-
-        static AlarmManager* instance;
+        AlarmQueue startRequests;       /// Queue for requests to start Alarms
+        IntQueue stopRequests;          /// Queue for requests to cancel Alarms
+        AlarmMap alarms;                /// Map unsigned int -> Alarm*
+        TimePoint lastUpdate;           /// TimePoint for the last time ProcessAlarms was called
 
         static AlarmManager& Instance() {
-            if (instance == nullptr)
-                instance = new AlarmManager;
-            return *instance;
+            static AlarmManager instance;
+            return instance;
         }
 
         AlarmManager();

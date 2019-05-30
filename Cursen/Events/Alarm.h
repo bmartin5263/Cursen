@@ -19,9 +19,11 @@ namespace cursen {
 
         static void VOID() {};
 
+        Alarm() = default;
         Alarm(unsigned int id, VoidFun callback, double interval, VoidFun cancel_callback, double max_time);
-
         ~Alarm();
+
+        void initialize(unsigned int id, VoidFun callback, double interval, VoidFun cancel_callback, double max_time);
 
         void updateTime(double elapsed);
 
@@ -31,6 +33,10 @@ namespace cursen {
         void reset();
         void callInterval();
         void callExpire();
+
+        void pause();
+        void resume();
+        void togglePaused();
 
         unsigned int getId();
 
@@ -43,6 +49,7 @@ namespace cursen {
         double remaining;
         double total_time;
         bool has_total;
+        bool paused;
 
     };
 

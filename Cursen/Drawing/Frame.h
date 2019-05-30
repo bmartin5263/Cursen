@@ -9,12 +9,12 @@
 
 namespace cursen {
 
-    typedef std::function<void()> VoidFunction;
-
     class Frame
     {
 
     public:
+
+        typedef std::function<void()> VoidFunction;
 
         Frame();
         Frame(VoidFunction& frame_function);
@@ -23,8 +23,12 @@ namespace cursen {
 
         void setFrameFunction(VoidFunction& frame_function);
 
+        void setDuration(double time);
+        double getDuration();
+
     private:
 
+        double duration;
         VoidFunction frame_fn;
 
     };

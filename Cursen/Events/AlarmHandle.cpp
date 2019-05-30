@@ -34,5 +34,19 @@ namespace cursen {
         if (id != 0) AlarmManager::ResetAlarm(id);
     }
 
+    void AlarmHandle::pause()
+    {
+        if (id != 0) AlarmManager::PauseAlarm(id);
+    }
+
+    void AlarmHandle::resume()
+    {
+        if (id != 0) AlarmManager::ResumeAlarm(id);
+    }
+
+    void AlarmHandle::toggle()
+    {
+        if (id != 0) AlarmManager::ToggleAlarm(id);
+    }
 
 }

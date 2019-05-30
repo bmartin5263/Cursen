@@ -67,7 +67,6 @@ namespace cursen {
         }
 
         EventManager::Terminate();
-        AlarmManager::Terminate();
         InputManager::Terminate();
         CursesManager::Terminate();
 

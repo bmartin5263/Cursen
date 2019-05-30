@@ -19,6 +19,9 @@ namespace cursen {
 
         void cancel();
         void reset();
+        void pause();
+        void resume();
+        void toggle();
 
         void getId(unsigned int& id);
 

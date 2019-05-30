@@ -6,17 +6,17 @@
 
 namespace cursen {
 
-    Frame::Frame()
+    Frame::Frame() :
+            duration(0.0)
     {
-
     }
 
     Frame::Frame(VoidFunction& frame_function) :
-            frame_fn(frame_function)
+            frame_fn(frame_function), duration(0.0)
     {
     }
 
-    void Frame::setFrameFunction(cursen::VoidFunction& frame_function)
+    void Frame::setFrameFunction(VoidFunction& frame_function)
     {
         this->frame_fn = frame_function;
     }
@@ -26,6 +26,16 @@ namespace cursen {
         if (frame_fn) {
             frame_fn();
         }
+    }
+
+    void Frame::setDuration(double time)
+    {
+        this->duration = time;
+    }
+
+    double Frame::getDuration()
+    {
+        return this->duration;
     }
 
 

@@ -27,7 +27,7 @@ namespace cursen {
         twirl_label.setHidden(true);
         add(&twirl_label);
 
-        animation.setSpeed(.09);
+        animation.setDefaultFrameDuration(.09);
         animation.addFrame([&]() { this->twirl_label.setText("/"); });
         animation.addFrame([&]() { this->twirl_label.setText("-"); });
         animation.addFrame([&]() { this->twirl_label.setText("\\"); });

@@ -13,30 +13,31 @@
 
 namespace cursen {
 
-    class Animation : public Component
+    class Animation
     {
 
     public:
 
         Animation();
 
-        void initialize() override;
-
         Frame& operator[](size_t);
 
         /* Frames */
         Frame& addFrame(Frame frame);
-        Frame& addFrame(VoidFunction fn);
+        Frame& addFrame(Frame::VoidFunction fn);
         bool getFrame(size_t i, Frame& frame);
         void removeFrame(size_t frame);
 
         /* Speed */
-        void setSpeed(double time);
-        double getSpeed();
+        void setDefaultFrameDuration(double time);
+        double getDefaultFrameDuration();
 
         /* Animation Control */
         void start();
         void stop();
+        void pause();
+        void resume();
+
         bool isRunning();
 
         /* Animation Fn */
@@ -46,11 +47,12 @@ namespace cursen {
 
         AlarmHandle animationHandle;
 
-        double speed;
+        double default_duration;
         size_t currentFrame;
         size_t numFrames;
         std::vector<Frame> frames;
         bool running;
+        bool paused;
 
     };
 
