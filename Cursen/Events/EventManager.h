@@ -23,8 +23,6 @@ namespace cursen {
 
     public:
 
-        static void Terminate();
-
         static Event PollEvent() { return Instance().privPollEvent(); };
         static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
 
@@ -69,9 +67,8 @@ namespace cursen {
         static EventManager* instance;
 
         static EventManager& Instance() {
-            if (instance == nullptr)
-                instance = new EventManager;
-            return *instance;
+            static EventManager instance;
+            return instance;
         }
 
         EventManager() = default;

@@ -12,8 +12,6 @@ namespace cursen {
 
     public:
 
-        static void Terminate();
-
         static void ProcessInput() { Instance().privProcessInput(); };
 
     private:
@@ -23,9 +21,8 @@ namespace cursen {
         static InputManager* instance;
 
         static InputManager& Instance() {
-            if (instance == nullptr)
-                instance = new InputManager;
-            return *instance;
+            static InputManager instance;
+            return instance;
         }
 
         InputManager() = default;

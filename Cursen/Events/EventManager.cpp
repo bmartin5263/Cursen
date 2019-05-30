@@ -145,10 +145,4 @@ namespace cursen {
         eventQueue.push(e);
     }
 
-    void EventManager::Terminate()
-    {
-        delete instance;
-        instance = nullptr;
-    }
-
 }

@@ -59,10 +59,4 @@ namespace cursen {
         }
     }
 
-    void InputManager::Terminate()
-    {
-        delete instance;
-        instance = nullptr;
-    }
-
 }
