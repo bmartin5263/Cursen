@@ -39,6 +39,8 @@ namespace cursen {
     chtype operator | (chtype c, const ColorPair& n);
     chtype operator | (const ColorPair& n, chtype c);
 
+    chtype& operator |= (chtype& c, const ColorPair& pair);
+
     ColorPair operator | (const Color c, const ColorPair& n);
     ColorPair operator | (const ColorPair& n, const Color c);
 

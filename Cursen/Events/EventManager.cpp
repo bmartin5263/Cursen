@@ -56,7 +56,11 @@ namespace cursen {
                 }
                 break;
             case EventType::EscPressed:
-                CursenApplication::Quit();
+                componentList = dispatchMap[EventType::EscPressed];
+                for (ComponentList::iterator listItem = componentList.begin();
+                     listItem != componentList.end(); ++listItem) {
+                    (*listItem)->CallEscapePress(event);
+                }
                 break;
             case EventType::DeletePressed:
                 componentList = dispatchMap[EventType::DeletePressed];

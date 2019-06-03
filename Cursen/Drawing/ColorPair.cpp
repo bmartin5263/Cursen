@@ -54,4 +54,10 @@ namespace cursen {
     ColorPair operator|(const ColorPair &n, const Color &c) {
         return ColorPair(n.fg, c);
     }
+
+    chtype& operator |= (chtype& c, const cursen::ColorPair &n) {
+        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::INVISIBLE) return c;
+        c |= cursen::CursesManager::GetColorPair(n);
+        return c;
+    }
 }

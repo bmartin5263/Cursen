@@ -113,13 +113,13 @@ void TestForm::initialize() {
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
 
-    rainbow.setDefaultFrameDuration(.06f);
-    rainbow.addFrame([&](){ box.setForeground(cursen::Color::RED); });
-    rainbow.addFrame([&](){ box.setForeground(cursen::Color::ORANGE); });
-    rainbow.addFrame([&](){ box.setForeground(cursen::Color::YELLOW); });
-    rainbow.addFrame([&](){ box.setForeground(cursen::Color::GREEN); });
-    rainbow.addFrame([&](){ box.setForeground(cursen::Color::BLUE); });
-    rainbow.addFrame([&](){ box.setForeground(cursen::Color::VIOLET); });
+    rainbow.setDuration(.06f);
+    rainbow.add([&]() { box.setForeground(cursen::Color::RED); });
+    rainbow.add([&]() { box.setForeground(cursen::Color::ORANGE); });
+    rainbow.add([&]() { box.setForeground(cursen::Color::YELLOW); });
+    rainbow.add([&]() { box.setForeground(cursen::Color::GREEN); });
+    rainbow.add([&]() { box.setForeground(cursen::Color::BLUE); });
+    rainbow.add([&]() { box.setForeground(cursen::Color::VIOLET); });
 
 }
 

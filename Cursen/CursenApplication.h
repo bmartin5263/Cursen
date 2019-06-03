@@ -38,6 +38,9 @@ namespace cursen {
          */
         static void Quit();
 
+        inline static void Update();
+        inline static void Draw();
+
         static void OpenForm(Form* form);
         static Form* GetCurrentForm();
 
@@ -71,6 +74,9 @@ namespace cursen {
         int argc;
         char** argv;
         bool running;
+
+        unsigned long long int total_nano;
+        unsigned long long int frames;
 
         // Static Data
         static void Terminate();

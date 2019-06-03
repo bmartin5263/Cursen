@@ -13,11 +13,11 @@ namespace cursen {
     const Color Color::NONE = Color(-1);            // Null Color
     const Color Color::BLACK = Color(BLK);
     const Color Color::WHITE = Color(WHT);
-    const Color Color::GRAY = Color(8);
+    const Color Color::GRAY = Color(241);
     const Color Color::DARK_GRAY = Color(16);
     const Color Color::RED = Color(199);
     const Color Color::BLUE = Color(39);
-    const Color Color::DARK_BLUE = Color(12);
+    const Color Color::DARK_BLUE = Color(21);
     const Color Color::PURPLE = Color(57);
     const Color Color::VIOLET = Color(93);
     const Color Color::INDIGO = Color(21);
@@ -97,4 +97,8 @@ chtype& operator ^= (chtype& c, const cursen::Color &n) {
 
 bool cursen::Color::operator==(const cursen::Color &other) const {
     return this->val == other.val;
+}
+
+bool cursen::Color::operator!=(const cursen::Color &other) const {
+    return this->val != other.val;
 }

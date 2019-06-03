@@ -27,11 +27,11 @@ namespace cursen {
         twirl_label.setHidden(true);
         add(&twirl_label);
 
-        animation.setDefaultFrameDuration(.09);
-        animation.addFrame([&]() { this->twirl_label.setText("/"); });
-        animation.addFrame([&]() { this->twirl_label.setText("-"); });
-        animation.addFrame([&]() { this->twirl_label.setText("\\"); });
-        animation.addFrame([&]() { this->twirl_label.setText("|"); });
+        animation.setDuration(.1);
+        animation.add([&]() { twirl_label.setText("/"); });
+        animation.add([&]() { twirl_label.setText("-"); });
+        animation.add([&]() { twirl_label.setText("\\"); });
+        animation.add([&]() { twirl_label.setText("|"); });
     }
 
     void TwirlProgress::start() {

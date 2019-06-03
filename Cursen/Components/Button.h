@@ -25,6 +25,7 @@ namespace cursen {
         void cursorOff();
 
         void emphasize();
+        void demphasize();
 
         void setText(const std::string &text) override;
         void setPosition(const Vect2 &pos) override;

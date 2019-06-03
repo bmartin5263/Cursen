@@ -122,7 +122,7 @@ namespace cursen {
     }
 
     void Component::CallKeyPress(const Event &e) {
-        if (isEnabled()) {
+        if (!isSilenced()) {
             try {
                 f_keyPress(e);
             }
@@ -133,7 +133,7 @@ namespace cursen {
     }
 
     void Component::CallEscapePress(const Event &e) {
-        if (isEnabled()) {
+        if (!isSilenced()) {
             try {
                 f_escapePress(e);
             }
@@ -144,7 +144,7 @@ namespace cursen {
     }
 
     void Component::CallEnterPress(const Event &e) {
-        if (isEnabled()) {
+        if (!isSilenced()) {
             try {
                 f_enterPress(e);
             }
@@ -155,7 +155,7 @@ namespace cursen {
     }
 
     void Component::CallDeletePress(const Event &e) {
-        if (isEnabled()) {
+        if (!isSilenced()) {
             try {
                 f_deletePress(e);
             }
@@ -166,7 +166,7 @@ namespace cursen {
     }
 
     void Component::CallArrowPress(const Event &e) {
-        if (isEnabled()) {
+        if (!isSilenced()) {
             try {
                 f_arrowPress(e);
             }

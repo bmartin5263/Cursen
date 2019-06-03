@@ -11,17 +11,17 @@ namespace cursen
 {
 
     StandardComponent::StandardComponent() :
-            TextComponent(Vect2(0, 0))
+            TextComponent(Vect2(0, 0)), animation(10)
     {
     }
 
     StandardComponent::StandardComponent(const Vect2& pos) :
-            TextComponent(pos)
+            TextComponent(pos), animation(10)
     {
     }
 
     StandardComponent::StandardComponent(const Vect2& pos, const Vect2& dim) :
-            TextComponent(pos, dim)
+            TextComponent(pos, dim), animation(10)
     {
     }
 
@@ -39,73 +39,44 @@ namespace cursen
         this->onCursor(std::bind(&StandardComponent::cursorOn, this));
         this->offCursor(std::bind(&StandardComponent::cursorOff, this));
 
-        animation.setDefaultFrameDuration(.01);
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color::WHITE); });
-        animation.addFrame([&]() { setForeground(Color(195)); });
-        animation.addFrame([&]() { setForeground(Color(195)); });
-        animation.addFrame([&]() { setForeground(Color(195)); });
-        animation.addFrame([&]() { setForeground(Color(159)); });
-        animation.addFrame([&]() { setForeground(Color(159)); });
-        animation.addFrame([&]() { setForeground(Color(159)); });
-        animation.addFrame([&]() { setForeground(Color(123)); });
-        animation.addFrame([&]() { setForeground(Color(123)); });
-        animation.addFrame([&]() { setForeground(Color(123)); });
-        animation.addFrame([&]() { setForeground(Color(87)); });
-        animation.addFrame([&]() { setForeground(Color(87)); });
-        animation.addFrame([&]() { setForeground(Color(87)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(51)); });
-        animation.addFrame([&]() { setForeground(Color(87)); });
-        animation.addFrame([&]() { setForeground(Color(87)); });
-        animation.addFrame([&]() { setForeground(Color(87)); });
-        animation.addFrame([&]() { setForeground(Color(123)); });
-        animation.addFrame([&]() { setForeground(Color(123)); });
-        animation.addFrame([&]() { setForeground(Color(123)); });
-        animation.addFrame([&]() { setForeground(Color(159)); });
-        animation.addFrame([&]() { setForeground(Color(159)); });
-        animation.addFrame([&]() { setForeground(Color(159)); });
-        animation.addFrame([&]() { setForeground(Color(195)); });
-        animation.addFrame([&]() { setForeground(Color(195)); });
-        animation.addFrame([&]() { setForeground(Color(195)); });
+        animation.setDuration(.03);
+        animation.add([&]() { setForeground(Color::WHITE); }).setDuration(.1);
+        animation.add([&]() { setForeground(Color(195)); });
+        animation.add([&]() { setForeground(Color(159)); });
+        animation.add([&]() { setForeground(Color(123)); });
+        animation.add([&]() { setForeground(Color(87)); });
+        animation.add([&]() { setForeground(Color(51)); }).setDuration(.5);
+        animation.add([&]() { setForeground(Color(87)); });
+        animation.add([&]() { setForeground(Color(123)); });
+        animation.add([&]() { setForeground(Color(159)); });
+        animation.add([&]() { setForeground(Color(195)); });
 
+//        animation.setDuration(.07);
+//        animation.add([&]() { setForeground(Color::WHITE); });
+//        animation.add([&]() { setForeground(Color(231)); });
+//        animation.add([&]() { setForeground(Color(230)); });
+//        animation.add([&]() { setForeground(Color(229)); });
+//        animation.add([&]() { setForeground(Color(228)); });
+//        animation.add([&]() { setForeground(Color(227)); });
+//        animation.add([&]() { setForeground(Color(226)); });
+//        animation.add([&]() { setForeground(Color(227)); });
+//        animation.add([&]() { setForeground(Color(228)); });
+//        animation.add([&]() { setForeground(Color(229)); });
+//        animation.add([&]() { setForeground(Color(230)); });
+//        animation.add([&]() { setForeground(Color(231)); });
+
+        /*
+         * animation.addFrame([&]() { setForeground(Color::WHITE); }).setDuration(10.0);
+        animation.addFrame([&]() { setForeground(Color(195)); });
+        animation.addFrame([&]() { setForeground(Color(159)); });
+        animation.addFrame([&]() { setForeground(Color(123)); });
+        animation.addFrame([&]() { setForeground(Color(87)); });
+        animation.addFrame([&]() { setForeground(Color(51)); });
+        animation.addFrame([&]() { setForeground(Color(87)); });
+        animation.addFrame([&]() { setForeground(Color(123)); });
+        animation.add([&]() { setForeground(Color(159)); });
+        animation.add([&]() { setForeground(Color(195)); });
+         */
     }
 
     void StandardComponent::setForeground(const Color& color)

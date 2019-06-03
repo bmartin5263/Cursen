@@ -14,30 +14,36 @@ namespace cursen
     {
     }
 
+    Animation::Animation(size_t num_frames) :
+            currentFrame(0), numFrames(0), default_duration(1.0), running(false), paused(false)
+    {
+        this->frames.reserve(num_frames);
+    }
+
     Frame& Animation::operator[](size_t i)
     {
         return frames[i];
     }
 
-    Frame& Animation::addFrame(Frame::VoidFunction fn)
+    Frame& Animation::add(Frame::VoidFunction fn)
     {
         frames.push_back(Frame(fn));
         numFrames++;
         return frames.at(numFrames - 1);
     }
 
-    Frame& Animation::addFrame(Frame frame)
+    Frame& Animation::add(Frame frame)
     {
         frames.push_back(frame);
         numFrames++;
         return frames.at(numFrames - 1);
     }
 
-    void Animation::removeFrame(size_t frame)
+    void Animation::removeFrame(size_t i)
     {
-        if (frame < frames.size())
+        if (i < frames.size())
         {
-            frames.erase(frames.begin() + frame);
+            frames.erase(frames.begin() + i);
         }
     }
 
@@ -53,29 +59,25 @@ namespace cursen
 
     void Animation::start()
     {
-        running = true;
-        currentFrame = 0;
+        if (!running) {
+            running = true;
+            currentFrame = 0;
 
-        nextFrame();
-
-        double time = frames[currentFrame].getDuration();
-        if (time <= 0.0) {
-            time = default_duration;
+            nextFrame();
         }
-
-        animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
     }
 
     void Animation::stop()
     {
-        animationHandle.cancel();
-        running = false;
+        if (running) {
+            animationHandle.cancel();
+            running = false;
+        }
     }
 
     void Animation::nextFrame()
     {
         frames[currentFrame]();
-        currentFrame = (currentFrame + 1) % numFrames;
 
         if (running && !paused) {
             double time = frames[currentFrame].getDuration();
@@ -86,14 +88,15 @@ namespace cursen
             animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
         }
 
+        currentFrame = (currentFrame + 1) % numFrames;
     }
 
-    void Animation::setDefaultFrameDuration(double time)
+    void Animation::setDuration(double time)
     {
         this->default_duration = time;
     }
 
-    double Animation::getDefaultFrameDuration()
+    double Animation::getDuration()
     {
         return this->default_duration;
     }

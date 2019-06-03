@@ -16,6 +16,7 @@ namespace cursen
 
     AlarmManager::AlarmManager()
     {
+        AlarmFactory::Initialize();
         lastUpdate = std::chrono::system_clock::now();
     }
 
@@ -92,36 +93,39 @@ namespace cursen
 
     AlarmHandle AlarmManager::SetTimeout(AlarmManager::VoidFunc callback, double seconds)
     {
+        AlarmManager& instance = Instance();
         unsigned int id = ++ID;
 
         AlarmHandle handle(id);
         Alarm* alarm = AlarmFactory::CreateAlarm(id, callback, seconds, Alarm::VOID, seconds);
         alarm->reset();
-        Instance().startRequests.push(alarm);
+        instance.startRequests.push(alarm);
 
         return handle;
     }
 
     AlarmHandle AlarmManager::SetAlarm(VoidFunc callback, double seconds, double max_time, VoidFunc cancel_callback)
     {
+        AlarmManager& instance = Instance();
         unsigned int id = ++ID;
 
         AlarmHandle handle(id);
         Alarm* alarm = AlarmFactory::CreateAlarm(id, callback, seconds, cancel_callback, max_time);
         alarm->reset();
-        Instance().startRequests.push(alarm);
+        instance.startRequests.push(alarm);
 
         return handle;
     }
 
     AlarmHandle AlarmManager::SetInterval(VoidFunc callback, double seconds)
     {
+        AlarmManager& instance = Instance();
         unsigned int id = ++ID;
 
         AlarmHandle handle(id);
         Alarm* alarm = AlarmFactory::CreateAlarm(id, callback, seconds, Alarm::VOID, 0.0);
         alarm->reset();
-        Instance().startRequests.push(alarm);
+        instance.startRequests.push(alarm);
 
         return handle;
     }

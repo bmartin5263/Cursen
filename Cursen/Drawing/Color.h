@@ -45,6 +45,7 @@ namespace cursen {
         static Color RandomColor();
 
         bool operator==(const Color &other) const;
+        bool operator!=(const Color &other) const;
 
         short val;
 

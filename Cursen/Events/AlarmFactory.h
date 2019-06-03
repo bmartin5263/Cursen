@@ -18,6 +18,8 @@ namespace cursen {
 
         typedef std::function<void()> VoidFun;
 
+        static void Initialize();
+
         static Alarm* CreateAlarm(unsigned int id, VoidFun callback, double interval, VoidFun cancel_callback, double max_time);
         static void RecycleAlarm(Alarm* alarm);
 

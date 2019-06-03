@@ -26,7 +26,7 @@ namespace cursen {
         return alarm;
     }
 
-    void AlarmFactory::RecycleAlarm(cursen::Alarm* alarm)
+    void AlarmFactory::RecycleAlarm(Alarm* alarm)
     {
         Instance().recycledItems.push(alarm);
     }
@@ -37,6 +37,15 @@ namespace cursen {
         {
             delete recycledItems.top();
             recycledItems.pop();
+        }
+    }
+
+    void AlarmFactory::Initialize()
+    {
+        // Create some memory
+        for (volatile int i = 0; i < 200; i++) {
+            Alarm* a = new Alarm(0,0,0,0,0);
+            RecycleAlarm(a);
         }
     }
 

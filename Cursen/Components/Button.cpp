@@ -79,5 +79,12 @@ namespace cursen {
         button_text.startGlow();
     }
 
+    void Button::demphasize()
+    {
+        border.stopGlow();
+        button_text.stopGlow();
+    }
+
+
 }
 

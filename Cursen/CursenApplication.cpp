@@ -38,37 +38,57 @@ namespace cursen {
     {
         StopWatch watch;
 
+        /* Start the Engine */
         Instance().running = true;
 
         /* Very Important! Curses must be initialized BEFORE we call initialize on a Form */
         CursesManager::Initialize(startupForm->getSize());
         Instance().OpenForm(startupForm);
 
+        /* Draw the Initial Screen */
         CursesManager::Draw();
         CursesManager::Refresh();
+
         while (Instance().running)
         {
             watch.tick();
 
-            AlarmManager::ProcessAlarms();
-            InputManager::ProcessInput();
-            EventManager::ProcessEvents();
-            Instance().UserUpdate();
-            CursorManager::RefreshCursors();
-
-            CursesManager::Draw();
-            Instance().UserDraw();
-            CursesManager::Refresh();
+            Update();
+            Draw();
 
             watch.tock();
 
+            Instance().total_nano += watch.getMicroseconds();
+            Instance().frames++;
+
             // Cheap Frame-rate limiter so I don't chug CPU cycles
-            std::this_thread::sleep_for(std::chrono::milliseconds(16 - watch.getMilliseconds()));
+            std::this_thread::sleep_for(std::chrono::milliseconds(17 - watch.getMilliseconds()));
         }
 
         CursesManager::Terminate();
 
         Terminate();
+    }
+
+    void CursenApplication::Update()
+    {
+        AlarmManager::ProcessAlarms();
+        InputManager::ProcessInput();
+        EventManager::ProcessEvents();
+        Instance().UserUpdate();
+        CursorManager::RefreshCursors();
+    }
+
+    void CursenApplication::Draw()
+    {
+        CursesManager::Draw();
+        Instance().UserDraw();
+        if (Instance().frames > 0) {
+            unsigned long long int frames = Instance().frames;
+            unsigned long long int total_nano = Instance().total_nano;
+            CursesManager::DrawStringBottomLeft(std::to_string(total_nano / frames));
+        }
+        CursesManager::Refresh();
     }
 
     void CursenApplication::Quit()
