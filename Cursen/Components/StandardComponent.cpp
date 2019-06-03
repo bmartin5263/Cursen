@@ -188,7 +188,6 @@ namespace cursen
 
     StandardComponent::~StandardComponent()
     {
-        CursesManager::Deregister(this);
     }
 
 }

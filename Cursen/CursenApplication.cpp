@@ -46,7 +46,7 @@ namespace cursen {
         Instance().OpenForm(startupForm);
 
         /* Draw the Initial Screen */
-        CursesManager::Draw();
+        CursesManager::Draw(getComponentMap());
         CursesManager::Refresh();
 
         while (Instance().running)
@@ -58,8 +58,8 @@ namespace cursen {
 
             watch.tock();
 
-            Instance().total_nano += watch.getMicroseconds();
-            Instance().frames++;
+            //Instance().total_nano += watch.getMicroseconds();
+            //Instance().frames++;
 
             // Cheap Frame-rate limiter so I don't chug CPU cycles
             std::this_thread::sleep_for(std::chrono::milliseconds(17 - watch.getMilliseconds()));
@@ -81,13 +81,8 @@ namespace cursen {
 
     void CursenApplication::Draw()
     {
-        CursesManager::Draw();
+        CursesManager::Draw(getComponentMap());
         Instance().UserDraw();
-        if (Instance().frames > 0) {
-            unsigned long long int frames = Instance().frames;
-            unsigned long long int total_nano = Instance().total_nano;
-            CursesManager::DrawStringBottomLeft(std::to_string(total_nano / frames));
-        }
         CursesManager::Refresh();
     }
 

@@ -25,6 +25,7 @@ namespace cursen
 
     CursesManager::CursesManager()
     {
+        int x = 0;
     }
 
     int CursesManager::getCharacter()
@@ -108,8 +109,9 @@ namespace cursen
 
     short CursesManager::privGetColorPair(const ColorPair& colorPair)
     {
-        ColorPairMap::iterator it;
+        int x = 0;
 
+        ColorPairMap::iterator it;
         it = colorPairMap.find(colorPair);
         if (it != colorPairMap.end())
         {
@@ -201,31 +203,31 @@ namespace cursen
         drawString(string, 0, y);
     }
 
-    void CursesManager::privRegisterComponent(TextComponent* component)
-    {
-        auto it = componentMap[component->drawOrder].find(component);
-        if (it == componentMap[component->drawOrder].end())
-        {
-            componentMap[component->drawOrder].insert(component);
-        }
-    }
+    //void CursesManager::privRegisterComponent(TextComponent* component)
+    //{
+    //    auto it = componentMap[component->drawOrder].find(component);
+    //    if (it == componentMap[component->drawOrder].end())
+    //    {
+    //        componentMap[component->drawOrder].insert(component);
+    //    }
+    //}
+//
+    //void CursesManager::privDeregisterComponent(TextComponent* component)
+    //{
+    //    auto it = componentMap[component->drawOrder].find(component);
+    //    if (it != componentMap[component->drawOrder].end())
+    //    {
+    //        componentMap[component->drawOrder].erase(component);
+    //    }
+    //}
+//
+    //void CursesManager::privSetDrawOrder(TextComponent* component, int order)
+    //{
+    //    componentMap[component->getDrawOrder()].erase(component);
+    //    componentMap[order].insert(component);
+    //}
 
-    void CursesManager::privDeregisterComponent(TextComponent* component)
-    {
-        auto it = componentMap[component->drawOrder].find(component);
-        if (it != componentMap[component->drawOrder].end())
-        {
-            componentMap[component->drawOrder].erase(component);
-        }
-    }
-
-    void CursesManager::privSetDrawOrder(TextComponent* component, int order)
-    {
-        componentMap[component->getDrawOrder()].erase(component);
-        componentMap[order].insert(component);
-    }
-
-    void CursesManager::privDraw()
+    void CursesManager::privDraw(ComponentMap& componentMap)
     {
         CursenDebugger& debugger = CursenApplication::GetDebugger();
 

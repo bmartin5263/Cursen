@@ -5,8 +5,12 @@
 #ifndef CURSEN_CURSENAPPLICATION_H
 #define CURSEN_CURSENAPPLICATION_H
 
+#include <map>
+#include <set>
+
 #include "Debug/CursenDebugger.h"
 #include "Drawing/ColorPalette.h"
+#include "Components/TextComponent.h"
 
 namespace cursen {
 
@@ -14,6 +18,7 @@ namespace cursen {
     class InspectionPointer;
 
     typedef std::function<void()> UserFunction;
+    typedef std::map<int, std::set<TextComponent*> > ComponentMap;
 
     class CursenApplication {
 
@@ -63,6 +68,35 @@ namespace cursen {
 
         static CursenDebugger& GetDebugger();
 
+        static ComponentMap& getComponentMap() { return Instance().componentMap; };
+
+        static void Register(TextComponent* component)
+        {
+            ComponentMap& componentMap = getComponentMap();
+            auto it = componentMap[component->drawOrder].find(component);
+            if (it == componentMap[component->drawOrder].end())
+            {
+                componentMap[component->drawOrder].insert(component);
+            }
+        }
+
+        static void Deregister(TextComponent* component)
+        {
+            ComponentMap& componentMap = getComponentMap();
+            auto it = componentMap[component->drawOrder].find(component);
+            if (it != componentMap[component->drawOrder].end())
+            {
+                componentMap[component->drawOrder].erase(component);
+            }
+        }
+
+        static void SetDrawOrder(TextComponent* component, int order)
+        {
+            ComponentMap& componentMap = getComponentMap();
+            componentMap[component->getDrawOrder()].erase(component);
+            componentMap[order].insert(component);
+        }
+
     private:
 
         // Instance Data
@@ -71,6 +105,7 @@ namespace cursen {
         UserFunction UserDraw;              /// User callback for after Draws
         CursenDebugger cursenDebugger;
         ColorPalette palette;
+        ComponentMap componentMap;
         int argc;
         char** argv;
         bool running;

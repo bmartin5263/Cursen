@@ -370,6 +370,7 @@ namespace cursen {
 
         friend class EventManager;
         friend class CursesManager;
+        friend class CursenApplication;
         friend class Cursor;
 
         void setParent(Component*);

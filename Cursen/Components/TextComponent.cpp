@@ -11,17 +11,17 @@ namespace cursen {
 
     TextComponent::TextComponent() :
             Component(Vect2(0, 0)) {
-        CursesManager::Register(this);
+        CursenApplication::Register(this);
     }
 
     TextComponent::TextComponent(const Vect2 &pos) :
             Component(pos) {
-        CursesManager::Register(this);
+        CursenApplication::Register(this);
     }
 
     TextComponent::TextComponent(const Vect2 &pos, const Vect2 &dim) :
             Component(pos), content(dim) {
-        CursesManager::Register(this);
+        CursenApplication::Register(this);
     }
 
     void TextComponent::setSize(const Vect2 &size) {
@@ -39,12 +39,12 @@ namespace cursen {
 
     TextComponent::~TextComponent()
     {
-        CursesManager::Deregister(this);
+        CursenApplication::Deregister(this);
     }
 
     void TextComponent::setDrawOrder(int order)
     {
-        CursesManager::SetDrawOrder(this, order);
+        CursenApplication::SetDrawOrder(this, order);
         Component::setDrawOrder(order);
     }
 
