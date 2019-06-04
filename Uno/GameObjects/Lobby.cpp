@@ -11,6 +11,9 @@ Lobby::Lobby() :
     for (int i = 0; i < MAX_PLAYERS; i++) {
         players[i] = nullptr;
     }
+    for (int i = 0; i < MAX_CHAT; i++) {
+        messages[i] = "";
+    }
 }
 
 void Lobby::addPlayer(Player * const player) {

@@ -107,7 +107,6 @@ Stage &ModeSelectBox::getMainPlayerStage() {
 
 void ModeSelectBox::start() {
     player_stage.getTextField().setText("");
-    player_stage.getTextField().deactivate();
     player_stage.getTextField().setHidden(true);
     player_stage.getTextField().detachEnterPress();
     local_button.setEnabled(true);

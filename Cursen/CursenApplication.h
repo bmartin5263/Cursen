@@ -7,6 +7,7 @@
 
 #include <map>
 #include <set>
+#include "Cursen/Events/AlarmManager.h"
 
 #include "Debug/CursenDebugger.h"
 #include "Drawing/ColorPalette.h"
@@ -70,34 +71,15 @@ namespace cursen {
 
         static ComponentMap& getComponentMap() { return Instance().componentMap; };
 
-        static void Register(TextComponent* component)
-        {
-            ComponentMap& componentMap = getComponentMap();
-            auto it = componentMap[component->drawOrder].find(component);
-            if (it == componentMap[component->drawOrder].end())
-            {
-                componentMap[component->drawOrder].insert(component);
-            }
-        }
+        static void Register(TextComponent* component);
+        static void Deregister(TextComponent* component);
+        static void SetDrawOrder(TextComponent* component, int order);
 
-        static void Deregister(TextComponent* component)
-        {
-            ComponentMap& componentMap = getComponentMap();
-            auto it = componentMap[component->drawOrder].find(component);
-            if (it != componentMap[component->drawOrder].end())
-            {
-                componentMap[component->drawOrder].erase(component);
-            }
-        }
-
-        static void SetDrawOrder(TextComponent* component, int order)
-        {
-            ComponentMap& componentMap = getComponentMap();
-            componentMap[component->getDrawOrder()].erase(component);
-            componentMap[order].insert(component);
-        }
+        static AlarmManager& GetAlarmManager();
 
     private:
+
+        AlarmManager alarmManager;
 
         // Instance Data
         Form* currentForm;

@@ -7,6 +7,7 @@
 
 #include <Cursen/Components/StandardComponent.h>
 #include "Cursen/Components/TextComponent.h"
+#include "Cursen/Drawing/Animation.h"
 
 class UnoTitle : public cursen::StandardComponent {
 
@@ -20,6 +21,17 @@ public:
 
 private:
 
+    short blue_pair;
+    short lit_blue_pair;
+    short green_pair;
+    short lit_green_pair;
+    short red_pair;
+    short lit_red_pair;
+
+    cursen::Animation neonFlash;
+    bool blueLit;
+    bool redLit;
+    bool greenLit;
 
 };
 

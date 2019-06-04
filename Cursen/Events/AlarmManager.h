@@ -84,10 +84,9 @@ namespace cursen {
         AlarmMap alarms;                /// Map unsigned int -> Alarm*
         TimePoint lastUpdate;           /// TimePoint for the last time ProcessAlarms was called
 
-        static AlarmManager& Instance() {
-            static AlarmManager instance;
-            return instance;
-        }
+        static AlarmManager& Instance();
+
+        friend class CursenApplication;
 
         AlarmManager();
         AlarmManager(const AlarmManager& other) = delete;

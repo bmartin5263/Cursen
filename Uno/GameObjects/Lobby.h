@@ -14,6 +14,7 @@ class Lobby {
 
 public:
 
+    static const int MAX_CHAT = 9;
     static const int MAX_PLAYERS = 4;
     static const int MIN_PLAYERS_TO_START = 2;
 
@@ -38,6 +39,7 @@ public:
 private:
 
     Player* players[MAX_PLAYERS];
+    std::string messages[MAX_CHAT];
     int numPlayers;
     bool searching;
 

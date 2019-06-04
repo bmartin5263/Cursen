@@ -25,7 +25,14 @@ public:
     void setEnabled(bool value) override;
     bool isEnabled() const override;
 
-public:
+private:
+
+    short blue_pair;
+    short red_pair;
+    short yellow_pair;
+    short green_pair;
+    short white_pair;
+    short COLOR_LUT[6];
 
     bool colorFlag;
     LobbyEffectGenerator generator;

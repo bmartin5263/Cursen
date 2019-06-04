@@ -53,7 +53,7 @@ void ClientController::clickChangeColor()
 
 void ClientController::clickChat()
 {
-
+    lobbyForm->startChat();
 }
 
 void ClientController::update()

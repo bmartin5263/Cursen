@@ -29,7 +29,6 @@ void LobbyForm::initialize()
     start_button.setText("Start Game");
     start_button.setEnabled(false);
     start_button.onClick(std::bind(&LobbyForm::clickStart, this));
-    start_button.emphasize();
 
     add_ai_button.initialize();
     add_ai_button.setPosition(cursen::Vect2(1, 19));
@@ -70,10 +69,11 @@ void LobbyForm::initialize()
     chat_button.setPosition(cursen::Vect2(18, 28));
     chat_button.setLength(17);
     chat_button.setText("Chat");
-    chat_button.setHighlight(cursen::ColorPair(cursen::Color::VIOLET));
     chat_button.setEnabled(false);
+    chat_button.onClick(std::bind(&LobbyForm::clickChat, this));
 
     console.initialize();
+    //console.setWarning("                  Developed By Brandon Martin");
 
     playerStaging.initialize();
     playerStaging.setCallBacks(this);
@@ -90,6 +90,13 @@ void LobbyForm::initialize()
     mode_select_box.onHostClick(std::bind(&LobbyForm::clickHost, this));
     mode_select_box.onJoinClick(std::bind(&LobbyForm::clickJoin, this));
     mode_select_box.onExitClick(std::bind(&LobbyForm::clickExit, this));
+
+    chat_box.initialize();
+    chat_box.setPosition(cursen::Vect2(35, 16));
+    chat_box.setEnabled(false);
+    chat_box.setSilenced(true);
+    chat_box.onEscapePress(std::bind(&LobbyForm::stopChat, this));
+    chat_box.setEnabled(false);
 
     if (cursen::CursenApplication::GetArgc() > 1) {
         mode_select_box.getMainPlayerStage().setText(cursen::CursenApplication::GetArgv()[1]);
@@ -114,12 +121,19 @@ void LobbyForm::initialize()
                                                              &start_button));
     glowBorder.initialize();
     glowBorder.setDrawOrder(10);
-    glowBorder.setEnabled(true);
+    //glowBorder.setEnabled(true);
     glowBorder.colorize();
 
     onUpdate([&]() {
         if (lobby != nullptr) {
             playerStaging.update(*lobby);
+            if (start_button.isEnabled()) {
+                start_button.emphasize();
+            }
+            else
+            {
+                start_button.demphasize();
+            }
         }
     });
 }
@@ -139,6 +153,7 @@ void LobbyForm::initializeForLocal()
     glowBorder.setEnabled(false);
     lobby_cursor.moveTo(&add_ai_button);
     lobby_cursor.setEnabled(true);
+    chat_box.setEnabled(true);
 
     start_button.enableIf([&]() {
         return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START;
@@ -185,6 +200,7 @@ void LobbyForm::initializeForHost()
     glowBorder.setEnabled(false);
     lobby_cursor.moveTo(&add_ai_button);
     lobby_cursor.setEnabled(true);
+    chat_box.setEnabled(true);
 
     start_button.enableIf([&]() {
         return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START;
@@ -230,6 +246,7 @@ void LobbyForm::initializeForClient()
     glowBorder.setEnabled(false);
     lobby_cursor.moveTo(&close_button);
     lobby_cursor.setEnabled(true);
+    chat_box.setEnabled(true);
 
     start_button.enableIf([&]() {
         return false;
@@ -264,6 +281,7 @@ void LobbyForm::cleanLobby()
 {
     mode_select_box.setHidden(false);
     lobby_cursor.setEnabled(false);
+    chat_box.setEnabled(false);
 
     add_ai_button.setEnabled(false);
     start_button.setEnabled(false);
@@ -404,6 +422,9 @@ void LobbyForm::setMainPlayerName()
         mode_select_box.getMainPlayerStage().setPlayer(Player(field.getText(), PlayerColor::BLUE));
         field.setEnabled(false);
         mode_select_box.start();
+
+        glowBorder.setEnabled(true);
+
     } else {
         cursen::CursesManager::Beep();
         mode_select_box.setWarning("Name Must Have 1 Character");
@@ -440,4 +461,26 @@ void LobbyForm::updateForHost()
 void LobbyForm::updateForClient()
 {
     //playerStaging.update(*lobby);
+}
+
+void LobbyForm::startChat()
+{
+    chat_box.setActive(true);
+    lobby_cursor.setEnabled(false);
+    chat_button.setForeground(cursen::Color::GREEN);
+    console.setText("Press Escape to Finish Chatting");
+    chat_box.onEnterPress(std::bind(&LobbyForm::sendChatMessage, this));
+}
+
+void LobbyForm::stopChat()
+{
+    chat_box.detachEnterPress();
+    chat_box.setActive(false);
+    lobby_cursor.setEnabled(true);
+    chat_button.setForeground(cursen::Color::WHITE);
+}
+
+void LobbyForm::sendChatMessage()
+{
+    console.setText(chat_box.getMessage());
 }

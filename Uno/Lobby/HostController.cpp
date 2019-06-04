@@ -70,7 +70,7 @@ void HostController::clickChangeColor()
 
 void HostController::clickChat()
 {
-
+    lobbyForm->startChat();
 }
 
 void HostController::update()

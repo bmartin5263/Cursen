@@ -42,6 +42,7 @@ void Stage::initialize() {
     textField.setForeground(stage_color);
     textField.setSize(cursen::Vect2(Constants::MAX_NAME_LEN, 1));
     textField.setHidden(true);
+    //textField.setActiveBackgroundColor(cursen::Color::RED);
     addRelative(&textField);
 
     onCursor(std::bind(&Stage::hoverOn, this));
@@ -127,7 +128,9 @@ std::string Stage::getText() {
 }
 
 void Stage::setEnabled(bool value) {
-    bool text_field_enabled = textField.isEnabled();
-    AggregateComponent::setEnabled(value);
-    textField.setEnabled(text_field_enabled);
+    Component::setEnabled(value);
+    border.setEnabled(value);
+    playerName.setEnabled(value);
+    points.setEnabled(value);
+    search_progress.setEnabled(value);
 }

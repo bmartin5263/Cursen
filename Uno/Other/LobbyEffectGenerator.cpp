@@ -77,22 +77,16 @@ LobbyEffectGenerator::LobbyEffectGenerator()
 
     for (int i = 0; i < 70; i++) maze[31][i] = '1';
 
-    runners.push_back(Runner(0,0, 20));
-    runners.push_back(Runner(69,0, 20));
-    runners.push_back(Runner(0,31, 20));
-    runners.push_back(Runner(69,31, 20));
-    runners.push_back(Runner(0,15,20));
-    runners.push_back(Runner(69,15, 20));
-//
-    //runners.push_back(Runner(1,0));
-    //runners.push_back(Runner(69,1));
-    //runners.push_back(Runner(1,31));
-    //runners.push_back(Runner(69,30));
+    reset();
+    //runners.push_back(Runner(0,15));
+    //runners.push_back(Runner(69,15));
+
 }
 
 void LobbyEffectGenerator::update()
 {
-    for (auto& runner : runners) {
+    for (auto& runner : runners)
+    {
         runner.update(maze);
     }
 }
@@ -102,7 +96,21 @@ std::vector<Runner>& LobbyEffectGenerator::getRunners()
     return runners;
 }
 
-char*& LobbyEffectGenerator::operator[](size_t i)
+LobbyEffectGenerator::~LobbyEffectGenerator()
 {
-    return maze[i];
+    for (int i = 0; i < 32; i++) {
+        delete[] maze[i];
+    }
+    delete[] maze;
+}
+
+void LobbyEffectGenerator::reset()
+{
+    runners.clear();
+    runners.push_back(Runner(0,0, 0));
+    runners.push_back(Runner(69,0, 1));
+    runners.push_back(Runner(0,31, 2));
+    runners.push_back(Runner(69,31, 3));
+    //runners.push_back(Runner(69,31, 4));
+    //runners.push_back(Runner(69,31, 5));
 }

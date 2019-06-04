@@ -15,6 +15,7 @@
 #include "Uno/UnoComponents/PlayerStaging.h"
 #include "Uno/UnoComponents/ModeSelectBox.h"
 #include "Uno/GameObjects/Lobby.h"
+#include "Uno/UnoComponents/ChatBox.h"
 
 class Lobby;
 class LobbyController;
@@ -61,6 +62,10 @@ public:
     void clickChangeColor();
     void clickChat();
 
+    void startChat();
+    void stopChat();
+    void sendChatMessage();
+
     UnoConsole& getConsole() { return this->console; };
     Lobby& getLobby() { return *this->lobby; };
 
@@ -86,6 +91,7 @@ private:
 
     UnoConsole console;
     PlayerStaging playerStaging;
+    ChatBox chat_box;
     ModeSelectBox mode_select_box;
 
     LobbyGlowBorder glowBorder;

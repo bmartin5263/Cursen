@@ -16,6 +16,8 @@ enum class Direction
 struct Runner
 {
 
+    typedef std::pair<int, int> pair;
+
     static Direction getOp(Direction d)
     {
         switch (d)
@@ -34,65 +36,35 @@ struct Runner
         }
     }
 
-    typedef std::pair<int, int> pair;
-
-    std::pair<int, int>* coordinates;
-    int size;
+    pair coordinates[20];
     Direction last;
+    int color;
 
-    Runner(int x, int y, int size) :
-            size(size)
+    Runner(int x, int y, int color)
     {
         pair start(x, y);
-        this->coordinates = new pair[size];
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < 20; i++)
         {
             this->coordinates[i] = start;
         }
         this->last = Direction::UNINITIALIZED;
+        this->color = color;
     }
 
-    Runner(const Runner& other)
-    {
-        this->size = other.size;
-        this->coordinates = new pair[size];
-        for (int i = 0; i < size; i++)
-        {
-            this->coordinates[i] = other.coordinates[i];
-        }
-        this->last = other.last;
-    }
-
-    Runner& operator = (const Runner& other) {
-        if (&other != this) {
-            this->size = other.size;
-
-            delete[] coordinates;
-            this->coordinates = new pair[size];
-            for (int i = 0; i < size; i++)
-            {
-                this->coordinates[i] = other.coordinates[i];
-            }
-
-            this->last = other.last;
-        }
-        return *this;
-    }
-
-    ~Runner()
-    {
-        delete[] coordinates;
-    }
-
-    std::pair<int, int> get(int i)
+    const pair& get(int i)
     {
         return coordinates[i];
     };
 
+    int getColor()
+    {
+        return color;
+    }
+
     void update(char** maze)
     {
 
-        for (int i = 0; i < size-1; i++)
+        for (int i = 0; i < 19; i++)
         {
             coordinates[i] = coordinates[i + 1];
         }
@@ -100,8 +72,8 @@ struct Runner
         std::vector<Direction> canMove;
         canMove.reserve(4);
 
-        int x = coordinates[size - 1].first;
-        int y = coordinates[size - 1].second;
+        int x = coordinates[19].first;
+        int y = coordinates[19].second;
         char current_space = maze[y][x];
 
         if (x < 69)
@@ -142,8 +114,6 @@ struct Runner
             }
         }
 
-        assert(canMove.size() > 0);
-
         int val = rand() % (int) canMove.size();
 
         Direction next = canMove[val];
@@ -156,7 +126,6 @@ struct Runner
         switch (next)
         {
             case Direction::UNINITIALIZED:
-                assert(false);
                 break;
             case Direction::NORTH:
                 y -= 1;
@@ -172,7 +141,7 @@ struct Runner
                 break;
         }
 
-        coordinates[size - 1] = std::pair<int, int>(x, y);
+        coordinates[19] = pair(x, y);
 
         last = getOp(next);
     }
@@ -188,11 +157,13 @@ public:
 
 
     LobbyEffectGenerator();
+    ~LobbyEffectGenerator();
 
-    char*& operator[](size_t i);
+    //char*& operator[](size_t i);
 
     void update();
     void drawLine(char val, int x, int y, int length);
+    void reset();
 
     std::vector<Runner>& getRunners();
 

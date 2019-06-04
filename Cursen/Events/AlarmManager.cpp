@@ -8,6 +8,7 @@
 #include "AlarmHandle.h"
 #include "EventManager.h"
 #include "AlarmFactory.h"
+#include "Cursen/CursenApplication.h"
 
 namespace cursen
 {
@@ -171,6 +172,11 @@ namespace cursen
     {
         // TODO Need to be edge condition safe (what if we reach the max number of id's?
         return ++ID;
+    }
+
+    AlarmManager& AlarmManager::Instance()
+    {
+        return CursenApplication::GetAlarmManager();
     }
 
 //    AlarmManager::AlarmMap::iterator AlarmManager::findAlarm(unsigned int id)

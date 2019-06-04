@@ -46,8 +46,7 @@ namespace cursen {
         Instance().OpenForm(startupForm);
 
         /* Draw the Initial Screen */
-        CursesManager::Draw(getComponentMap());
-        CursesManager::Refresh();
+        Draw();
 
         while (Instance().running)
         {
@@ -153,5 +152,37 @@ namespace cursen {
     char** CursenApplication::GetArgv()
     {
         return Instance().argv;
+    }
+
+    void CursenApplication::Register(TextComponent* component)
+    {
+        ComponentMap& componentMap = getComponentMap();
+        auto it = componentMap[component->drawOrder].find(component);
+        if (it == componentMap[component->drawOrder].end())
+        {
+            componentMap[component->drawOrder].insert(component);
+        }
+    }
+
+    void CursenApplication::Deregister(TextComponent* component)
+    {
+        ComponentMap& componentMap = getComponentMap();
+        auto it = componentMap[component->drawOrder].find(component);
+        if (it != componentMap[component->drawOrder].end())
+        {
+            componentMap[component->drawOrder].erase(component);
+        }
+    }
+
+    void CursenApplication::SetDrawOrder(TextComponent* component, int order)
+    {
+        ComponentMap& componentMap = getComponentMap();
+        componentMap[component->getDrawOrder()].erase(component);
+        componentMap[order].insert(component);
+    }
+
+    AlarmManager& CursenApplication::GetAlarmManager()
+    {
+        return Instance().alarmManager;
     }
 }
