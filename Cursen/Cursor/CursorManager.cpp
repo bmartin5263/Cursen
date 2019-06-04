@@ -3,6 +3,7 @@
 //
 
 #include "CursorManager.h"
+#include "Cursen/CursenApplication.h"
 #include "Cursor.h"
 
 namespace cursen {
@@ -31,6 +32,11 @@ namespace cursen {
         if (cursors.find(cursor) != cursors.end()) {
             cursors.erase(cursor);
         }
+    }
+
+    CursorManager& CursorManager::Instance()
+    {
+        return CursenApplication::GetCursorManager();
     }
 
 }

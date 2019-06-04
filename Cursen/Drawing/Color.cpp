@@ -4,6 +4,7 @@
 
 #include "Color.h"
 #include "CursesManager.h"
+#include "Cursen/CursenApplication.h"
 
 namespace cursen {
 

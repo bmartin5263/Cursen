@@ -26,11 +26,8 @@ namespace cursen {
 
         static CursorManager* instance;
 
-        static CursorManager& Instance() {
-            if (instance == nullptr)
-                instance = new CursorManager;
-            return *instance;
-        }
+        friend class CursenApplication;
+        static CursorManager& Instance();
 
         CursorManager() = default;
         CursorManager(const CursorManager& other) = delete;

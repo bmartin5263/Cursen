@@ -18,12 +18,9 @@ namespace cursen {
 
         void privProcessInput();
 
-        static InputManager* instance;
 
-        static InputManager& Instance() {
-            static InputManager instance;
-            return instance;
-        }
+        friend class CursenApplication;
+        static InputManager& Instance();
 
         InputManager() = default;
         InputManager(const InputManager& other) = delete;

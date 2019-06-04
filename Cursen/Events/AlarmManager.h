@@ -85,7 +85,6 @@ namespace cursen {
         TimePoint lastUpdate;           /// TimePoint for the last time ProcessAlarms was called
 
         static AlarmManager& Instance();
-
         friend class CursenApplication;
 
         AlarmManager();

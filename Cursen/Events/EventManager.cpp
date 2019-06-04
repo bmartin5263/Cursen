@@ -149,4 +149,9 @@ namespace cursen {
         eventQueue.push(e);
     }
 
+    EventManager& EventManager::Instance()
+    {
+        return CursenApplication::GetEventManager();
+    }
+
 }

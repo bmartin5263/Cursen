@@ -14,9 +14,9 @@
 #include "Drawing/CursesManager.h"
 #include "Components/Form.h"
 
-namespace cursen {
+CURSEN_CLASS_START
 
-    CursenApplication *CursenApplication::instance = nullptr;
+    //CursenApplication *CursenApplication::instance = nullptr;
 
     CursenApplication::CursenApplication() :
             currentForm(nullptr), running(false), argc(0), argv(nullptr)
@@ -63,8 +63,6 @@ namespace cursen {
             // Cheap Frame-rate limiter so I don't chug CPU cycles
             std::this_thread::sleep_for(std::chrono::milliseconds(17 - watch.getMilliseconds()));
         }
-
-        CursesManager::Terminate();
 
         Terminate();
     }
@@ -118,8 +116,6 @@ namespace cursen {
 
     void CursenApplication::Terminate()
     {
-        delete instance;
-        instance = nullptr;
     }
 
     CursenDebugger& CursenApplication::GetDebugger()
@@ -185,4 +181,25 @@ namespace cursen {
     {
         return Instance().alarmManager;
     }
-}
+
+    EventManager& CursenApplication::GetEventManager()
+    {
+        return Instance().eventManager;
+    }
+
+    CursesManager& CursenApplication::GetCursesManager()
+    {
+        return Instance().cursesManager;
+    }
+
+    InputManager& CursenApplication::GetInputManager()
+    {
+        return Instance().inputManager;
+    }
+
+    CursorManager& CursenApplication::GetCursorManager()
+    {
+        return Instance().cursorManager;
+    }
+
+CURSEN_CLASS_END

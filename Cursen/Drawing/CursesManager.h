@@ -13,7 +13,6 @@
 #include <map>
 
 #include "Cursen/Components/Form.h"
-#include "Cursen/CursenApplication.h"
 #include "Color.h"
 #include "ColorPair.h"
 
@@ -24,6 +23,8 @@ namespace cursen {
     class CursesManager {
 
     public:
+
+        typedef std::map<int, std::set<TextComponent*> > ComponentMap;
 
         static const int ESCAPE = 27;
         static const int ENTER = 10;
@@ -44,7 +45,6 @@ namespace cursen {
 
 
         static void Initialize(const Vect2& dim) { Instance().initializeCurses(dim); }
-        static void Terminate() { Instance().terminateCurses(); }
 
         static void DrawChar(int c) { Instance().putCharacter(c); }
         static void DrawString(const std::string &string) { Instance().drawString(string.c_str()); }
@@ -78,7 +78,6 @@ namespace cursen {
 
         typedef std::unordered_map<Color, short, color_hash> ColorMap;
         typedef std::unordered_map<ColorPair, short, color_pair_hash> ColorPairMap;
-        typedef std::map<int, std::set<TextComponent*> > ComponentMap;
 
         // Instance Data
         Vect2 dimensions;
@@ -89,7 +88,6 @@ namespace cursen {
 
         // Methods
         void initializeCurses(const Vect2& dim);
-        void terminateCurses();
 
         // Static to Instance Methods
         int getCharacter();
@@ -111,12 +109,9 @@ namespace cursen {
 
         // Static Data
 
-        static CursesManager* instance;
 
-        static CursesManager& Instance() {
-            static CursesManager instance;
-            return instance;
-        }
+        static CursesManager& Instance();
+        friend class CursenApplication;
 
         CursesManager();
         CursesManager(const CursesManager& other) = delete;

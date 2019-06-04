@@ -7,13 +7,20 @@
 
 #include <map>
 #include <set>
-#include "Cursen/Events/AlarmManager.h"
 
 #include "Debug/CursenDebugger.h"
 #include "Drawing/ColorPalette.h"
 #include "Components/TextComponent.h"
+#include "Cursen/Events/AlarmManager.h"
+#include "Cursen/Events/InputManager.h"
+#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Events/EventManager.h"
+#include "Cursen/Cursor/CursorManager.h"
 
-namespace cursen {
+#define CURSEN_CLASS_START namespace cursen {
+#define CURSEN_CLASS_END }
+
+CURSEN_CLASS_START
 
     class Form;
     class InspectionPointer;
@@ -76,10 +83,18 @@ namespace cursen {
         static void SetDrawOrder(TextComponent* component, int order);
 
         static AlarmManager& GetAlarmManager();
+        static EventManager& GetEventManager();
+        static CursesManager& GetCursesManager();
+        static InputManager& GetInputManager();
+        static CursorManager& GetCursorManager();
 
     private:
 
         AlarmManager alarmManager;
+        EventManager eventManager;
+        CursesManager cursesManager;
+        InputManager inputManager;
+        CursorManager cursorManager;
 
         // Instance Data
         Form* currentForm;
@@ -101,12 +116,11 @@ namespace cursen {
         // Instance Methods
         void initialize();
 
-        static CursenApplication* instance;
+        //static CursenApplication* instance;
 
         static CursenApplication& Instance() {
-            if (instance == nullptr)
-                instance = new CursenApplication;
-            return *instance;
+            static CursenApplication instance;
+            return instance;
         }
 
     private:
@@ -119,7 +133,7 @@ namespace cursen {
 
     };
 
-}
+CURSEN_CLASS_END
 
 
 #endif //CURSEN_CURSENAPPLICATION_H

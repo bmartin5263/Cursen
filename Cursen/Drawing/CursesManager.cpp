@@ -8,11 +8,10 @@
 #include "CursesManager.h"
 #include "ncurses.h"
 #include "Content.h"
+#include "Cursen/CursenApplication.h"
 
 namespace cursen
 {
-
-    CursesManager* CursesManager::instance = nullptr;
 
     chtype CursesManager::LLCORNER = '?';
     chtype CursesManager::LRCORNER = '?';
@@ -67,12 +66,6 @@ namespace cursen
     {
         addch((chtype) c);
         refresh();
-    }
-
-    void CursesManager::terminateCurses()
-    {
-        delete instance;
-        instance = nullptr;
     }
 
     CursesManager::~CursesManager()
@@ -274,5 +267,10 @@ namespace cursen
     void CursesManager::privSetCursor(const int& level)
     {
         curs_set(level);
+    }
+
+    CursesManager& CursesManager::Instance()
+    {
+        return CursenApplication::GetCursesManager();
     }
 }

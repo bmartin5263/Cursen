@@ -9,8 +9,6 @@
 
 namespace cursen {
 
-    InputManager *InputManager::instance = nullptr;
-
     void InputManager::privProcessInput() {
         int key = getch();
         while (key != ERR) {
@@ -57,6 +55,11 @@ namespace cursen {
             }
             key = getch();
         }
+    }
+
+    InputManager& InputManager::Instance()
+    {
+        return CursenApplication::GetInputManager();
     }
 
 }

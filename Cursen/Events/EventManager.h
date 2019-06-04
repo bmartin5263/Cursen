@@ -66,10 +66,8 @@ namespace cursen {
 
         static EventManager* instance;
 
-        static EventManager& Instance() {
-            static EventManager instance;
-            return instance;
-        }
+        friend class CursenApplication;
+        static EventManager& Instance();
 
         EventManager() = default;
         EventManager(const EventManager& other) = delete;
