@@ -11,8 +11,8 @@ namespace cursen {
     {
     }
 
-    Frame::Frame(VoidFunction& frame_function) :
-            frame_fn(frame_function), duration(0.0)
+    Frame::Frame(VoidFunction& frame_function, Animation* parent) :
+            frame_fn(frame_function), duration(0.0), parent(parent)
     {
     }
 
@@ -36,6 +36,11 @@ namespace cursen {
     double Frame::getDuration()
     {
         return this->duration;
+    }
+
+    void Frame::setParent(Animation* animation)
+    {
+        this->parent = animation;
     }
 
 

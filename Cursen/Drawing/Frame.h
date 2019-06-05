@@ -9,6 +9,7 @@
 
 namespace cursen {
 
+    class Animation;
     class Frame
     {
 
@@ -17,7 +18,7 @@ namespace cursen {
         typedef std::function<void()> VoidFunction;
 
         Frame();
-        Frame(VoidFunction& frame_function);
+        Frame(VoidFunction& frame_function, Animation* parent);
 
         void operator ()();
 
@@ -26,8 +27,11 @@ namespace cursen {
         void setDuration(double time);
         double getDuration();
 
+        void setParent(Animation* animation);
+
     private:
 
+        Animation* parent;
         double duration;
         VoidFunction frame_fn;
 

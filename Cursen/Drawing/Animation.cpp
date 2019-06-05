@@ -10,12 +10,12 @@ namespace cursen
 {
 
     Animation::Animation() :
-            currentFrame(0), numFrames(0), default_duration(1.0), running(false), paused(false)
+            currentFrame(0), numFrames(0), default_duration(1.0), running(false), paused(false), variable_time(true)
     {
     }
 
     Animation::Animation(size_t num_frames) :
-            currentFrame(0), numFrames(0), default_duration(1.0), running(false), paused(false)
+            currentFrame(0), numFrames(0), default_duration(1.0), running(false), paused(false), variable_time(true)
     {
         this->frames.reserve(num_frames);
     }
@@ -27,13 +27,14 @@ namespace cursen
 
     Frame& Animation::add(Frame::VoidFunction fn)
     {
-        frames.push_back(Frame(fn));
+        frames.push_back(Frame(fn, this));
         numFrames++;
         return frames.at(numFrames - 1);
     }
 
     Frame& Animation::add(Frame frame)
     {
+        frame.setParent(this);
         frames.push_back(frame);
         numFrames++;
         return frames.at(numFrames - 1);
@@ -64,6 +65,11 @@ namespace cursen
             currentFrame = 0;
 
             nextFrame();
+            if (!variable_time)
+            {
+                animationHandle = AlarmManager::SetInterval(std::bind(&Animation::nextFrame, this), default_duration);
+            }
+
         }
     }
 
@@ -79,13 +85,21 @@ namespace cursen
     {
         frames[currentFrame]();
 
-        if (running && !paused) {
-            double time = frames[currentFrame].getDuration();
-            if (time <= 0.0) {
-                time = default_duration;
+        if (variable_time)
+        {
+            if (running && !paused) {
+                double time = frames[currentFrame].getDuration();
+                if (time <= 0.0) {
+                    time = default_duration;
+                }
+
+                animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
             }
 
-            animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
+        }
+        else
+        {
+            frames[currentFrame]();
         }
 
         currentFrame = (currentFrame + 1) % numFrames;
@@ -116,6 +130,11 @@ namespace cursen
     {
         this->paused = false;
         animationHandle.resume();
+    }
+
+    void Animation::setVariableTime(bool value)
+    {
+        this->variable_time = value;
     }
 
 }

@@ -102,6 +102,9 @@ namespace cursen {
          * @return Seconds per frame
          */
         double getDuration();
+        
+        // TODO: Keep this internal
+        void setVariableTime(bool value);
 
         /* Animation Control */
         void start();
@@ -132,6 +135,7 @@ namespace cursen {
         std::vector<Frame> frames;
         bool running;
         bool paused;
+        bool variable_time;
 
     };
 

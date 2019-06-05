@@ -7,7 +7,6 @@
 
 namespace cursen {
 
-
     class InputManager {
 
     public:
