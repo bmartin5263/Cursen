@@ -480,6 +480,7 @@ void LobbyGlowBorder::initialize()
         invalidate();
     });
     animation.setDuration(.01);
+    animation.setVariableTime(false);
     validate();
 }
 

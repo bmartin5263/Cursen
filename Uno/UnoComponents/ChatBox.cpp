@@ -53,6 +53,9 @@ void ChatBox::initialize()
     chat_entry.setBackground(Color::DARK_BLUE);
     addRelative(&chat_entry);
 
+    log.initialize();
+    addRelative(&log);
+
 }
 
 void ChatBox::setEnabled(bool value)
@@ -81,4 +84,20 @@ std::string ChatBox::getMessage()
 void ChatBox::clearMessage()
 {
     chat_entry.setText("");
+}
+
+void ChatBox::pushMessage(ChatEntry entry)
+{
+    log.pushMessage(entry);
+}
+
+void ChatBox::reassignColor(int id, PlayerColor color)
+{
+    log.reassignColor(id, color);
+}
+
+void ChatBox::clearAll()
+{
+    clearMessage();
+    log.clear();
 }

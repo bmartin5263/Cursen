@@ -68,6 +68,7 @@ public:
 
     UnoConsole& getConsole() { return this->console; };
     Lobby& getLobby() { return *this->lobby; };
+    ChatBox& getChatBox() { return this->chat_box; };
 
 private:
 

@@ -63,6 +63,7 @@ void LocalController::clickChangeColor()
 {
     Lobby& lobby = lobbyForm->getLobby();
     lobby.getPlayer(0)->setColor(lobby.getAvailableColor());
+    lobbyForm->getChatBox().reassignColor(0, lobby.getPlayer(0)->getColor());
     update();
 }
 

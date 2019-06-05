@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
+#include "Cursen/CursenApplication.h"
 #include "Cursen/Events/EventManager.h"
 #include "Cursen/Drawing/CursesManager.h"
 #include "LobbyForm.h"
@@ -93,9 +94,8 @@ void LobbyForm::initialize()
 
     chat_box.initialize();
     chat_box.setPosition(cursen::Vect2(35, 16));
-    chat_box.setEnabled(false);
-    chat_box.setSilenced(true);
     chat_box.onEscapePress(std::bind(&LobbyForm::stopChat, this));
+    chat_box.setActive(false);
     chat_box.setEnabled(false);
 
     if (cursen::CursenApplication::GetArgc() > 1) {
@@ -303,6 +303,7 @@ void LobbyForm::cleanLobby()
     playerStaging.clear();
 
     console.setMessage("");
+    chat_box.clearAll();
 
     delete lobby;
     delete controller;
@@ -482,5 +483,11 @@ void LobbyForm::stopChat()
 
 void LobbyForm::sendChatMessage()
 {
-    console.setText(chat_box.getMessage());
+    std::string text = chat_box.getMessage();
+    if (!text.empty())
+    {
+        ChatEntry entry(0, text, lobby->getPlayer(0)->getColor());
+        chat_box.pushMessage(entry);
+        chat_box.clearMessage();
+    }
 }

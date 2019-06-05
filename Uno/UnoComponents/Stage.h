@@ -5,7 +5,6 @@
 #ifndef CURSEN_STAGE_H
 #define CURSEN_STAGE_H
 
-
 #include "Cursen/Components/TextField.h"
 #include "Cursen/Components/AggregateComponent.h"
 #include "Cursen/Components/Box.h"

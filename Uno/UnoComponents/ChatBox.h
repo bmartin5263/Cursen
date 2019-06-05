@@ -9,6 +9,7 @@
 #include "Cursen/Components/Box.h"
 #include "Cursen/Components/Label.h"
 #include "Cursen/Components/TextField.h"
+#include "ChatLog.h"
 
 class ChatBox : public cursen::AggregateComponent
 {
@@ -22,7 +23,13 @@ public:
     void setActive(bool value);
 
     std::string getMessage();
+
     void clearMessage();
+    void pushMessage(ChatEntry entry);
+
+    void reassignColor(int id, PlayerColor color);
+
+    void clearAll();
 
 private:
 
@@ -31,6 +38,7 @@ private:
     cursen::Box messageBox;
     cursen::Label title;
     cursen::TextField chat_entry;
+    ChatLog log;
 
 };
 
