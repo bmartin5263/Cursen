@@ -13,18 +13,18 @@ MessageQueue::MessageQueue()
 
 void MessageQueue::enqueue(DataMessage* dataMessage)
 {
-    QueueEntry entry(SEQUENCE++, dataMessage->getType(), dataMessage);
+    QueueEntry* entry = new QueueEntry(SEQUENCE++, dataMessage->getType(), dataMessage);
     queue.push(entry);
 }
 
-void MessageQueue::enqueue(QueueEntry queueEntry)
+void MessageQueue::enqueue(QueueEntry* queueEntry)
 {
     queue.push(queueEntry);
 }
 
-QueueEntry MessageQueue::dequeue()
+QueueEntry* MessageQueue::dequeue()
 {
-    QueueEntry& entry = queue.front();
+    QueueEntry* entry = queue.front();
     queue.pop();
     return entry;
 }
@@ -32,8 +32,8 @@ QueueEntry MessageQueue::dequeue()
 void MessageQueue::clearAll()
 {
     while (!isEmpty()) {
-        QueueEntry& entry = queue.front();
-        delete entry.message;
+        QueueEntry* entry = queue.front();
+        delete entry;
         queue.pop();
     }
 }

@@ -110,10 +110,10 @@ int main(int argc, char **argv)
 
 
     //We have networking for this program
-    //CursenApplication::OnUpdate([]() {
-    //    NetworkManager::ProcessNetworkMessages();
-    //    DataManager::ProcessDataMessages();
-    //});
+    CursenApplication::OnUpdate([]() {
+        //NetworkManager::ProcessNetworkMessages();
+        DataManager::ProcessDataMessages();
+    });
 
     CursenApplication::SetCommandLineArgs(argc, argv);
 

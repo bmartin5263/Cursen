@@ -12,3 +12,5 @@ const PlayerColor Constants::COLORS[NUM_COLORS] = {
         PlayerColor::PURPLE,
         PlayerColor::ORANGE
 };
+
+const char* Constants::WHITESPACE = " \n\r\t\f\v";

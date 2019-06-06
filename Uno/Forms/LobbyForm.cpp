@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
+#include <Uno/Constants.h>
 #include "Cursen/CursenApplication.h"
 #include "Cursen/Events/EventManager.h"
 #include "Cursen/Drawing/CursesManager.h"
@@ -11,6 +12,9 @@
 #include "Uno/Lobby/HostController.h"
 #include "Uno/Lobby/LocalController.h"
 #include "Uno/Lobby/ClientController.h"
+#include "Uno/Data/DataManager.h"
+#include "Uno/Messages/AddAI.h"
+#include "Uno/Messages/InputKick.h"
 
 LobbyForm::LobbyForm() :
         Form(cursen::Vect2(70, 33)), lobby(nullptr)
@@ -142,6 +146,8 @@ void LobbyForm::initializeForLocal()
 {
     lobby = new Lobby;
 
+    DataManager::SetContext(Context::Lobby);
+
     Player* p = new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE);
     my_player = *p;
 
@@ -189,6 +195,8 @@ void LobbyForm::initializeForHost()
 {
     lobby = new Lobby;
 
+    DataManager::SetContext(Context::Lobby);
+
     Player* p = new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE);
     my_player = *p;
 
@@ -234,6 +242,8 @@ void LobbyForm::initializeForHost()
 void LobbyForm::initializeForClient()
 {
     lobby = new Lobby;
+
+    DataManager::SetContext(Context::Lobby);
 
     Player* p = new Player(mode_select_box.getMainPlayerStage().getText(), PlayerColor::BLUE);
     my_player = *p;
@@ -309,6 +319,8 @@ void LobbyForm::cleanLobby()
     delete controller;
     lobby = nullptr;
     controller = nullptr;
+
+    DataManager::SetContext(Context::None);
 
     glowBorder.setEnabled(true);
 }
@@ -434,7 +446,7 @@ void LobbyForm::setMainPlayerName()
 
 void LobbyForm::clickChat()
 {
-    controller->clickChat();
+    startChat();
 }
 
 void LobbyForm::clickChangeColor()
@@ -444,24 +456,17 @@ void LobbyForm::clickChangeColor()
 
 void LobbyForm::selectPlayerToRemove(const int& playerNum)
 {
-    removePlayer(playerNum);
     lobby_cursor.setEnabled(true);
     playerStaging.disableCursor();
-}
 
-void LobbyForm::updateForLocal()
-{
-    //playerStaging.update(*lobby);
-}
-
-void LobbyForm::updateForHost()
-{
-    //playerStaging.update(*lobby);
-}
-
-void LobbyForm::updateForClient()
-{
-    //playerStaging.update(*lobby);
+    if (playerNum != 0)
+    {
+        controller->kickPlayer(playerNum);
+    }
+    else
+    {
+        console.setText("Okay, Never mind");
+    }
 }
 
 void LobbyForm::startChat()
@@ -483,11 +488,51 @@ void LobbyForm::stopChat()
 
 void LobbyForm::sendChatMessage()
 {
-    std::string text = chat_box.getMessage();
-    if (!text.empty())
+    controller->sendChat();
+}
+
+void LobbyForm::changeColor(int playerId)
+{
+    lobby->getPlayer(playerId)->setColor(lobby->getAvailableColor());
+    chat_box.reassignColor(0, lobby->getPlayer(0)->getColor());
+}
+
+void LobbyForm::pushChatMessage(int playerId, std::string message)
+{
+    ChatEntry entry(0, message, lobby->getPlayer(playerId)->getColor());
+    chat_box.pushMessage(entry);
+}
+
+void LobbyForm::addAi(std::string name, PlayerColor color)
+{
+    Player *p = new Player(name, color);
+    lobby->addPlayer(p);
+    console.setMessage("Welcome, " + p->getName() + "!");
+}
+
+void LobbyForm::requestAI()
+{
+    if (lobby->getNumPlayers() < Lobby::MAX_PLAYERS)
     {
-        ChatEntry entry(0, text, lobby->getPlayer(0)->getColor());
-        chat_box.pushMessage(entry);
-        chat_box.clearMessage();
+
+        std::string computer_name = Player::GetComputerName();
+        PlayerColor computer_color = lobby->getAvailableColorRGBY();
+
+        size_t text_len = computer_name.length();
+        char* raw_text = new char[text_len + 1];
+        const char* str = computer_name.c_str();
+        memcpy(raw_text, str, text_len + 1);
+        raw_text[text_len] = '\0';
+
+        DataMessage* msg = new AddAI(raw_text, computer_color);
+        msg->setSendType(SendType::Both);
+        DataManager::PushMessage(msg);
     }
+}
+
+void LobbyForm::kickPlayer(int player_to_kick)
+{
+    Player p = *lobby->getPlayer(player_to_kick);
+    lobby->removePlayer(player_to_kick);
+    console.setWarning("Later, " + p.getName());
 }

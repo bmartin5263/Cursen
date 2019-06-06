@@ -3,6 +3,9 @@
 //
 
 #include "LocalController.h"
+#include "Uno/Messages/InputChangeColor.h"
+#include "Uno/Messages/InputAddAi.h"
+#include "Uno/Messages/InputKick.h"
 
 LocalController::LocalController(LobbyForm* form) : LobbyController(form)
 {
@@ -19,11 +22,6 @@ void LocalController::destroy()
     lobbyForm->leaveLocal();
 }
 
-void LocalController::update()
-{
-    lobbyForm->updateForLocal();
-}
-
 
 void LocalController::clickStart()
 {
@@ -32,14 +30,9 @@ void LocalController::clickStart()
 
 void LocalController::clickAddAI()
 {
-    Lobby& lobby = lobbyForm->getLobby();
-    UnoConsole& console = lobbyForm->getConsole();
-
-    console.setText("Add AI Clicked!");
-    Player *p = new Player(Player::GetComputerName(), lobbyForm->getLobby().getAvailableColorRGBY());
-    lobby.addPlayer(p);
-    console.setMessage("Welcome, " + p->getName() + "!");
-    update();
+    DataMessage* msg = new InputAddAi;
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void LocalController::clickSearch()
@@ -61,13 +54,19 @@ void LocalController::clickClose()
 
 void LocalController::clickChangeColor()
 {
-    Lobby& lobby = lobbyForm->getLobby();
-    lobby.getPlayer(0)->setColor(lobby.getAvailableColor());
-    lobbyForm->getChatBox().reassignColor(0, lobby.getPlayer(0)->getColor());
-    update();
+    DataMessage* msg = new InputChangeColor(0);
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
-void LocalController::clickChat()
+void LocalController::sendChat()
 {
     throw std::logic_error("Local cannot chat.");
+}
+
+void LocalController::kickPlayer(int id)
+{
+    DataMessage* msg = new InputKick(id);
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }

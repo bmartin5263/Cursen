@@ -3,6 +3,11 @@
 //
 
 #include "HostController.h"
+#include "Uno/Messages/InputChangeColor.h"
+#include "Uno/Constants.h"
+#include "Uno/Messages/InputChat.h"
+#include "Uno/Messages/InputAddAi.h"
+#include "Uno/Messages/InputKick.h"
 
 HostController::HostController(LobbyForm* lobbyForm) : LobbyController(lobbyForm)
 {}
@@ -26,15 +31,9 @@ void HostController::clickStart()
 
 void HostController::clickAddAI()
 {
-    Lobby& lobby = lobbyForm->getLobby();
-    UnoConsole& console = lobbyForm->getConsole();
-
-    console.setText("Add AI Clicked!");
-    Player *p = new Player(Player::GetComputerName(), lobbyForm->getLobby().getAvailableColorRGBY());
-    lobby.addPlayer(p);
-    console.setMessage("Welcome, " + p->getName() + "!");
-    update();
-    // Broadcast message to add an AI
+    DataMessage* msg = new InputAddAi;
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void HostController::clickSearch()
@@ -63,19 +62,43 @@ void HostController::clickClose()
 void HostController::clickChangeColor()
 {
     // Broadcast color change
-    Lobby& lobby = lobbyForm->getLobby();
-    lobby.getPlayer(0)->setColor(lobby.getAvailableColor());
-    lobbyForm->getChatBox().reassignColor(0, lobby.getPlayer(0)->getColor());
-    update();
+    DataMessage* msg = new InputChangeColor(0);
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
-void HostController::clickChat()
+void HostController::sendChat()
 {
-    lobbyForm->startChat();
+    ChatBox& chatBox = lobbyForm->getChatBox();
+
+    std::string text = Constants::rtrim(chatBox.getMessage());
+    if (!text.empty())
+    {
+        size_t text_len = text.length();
+        char* raw_text = new char[text_len + 1];
+
+        const char* str = text.c_str();
+
+        memcpy(raw_text, str, text_len + 1);
+
+        raw_text[text_len] = '\0';
+
+        DataMessage* msg = new InputChat(0, text_len, raw_text);
+        msg->setSendType(SendType::Local);
+        DataManager::PushMessage(msg);
+
+        chatBox.clearMessage();
+    }
+    else
+    {
+        lobbyForm->stopChat();
+    }
 }
 
-void HostController::update()
+void HostController::kickPlayer(int id)
 {
-    lobbyForm->updateForHost();
+    DataMessage* msg = new InputKick(id);
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 

@@ -17,7 +17,10 @@ public:
 
     static void PushMessage(DataMessage* message) { Instance().privPushMessage(message); };
     static void ProcessDataMessages();
-    static void ForwardToInput(QueueEntry entry);
+    static void ForwardToInput(QueueEntry* entry);
+
+    static void SetContext(Context new_context);
+    static Context GetContext();
 
 private:
 
@@ -26,12 +29,9 @@ private:
     void processIn();
     void processOut();
 
-    static DataManager* instance;
-
     static DataManager& Instance() {
-        if (instance == nullptr)
-            instance = new DataManager;
-        return *instance;
+        static DataManager instance;
+        return instance;
     }
 
     DataManager() = default;
@@ -43,6 +43,7 @@ private:
 
     MessageQueue in;
     MessageQueue out;
+    Context context;
 
 };
 

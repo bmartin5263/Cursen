@@ -9,8 +9,6 @@
 #include "Client.h"
 #include "NullDevice.h"
 
-NetworkManager* NetworkManager::instance = nullptr;
-
 NetworkManager::NetworkManager() :
     device(new NullDevice), type(NetworkType::Uninitialized)
 {
@@ -41,7 +39,12 @@ void NetworkManager::ProcessNetworkMessages()
     Instance().device->ProcessNetworkMessages();
 }
 
-void NetworkManager::Write(QueueEntry entry)
+void NetworkManager::Write(QueueEntry* entry)
 {
     Instance().device->Write(entry);
+}
+
+NetworkManager::~NetworkManager()
+{
+    delete device;
 }

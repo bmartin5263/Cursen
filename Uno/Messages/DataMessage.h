@@ -6,20 +6,33 @@
 #define CURSEN_DATAMESSAGE_H
 
 
+#include "Uno/Data/Context.h"
 #include "MessageType.h"
 #include "SendType.h"
+#include "Serializable.h"
 
-class DataMessage
+class DataMessage : public Serializable
 {
 
 public:
 
-    DataMessage() = default;
+    DataMessage() :
+            sendType(SendType::Uninitialized)
+    {}
+
     virtual ~DataMessage() = default;
 
-    virtual SendType getSendType() = 0;
     virtual MessageType getType() = 0;
+    virtual Context getContext() = 0;
     virtual void execute() = 0;
+    virtual DataMessage* copy() = 0;
+
+    SendType getSendType() { return sendType; };
+    void setSendType(SendType type) { this->sendType = type; };
+
+private:
+
+    SendType sendType;
 
 };
 

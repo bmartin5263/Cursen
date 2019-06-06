@@ -14,3 +14,25 @@ QueueEntry::QueueEntry(int seq, MessageType type, DataMessage* msg) :
 {
 
 }
+
+QueueEntry::QueueEntry(const QueueEntry& other) :
+    sequence(other.sequence), type(other.type)
+{
+    this->message = other.message->copy();
+}
+
+QueueEntry& QueueEntry::operator=(const QueueEntry& other)
+{
+    if (&other != this)
+    {
+        this->message = other.message->copy();
+        this->type = other.type;
+        this->sequence = other.sequence;
+    }
+    return *this;
+}
+
+QueueEntry::~QueueEntry()
+{
+    delete this->message;
+}

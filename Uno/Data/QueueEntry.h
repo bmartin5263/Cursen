@@ -15,6 +15,9 @@ public:
 
     QueueEntry();
     QueueEntry(int seq, MessageType type, DataMessage* msg);
+    QueueEntry(const QueueEntry& other);
+    QueueEntry& operator = (const QueueEntry& other);
+    ~QueueEntry();
 
     DataMessage* message;
     int sequence;

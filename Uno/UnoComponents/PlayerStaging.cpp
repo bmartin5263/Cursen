@@ -93,6 +93,7 @@ void PlayerStaging::update(const Lobby& lobby)
         for (i = 0; i < lobby.getNumPlayers(); i++)
         {
             stages[i].setPlayer(*lobby.getPlayer(i));
+            stages[i].setCursable(true);
         }
 
         for (; i < Lobby::MAX_PLAYERS; i++)
@@ -100,6 +101,7 @@ void PlayerStaging::update(const Lobby& lobby)
             if (!lobby.isSearching())
             {
                 stages[i].clear();
+                stages[i].setCursable(false);
             }
         }
     }

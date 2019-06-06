@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <cassert>
+#include <Cursen/Drawing/Vect2.h>
 
 enum class Direction
 {
@@ -16,7 +17,7 @@ enum class Direction
 struct Runner
 {
 
-    typedef std::pair<int, int> pair;
+    typedef cursen::Vect2 pair;
 
     static Direction getOp(Direction d)
     {
@@ -72,8 +73,8 @@ struct Runner
         std::vector<Direction> canMove;
         canMove.reserve(4);
 
-        int x = coordinates[19].first;
-        int y = coordinates[19].second;
+        int x = coordinates[19].x;
+        int y = coordinates[19].y;
         char current_space = maze[y][x];
 
         if (x < 69)

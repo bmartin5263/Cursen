@@ -9,7 +9,6 @@ void Local::ProcessNetworkMessages()
 
 }
 
-void Local::Write(QueueEntry entry)
+void Local::Write(QueueEntry* entry)
 {
-
 }

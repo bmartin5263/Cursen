@@ -15,9 +15,9 @@ public:
         // Do nothing
     }
 
-    void Write(QueueEntry entry) override
+    void Write(QueueEntry* entry) override
     {
-        // Do nothing
+
     }
 
 

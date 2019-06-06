@@ -17,8 +17,8 @@ public:
     MessageQueue();
 
     void enqueue(DataMessage* dataMessage);
-    void enqueue(QueueEntry queueEntry);
-    QueueEntry dequeue();
+    void enqueue(QueueEntry* queueEntry);
+    QueueEntry* dequeue();
 
     bool isEmpty();
     void clearAll();
@@ -27,7 +27,7 @@ private:
 
     static int SEQUENCE;
 
-    std::queue<QueueEntry> queue;
+    std::queue<QueueEntry*> queue;
 
 };
 

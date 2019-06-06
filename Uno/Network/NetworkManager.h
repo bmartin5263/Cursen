@@ -16,16 +16,14 @@ public:
 
     static void InitializeAs(NetworkType type);
     static void ProcessNetworkMessages();
-    static void Write(QueueEntry entry);
+    static void Write(QueueEntry* entry);
 
 private:
 
-    static NetworkManager* instance;
 
     static NetworkManager& Instance() {
-        if (instance == nullptr)
-            instance = new NetworkManager;
-        return *instance;
+        static NetworkManager instance;
+        return instance;
     }
 
     NetworkManager();
@@ -33,7 +31,7 @@ private:
     NetworkManager(NetworkManager&& other) noexcept = delete;
     NetworkManager& operator = (const NetworkManager& other) = delete;
     NetworkManager& operator = (NetworkManager&& other) = delete;
-    ~NetworkManager() = default;
+    ~NetworkManager();
 
     NetworkDevice* device;
     NetworkType type;

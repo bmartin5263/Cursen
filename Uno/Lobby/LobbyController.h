@@ -20,14 +20,14 @@ public:
 
     virtual void initialize() = 0;
     virtual void destroy() = 0;
-    virtual void update() = 0;
     virtual void clickStart() = 0;          // HOST, LOCAL
     virtual void clickAddAI() = 0;          // HOST, LOCAL
     virtual void clickSearch() = 0;         // HOST
     virtual void clickKick() = 0;           // HOST, LOCAL
     virtual void clickClose() = 0;          // HOST, CLIENT, LOCAL
     virtual void clickChangeColor() = 0;    // HOST, CLIENT, LOCAL
-    virtual void clickChat() = 0;           // HOST, CLIENT
+    virtual void sendChat() = 0;           // HOST, CLIENT
+    virtual void kickPlayer(int id) = 0;
 
 
 protected:
@@ -35,6 +35,5 @@ protected:
     LobbyForm* lobbyForm;
 
 };
-
 
 #endif //CURSEN_LOBBYCONTROLLER_H

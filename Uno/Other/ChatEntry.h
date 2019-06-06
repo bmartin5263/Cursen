@@ -7,6 +7,7 @@
 
 #include <string>
 
+#include "Uno/Messages/Serializable.h"
 #include "Uno/GameObjects/PlayerColor.h"
 
 class ChatEntry

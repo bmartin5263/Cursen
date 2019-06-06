@@ -9,7 +9,7 @@ void Host::ProcessNetworkMessages()
 
 }
 
-void Host::Write(QueueEntry entry)
+void Host::Write(QueueEntry* entry)
 {
 
 }

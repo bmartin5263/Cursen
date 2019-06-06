@@ -10,6 +10,15 @@ enum class MessageType {
     Uninitialized,
     ChangeContextLobby,     // Tells Player that we are now listening for lobby messages
     ChangeContextMatch,     // Tells Player that we are now listening for match messages
+    InputChangeColor,
+    ChangeColor,
+    InputChat,
+    PushChatLog,
+    AddAI,
+    InputAddAi,
+    InputKick,
+    KickPlayer,
+
 
 };
 

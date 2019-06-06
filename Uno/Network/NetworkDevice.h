@@ -14,7 +14,7 @@ public:
     virtual ~NetworkDevice() = default;
 
     virtual void ProcessNetworkMessages() = 0;
-    virtual void Write(QueueEntry entry) = 0;
+    virtual void Write(QueueEntry* entry) = 0;
 
 };
 

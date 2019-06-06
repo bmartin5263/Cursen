@@ -9,7 +9,7 @@ void Client::ProcessNetworkMessages()
     //NetworkDevice::ProcessNetworkMessages();
 }
 
-void Client::Write(QueueEntry entry)
+void Client::Write(QueueEntry* entry)
 {
-    //NetworkDevice::Write(entry);
+    delete entry;
 }

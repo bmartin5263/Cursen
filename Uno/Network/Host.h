@@ -13,7 +13,7 @@ class Host : public NetworkDevice
 public:
 
     void ProcessNetworkMessages() override;
-    void Write(QueueEntry entry) override;
+    void Write(QueueEntry* entry) override;
 
 };
 

@@ -15,14 +15,14 @@ public:
     HostController(LobbyForm* lobbyForm);
     void initialize() override;
     void destroy() override;
-    void update() override;
     void clickStart() override;
     void clickAddAI() override;
     void clickSearch() override;
     void clickKick() override;
     void clickClose() override;
     void clickChangeColor() override;
-    void clickChat() override;
+    void sendChat() override;
+    void kickPlayer(int id) override;
 
 };
 

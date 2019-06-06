@@ -66,10 +66,16 @@ public:
     void stopChat();
     void sendChatMessage();
 
+    void changeColor(int playerId);
+    void pushChatMessage(int playerId, std::string message);
+    void addAi(std::string name, PlayerColor color);
+
     UnoConsole& getConsole() { return this->console; };
     Lobby& getLobby() { return *this->lobby; };
     ChatBox& getChatBox() { return this->chat_box; };
 
+    void requestAI();
+    void kickPlayer(int player_to_kick);
 private:
 
     // Instance Data
