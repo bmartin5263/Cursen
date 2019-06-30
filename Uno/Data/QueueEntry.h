@@ -8,19 +8,30 @@
 #include "Uno/Messages/MessageType.h"
 #include "Uno/Messages/DataMessage.h"
 
-class QueueEntry
+class QueueEntry : Serializable
 {
 
 public:
 
     QueueEntry();
-    QueueEntry(int seq, MessageType type, DataMessage* msg);
+    QueueEntry(MessageType type, DataMessage* msg);
     QueueEntry(const QueueEntry& other);
     QueueEntry& operator = (const QueueEntry& other);
     ~QueueEntry();
 
+    void setSender(int id);
+    int getRecipient();
+    RecipientType getRecipientType();
+
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t sizeOf() const override;
+
+    DataMessage* getMessage();
+
+private:
+
     DataMessage* message;
-    int sequence;
     MessageType type;
 
 };

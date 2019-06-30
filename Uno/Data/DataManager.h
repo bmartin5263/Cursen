@@ -34,7 +34,7 @@ private:
         return instance;
     }
 
-    DataManager() = default;
+    DataManager();
     DataManager(const DataManager& other) = delete;
     DataManager(DataManager&& other) noexcept = delete;
     DataManager& operator = (const DataManager& other) = delete;

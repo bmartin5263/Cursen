@@ -14,29 +14,19 @@ class ChatLog : public cursen::TextComponent
 
 public:
 
+    static const int MAX_MESSAGES = 9;
+
     ChatLog();
     ChatLog(const cursen::Vect2& pos);
     void initialize() override;
     void render() override;
 
-    void setLobby(Lobby* lobby);
-
-    void pushMessage(ChatEntry entry);
-    void reassignColor(int id, PlayerColor color);
     void clear();
+    void update(ChatEntry* messages);
 
 private:
 
-    Lobby* lobby;
-
-    ChatEntry entries[9];
-
-    short blue_pair;
-    short red_pair;
-    short yellow_pair;
-    short green_pair;
-    short purple_pair;
-    short orange_pair;
+    ChatEntry entries[MAX_MESSAGES];
 
 };
 

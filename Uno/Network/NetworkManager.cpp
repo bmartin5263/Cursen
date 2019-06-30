@@ -7,26 +7,30 @@
 #include "Local.h"
 #include "Host.h"
 #include "Client.h"
-#include "NullDevice.h"
 
 NetworkManager::NetworkManager() :
-    device(new NullDevice), type(NetworkType::Uninitialized)
+    device(&Local::local_device), type(NetworkType::Uninitialized)
 {
 
 }
 
-void NetworkManager::InitializeAs(NetworkType type)
+NetworkManager::~NetworkManager()
 {
-    delete Instance().device;
+}
+
+
+void NetworkManager::CreateDevice(NetworkType type)
+{
+    Instance().type = type;
     switch (type) {
         case NetworkType::Local:
-            Instance().device = new Local();
+            Instance().device = &Local::local_device;
             break;
         case NetworkType::Host:
-            Instance().device = new Host();
+            Instance().device = &Host::host_device;
             break;
         case NetworkType::Client:
-            Instance().device = new Client();
+            Instance().device = &Client::client_device;
             break;
         case NetworkType::Uninitialized:
             assert(false);
@@ -36,15 +40,22 @@ void NetworkManager::InitializeAs(NetworkType type)
 
 void NetworkManager::ProcessNetworkMessages()
 {
-    Instance().device->ProcessNetworkMessages();
+    Instance().device->processNetworkMessages();
 }
 
-void NetworkManager::Write(QueueEntry* entry)
+void NetworkManager::WriteMessage(QueueEntry* entry)
 {
-    Instance().device->Write(entry);
+    Instance().device->writeMessage(entry);
 }
 
-NetworkManager::~NetworkManager()
+void NetworkManager::DestroyDevice()
 {
-    delete device;
+    Instance().device->destroy();
 }
+
+
+NetworkDevice& NetworkManager::GetDevice()
+{
+    return *Instance().device;
+}
+

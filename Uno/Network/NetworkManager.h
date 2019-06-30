@@ -14,9 +14,15 @@ class NetworkManager
 
 public:
 
-    static void InitializeAs(NetworkType type);
+    static const int PORT = 58000;
+
+    static void CreateDevice(NetworkType type);
+    static void DestroyDevice();
+
     static void ProcessNetworkMessages();
-    static void Write(QueueEntry* entry);
+    static void WriteMessage(QueueEntry* entry);
+
+    static NetworkDevice& GetDevice();
 
 private:
 

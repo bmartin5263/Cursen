@@ -16,13 +16,9 @@ public:
 
     InputChat() = default;
 
-    InputChat(int id, size_t len, char* message) :
-        id(id), len(len), message(message)
+    InputChat(int id, std::string msg) :
+        id(id), message(msg)
     {}
-
-    ~InputChat() {
-        delete message;
-    }
 
     MessageType getType() override
     {
@@ -38,17 +34,13 @@ public:
     {
         if (DataManager::GetContext() == getContext())
         {
-
-            char* text = new char[len + 1];
-            memcpy(text, message, len + 1);
-
-            DataMessage* msg = new PushChatLog(id, len, text);
+            DataMessage* msg = new PushChatLog(id, message);
             msg->setSendType(SendType::Both);
             DataManager::PushMessage(msg);
         }
     }
 
-    DataMessage* copy() override
+    DataMessage* clone() override
     {
         return new InputChat(*this);
     }
@@ -60,28 +52,27 @@ public:
 
     size_t serialize(char* const buffer) const override
     {
-        size_t bytes_written = 0;
+        size_t bytes_written = DataMessage::serialize(buffer);
+
         bytes_written += Serialize(buffer + bytes_written, id);
-        bytes_written += Serialize(buffer + bytes_written, len);
-        bytes_written += Serialize(buffer + bytes_written, message, len);
+        bytes_written += Serialize(buffer + bytes_written, message);
+
         return bytes_written;
     }
 
     size_t deserialize(const char* const buffer) override
     {
-        size_t bytes_read = 0;
-        bytes_read += Deserialize(buffer, id);
-        bytes_read += Deserialize(buffer, len);
-        message = new char[len + 1];
-        bytes_read += Deserialize(buffer, message, len);
-        message[len] = '\0';
+        size_t bytes_read = DataMessage::deserialize(buffer);
+
+        bytes_read += Deserialize(buffer + bytes_read, id);
+        bytes_read += Deserialize(buffer + bytes_read, message);
+
         return bytes_read;
     }
 
 private:
 
-    char* message;
-    size_t len;
+    std::string message;
     int id;
 
 };

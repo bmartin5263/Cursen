@@ -5,26 +5,39 @@
 #ifndef CURSEN_LOBBY_H
 #define CURSEN_LOBBY_H
 
-
-#include <vector>
+#include "Uno/Messages/Serializable.h"
 #include "LobbyType.h"
 #include "Player.h"
+#include "Uno/Other/ChatEntry.h"
 
-class Lobby {
+class Lobby : public Serializable {
 
 public:
 
-    static const int MAX_CHAT = 9;
     static const int MAX_PLAYERS = 4;
     static const int MIN_PLAYERS_TO_START = 2;
+    static const int MAX_CHAT = 9;
 
     Lobby();
-    ~Lobby();
 
-    void addPlayer(Player * const player);
-    void removePlayer(const int& index);
-    Player* getPlayer(const int& index) const;
+    Player createPlayer(std::string name, PlayerColor color);
+
+    void addPlayer(Player player);
+
+    void removePlayer(const int& id);
+    bool hasId(const int& id);
+
+    Player& getPlayer(const int& id);
+    Player& getPlayerByIndex(const int& index);
+    Player* getPlayers();
+
+    void changePlayerColorById(const int& id, PlayerColor color);
+    PlayerColor getPlayerColor(const int& id) const;
     int getNumPlayers() const;
+
+    void pushMessage(ChatEntry msg);
+    void removeMessageById(int id);
+    ChatEntry* getMessages();
 
     void startSearch();
     void stopSearch();
@@ -32,14 +45,23 @@ public:
 
     bool colorTaken(PlayerColor color) const;
 
+    int getMyId();
+    void setMyId(int id);
+
     PlayerColor getAvailableColor() const;
     PlayerColor getAvailableColorRGBY() const;
 
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t sizeOf() const override;
 
 private:
 
-    Player* players[MAX_PLAYERS];
-    std::string messages[MAX_CHAT];
+    bool idTaken(int id);
+
+    Player players[MAX_PLAYERS];
+    ChatEntry chat_messages[MAX_CHAT];
+    int my_id;
     int numPlayers;
     bool searching;
 

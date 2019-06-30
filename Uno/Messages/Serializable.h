@@ -6,6 +6,7 @@
 #define CURSEN_SERIALIZABLE_H
 
 #include <cstring>
+#include <string>
 
 class Serializable {
 
@@ -17,6 +18,11 @@ public:
 
     static size_t Serialize(char * const buffer, const int& val) {
         memcpy(buffer, &val, sizeof(int));
+        return sizeof(int);
+    }
+
+    static size_t Serialize(char * const buffer, const bool& val) {
+        memcpy(buffer, &val, sizeof(bool));
         return sizeof(int);
     }
 
@@ -45,12 +51,25 @@ public:
         return sizeof(char) * len;
     }
 
+    static size_t Serialize(char * const buffer, const std::string& str)
+    {
+        size_t written = 0;
+        auto len = str.length();
+        memcpy(buffer, &len, sizeof(len));
+        return Serialize(buffer + sizeof(len), str.c_str(), len) + sizeof(len);
+    }
+
     static size_t Deserialize(const char * const buffer, Serializable& val) {
         return val.deserialize(buffer);
     }
 
     static size_t Deserialize(const char * const buffer, int& val) {
         memcpy(&val, buffer, sizeof(int));
+        return sizeof(int);
+    }
+
+    static size_t Deserialize(const char * const buffer, bool& val) {
+        memcpy(&val, buffer, sizeof(bool));
         return sizeof(int);
     }
 
@@ -79,25 +98,31 @@ public:
         return sizeof(char) * len;
     }
 
+    static size_t DeserializeArray(const char * const buffer, char*& arr, const size_t& len) {
+        arr = new char[len + 1];
+        memcpy(arr, buffer, sizeof(char) * len);
+        arr[len] = '\0';
+        return sizeof(char) * len;
+    }
+
+    static size_t Deserialize(const char* const buffer, std::string& str)
+    {
+        size_t len;
+
+        size_t read = Deserialize(buffer, len);
+
+        char raw[len];
+        read += Deserialize(buffer + read, raw, len);
+        raw[len] = '\0';
+        str = std::string(raw);
+
+        return read;
+    }
+
     /* Default Behaviors */
 
-    virtual size_t serialize(char * const buffer) const {
-        // Skip Over VTable.
-        size_t len = sizeOf() - sizeof(void*);  // Size of object minus the vtable
-        char* p = (char*)this;
-        p += sizeof(void*);                     // Hop over vtable
-        memcpy(buffer, p, len);                 // Memcpy
-        return len;                             // Return bytes written
-    };
-
-    virtual size_t deserialize(const char * const buffer) {
-        size_t len = sizeOf() - sizeof(void*);
-        char* p = (char*)this;
-        p += sizeof(void*);
-        memcpy(p, buffer, len);
-        return len;
-    };
-
+    virtual size_t serialize(char * const buffer) const = 0;
+    virtual size_t deserialize(const char * const buffer) = 0;
     virtual size_t sizeOf() const = 0;
 
 };

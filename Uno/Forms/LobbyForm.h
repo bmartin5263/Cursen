@@ -26,7 +26,7 @@ public:
 
     LobbyForm();
     void initialize() override;
-    void cleanLobby();
+    void cleanLobby(std::string exit_message, bool was_kicked);
 
     void initializeForLocal();
     void initializeForHost();
@@ -34,16 +34,12 @@ public:
 
     void leaveLocal();
     void leaveHost();
-    void leaveClient();
+    void leaveClient(std::string msg, bool kicked);
 
-    void updateForLocal();
-    void updateForHost();
-    void updateForClient();
-
-    void toggleSearch();
+    void startSearch();
+    void stopSearch();
 
     void enableRemovePlayerCursor();
-
     void selectPlayerToRemove(const int& index);
     void removePlayer(const int& index);
 
@@ -62,26 +58,56 @@ public:
     void clickChangeColor();
     void clickChat();
 
+    void tryJoin();
+
+    // Inline because CLion is reporting non-existent errors
+    void updateLobby(Lobby& lobby)
+    {
+        if (this->lobby == nullptr)
+        {
+            this->lobby = new Lobby(lobby);
+            initializeForClient();
+        }
+        else {
+            *this->lobby = lobby;
+        }
+
+        chat_box.update(lobby.getMessages());
+        playerStaging.update(lobby);
+        if (lobby.isSearching())
+        {
+            startSearch();
+        }
+        else {
+            stopSearch();
+        }
+    };
+
     void startChat();
     void stopChat();
     void sendChatMessage();
 
-    void changeColor(int playerId);
+    void changeColor(int playerId, PlayerColor color);
     void pushChatMessage(int playerId, std::string message);
-    void addAi(std::string name, PlayerColor color);
+    void addPlayer(Player p, int sock);
+    void close(int playerId);
 
     UnoConsole& getConsole() { return this->console; };
-    Lobby& getLobby() { return *this->lobby; };
+    Lobby& getLobby();
     ChatBox& getChatBox() { return this->chat_box; };
+    LobbyController& getController() { return *this->controller; }
+    PlayerStaging& getPlayerStaging() { return playerStaging; }
+    cursen::Button& getSearchButton() { return search_button; }
 
     void requestAI();
-    void kickPlayer(int player_to_kick);
+    void requestClient(int sock_id, std::string name);
+    void kickPlayer(int id);
+
 private:
 
     // Instance Data
     Lobby* lobby;
     LobbyController* controller;
-    Player my_player;
 
     // Components
     cursen::ASCIIArt art;
@@ -100,8 +126,9 @@ private:
     PlayerStaging playerStaging;
     ChatBox chat_box;
     ModeSelectBox mode_select_box;
-
     LobbyGlowBorder glowBorder;
+
+    //Player my_player;
 
 };
 

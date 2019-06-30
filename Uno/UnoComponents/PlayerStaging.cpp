@@ -86,13 +86,16 @@ void PlayerStaging::stopSearching()
     }
 }
 
-void PlayerStaging::update(const Lobby& lobby)
+void PlayerStaging::update(Lobby& lobby)
 {
     if (!stageCursor.isEnabled()) {
+
+        Player* players = lobby.getPlayers();
+
         int i;
         for (i = 0; i < lobby.getNumPlayers(); i++)
         {
-            stages[i].setPlayer(*lobby.getPlayer(i));
+            stages[i].setPlayer(players[i]);
             stages[i].setCursable(true);
         }
 

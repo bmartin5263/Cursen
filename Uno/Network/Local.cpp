@@ -4,11 +4,24 @@
 
 #include "Local.h"
 
-void Local::ProcessNetworkMessages()
-{
+Local Local::local_device = Local();
 
+void Local::processNetworkMessages()
+{
+    // Do Nothing
 }
 
-void Local::Write(QueueEntry* entry)
+void Local::writeMessage(QueueEntry* entry)
 {
+    // Do Nothing
+}
+
+void Local::initialize()
+{
+    // Do Nothing
+}
+
+void Local::destroy()
+{
+    // Do Nothing
 }

@@ -86,17 +86,12 @@ void ChatBox::clearMessage()
     chat_entry.setText("");
 }
 
-void ChatBox::pushMessage(ChatEntry entry)
+void ChatBox::update(ChatEntry* messages)
 {
-    log.pushMessage(entry);
+    log.update(messages);
 }
 
-void ChatBox::reassignColor(int id, PlayerColor color)
-{
-    log.reassignColor(id, color);
-}
-
-void ChatBox::clearAll()
+void ChatBox::clearAllMessages()
 {
     clearMessage();
     log.clear();

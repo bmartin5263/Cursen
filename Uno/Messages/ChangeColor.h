@@ -16,8 +16,8 @@ public:
 
     ChangeColor() = default;
 
-    ChangeColor(int id) :
-        id(id)
+    ChangeColor(int id, PlayerColor color) :
+        id(id), new_color(color)
     {}
 
     MessageType getType() override
@@ -35,7 +35,7 @@ public:
         if (DataManager::GetContext() == getContext())
         {
             LobbyForm* lobby = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
-            lobby->changeColor(id);
+            lobby->changeColor(id, new_color);
         }
     }
 
@@ -44,14 +44,38 @@ public:
         return sizeof(ChangeColor);
     }
 
-    DataMessage* copy() override
+    DataMessage* clone() override
     {
         return new ChangeColor(*this);
+    }
+
+    size_t serialize(char* const buffer) const override
+    {
+        size_t written =  DataMessage::serialize(buffer);
+
+        written += Serializable::Serialize(buffer + written, id);
+        written += Serializable::Serialize(buffer + written, (int)new_color);
+
+        return written;
+    }
+
+    size_t deserialize(const char* const buffer) override
+    {
+        size_t read = DataMessage::deserialize(buffer);
+
+        read += Serializable::Deserialize(buffer + read, id);
+
+        int raw_color;
+        read += Serializable::Deserialize(buffer + read, raw_color);
+        new_color = (PlayerColor)raw_color;
+
+        return read;
     }
 
 private:
 
     int id;
+    PlayerColor new_color;
 
 };
 

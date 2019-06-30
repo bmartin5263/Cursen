@@ -15,4 +15,13 @@ enum class SendType {
 
 };
 
+enum class RecipientType {
+
+    Uninitialized = 1,
+    Broadcast = 2,
+    Broadcast_Except_Recipient = 4,
+    Single = 8
+
+};
+
 #endif //CURSEN_SENDTYPE_H

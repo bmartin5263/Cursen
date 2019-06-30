@@ -15,6 +15,7 @@ class MessageQueue
 public:
 
     MessageQueue();
+    ~MessageQueue();
 
     void enqueue(DataMessage* dataMessage);
     void enqueue(QueueEntry* queueEntry);

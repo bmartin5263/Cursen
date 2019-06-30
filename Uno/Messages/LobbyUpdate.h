@@ -1,29 +1,26 @@
 //
-// Created by Brandon Martin on 6/6/19.
+// Created by Brandon Martin on 6/11/19.
 //
 
-#ifndef CURSEN_ADDAI_H
-#define CURSEN_ADDAI_H
+#ifndef CURSEN_LOBBYUPDATE_H
+#define CURSEN_LOBBYUPDATE_H
 
 #include "DataMessage.h"
-#include "Uno/Forms/LobbyForm.h"
-#include "Uno/Lobby/LobbyController.h"
-#include "Uno/Data/DataManager.h"
-#include "Cursen/CursenApplication.h"
+#include "Uno/GameObjects/Lobby.h"
 
-class AddAI : public DataMessage {
-
+class LobbyUpdate : public DataMessage
+{
 public:
 
-    AddAI() = default;
+    LobbyUpdate() = default;
 
-    AddAI(const Player& p):
-            new_ai(p)
+    LobbyUpdate(Lobby lobby) :
+        lobby(lobby)
     {}
 
     MessageType getType() override
     {
-        return MessageType::AddAI;
+        return MessageType::LobbyUpdate;
     }
 
     Context getContext() override
@@ -36,25 +33,25 @@ public:
         if (DataManager::GetContext() == getContext())
         {
             LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
-            lobbyForm->getController().handleAddAi(new_ai);
+            lobbyForm->updateLobby(lobby);
         }
     }
 
     DataMessage* clone() override
     {
-        return new AddAI(*this);
+        return new LobbyUpdate(*this);
     }
 
     size_t sizeOf() const override
     {
-        return sizeof(AddAI);
+        return sizeof(LobbyUpdate);
     }
 
     size_t serialize(char* const buffer) const override
     {
         size_t written = DataMessage::serialize(buffer);
 
-        written += new_ai.serialize(buffer + written);
+        written += lobby.serialize(buffer + written);
 
         return written;
     }
@@ -63,16 +60,15 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += new_ai.deserialize(buffer + read);
+        read += lobby.deserialize(buffer + read);
 
         return read;
     }
 
 private:
 
-    Player new_ai;
+    Lobby lobby;
 
 };
 
-
-#endif //CURSEN_ADDAI_H
+#endif //CURSEN_LOBBYUPDATE_H

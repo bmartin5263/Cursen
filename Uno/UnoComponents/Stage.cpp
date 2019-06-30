@@ -82,7 +82,7 @@ void Stage::clear() {
 }
 
 void Stage::setPlayer(const Player & player) {
-    playerName.setText(player.getName());
+    playerName.setText(player.getName() + " : " + std::to_string(player.getId()));
     points.setText("Points: " + std::to_string(player.getPoints()));
 
     setStageColor(Player::ConvertColor(player.getColor()));

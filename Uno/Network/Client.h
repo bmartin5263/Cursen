@@ -12,8 +12,27 @@ class Client : public NetworkDevice
 {
 public:
 
-    void ProcessNetworkMessages() override;
-    void Write(QueueEntry* entry) override;
+    static Client client_device;
+
+    void processNetworkMessages() override;
+    void writeMessage(QueueEntry* entry) override;
+    void initialize() override;
+    void destroy() override;
+
+    bool openConnection(const char* addr);
+    void closeConnection();
+    void connectionLost();
+
+private:
+
+    Client();
+    Client(const Client& other) = delete;
+    Client& operator = (const Client& other) = delete;
+    ~Client();
+
+    int host_sock;
+    bool connected;
+
 
 };
 

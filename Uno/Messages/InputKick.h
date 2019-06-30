@@ -18,7 +18,7 @@ public:
     InputKick() = default;
 
     InputKick(int player_id) :
-        player_to_kick(player_id)
+            id_to_kick(player_id)
     {}
 
     MessageType getType() override
@@ -36,17 +36,14 @@ public:
         if (DataManager::GetContext() == getContext())
         {
             LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
-            if (player_to_kick > 0 && player_to_kick < lobbyForm->getLobby().getNumPlayers())
+            if (lobbyForm->getLobby().hasId(id_to_kick))
             {
-                DataMessage* msg = new KickPlayer(player_to_kick);
-                msg->setSendType(SendType::Both);
-                DataManager::PushMessage(msg);
-
+                lobbyForm->getController().sendKickMessages(id_to_kick);
             }
         }
     }
 
-    DataMessage* copy() override
+    DataMessage* clone() override
     {
         return new InputKick(*this);
     }
@@ -56,9 +53,27 @@ public:
         return sizeof(InputKick);
     }
 
+    size_t serialize(char* const buffer) const override
+    {
+        size_t written = DataMessage::serialize(buffer);
+
+        written += Serializable::Serialize(buffer + written, id_to_kick);
+
+        return written;
+    }
+
+    size_t deserialize(const char* const buffer) override
+    {
+        size_t read = DataMessage::deserialize(buffer);
+
+        read += Serializable::Deserialize(buffer + read, id_to_kick);
+
+        return read;
+    }
+
 private:
 
-    int player_to_kick;
+    int id_to_kick;
 
 };
 

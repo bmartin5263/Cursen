@@ -7,15 +7,16 @@
 
 #include <string>
 
+#include "Uno/Messages/Serializable.h"
 #include "Cursen/Drawing/Color.h"
 #include "PlayerColor.h"
 
-class Player {
+class Player : public Serializable {
 
 public:
 
     Player();
-    Player(const std::string& name, const PlayerColor& color);
+    Player(const std::string& name, const PlayerColor& color, int id);
 
     void setName(const std::string& name);
     std::string getName() const;
@@ -26,17 +27,22 @@ public:
     void setColor(const PlayerColor& color);
     PlayerColor getColor() const;
 
+    int getId() const;
+
     static const std::string GetComputerName();
     static cursen::Color ConvertColor(const PlayerColor& color);
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t sizeOf() const override;
 
 private:
 
     static const std::string COMP_NAMES[];
 
-
     std::string name;
     PlayerColor color;
     int points;
+    int id;
 
 };
 

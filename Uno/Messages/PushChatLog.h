@@ -14,8 +14,8 @@ class PushChatLog : public DataMessage {
 public:
 
     PushChatLog() = default;
-    PushChatLog(int id, size_t len, char* message) :
-        id(id), len(len), message(message)
+    PushChatLog(int id, std::string msg) :
+        id(id), message(msg)
     {}
 
     MessageType getType() override
@@ -33,12 +33,11 @@ public:
         if (DataManager::GetContext() == getContext())
         {
             LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
-            std::string msg(message);
-            lobbyForm->pushChatMessage(id, msg);
+            lobbyForm->pushChatMessage(id, message);
         }
     }
 
-    DataMessage* copy() override
+    DataMessage* clone() override
     {
         return new PushChatLog(*this);
     }
@@ -50,26 +49,27 @@ public:
 
     size_t serialize(char* const buffer) const override
     {
-        size_t bytes_written = 0;
+        size_t bytes_written = DataMessage::serialize(buffer);
+
         bytes_written += Serialize(buffer + bytes_written, id);
-        bytes_written += Serialize(buffer + bytes_written, len);
-        bytes_written += Serialize(buffer + bytes_written, message, len);
+        bytes_written += Serialize(buffer + bytes_written, message);
+
         return bytes_written;
     }
 
     size_t deserialize(const char* const buffer) override
     {
-        size_t bytes_read = 0;
-        bytes_read += Deserialize(buffer, id);
-        bytes_read += Deserialize(buffer, len);
-        bytes_read += Deserialize(buffer, message, len);
+        size_t bytes_read = DataMessage::deserialize(buffer);
+
+        bytes_read += Deserialize(buffer + bytes_read, id);
+        bytes_read += Deserialize(buffer + bytes_read, message);
+
         return bytes_read;
     }
 
 private:
 
-    char* message;
-    size_t len;
+    std::string message;
     int id;
 
 };

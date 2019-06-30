@@ -18,7 +18,17 @@ enum class MessageType {
     InputAddAi,
     InputKick,
     KickPlayer,
-
+    InputClose,
+    CloseRoom,
+    RequestJoinLobby,
+    RequestLeaveLobby,
+    AddPlayer,
+    LobbyUpdate,
+    InputSearch,
+    StartSearch,
+    StopSearch,
+    DisconnectFromHost,
+    ConnectionSevered
 
 };
 

@@ -6,8 +6,10 @@
 #define CURSEN_LOBBYEFFECTGENERATOR_H
 
 #include <vector>
+#include <unordered_set>
 #include <cassert>
 #include <Cursen/Drawing/Vect2.h>
+#include "Cursen/Events/EventManager.h"
 
 enum class Direction
 {
@@ -40,16 +42,23 @@ struct Runner
     pair coordinates[20];
     Direction last;
     int color;
+    int next_to_go;
 
-    Runner(int x, int y, int color)
+    Runner() = default;
+
+    void setColor(int color)
     {
-        pair start(x, y);
+        this->color = color;
+    }
+
+    void reset(int x, int y)
+    {
         for (int i = 0; i < 20; i++)
         {
-            this->coordinates[i] = start;
+            coordinates[i] = pair(x,y);
         }
         this->last = Direction::UNINITIALIZED;
-        this->color = color;
+        this->next_to_go = 0;
     }
 
     const pair& get(int i)
@@ -62,67 +71,58 @@ struct Runner
         return color;
     }
 
-    void update(char** maze)
+    void update(char**& maze)
     {
 
-        for (int i = 0; i < 19; i++)
-        {
-            coordinates[i] = coordinates[i + 1];
-        }
+        //for (int i = 0; i < 19; i++)
+        //{
+        //    coordinates[i] = coordinates[i + 1];
+        //}
 
-        std::vector<Direction> canMove;
+        std::unordered_set<Direction, cursen::EnumClassHash> canMove;
         canMove.reserve(4);
 
-        int x = coordinates[19].x;
-        int y = coordinates[19].y;
+        //int x = coordinates[19].x;
+        //int y = coordinates[19].y;
+        pair prev = next_to_go > 0 ? coordinates[next_to_go-1] : coordinates[19];
+        int x = prev.x;
+        int y = prev.y;
         char current_space = maze[y][x];
 
-        if (x < 69)
+        if (x < 69 && Direction::EAST != last)
         {
             char next = maze[y][x + 1];
             if (next == '1' || next == '2')
             {
-                canMove.push_back(Direction::EAST);
+                canMove.insert(Direction::EAST);
             }
         }
 
-        if (x > 0)
+        if (x > 0 && Direction::WEST != last)
         {
             char next = maze[y][x - 1];
             if (next == '1' || next == '2')
             {
-                canMove.push_back(Direction::WEST);
+                canMove.insert(Direction::WEST);
             }
         }
 
         if (current_space != '2')
         {
-            if (y < 31)
+            if (y < 31 && maze[y + 1][x] == '1' && Direction::SOUTH != last)
             {
-                char next = maze[y + 1][x];
-                if (next == '1')
-                {
-                    canMove.push_back(Direction::SOUTH);
-                }
+                canMove.insert(Direction::SOUTH);
             }
-            if (y > 0)
+            if (y > 0 && maze[y - 1][x] == '1' && Direction::NORTH != last)
             {
-                char next = maze[y - 1][x];
-                if (next == '1')
-                {
-                    canMove.push_back(Direction::NORTH);
-                }
+                canMove.insert(Direction::NORTH);
             }
         }
 
+        auto it = canMove.begin();
         int val = rand() % (int) canMove.size();
-
-        Direction next = canMove[val];
-        while (next == last)
-        {
-            val = rand() % (int) canMove.size();
-            next = canMove[val];
-        }
+        std::advance(it, val);
+        Direction next = *it;
 
         switch (next)
         {
@@ -142,13 +142,13 @@ struct Runner
                 break;
         }
 
-        coordinates[19] = pair(x, y);
+        coordinates[next_to_go++] = pair(x, y);
+        if (next_to_go >= 20) next_to_go = 0;
 
         last = getOp(next);
     }
 
 };
-
 class LobbyEffectGenerator
 {
 
@@ -166,12 +166,13 @@ public:
     void drawLine(char val, int x, int y, int length);
     void reset();
 
-    std::vector<Runner>& getRunners();
+    Runner*& getRunners();
 
 private:
 
+    //Runner* runners_alloc;
     char** maze;
-    std::vector<Runner> runners;
+    Runner* runners;
 
 };
 

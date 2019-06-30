@@ -16,7 +16,7 @@ public:
     KickPlayer() = default;
 
     KickPlayer(int player_id) :
-            player_to_kick(player_id)
+            id_to_kick(player_id)
     {}
 
     MessageType getType() override
@@ -34,23 +34,41 @@ public:
         if (DataManager::GetContext() == getContext())
         {
             LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
-            lobbyForm->kickPlayer(player_to_kick);
+            lobbyForm->getController().handleKickPlayer(id_to_kick);
         }
     }
 
-    DataMessage* copy() override
+    DataMessage* clone() override
     {
-        return nullptr;
+        return new KickPlayer(*this);
     }
 
     size_t sizeOf() const override
     {
-        return 0;
+        return sizeof(KickPlayer);
+    }
+
+    size_t serialize(char* const buffer) const override
+    {
+        size_t written = DataMessage::serialize(buffer);
+
+        written += Serializable::Serialize(buffer + written, id_to_kick);
+
+        return written;
+    }
+
+    size_t deserialize(const char* const buffer) override
+    {
+        size_t read = DataMessage::deserialize(buffer);
+
+        read += Serializable::Deserialize(buffer + read, id_to_kick);
+
+        return read;
     }
 
 private:
 
-    int player_to_kick;
+    int id_to_kick;
 
 };
 

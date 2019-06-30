@@ -15,6 +15,10 @@ class InputChangeColor : public DataMessage
 {
 public:
 
+    InputChangeColor() :
+        id(-1)
+    {}
+
     InputChangeColor(int id) :
         id(id)
     {
@@ -29,7 +33,10 @@ public:
     {
         if (DataManager::GetContext() == getContext())
         {
-            DataMessage* msg = new ChangeColor(id);
+            auto lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
+            PlayerColor new_color = lobbyForm->getLobby().getAvailableColor();
+
+            DataMessage* msg = new ChangeColor(id, new_color);
             msg->setSendType(SendType::Both);
             DataManager::PushMessage(msg);
         }
@@ -45,9 +52,27 @@ public:
         return Context::Lobby;
     }
 
-    DataMessage* copy() override
+    DataMessage* clone() override
     {
         return new InputChangeColor(*this);
+    }
+
+    size_t serialize(char* const buffer) const override
+    {
+        size_t written =  DataMessage::serialize(buffer);
+
+        written += Serializable::Serialize(buffer + written, id);
+
+        return written;
+    }
+
+    size_t deserialize(const char* const buffer) override
+    {
+        size_t read = DataMessage::deserialize(buffer);
+
+        read += Serializable::Deserialize(buffer + read, id);
+
+        return read;
     }
 
 private:

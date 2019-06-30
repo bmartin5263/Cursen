@@ -23,13 +23,10 @@ public:
     void setActive(bool value);
 
     std::string getMessage();
-
     void clearMessage();
-    void pushMessage(ChatEntry entry);
 
-    void reassignColor(int id, PlayerColor color);
-
-    void clearAll();
+    void update(ChatEntry* messages);
+    void clearAllMessages();
 
 private:
 

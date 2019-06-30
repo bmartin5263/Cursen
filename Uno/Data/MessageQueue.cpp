@@ -13,7 +13,7 @@ MessageQueue::MessageQueue()
 
 void MessageQueue::enqueue(DataMessage* dataMessage)
 {
-    QueueEntry* entry = new QueueEntry(SEQUENCE++, dataMessage->getType(), dataMessage);
+    QueueEntry* entry = new QueueEntry(dataMessage->getType(), dataMessage);
     queue.push(entry);
 }
 
@@ -41,4 +41,9 @@ void MessageQueue::clearAll()
 bool MessageQueue::isEmpty()
 {
     return queue.empty();
+}
+
+MessageQueue::~MessageQueue()
+{
+    clearAll();
 }

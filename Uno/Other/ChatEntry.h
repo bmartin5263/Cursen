@@ -10,7 +10,7 @@
 #include "Uno/Messages/Serializable.h"
 #include "Uno/GameObjects/PlayerColor.h"
 
-class ChatEntry
+class ChatEntry : public Serializable
 {
 
 public:
@@ -20,10 +20,15 @@ public:
 
     void setColor(PlayerColor color);
 
+    void setNull();
     bool isNull() { return id == -1; }
     PlayerColor getColor() { return color; }
     std::string& getMessage() { return message; }
     int getId() { return id; }
+
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t sizeOf() const override;
 
 private:
 

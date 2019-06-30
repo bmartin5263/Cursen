@@ -486,11 +486,12 @@ void LobbyGlowBorder::initialize()
 
 void LobbyGlowBorder::render()
 {
-    std::vector<Runner>& runners = generator.getRunners();
+    Runner*& runners = generator.getRunners();
     Content& content = getContent();
 
     // Erase lines
-    for (auto& runner : runners) {
+    for (int j = 0; j < 4; ++j) {
+        Runner& runner = runners[j];
         for (int i = 0; i < 20; ++i) {
             const Vect2& p = runner.get(i);
             content[p.y][p.x] = reference[p.y][p.x];
@@ -500,14 +501,12 @@ void LobbyGlowBorder::render()
     generator.update();
 
     // Redraw
-    for (auto& runner : runners) {
+    for (int j = 0; j < 4; ++j) {
+        Runner& runner = runners[j];
+        const int colorNum = runner.getColor();
+        const short pair = COLOR_LUT[colorNum];
         for (int i = 0; i < 20; ++i) {
-            int colorNum = runner.getColor();
-
             const Vect2& p = runner.get(i);
-
-            short pair = COLOR_LUT[colorNum];
-
             chtype ref = reference[p.y][p.x];
             ref ^= white_pair;
             content[p.y][p.x] = ref | pair;
@@ -526,11 +525,12 @@ void LobbyGlowBorder::setEnabled(bool value)
     else
         {
         animation.stop();
-        std::vector<Runner>& runners = generator.getRunners();
+        Runner*& runners = generator.getRunners();
         Content& content = getContent();
-        for (auto& runner : runners)
+        for (int i = 0; i < 4; i++)
         {
-            for (int i = 0; i < 20; ++i)
+            Runner& runner = runners[i];
+            for (int j = 0; j < 20; ++j)
             {
                 const Vect2& p = runner.get(i);
                 content[p.y][p.x] = reference[p.y][p.x];

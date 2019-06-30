@@ -23,7 +23,7 @@ public:
     void initialize() override;
     void setCallBacks(LobbyForm* lobby);
 
-    void update(const Lobby& lobby);
+    void update(Lobby& lobby);
     void clear();
 
     void enableCursor();

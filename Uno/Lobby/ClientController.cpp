@@ -2,10 +2,13 @@
 // Created by Brandon Martin on 5/20/19.
 //
 
+#include <Uno/Network/NetworkManager.h>
+#include <Uno/Network/Client.h>
 #include "ClientController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Constants.h"
 #include "Uno/Messages/InputChat.h"
+#include "Uno/Messages/InputCloseRoom.h"
 
 ClientController::ClientController(LobbyForm* form) : LobbyController(form)
 {
@@ -19,7 +22,7 @@ void ClientController::initialize()
 
 void ClientController::destroy()
 {
-    lobbyForm->leaveClient();
+    lobbyForm->leaveClient(std::string(), false);
 }
 
 void ClientController::clickStart()
@@ -37,19 +40,17 @@ void ClientController::clickSearch()
     throw std::logic_error("Client cannot search.");
 }
 
-void ClientController::clickKick()
-{
-    throw std::logic_error("Client cannot kick.");
-}
-
 void ClientController::clickClose()
 {
-    destroy();
+    //DataMessage* msg = new InputCloseRoom(lobbyForm->getLobby().getMyId());
+    //msg->setSendType(SendType::Local);
+    //DataManager::PushMessage(msg);
+    ((Client&)NetworkManager::GetDevice()).closeConnection();
 }
 
 void ClientController::clickChangeColor()
 {
-    DataMessage* msg = new InputChangeColor(0);
+    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyId());
     msg->setSendType(SendType::Network);
     DataManager::PushMessage(msg);
 }
@@ -61,13 +62,7 @@ void ClientController::sendChat()
     std::string text = Constants::rtrim(chatBox.getMessage());
     if (!text.empty())
     {
-        size_t text_len = text.length();
-        char* raw_text = new char[text_len + 1];
-        const char* str = text.c_str();
-        memcpy(raw_text, str, text_len + 1);
-        raw_text[text_len] = '\0';
-
-        DataMessage* msg = new InputChat(0, text_len, raw_text);
+        DataMessage* msg = new InputChat(lobbyForm->getLobby().getMyId(), text);
         msg->setSendType(SendType::Network);
         DataManager::PushMessage(msg);
 
@@ -79,7 +74,56 @@ void ClientController::sendChat()
     }
 }
 
-void ClientController::kickPlayer(int id)
+void ClientController::selectPlayerToKick(int id)
 {
     throw std::logic_error("Client cannot kick players.");
+}
+
+void ClientController::handleClose(std::string msg, bool kicked)
+{
+    lobbyForm->leaveClient(msg, kicked);
+}
+
+void ClientController::handleStartSearch()
+{
+    lobbyForm->getLobby().startSearch();
+    lobbyForm->getPlayerStaging().startSearching();
+}
+
+void ClientController::handleStopSearch()
+{
+    lobbyForm->getLobby().stopSearch();
+    lobbyForm->getPlayerStaging().stopSearching();
+}
+
+void ClientController::handleAddAi(Player new_ai)
+{
+    lobbyForm->getLobby().addPlayer(new_ai);
+    lobbyForm->getConsole().setMessage("Welcome, " + new_ai.getName() + "!");
+
+    if (lobbyForm->getLobby().isSearching() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MAX_PLAYERS)
+    {
+        handleStopSearch();
+    }
+}
+
+void ClientController::handleKickPlayer(int id)
+{
+    lobbyForm->kickPlayer(id);
+}
+
+void ClientController::sendKickMessages(int id)
+{
+    //(void*)id;
+    assert(false);
+}
+
+void ClientController::handleDisconnect(int sock)
+{
+    handleClose("Host Connection Lost!", true);
+}
+
+void ClientController::sendCloseMessages()
+{
+    assert(false);
 }

@@ -12,8 +12,16 @@ class Local : public NetworkDevice
 {
 public:
 
-    void ProcessNetworkMessages() override;
-    void Write(QueueEntry* entry) override;
+    static Local local_device;
+
+    void processNetworkMessages() override;
+    void writeMessage(QueueEntry* entry) override;
+    void initialize() override;
+    void destroy() override;
+
+private:
+
+    Local() = default;
 
 };
 

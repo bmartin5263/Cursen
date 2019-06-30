@@ -1,29 +1,28 @@
 //
-// Created by Brandon Martin on 6/6/19.
+// Created by Brandon Martin on 6/10/19.
 //
 
-#ifndef CURSEN_ADDAI_H
-#define CURSEN_ADDAI_H
+#ifndef CURSEN_CLOSEROOM_H
+#define CURSEN_CLOSEROOM_H
 
 #include "DataMessage.h"
-#include "Uno/Forms/LobbyForm.h"
-#include "Uno/Lobby/LobbyController.h"
 #include "Uno/Data/DataManager.h"
+#include "Uno/Forms/LobbyForm.h"
 #include "Cursen/CursenApplication.h"
+#include "Uno/Lobby/LobbyController.h"
 
-class AddAI : public DataMessage {
-
+class CloseRoom : public DataMessage
+{
 public:
 
-    AddAI() = default;
-
-    AddAI(const Player& p):
-            new_ai(p)
-    {}
+    CloseRoom() = default;
+    CloseRoom(std::string msg, bool kick) :
+        message(msg), kicked(kick)
+    {};
 
     MessageType getType() override
     {
-        return MessageType::AddAI;
+        return MessageType::CloseRoom;
     }
 
     Context getContext() override
@@ -36,25 +35,26 @@ public:
         if (DataManager::GetContext() == getContext())
         {
             LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
-            lobbyForm->getController().handleAddAi(new_ai);
+            lobbyForm->getController().handleClose(message, kicked);
         }
     }
 
     DataMessage* clone() override
     {
-        return new AddAI(*this);
+        return new CloseRoom(*this);
     }
 
     size_t sizeOf() const override
     {
-        return sizeof(AddAI);
+        return sizeof(CloseRoom);
     }
 
     size_t serialize(char* const buffer) const override
     {
         size_t written = DataMessage::serialize(buffer);
 
-        written += new_ai.serialize(buffer + written);
+        written += Serializable::Serialize(buffer + written, message);
+        written += Serializable::Serialize(buffer + written, kicked);
 
         return written;
     }
@@ -63,16 +63,18 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += new_ai.deserialize(buffer + read);
+        read += Serializable::Deserialize(buffer + read, message);
+        read += Serializable::Deserialize(buffer + read, kicked);
 
         return read;
     }
 
 private:
 
-    Player new_ai;
+    std::string message;
+    bool kicked;
 
 };
 
 
-#endif //CURSEN_ADDAI_H
+#endif //CURSEN_CLOSEROOM_H

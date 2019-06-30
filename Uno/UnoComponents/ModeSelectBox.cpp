@@ -2,7 +2,11 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
+#include "Uno/Network/NetworkManager.h"
+#include "Uno/Network/Client.h"
 #include "ModeSelectBox.h"
+#include "Cursen/Drawing/CursesManager.h"
+#include "Uno/Forms/LobbyForm.h"
 
 ModeSelectBox::ModeSelectBox() {
 
@@ -68,6 +72,18 @@ void ModeSelectBox::initialize() {
     exit_button.setEnabled(false);
     addRelative(&exit_button);
 
+    ip_entry.initialize();
+    ip_entry.setSize(cursen::Vect2(50, 1));
+    ip_entry.setPosition(cursen::Vect2(2,15));
+    ip_entry.setForeground(cursen::Color::WHITE);
+    ip_entry.setEnabled(false);
+    addRelative(&ip_entry);
+
+    join_progress.initialize();
+    join_progress.setForeground(cursen::Color::RED);
+    join_progress.setPosition(cursen::Vect2(22,15));
+    addRelative(&join_progress);
+
     mode_cursor.moveTo(&local_button);
     mode_cursor.mapComponent(&local_button, cursen::ArrowMap(nullptr, &exit_button, nullptr, &host_button));
     mode_cursor.mapComponent(&host_button, cursen::ArrowMap(nullptr, &local_button, nullptr, &join_button));
@@ -99,6 +115,8 @@ void ModeSelectBox::setText(const std::string &text) {
 void ModeSelectBox::setHidden(bool value) {
     AggregateComponent::setHidden(value);
     mode_cursor.setEnabled(!value);
+    ip_entry.setHidden(true);
+    join_progress.setHidden(true);
 }
 
 Stage &ModeSelectBox::getMainPlayerStage() {
@@ -125,5 +143,49 @@ void ModeSelectBox::setMessage(const std::string &text) {
 void ModeSelectBox::setWarning(const std::string &text) {
     console_message.setForeground(cursen::Color::RED);
     console_message.setText(text);
+}
+
+void ModeSelectBox::startIpEntry(std::function<void(const cursen::Event &)> callback)
+{
+    join_button.setForeground(cursen::Color::RED);
+    ip_entry.setEnabled(true);
+    mode_cursor.setEnabled(false);
+    console_message.setText("Please Enter Host IP");
+    onEnterPress(callback);
+}
+
+std::string ModeSelectBox::getIpAddress()
+{
+    detachEnterPress();
+    std::string addr = ip_entry.getText();
+    ip_entry.setText("");
+    ip_entry.setEnabled(false);
+    join_button.setText("Connecting    ");
+    return addr;
+}
+
+void ModeSelectBox::cleanIpEntry()
+{
+    join_button.setForeground(cursen::Color::WHITE);
+    join_button.setText("Join Multiplayer");
+}
+void ModeSelectBox::setLobby(LobbyForm* lobby)
+{
+    this->lobbyForm = lobby;
+}
+
+void ModeSelectBox::enableCursor()
+{
+    this->mode_cursor.setEnabled(true);
+}
+
+std::string ModeSelectBox::getPlayerName()
+{
+    return player_name;
+}
+
+void ModeSelectBox::setPlayerName(const std::string& name)
+{
+    this->player_name = name;
 }
 

@@ -7,12 +7,12 @@
 const std::string Player::COMP_NAMES[] = { "Watson", "SkyNet", "Hal 9000", "Metal Gear" };
 
 Player::Player() :
-    points(0), name("Unknown"), color(PlayerColor::BLUE)
+    points(-1), name("Null"), color(PlayerColor::GRAY), id(-1)
 {
 }
 
-Player::Player(const std::string &name, const PlayerColor& color) :
-    points(0), name(name), color(color)
+Player::Player(const std::string &name, const PlayerColor& color, int id) :
+    points(0), name(name), color(color), id(id)
 {
 }
 
@@ -61,5 +61,45 @@ cursen::Color Player::ConvertColor(const PlayerColor &color) {
             return cursen::Color::VIOLET;
         case PlayerColor::ORANGE:
             return cursen::Color::ORANGE;
+        case PlayerColor::GRAY:
+            return cursen::Color::GRAY;
     }
+}
+
+size_t Player::serialize(char* const buffer) const
+{
+    size_t written = 0;
+    written += Serializable::Serialize(buffer, name.length());
+    written += Serializable::Serialize(buffer + written, name.c_str(), name.length());
+    written += Serializable::Serialize(buffer + written, (int)color);
+    written += Serializable::Serialize(buffer + written, points);
+    written += Serializable::Serialize(buffer + written, id);
+    return written;
+}
+
+size_t Player::deserialize(const char* const buffer)
+{
+    size_t read = 0;
+    size_t len;
+    read += Serializable::Deserialize(buffer, len);
+    char raw_name[len + 1];
+    read += Serializable::Deserialize(buffer + read, raw_name, len);
+    raw_name[len] = '\0';
+    name = std::string(raw_name);
+    int col;
+    read += Serializable::Deserialize(buffer + read, col);
+    color = (PlayerColor)col;
+    read += Serializable::Deserialize(buffer + read, points);
+    read += Serializable::Deserialize(buffer + read, id);
+    return read;
+}
+
+size_t Player::sizeOf() const
+{
+    return sizeof(Player);
+}
+
+int Player::getId() const
+{
+    return id;
 }
