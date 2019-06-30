@@ -11,22 +11,23 @@ namespace cursen
 {
 
     StandardComponent::StandardComponent() :
-            TextComponent(Vect2(0, 0)), animation(10)
+            TextComponent(Vect2(0, 0)), animation(10), isHovered(false)
     {
     }
 
     StandardComponent::StandardComponent(const Vect2& pos) :
-            TextComponent(pos), animation(10)
+            TextComponent(pos), animation(10), isHovered(false)
     {
     }
 
     StandardComponent::StandardComponent(const Vect2& pos, const Vect2& dim) :
-            TextComponent(pos, dim), animation(10)
+            TextComponent(pos, dim), animation(10), isHovered(false)
     {
     }
 
     void StandardComponent::initialize()
     {
+        TextComponent::initialize();
         this->isHovered = false;
         this->foreground = CursenApplication::GetColorPalette().getForeground();
         this->background = CursenApplication::GetColorPalette().getBackground();

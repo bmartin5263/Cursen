@@ -22,6 +22,8 @@ namespace cursen {
         Cursor();
         Cursor(Component *start);
 
+        void initialize() override;
+
         // Override
         void setEnabled(bool value) override;
         void moveTo(Component *start);
@@ -31,7 +33,6 @@ namespace cursen {
         bool cursorLeft();
         bool cursorRight();
         bool cursorUp();
-        void initialize() override;
         bool refresh();
 
     private:

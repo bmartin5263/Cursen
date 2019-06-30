@@ -24,12 +24,12 @@ namespace cursen
 
     void AlarmManager::privProcessAlarms()
     {
-
+        assert(false);
         Event event;
         handleStopRequests();
         handleStartRequests();
         std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - lastUpdate;
-        for (auto it = alarms.begin(); it != alarms.end(); it++)
+        for (auto it = internal_alarms.begin(); it != internal_alarms.end(); it++)
         {
 
             Alarm* entry = it->second;
@@ -55,17 +55,50 @@ namespace cursen
 
     }
 
+    void AlarmManager::ProcessAlarms(AlarmManager::AlarmMap& alarmMap)
+    {
+        AlarmManager& instance = Instance();
+        Event event;
+        instance.handleStopRequests(alarmMap);
+        instance.handleStartRequests(alarmMap);
+        std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - instance.lastUpdate;
+        for (auto it = alarmMap.begin(); it != alarmMap.end(); it++)
+        {
+
+            Alarm* entry = it->second;
+            entry->updateTime(elapsed_seconds.count());
+
+            if (entry->ready())
+            {
+                entry->reset();
+                event.type = EventType::AlarmInterval;
+                event.alarm.alarmEntry = it->second;
+                EventManager::PushEvent(event);
+            }
+            if (entry->expired())
+            {
+                instance.stopRequests.push(entry->getId());
+                event.type = EventType::AlarmExpire;
+                event.alarm.alarmEntry = it->second;
+                EventManager::PushEvent(event);
+            }
+
+        }
+        instance.lastUpdate = std::chrono::system_clock::now();
+    }
+
     void AlarmManager::handleStartRequests()
     {
+        assert(false);
         Alarm* alarmEntry;
         while (!startRequests.empty())
         {
             alarmEntry = startRequests.front();
 
-            AlarmMap::iterator it = alarms.find(alarmEntry->getId());
-            if (it == alarms.end())
+            AlarmMap::iterator it = internal_alarms.find(alarmEntry->getId());
+            if (it == internal_alarms.end())
             {
-                alarms[alarmEntry->getId()] = alarmEntry;
+                internal_alarms[alarmEntry->getId()] = alarmEntry;
             }
 
             startRequests.pop();
@@ -74,21 +107,59 @@ namespace cursen
 
     void AlarmManager::handleStopRequests()
     {
+        assert(false);
         unsigned int id;
         std::unordered_map<unsigned int, Alarm*>::iterator it;
         while (!stopRequests.empty())
         {
             id = stopRequests.front();
 
-            it = alarms.find(id);
-            if (it != alarms.end())
+            it = internal_alarms.find(id);
+            if (it != internal_alarms.end())
             {
                 Alarm* entry = it->second;
                 AlarmFactory::RecycleAlarm(entry);
-                alarms.erase(id);
+                internal_alarms.erase(id);
             }
 
             stopRequests.pop();
+        }
+    }
+
+    void AlarmManager::handleStopRequests(AlarmManager::AlarmMap& alarmMap)
+    {
+        unsigned int id;
+        std::unordered_map<unsigned int, Alarm*>::iterator it;
+        while (!stopRequests.empty())
+        {
+            id = stopRequests.front();
+
+            it = alarmMap.find(id);
+            if (it != alarmMap.end())
+            {
+                Alarm* entry = it->second;
+                AlarmFactory::RecycleAlarm(entry);
+                alarmMap.erase(id);
+            }
+
+            stopRequests.pop();
+        }
+    }
+
+    void AlarmManager::handleStartRequests(AlarmManager::AlarmMap& alarmMap)
+    {
+        Alarm* alarmEntry;
+        while (!startRequests.empty())
+        {
+            alarmEntry = startRequests.front();
+
+            AlarmMap::iterator it = alarmMap.find(alarmEntry->getId());
+            if (it == alarmMap.end())
+            {
+                alarmMap[alarmEntry->getId()] = alarmEntry;
+            }
+
+            startRequests.pop();
         }
     }
 
@@ -138,7 +209,7 @@ namespace cursen
 
     void AlarmManager::ResetAlarm(unsigned int id)
     {
-        auto& alarms = Instance().alarms;
+        auto& alarms = GetAlarms();
         auto found = alarms.find(id);
         assert(found != alarms.end());
         found->second->reset();
@@ -146,7 +217,7 @@ namespace cursen
 
     void AlarmManager::PauseAlarm(unsigned int id)
     {
-        auto& alarms = Instance().alarms;
+        auto& alarms = GetAlarms();
         auto found = alarms.find(id);
         assert(found != alarms.end());
         found->second->pause();
@@ -154,7 +225,7 @@ namespace cursen
 
     void AlarmManager::ResumeAlarm(unsigned int id)
     {
-        auto& alarms = Instance().alarms;
+        auto& alarms = GetAlarms();
         auto found = alarms.find(id);
         assert(found != alarms.end());
         found->second->resume();
@@ -162,7 +233,7 @@ namespace cursen
 
     void AlarmManager::ToggleAlarm(unsigned int id)
     {
-        auto& alarms = Instance().alarms;
+        auto& alarms = GetAlarms();
         auto found = alarms.find(id);
         assert(found != alarms.end());
         found->second->togglePaused();
@@ -170,7 +241,7 @@ namespace cursen
 
     unsigned int AlarmManager::nextId()
     {
-        // TODO Need to be edge condition safe (what if we reach the max number of id's?
+        // TODO Need to be edge condition safe (what if we reach the max number of ids
         return ++ID;
     }
 
@@ -179,13 +250,17 @@ namespace cursen
         return CursenApplication::GetAlarmManager();
     }
 
-//    AlarmManager::AlarmMap::iterator AlarmManager::findAlarm(unsigned int id)
-//    {
-//        AlarmMap::iterator it;
-//        auto& alarms = Instance().alarms;
-//        auto found = alarms.find(id);
-//        assert(found != alarms.end());
-//        return alarms.find(id);
-//    }
+    AlarmManager::~AlarmManager()
+    {
+        //for (auto& alarm : internal_alarms)
+        //{
+        //    AlarmFactory::RecycleAlarm(alarm.second);
+        //}
+    }
+
+    std::unordered_map<unsigned int, Alarm*>& AlarmManager::GetAlarms()
+    {
+        return CursenApplication::GetCurrentForm()->getAlarmMap();
+    }
 
 }

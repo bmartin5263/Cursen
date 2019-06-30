@@ -13,25 +13,34 @@ namespace cursen {
     void CursorManager::RefreshCursors()
     {
         std::set<Cursor*>& cursors = Instance().cursors;
-        for (auto& cursor : Instance().cursors) {
+        for (auto& cursor : cursors) {
+            cursor->refresh();
+        }
+    }
+
+    void CursorManager::RefreshCursors(std::unordered_set<Cursor*> cursors)
+    {
+        for (auto& cursor : cursors) {
             cursor->refresh();
         }
     }
 
     void CursorManager::Register(Cursor* cursor)
     {
-        std::set<Cursor*>& cursors = Instance().cursors;
-        if (cursors.find(cursor) == cursors.end()) {
-            cursors.insert(cursor);
-        }
+        //std::set<Cursor*>& cursors = Instance().cursors;
+        //if (cursors.find(cursor) == cursors.end()) {
+        //    cursors.insert(cursor);
+        //}
+        CursenApplication::GetCurrentForm()->registerCursor(cursor);
     }
 
     void CursorManager::Deregister(Cursor* cursor)
     {
-        std::set<Cursor*>& cursors = Instance().cursors;
-        if (cursors.find(cursor) != cursors.end()) {
-            cursors.erase(cursor);
-        }
+        //std::set<Cursor*>& cursors = Instance().cursors;
+        //if (cursors.find(cursor) != cursors.end()) {
+        //    cursors.erase(cursor);
+        //}
+        CursenApplication::GetCurrentForm()->deregisterCursor(cursor);
     }
 
     CursorManager& CursorManager::Instance()

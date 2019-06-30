@@ -18,12 +18,15 @@ namespace cursen {
     void TextField::initialize() {
         StandardComponent::initialize();
         Component::setEnabled(false);
+        Component::setHidden(true);
 
         text = "";
         stretch = false;
         cursor_x = 0;
         max_len = INT_MAX;
         active_bg_color = Color::NONE;
+
+        validate();
     }
 
     void TextField::render() {
@@ -55,7 +58,7 @@ namespace cursen {
     }
 
     void TextField::keyPress(const Event &e) {
-        if (text.size() < max_len) {
+        if (text.size() < max_len && e.key.code < 128) {
             text.insert(text.begin() + cursor_x, (char) e.key.code);
             cursor_x += 1;
             invalidate();
@@ -113,12 +116,14 @@ namespace cursen {
         if (value != isEnabled()) {
             Component::setEnabled(value);
             if (isEnabled()) {
+                setHidden(false);
                 CursesManager::SetCursor(1);
                 CursesManager::MoveCursor(getPosition() + Vect2((int) text.length(), 0));
                 onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
                 onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
                 onArrowPress(std::bind(&TextField::moveCursor, this, std::placeholders::_1));
             } else {
+                setHidden(true);
                 CursesManager::SetCursor(0);
                 detachKeyPress();
                 detachDeletePress();

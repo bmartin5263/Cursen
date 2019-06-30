@@ -11,11 +11,14 @@ namespace cursen {
 
     Cursor::Cursor() :
             currentComponent(nullptr) {
-        CursorManager::Register(this);
     }
 
     Cursor::Cursor(Component *start) :
             currentComponent(start) {
+    }
+
+    void Cursor::initialize()
+    {
         CursorManager::Register(this);
     }
 
@@ -105,10 +108,6 @@ namespace cursen {
 
             }
         }
-    }
-
-    void Cursor::initialize() {
-
     }
 
     bool Cursor::refresh()

@@ -62,9 +62,9 @@ namespace cursen {
 
     private:
 
-        void assertRange(const int x, const int y);
-        void assertX(const int x);
-        void assertY(const int y);
+        inline void assertRange(const int& x, const int& y) const;
+        inline void assertX(const int& x) const;
+        inline void assertY(const int& y) const;
 
         void deleteBody();
         void initializeBody();

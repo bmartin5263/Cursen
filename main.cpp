@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 
     //We have networking for this program
     CursenApplication::OnUpdate([]() {
-        //NetworkManager::ProcessNetworkMessages();
+        NetworkManager::ProcessNetworkMessages();
         DataManager::ProcessDataMessages();
     });
 

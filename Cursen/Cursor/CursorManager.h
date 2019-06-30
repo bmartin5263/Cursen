@@ -6,6 +6,7 @@
 #define CURSEN_CURSORMANAGER_H
 
 #include <set>
+#include <unordered_set>
 
 namespace cursen {
 
@@ -13,9 +14,14 @@ namespace cursen {
 
     class CursorManager {
 
+    private:
+
+        //typedef std::unordered_set<Cursor*> CursorSet;
+
     public:
 
         static void RefreshCursors();
+        static void RefreshCursors(std::unordered_set<Cursor*> cursors);
 
         static void Register(Cursor* cursor);
         static void Deregister(Cursor* cursor);

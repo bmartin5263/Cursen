@@ -18,6 +18,7 @@ namespace cursen {
         TextComponent(const Vect2& pos, const Vect2& dim);
         ~TextComponent();
 
+        virtual void initialize() override;
         virtual void render() = 0;
 
         virtual void setSize(const Vect2 &size);

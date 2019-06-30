@@ -13,13 +13,13 @@
 namespace cursen {
 
     Component::Component() :
-            enabled(true), invalid(true), hidden(false), silenced(false), cursable(true), registeredForUpdates(false),
+            enabled(true), position(Vect2()), invalid(true), hidden(false), silenced(false), cursable(true), registeredForUpdates(false),
             drawOrder(0) {
         id = "n/a";
     }
 
     Component::Component(const Vect2 &pos) :
-            enabled(true), position(pos), hidden(false), invalid(true), cursable(true), registeredForUpdates(false),
+            enabled(true), position(pos), hidden(false), silenced(false), invalid(true), cursable(true), registeredForUpdates(false),
             drawOrder(0) {
         id = "n/a";
     }

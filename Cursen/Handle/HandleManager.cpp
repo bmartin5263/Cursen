@@ -162,8 +162,6 @@ HandleStatus HandleManager::privIsHandleAndRangeValid(Handle &handle)
 
 HandleManager *HandleManager::privInstance()
 {
-    // Here's the singleton
     static HandleManager instance;
-
     return &instance;
 }

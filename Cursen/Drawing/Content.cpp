@@ -188,17 +188,16 @@ namespace cursen {
         }
     }
 
-    void Content::assertRange(const int x, const int y) {
-        assertX(x);
-        assertY(y);
+    void Content::assertRange(const int& x, const int& y) const {
+        assert(x < dimensions.x && y < dimensions.y);
     }
 
-    void Content::assertX(const int x) {
-        if (x >= dimensions.x) throw std::range_error("X out of range: " + std::to_string(x));
+    void Content::assertX(const int& x) const {
+        assert(x < dimensions.x);
     }
 
-    void Content::assertY(const int y) {
-        if (y >= dimensions.y) throw std::range_error("Y out of range: " + std::to_string(y));
+    void Content::assertY(const int& y) const {
+        assert(y < dimensions.y);
     }
 
     Content::~Content() {

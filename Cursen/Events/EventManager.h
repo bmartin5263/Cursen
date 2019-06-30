@@ -17,26 +17,8 @@
 namespace cursen {
 
     class Component;
-    class SoloRegistrationKey;
 
     class EventManager {
-
-    public:
-
-        static Event PollEvent() { return Instance().privPollEvent(); };
-        static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
-
-        static void ProcessEvents() { Instance().privProcessEvents(); }
-
-        static void PushEvent(Event e) { Instance().privPushEvent(e); }
-
-        static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
-        static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
-
-        static SoloRegistrationKey* RegisterSolo(Component& component, EventType events) { return Instance().registerComponentSolo(component, events); }
-        static void DeregisterSolo(SoloRegistrationKey* key, EventType events) { Instance().deregisterComponentSolo(key, events); }
-
-        static EventQueue* GetEventQueue() { return Instance().privGetEventQueue(); }
 
     private:
 
@@ -45,26 +27,41 @@ namespace cursen {
         typedef std::unordered_map<Component*, BitFlags> ComponentRegistrationMap;
         typedef std::unordered_map<EventType, ComponentList, EnumClassHash> EventComponentMap;
 
+    public:
+
+        static Event PollEvent() { return Instance().privPollEvent(); };
+        static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
+
+        static void ProcessEvents() { Instance().privProcessEvents(); }
+        static void ProcessEvents(EventComponentMap& dispatchMap);
+
+        static void PushEvent(Event e) { Instance().privPushEvent(e); }
+
+        static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
+        static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
+
+        static EventQueue* GetEventQueue() { return Instance().privGetEventQueue(); }
+
+    private:
+
         // Methods
         void processUpdates();
+        void processUpdates(EventComponentMap& dispatchMap);
         Event privPollEvent();
         void privProcessEvent(const Event &event);
+        void privProcessEvent(EventComponentMap& dispatchMap, const Event &event);
         void registerComponent(Component& component, EventType eventFlag);
-        SoloRegistrationKey* registerComponentSolo(Component& component, EventType eventFlag);
         void deregisterComponent(Component& component, EventType events);
-        void deregisterComponentSolo(SoloRegistrationKey* key, EventType events);
         void privPushEvent(Event e);
         void privProcessEvents();
         EventQueue* privGetEventQueue();
 
         // Instance Data
-        EventComponentMap dispatchMap;
-        ComponentRegistrationMap registrationMap;
+        EventComponentMap internal_dispatchMap;
+        ComponentRegistrationMap internal_registrationMap;
         EventQueue eventQueue;
 
         // Static Data
-
-        static EventManager* instance;
 
         friend class CursenApplication;
         static EventManager& Instance();

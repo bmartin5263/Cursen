@@ -11,16 +11,18 @@ namespace cursen {
 
     TextComponent::TextComponent() :
             Component(Vect2(0, 0)) {
-        CursenApplication::Register(this);
     }
 
     TextComponent::TextComponent(const Vect2 &pos) :
             Component(pos) {
-        CursenApplication::Register(this);
     }
 
     TextComponent::TextComponent(const Vect2 &pos, const Vect2 &dim) :
             Component(pos), content(dim) {
+    }
+
+    void TextComponent::initialize()
+    {
         CursenApplication::Register(this);
     }
 

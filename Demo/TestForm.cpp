@@ -141,7 +141,7 @@ void TestForm::keyPress(const cursen::Event &event) {
 }
 
 void TestForm::quitGame() {
-    cursen::CursenApplication::Quit();
+    cursen::CursenApplication::CloseForm();
 }
 
 void TestForm::flash() {

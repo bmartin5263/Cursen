@@ -7,6 +7,7 @@
 
 #include <map>
 #include <set>
+#include <stack>
 
 #include "Debug/CursenDebugger.h"
 #include "Drawing/ColorPalette.h"
@@ -55,6 +56,7 @@ CURSEN_CLASS_START
         inline static void Draw();
 
         static void OpenForm(Form* form);
+        static void CloseForm();
         static Form* GetCurrentForm();
 
         /**
@@ -82,6 +84,9 @@ CURSEN_CLASS_START
         static void Deregister(TextComponent* component);
         static void SetDrawOrder(TextComponent* component, int order);
 
+        static void RegisterToCurrentForm(TextComponent* component);
+        static void DeregisterFromCurrentForm(TextComponent* component);
+
         static AlarmManager& GetAlarmManager();
         static EventManager& GetEventManager();
         static CursesManager& GetCursesManager();
@@ -97,7 +102,9 @@ CURSEN_CLASS_START
         CursorManager cursorManager;
 
         // Instance Data
+        std::stack<Form*> form_stack;
         Form* currentForm;
+        Form* nextForm;
         UserFunction UserUpdate;            /// User callback for after Updates
         UserFunction UserDraw;              /// User callback for after Draws
         CursenDebugger cursenDebugger;
@@ -106,6 +113,9 @@ CURSEN_CLASS_START
         int argc;
         char** argv;
         bool running;
+        bool requestFormClose;
+        bool requestFormOpen;
+        bool requestFormSet;
 
         unsigned long long int total_nano;
         unsigned long long int frames;
@@ -115,6 +125,8 @@ CURSEN_CLASS_START
 
         // Instance Methods
         void initialize();
+        void doFormClose();
+        void doFormOpen();
 
         //static CursenApplication* instance;
 

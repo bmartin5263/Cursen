@@ -3,10 +3,10 @@
 //
 
 #include <thread>
+#include <ncurses.h>
 
 #include "Cursen/Components/TextComponent.h"
 #include "CursesManager.h"
-#include "ncurses.h"
 #include "Content.h"
 #include "Cursen/CursenApplication.h"
 
@@ -24,7 +24,6 @@ namespace cursen
 
     CursesManager::CursesManager()
     {
-        int x = 0;
     }
 
     int CursesManager::getCharacter()
@@ -47,6 +46,7 @@ namespace cursen
         keypad(stdscr, TRUE);
         noecho();                   // Don't echo characters
         nodelay(stdscr, TRUE);
+        notimeout(stdscr, TRUE);
 
         CursesManager::LLCORNER = ACS_LLCORNER;
         CursesManager::LRCORNER = ACS_LRCORNER;
@@ -102,8 +102,6 @@ namespace cursen
 
     short CursesManager::privGetColorPair(const ColorPair& colorPair)
     {
-        int x = 0;
-
         ColorPairMap::iterator it;
         it = colorPairMap.find(colorPair);
         if (it != colorPairMap.end())
@@ -140,7 +138,7 @@ namespace cursen
     void CursesManager::privResize(const Vect2& dim)
     {
         std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
-        printf("%s", resizeString.c_str());
+        //printf("%ConnectionSevered", resizeString.c_str());
         fflush(stdout);
     }
 

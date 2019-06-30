@@ -24,6 +24,7 @@ namespace cursen {
 
         typedef std::function<void()> VoidFunc;
         typedef std::chrono::system_clock::time_point TimePoint;
+        typedef std::unordered_map<unsigned int, Alarm*> AlarmMap;
 
     public:
 
@@ -31,6 +32,8 @@ namespace cursen {
          * @brief Iterate through the alarms and call their interval functions if ready
          */
         static void ProcessAlarms() { Instance().privProcessAlarms(); }
+
+        static void ProcessAlarms(AlarmMap& alarmMap);
 
         /**
          * @brief Stops and removes an Alarm from the update list
@@ -62,6 +65,8 @@ namespace cursen {
 
         static void ResetAlarm(unsigned int id);
 
+        static AlarmMap& GetAlarms();
+
         static AlarmHandle SetTimeout(VoidFunc callback, double seconds);
         static AlarmHandle SetAlarm(VoidFunc callback, double seconds, double max_time, VoidFunc cancel_callback);
         static AlarmHandle SetInterval(VoidFunc callback, double seconds);
@@ -72,16 +77,17 @@ namespace cursen {
 
         typedef std::queue<Alarm*> AlarmQueue;
         typedef std::queue<unsigned int> IntQueue;
-        typedef std::unordered_map<unsigned int, Alarm*> AlarmMap;
 
         void privProcessAlarms();
         unsigned int nextId();
         void handleStopRequests();
         void handleStartRequests();
+        void handleStopRequests(AlarmMap& alarmMap);
+        void handleStartRequests(AlarmMap& alarmMap);
 
         AlarmQueue startRequests;       /// Queue for requests to start Alarms
         IntQueue stopRequests;          /// Queue for requests to cancel Alarms
-        AlarmMap alarms;                /// Map unsigned int -> Alarm*
+        AlarmMap internal_alarms;       /// Map unsigned int -> Alarm*
         TimePoint lastUpdate;           /// TimePoint for the last time ProcessAlarms was called
 
         static AlarmManager& Instance();
@@ -92,7 +98,7 @@ namespace cursen {
         AlarmManager(AlarmManager&& other) noexcept = delete;
         AlarmManager& operator = (const AlarmManager& other) = delete;
         AlarmManager& operator = (AlarmManager&& other) = delete;
-        ~AlarmManager() = default;
+        ~AlarmManager();
 
     };
 
