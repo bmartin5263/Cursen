@@ -29,6 +29,8 @@ namespace cursen {
         void setDisabled(const ColorPair& color) override;
         void setText(const std::string& text) override;
 
+    private:
+
 
     };
 

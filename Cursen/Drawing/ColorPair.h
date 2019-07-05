@@ -22,6 +22,8 @@ namespace cursen {
         ColorPair& operator = (const ColorPair& other);
         ~ColorPair() = default;
 
+        short getColorPair() const;
+
         bool operator==(const ColorPair &other) const;
 
         Color fg;

@@ -73,7 +73,7 @@ namespace cursen {
         }
     }
 
-    void TextField::setMaxLength(const int &len) {
+    void TextField::setMaxLength(const int len) {
         max_len = len;
         if (max_len > getSize().x) setSize(Vect2(max_len, 1));
     }

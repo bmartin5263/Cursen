@@ -23,8 +23,8 @@ namespace cursen {
         Cursor(Component *start);
 
         void initialize() override;
+        Component* getHoveredComponent();
 
-        // Override
         void setEnabled(bool value) override;
         void moveTo(Component *start);
         void mapComponent(Component *component, cursen::ArrowMap arrowMap);

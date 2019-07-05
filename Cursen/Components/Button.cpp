@@ -17,7 +17,7 @@ namespace cursen {
     {
     }
 
-    void Button::setLength(const int& len) {
+    void Button::setLength(const int len) {
         if (len < 2) {
             length = 3;
         } else{

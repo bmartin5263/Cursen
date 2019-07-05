@@ -125,8 +125,9 @@ namespace cursen {
                             const ColorPair &color) {
         size_t len = line.length();
         chtype converted[len + 1];
+        short pair = color.getColorPair();
         for (int i = 0; i < len; i++) {
-            converted[i] = ((chtype) line[i]) | color;
+            converted[i] = ((chtype) line[i]) | pair;
         }
         converted[len] = NULL_CHAR;
         writeLine(converted, pos, alignment);
@@ -168,7 +169,7 @@ namespace cursen {
                         end++;
                     }
                     index = dimensions.x - 1;
-                    for (int j = end; j >= 0; j--) {
+                    for (int j = end - 1; j >= 0; j--) {
                         if (index < 0) break;
                         body[loc.y][index--] = line[j];
                     }
@@ -188,15 +189,15 @@ namespace cursen {
         }
     }
 
-    void Content::assertRange(const int& x, const int& y) const {
+    void Content::assertRange(const int x, const int y) const {
         assert(x < dimensions.x && y < dimensions.y);
     }
 
-    void Content::assertX(const int& x) const {
+    void Content::assertX(const int x) const {
         assert(x < dimensions.x);
     }
 
-    void Content::assertY(const int& y) const {
+    void Content::assertY(const int y) const {
         assert(y < dimensions.y);
     }
 

@@ -208,4 +208,9 @@ namespace cursen {
         currentComponent->CallOnCursor();
         return true;
     }
+
+    Component* Cursor::getHoveredComponent()
+    {
+        return currentComponent;
+    }
 }

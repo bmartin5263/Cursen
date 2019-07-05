@@ -36,6 +36,11 @@ namespace cursen {
         return this->bg == other.bg && this->fg == other.fg;
     }
 
+    short ColorPair::getColorPair() const
+    {
+        return CursesManager::GetColorPair(*this);
+    }
+
 
     chtype operator|(chtype c, const ColorPair &n) {
         if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::INVISIBLE) return c;

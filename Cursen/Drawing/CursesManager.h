@@ -71,7 +71,7 @@ namespace cursen {
         static void Draw(ComponentMap& componentMap) { Instance().privDraw(componentMap); };
         static void Refresh() { refresh(); }
 
-        static void SetCursor(const int& level) { Instance().privSetCursor(level); }
+        static void SetCursor(const int level) { Instance().privSetCursor(level); }
         static void MoveCursor(const Vect2& pos) { Instance().privMoveCursor(pos); }
 
     private:
@@ -103,7 +103,7 @@ namespace cursen {
         void privDraw(ComponentMap& componentMap);
         void privResize(const Vect2& dim);
         void privMoveCursor(const Vect2& dim);
-        void privSetCursor(const int& level);
+        void privSetCursor(const int level);
 
         void drawComponent(TextComponent& component);
 

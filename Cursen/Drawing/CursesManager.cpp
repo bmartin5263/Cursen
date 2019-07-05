@@ -262,7 +262,7 @@ namespace cursen
         cursor_pos = dim;
     }
 
-    void CursesManager::privSetCursor(const int& level)
+    void CursesManager::privSetCursor(const int level)
     {
         curs_set(level);
     }

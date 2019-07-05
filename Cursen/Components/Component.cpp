@@ -27,7 +27,7 @@ namespace cursen {
     void Component::add(Component *component) {
         assert(component != nullptr);
         component->setParent(this);
-        component->setDrawOrder(this->drawOrder + 1);
+        component->setDrawOrder(component->getDrawOrder() + this->drawOrder + 1);
         children.push_back(component);
     }
 
