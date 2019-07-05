@@ -419,7 +419,7 @@ void LobbyForm::tryJoin()
     mode_select_box.detachEnterPress();
 
     std::string address = mode_select_box.getIpAddress();
-    if (address == "") address = "::0";
+    if (address == "" || address == "127.0.0.1") address = "::0";
 
     NetworkManager::CreateDevice(NetworkType::Client);
     auto& device = (Client&)NetworkManager::GetDevice();
@@ -446,8 +446,7 @@ void LobbyForm::tryJoin()
 
 void LobbyForm::clickExit()
 {
-    //cursen::CursenApplication::CloseForm();
-    cursen::CursenApplication::OpenForm(new TestForm);
+    cursen::CursenApplication::CloseForm();
 }
 
 void LobbyForm::enableRemovePlayerCursor()
@@ -457,7 +456,7 @@ void LobbyForm::enableRemovePlayerCursor()
     console.setMessage("Select Player to Kick");
 }
 
-void LobbyForm::removePlayer(const int &playerNum)
+void LobbyForm::removePlayer(const int playerNum)
 {
     if (playerNum != 0) {
         Player p = lobby->getPlayer(playerNum);
@@ -496,7 +495,7 @@ void LobbyForm::clickChangeColor()
     controller->clickChangeColor();
 }
 
-void LobbyForm::selectPlayerToRemove(const int& playerNum)
+void LobbyForm::selectPlayerToRemove(const int playerNum)
 {
     lobby_cursor.setEnabled(true);
     playerStaging.disableCursor();

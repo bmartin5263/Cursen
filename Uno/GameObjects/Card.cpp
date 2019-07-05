@@ -64,3 +64,92 @@ void Card::changeColor(const CardColors &new_color) {
         color = new_color;
     }
 }
+
+cursen::Color Card::convertToColor(CardColors color)
+{
+    switch (color)
+    {
+        case CardColors::BLUE:
+            return cursen::Color::BLUE;
+        case CardColors::RED:
+            return cursen::Color::RED;
+        case CardColors::GREEN:
+            return cursen::Color::GREEN;
+        case CardColors::YELLOW:
+            return cursen::Color::YELLOW;
+    }
+}
+
+std::string Card::getUpperLabel(CardValues value)
+{
+    switch (value)
+    {
+        case CardValues::ZERO:
+            return " 0";
+        case CardValues::ONE:
+            return " 1";
+        case CardValues::TWO:
+            return " 2";
+        case CardValues::THREE:
+            return " 3";
+        case CardValues::FOUR:
+            return " 4";
+        case CardValues::FIVE:
+            return " 5";
+        case CardValues::SIX:
+            return " 6";
+        case CardValues::SEVEN:
+            return " 7";
+        case CardValues::EIGHT:
+            return " 8";
+        case CardValues::NINE:
+            return " 9";
+        case CardValues::PLUS_2:
+            return "+2";
+        case CardValues::PLUS_4:
+            return "+4";
+        case CardValues::WILD:
+            return " W";
+        case CardValues::SKIP:
+            return " X";
+        case CardValues::REVERSE:
+            return " R";
+    }
+}
+
+std::string Card::getLowerLabel(CardValues value)
+{
+    switch (value)
+    {
+        case CardValues::ZERO:
+            return "0 ";
+        case CardValues::ONE:
+            return "1 ";
+        case CardValues::TWO:
+            return "2 ";
+        case CardValues::THREE:
+            return "3 ";
+        case CardValues::FOUR:
+            return "4 ";
+        case CardValues::FIVE:
+            return "5 ";
+        case CardValues::SIX:
+            return "6 ";
+        case CardValues::SEVEN:
+            return "7 ";
+        case CardValues::EIGHT:
+            return "8 ";
+        case CardValues::NINE:
+            return "9 ";
+        case CardValues::PLUS_2:
+            return "+2";
+        case CardValues::PLUS_4:
+            return "+4";
+        case CardValues::WILD:
+            return "W ";
+        case CardValues::SKIP:
+            return "X ";
+        case CardValues::REVERSE:
+            return "R ";
+    }
+}

@@ -15,7 +15,7 @@ public:
 
     AddPlayer() = default;
 
-    AddPlayer(const Player& p, const int& sock):
+    AddPlayer(const Player& p, const int sock):
             new_player(p), sock(sock)
     {}
 

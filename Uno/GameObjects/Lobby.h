@@ -24,15 +24,15 @@ public:
 
     void addPlayer(Player player);
 
-    void removePlayer(const int& id);
-    bool hasId(const int& id);
+    void removePlayer(const int id);
+    bool hasId(const int id);
 
-    Player& getPlayer(const int& id);
-    Player& getPlayerByIndex(const int& index);
+    Player& getPlayer(const int id);
+    Player& getPlayerByIndex(const int index);
     Player* getPlayers();
 
-    void changePlayerColorById(const int& id, PlayerColor color);
-    PlayerColor getPlayerColor(const int& id) const;
+    void changePlayerColorById(const int id, PlayerColor color);
+    PlayerColor getPlayerColor(const int id) const;
     int getNumPlayers() const;
 
     void pushMessage(ChatEntry msg);

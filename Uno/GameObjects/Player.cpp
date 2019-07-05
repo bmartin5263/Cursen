@@ -25,7 +25,7 @@ std::string Player::getName() const {
     return name;
 }
 
-void Player::addPoints(const int &points) {
+void Player::addPoints(const int points) {
     this->points += points;
 }
 

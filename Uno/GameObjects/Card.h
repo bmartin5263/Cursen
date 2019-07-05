@@ -5,6 +5,9 @@
 #ifndef CURSEN_CARD_H
 #define CURSEN_CARD_H
 
+#include <string>
+
+#include <Cursen/Drawing/Color.h>
 #include "CardColors.h"
 #include "CardValues.h"
 
@@ -13,6 +16,9 @@ class Card {
 public:
 
     static int score(const Card& card);
+    static cursen::Color convertToColor(CardColors color);
+    static std::string getUpperLabel(CardValues value);
+    static std::string getLowerLabel(CardValues value);
 
     Card(CardColors color, CardValues value);
 

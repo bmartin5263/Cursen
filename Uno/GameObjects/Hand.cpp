@@ -19,3 +19,8 @@ unsigned long Hand::size() {
 bool Hand::empty() {
     return cards.empty();
 }
+
+void Hand::remove(int index)
+{
+    cards.erase(cards.begin() + index);
+}

@@ -18,7 +18,7 @@ void Lobby::addPlayer(Player player) {
     players[numPlayers++] = player;
 }
 
-void Lobby::removePlayer(const int &id) {
+void Lobby::removePlayer(const int id) {
     if (numPlayers <= 0) {
         throw std::underflow_error("No Players to Remove");
     }
@@ -39,7 +39,7 @@ void Lobby::removePlayer(const int &id) {
     removeMessageById(id);
 }
 
-Player& Lobby::getPlayer(const int &id) {
+Player& Lobby::getPlayer(const int id) {
     for (auto& player : players)
     {
         if (player.getId() == id)
@@ -51,13 +51,13 @@ Player& Lobby::getPlayer(const int &id) {
     return players[0];
 }
 
-Player& Lobby::getPlayerByIndex(const int& index)
+Player& Lobby::getPlayerByIndex(const int index)
 {
     assert(index >= 0 && index <= MAX_PLAYERS);
     return players[index];
 }
 
-PlayerColor Lobby::getPlayerColor(const int& id) const
+PlayerColor Lobby::getPlayerColor(const int id) const
 {
     for (auto& player : players)
     {
@@ -190,7 +190,7 @@ ChatEntry* Lobby::getMessages()
     return chat_messages;
 }
 
-void Lobby::changePlayerColorById(const int& id, PlayerColor color)
+void Lobby::changePlayerColorById(const int id, PlayerColor color)
 {
     for (auto& player : players)
     {
@@ -237,7 +237,7 @@ bool Lobby::idTaken(int id)
     return false;
 }
 
-bool Lobby::hasId(const int& id)
+bool Lobby::hasId(const int id)
 {
     for (auto& player : players)
     {

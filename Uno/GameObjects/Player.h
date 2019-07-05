@@ -10,6 +10,7 @@
 #include "Uno/Messages/Serializable.h"
 #include "Cursen/Drawing/Color.h"
 #include "PlayerColor.h"
+#include "Hand.h"
 
 class Player : public Serializable {
 
@@ -21,7 +22,7 @@ public:
     void setName(const std::string& name);
     std::string getName() const;
 
-    void addPoints(const int& points);
+    void addPoints(const int points);
     int getPoints() const;
 
     void setColor(const PlayerColor& color);
@@ -41,6 +42,7 @@ private:
 
     std::string name;
     PlayerColor color;
+    Hand hand;
     int points;
     int id;
 

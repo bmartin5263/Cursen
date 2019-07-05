@@ -7,6 +7,8 @@
 #include "Uno/Messages/InputAddAi.h"
 #include "Uno/Messages/InputKick.h"
 #include "Uno/Messages/InputCloseRoom.h"
+#include "Cursen/CursenApplication.h"
+#include "Uno/Forms/MatchForm.h"
 
 LocalController::LocalController(LobbyForm* form) : LobbyController(form)
 {
@@ -27,6 +29,7 @@ void LocalController::destroy()
 void LocalController::clickStart()
 {
     lobbyForm->getConsole().setText("Start Clicked!");
+    cursen::CursenApplication::OpenForm(new MatchForm);
 }
 
 void LocalController::clickAddAI()
