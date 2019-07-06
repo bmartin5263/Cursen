@@ -48,11 +48,14 @@ namespace cursen {
         }
     }
 
-    void Content::resize(Vect2 dimensions) {
-        deleteBody();
-        this->dimensions = dimensions;
-        empty = dimensions.x <= 0 || dimensions.y <= 0;
-        initializeBody();
+    void Content::resize(const Vect2& dimensions) {
+        if (this->dimensions != dimensions)
+        {
+            deleteBody();
+            this->dimensions = dimensions;
+            empty = dimensions.x <= 0 || dimensions.y <= 0;
+            initializeBody();
+        }
     }
 
     void Content::deleteBody() {

@@ -58,7 +58,7 @@ namespace cursen {
         chtype** getText() { return body; }
         Vect2 getDimensions() { return dimensions; }
 
-        void resize(Vect2 dimensions);
+        void resize(const Vect2& dimensions);
 
     private:
 

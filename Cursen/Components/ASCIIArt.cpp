@@ -45,6 +45,10 @@ namespace cursen {
         invalidate();
     }
 
+    void ASCIIArt::loadFromVector(const std::vector<std::string>& data)
+    {
+        raw_data = data;
+    }
 
 
 }

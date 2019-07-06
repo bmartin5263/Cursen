@@ -18,6 +18,7 @@ namespace cursen {
 
         void render() override;
         void loadFromFile(const char* filename);
+        void loadFromVector(const std::vector<std::string>& data);
 
     private:
 

@@ -62,7 +62,7 @@ namespace cursen {
                 if (!cursorLeft()) {
                     if (!cursorDown()) {
                         if (!cursorUp()) {
-                            throw std::logic_error("Cursor is trapped.");
+                            //throw std::logic_error("Cursor is trapped.");
                         }
                     }
                 }
@@ -72,7 +72,7 @@ namespace cursen {
                 if (!cursorRight()) {
                     if (!cursorDown()) {
                         if (!cursorUp()) {
-                            throw std::logic_error("Cursor is trapped.");
+                            //throw std::logic_error("Cursor is trapped.");
                         }
                     }
                 }
@@ -82,7 +82,7 @@ namespace cursen {
                 if (!cursorDown()) {
                     if (!cursorLeft()) {
                         if (!cursorRight()) {
-                            throw std::logic_error("Cursor is trapped.");
+                            //throw std::logic_error("Cursor is trapped.");
                         }
                     }
                 }
@@ -92,7 +92,7 @@ namespace cursen {
                 if (!cursorUp()) {
                     if (!cursorLeft()) {
                         if (!cursorRight()) {
-                            throw std::logic_error("Cursor is trapped.");
+                            //throw std::logic_error("Cursor is trapped.");
                         }
                     }
                 }
