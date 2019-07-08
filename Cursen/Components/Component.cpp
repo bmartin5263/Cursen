@@ -295,7 +295,8 @@ namespace cursen {
     Component::~Component() {
     }
 
-    int Component::getDrawOrder() {
+    int Component::getDrawOrder() const {
+        // TODO AggregateComponent needs a better way to get its draw order
         return drawOrder;
     }
 
@@ -317,6 +318,11 @@ namespace cursen {
 
     bool Component::isCursable() {
         return cursable;
+    }
+
+    void Component::drawOnTopOf(const Component& component)
+    {
+       setDrawOrder(component.getDrawOrder() + 1);
     }
 
 

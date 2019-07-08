@@ -16,6 +16,8 @@ namespace cursen {
         ASCIIArt();
         ASCIIArt(const Vect2& pos);
 
+        void initialize() override;
+
         void render() override;
         void loadFromFile(const char* filename);
         void loadFromVector(const std::vector<std::string>& data);

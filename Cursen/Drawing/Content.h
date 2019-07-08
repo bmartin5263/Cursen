@@ -49,8 +49,7 @@ namespace cursen {
         void writeColumn(const Line column, const int x);
         void writeColumn(const Line column, const Vect2 &loc);
 
-        void writeBody(const Line *const body, const Vect2 &size);
-        void writeBody(const Line *const body, const Vect2 &size, const Vect2 &loc);
+        void writeBody(const Line *const body, const Vect2 &size = Vect2(0,0), const Vect2 &loc = Vect2(0,0));
         void fillBody(const chtype& c);
 
         void colorize(const ColorPair& color);

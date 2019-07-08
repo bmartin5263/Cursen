@@ -15,6 +15,10 @@ namespace cursen {
             StandardComponent(pos), max_columns(0)
     {}
 
+    void ASCIIArt::initialize()
+    {
+        StandardComponent::initialize();
+    }
 
 
     void ASCIIArt::render() {
@@ -48,6 +52,12 @@ namespace cursen {
     void ASCIIArt::loadFromVector(const std::vector<std::string>& data)
     {
         raw_data = data;
+        for (auto& str : data)
+        {
+            int len = (int)str.length();
+            if (len > max_columns) max_columns = len;
+        }
+        invalidate();
     }
 
 

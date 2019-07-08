@@ -77,12 +77,16 @@ namespace cursen {
         }
 
         bool operator != (const Vect2& other) {
-            return x != other.x && y != other.y;
+            return !(*this == other);
         }
 
         std::string toString() {
             using namespace std;
             return string("(") + to_string(x) + string(",") + to_string(y) + string(")");
+        }
+
+        bool isPositive() const {
+            return x >= 0 && y >= 0;
         }
 
         int x;

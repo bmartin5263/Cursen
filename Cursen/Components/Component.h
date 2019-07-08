@@ -49,7 +49,7 @@ namespace cursen {
          *
          * @return Draw Order
          */
-        virtual int getDrawOrder();
+        virtual int getDrawOrder() const;
 
          /**
          * @brief Set the draw order for this Component
@@ -57,6 +57,13 @@ namespace cursen {
          * @param order New Draw Order
          */
         virtual void setDrawOrder(int order);
+
+        /**
+         * @brief Set the draw order for this Component to be greater than the other Component's draw order
+         *
+         * @param component Component to be drawn on top of
+         */
+        virtual void drawOnTopOf(const Component& component);
 
         /**
          * @brief Sets 'invalid' flag to True, causing Component to be re-rendered next Screen Draw

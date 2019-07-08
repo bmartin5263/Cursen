@@ -17,13 +17,17 @@ namespace cursen {
     }
 
     Content::Content() :
-            dimensions(Vect2(0, 0)), body(nullptr) {
-        resize(dimensions);
+            dimensions(Vect2(0, 0)), body(nullptr), empty(dimensions.x <= 0 || dimensions.y <= 0)
+    {
+        assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
+        initializeBody();
     }
 
     Content::Content(const Vect2 &dimensions) :
-            dimensions(dimensions), body(nullptr) {
-        resize(dimensions);
+            dimensions(dimensions), body(nullptr), empty(dimensions.x <= 0 || dimensions.y <= 0)
+    {
+        assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
+        initializeBody();
     }
 
     void Content::initializeBody() {
@@ -49,11 +53,12 @@ namespace cursen {
     }
 
     void Content::resize(const Vect2& dimensions) {
+        assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
         if (this->dimensions != dimensions)
         {
             deleteBody();
             this->dimensions = dimensions;
-            empty = dimensions.x <= 0 || dimensions.y <= 0;
+            this->empty = dimensions.x <= 0 || dimensions.y <= 0;
             initializeBody();
         }
     }
@@ -86,21 +91,7 @@ namespace cursen {
         }
     }
 
-    void Content::writeBody(const Line *const body, const Vect2 &size) {
-        writeBody(body, size, Vect2(0, 0));
-    }
-
     void Content::writeBody(const Line *const body, const Vect2 &size, const Vect2 &loc) {
-        //int rowIndex = 0;
-        //int colIndex = 0;
-        //for (int i = loc.y; i < dimensions.y && rowIndex < size.y; i++) {
-        //    chtype* row = this->body[i];
-        //    for (int j = loc.x; j < dimensions.x && colIndex < size.x; j++) {
-        //        row[j] = body[rowIndex][colIndex++];
-        //    }
-        //    rowIndex++;
-        //}
-
         for (int i = 0; i < size.y; i++) {
             chtype *row = this->body[i];
             for (int j = 0; j < size.x; j++) {
@@ -217,9 +208,10 @@ namespace cursen {
     }
 
     void Content::colorize(const ColorPair &color) {
+        short pair = color.getColorPair();
         for (int i = 0; i < dimensions.y; i++) {
             for (int j = 0; j < dimensions.x; j++) {
-                body[i][j] = body[i][j] | color;
+                body[i][j] = body[i][j] | pair;
             }
         }
     }
