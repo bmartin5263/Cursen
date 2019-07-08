@@ -9,6 +9,7 @@
 #include "Uno/Messages/InputCloseRoom.h"
 #include "Cursen/CursenApplication.h"
 #include "Uno/Forms/MatchForm.h"
+#include "Uno/GameObjects/Match.h"
 
 LocalController::LocalController(LobbyForm* form) : LobbyController(form)
 {
@@ -29,7 +30,11 @@ void LocalController::destroy()
 void LocalController::clickStart()
 {
     lobbyForm->getConsole().setText("Start Clicked!");
-    cursen::CursenApplication::OpenForm(new MatchForm);
+    Player* players = lobbyForm->getLobby().getPlayers();
+    int num_players = lobbyForm->getLobby().getNumPlayers();
+    cursen::CursenApplication::OpenForm(
+            new MatchForm(LobbyType::LOCAL, new Match(players, num_players, lobbyForm->getLobby().getMyId()))
+    );
 }
 
 void LocalController::clickAddAI()

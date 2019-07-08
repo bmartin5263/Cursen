@@ -24,7 +24,7 @@ public:
 
     void setForeground(const cursen::Color& color) override ;
 
-    void setCardCount(int count);
+    void setCardCount(size_t count);
     void setName(const std::string& name);
 
 private:

@@ -36,6 +36,8 @@ public:
     size_t deserialize(const char* const buffer) override;
     size_t sizeOf() const override;
 
+    size_t getHandSize() const;
+
 private:
 
     static const std::string COMP_NAMES[];

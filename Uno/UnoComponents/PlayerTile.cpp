@@ -44,17 +44,17 @@ void PlayerTile::clear()
     player_cards.setForeground(Color::GRAY);
     player_name.setForeground(Color::GRAY);
     player_name.setText("No Player");
-    player_cards.emplaceText("12 Cards");
+    player_cards.emplaceText("");
 }
 
 void PlayerTile::injectPlayer(const Player& player)
 {
     setForeground(Player::ConvertColor(player.getColor()));
     setName(player.getName());
-    setCardCount(1);
+    setCardCount(player.getHandSize());
 }
 
-void PlayerTile::setCardCount(int count)
+void PlayerTile::setCardCount(size_t count)
 {
     if (count == 1) player_cards.emplaceText("1 Card");
     else player_cards.emplaceText(std::to_string(count) + " Cards");

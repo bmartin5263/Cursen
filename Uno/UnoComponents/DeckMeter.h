@@ -20,13 +20,14 @@ public:
 
     void initialize() override ;
 
-    void setDeckSize(int size);
-    void setCardCount(int count);
+    void setDeckSize(size_t size);
+    void setCardCount(size_t count);
 
 private:
 
     cursen::Box border;
     DeckMeterContent meter;
+    cursen::Animation low_deck;
 
 };
 

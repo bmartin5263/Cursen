@@ -13,13 +13,21 @@ class Deck {
 
 public:
 
+    static const size_t SIZE = 108;
+
+    static void InitializeDeck(Deck& deck);
+
     void pushCard(const Card& card);
     Card popCard();
 
     const Card& peekCardAt(int index);
     const Card& peekCard();
 
+    std::vector<Card>& getDeckContainer();
+
     unsigned long size();
+
+    void clear();
 
 
 private:

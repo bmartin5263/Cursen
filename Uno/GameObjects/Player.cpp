@@ -103,3 +103,8 @@ int Player::getId() const
 {
     return id;
 }
+
+size_t Player::getHandSize() const
+{
+    return hand.size();
+}

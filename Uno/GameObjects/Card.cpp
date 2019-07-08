@@ -4,6 +4,33 @@
 
 #include "Card.h"
 
+const CardColors Card::COLORS[4] = {CardColors::BLUE, CardColors::RED, CardColors::GREEN, CardColors::YELLOW};
+const CardValues Card::VALUES_NO_WILD[13] = {
+        CardValues::ZERO, CardValues::ONE, CardValues::TWO, CardValues::THREE, CardValues::FOUR,
+        CardValues::FIVE, CardValues::SIX, CardValues::SEVEN, CardValues::EIGHT, CardValues::NINE,
+        CardValues::SKIP, CardValues::REVERSE, CardValues::PLUS_2
+};
+
+const std::unordered_map<CardValues, std::vector<std::string>, cursen::EnumClassHash> Card::BIG_NUMBERS = {
+
+        {CardValues::ZERO, {"  .d8888b.  ", " d88P  Y88b ", " 888    888 ", " 888    888 ", " 888    888 ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValues::ONE, {"   .d888    ", "  d88888    ", "    8888    ", "    8888    ", "    8888    ", "    8888    ","    8888    ", "  88888888  "}},
+        {CardValues::TWO, {"  .d8888b.  ", " d88P  Y88b ", "        888 ", "      .d88P ", "  .od888P\"  ", " d88P\"      "," 888\"       ", " 8888888888 "}},
+        {CardValues::THREE, {"  .d8888b.  ", " d88P  Y88b ", "      .d88P ", "     8888\"  ", "      \"Y8b. ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValues::FOUR, {"     d8888  ", "    d8P888  ", "   d8P 888  ", "  d8P  888  ", " d88   888  ", " 8888888888 ","       888  ", "       888  "}},
+        {CardValues::FIVE, {" 8888888888 ", " 888        ", " 888        ", " 8888888b.  ", "      \"Y88b ", "        888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValues::SIX, {"  .d8888b.  ", " d88P  Y88b ", " 888        ", " 888d888b.  ", " 888P \"Y88b ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValues::SEVEN, {" 8888888888 ", "       d88P ", "      d88P  ", "     d88P   ", "  88888888  ", "   d88P     ","  d88P      ", " d88P       "}},
+        {CardValues::EIGHT, {"  .d8888b.  ", " d88P  Y88b ", " Y88b. d88P ", "  \"Y88888\"  ", " .d8P\"\"Y8b. ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValues::NINE, {"  .d8888b.  ", " d88P  Y88b ", " 888    888 ", " Y88b. d888 ", "  \"Y888P888 ", "        888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValues::SKIP, {" Y8b    d8P ", "  Y8b  d8P  ", "   Y8888P   ", "    Y88P    ", "    d88b    ", "   d8888b   ","  d8P  Y8b  ", " d8P    Y8b "}},
+        {CardValues::REVERSE, {"   Y88b     ", "    Y88b    ", "     Y88b   ", "      Y88b  ", "      d88P  ", "     d88P   ","    d88P    ", "   d88P     "}},
+        {CardValues::PLUS_2, {"   db       ", "   88       ", " C8888D     ", "   88  8888 ", "   VP     8 ", "       8888 ","       8    ", "       8888 "}},
+        {CardValues::PLUS_4, {"   db       ", "   88       ", " C8888D     ", "   88    d  ", "   VP   d8  ", "       d 8  ","      d8888 ", "         8  "}},
+        {CardValues::WILD, {" 88      88 ", " 88      88 ", " 88  db  88 ", " 88 d88b 88 ", " 88d8888b88 ", " 88P    Y88 "," 8P      Y8 ", " P        Y "}},
+
+};
+
 int Card::score(const Card &card) {
     switch (card.getValue()) {
         case CardValues::ZERO:
@@ -35,11 +62,8 @@ int Card::score(const Card &card) {
 }
 
 Card::Card(CardColors color, CardValues value) :
-    color(color), value(value), wild(false)
+    color(color), value(value), wild(value == CardValues::PLUS_4 || value == CardValues::WILD)
 {
-    if (value == CardValues::PLUS_4 || value == CardValues::WILD) {
-        wild = true;
-    }
 }
 
 bool Card::operator == (const Card &other) const {
@@ -77,6 +101,8 @@ cursen::Color Card::convertToColor(CardColors color)
             return cursen::Color::GREEN;
         case CardColors::YELLOW:
             return cursen::Color::YELLOW;
+        case CardColors::WHITE:
+            return cursen::Color::WHITE;
     }
 }
 

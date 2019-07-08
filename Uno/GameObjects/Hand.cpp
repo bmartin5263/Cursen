@@ -4,19 +4,23 @@
 
 #include "Hand.h"
 
-const Card &Hand::get(int index) {
+const Card &Hand::get(int index)
+{
     return cards[index];
 }
 
-void Hand::add(const Card & card) {
+void Hand::add(const Card & card)
+{
     cards.push_back(card);
 }
 
-unsigned long Hand::size() {
+unsigned long Hand::size() const
+{
     return cards.size();
 }
 
-bool Hand::empty() {
+bool Hand::empty() const
+{
     return cards.empty();
 }
 

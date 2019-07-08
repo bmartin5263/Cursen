@@ -2,6 +2,8 @@
 // Created by Brandon Martin on 6/30/19.
 //
 
+#include <assert.h>
+#include <Uno/GameObjects/Deck.h>
 #include "DeckMeter.h"
 
 using namespace cursen;
@@ -28,14 +30,33 @@ void DeckMeter::initialize()
     meter.initialize();
     meter.setPosition(Vect2(2,1));
     addRelative(&meter);
+
+    low_deck.setDuration(.6);
+    low_deck.add([&]() { border.setForeground(Color::RED); });
+    low_deck.add([&]() { border.setForeground(Color::WHITE); });
 }
 
-void DeckMeter::setDeckSize(int size)
+void DeckMeter::setDeckSize(size_t size)
 {
     meter.setDeckSize(size);
 }
 
-void DeckMeter::setCardCount(int count)
+void DeckMeter::setCardCount(size_t count)
 {
+    assert(count <= Deck::SIZE);
     meter.setCardCount(count);
+    if (count == 0)
+    {
+        low_deck.stop();
+        border.setForeground(Color::GRAY);
+    }
+    else if (count <= 36)
+    {
+        low_deck.start();
+    }
+    else
+    {
+        low_deck.stop();
+        border.setForeground(Color::WHITE);
+    }
 }

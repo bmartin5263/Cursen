@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 6/30/19.
 //
 
+#include <cmath>
 #include "DeckMeterContent.h"
 
 using namespace cursen;
@@ -28,24 +29,34 @@ void DeckMeterContent::render()
     Content& content = getContent();
     Vect2 dimensions = getSize();
 
+    size_t num_equals = (size_t)ceil((double)current_len / 12.0);
+
     chtype line[dimensions.y];
-    for (int i = 0; i < dimensions.y; i++)
+
+    int index = 8;
+    for (int i = 0; i < num_equals; ++i)
     {
-        if (i < 3) line[i] = '=' | Color::GREEN;
-        else if (i < 6) line[i] = '=' | Color::YELLOW;
-        else line[i] = '=' | Color::RED;
+        if (index > 5) line[index] = '=' | Color::RED;
+        else if (index > 2) line[index] = '=' | Color::YELLOW;
+        else line[index] = '=' | Color::GREEN;
+        index--;
+    }
+    for (; index >= 0; --index)
+    {
+        line[index] = ' ';
     }
 
     content.writeColumn(line, 0);
 }
 
-void DeckMeterContent::setDeckSize(int size)
+void DeckMeterContent::setDeckSize(size_t size)
 {
     max_len = size;
     invalidate();
 }
 
-void DeckMeterContent::setCardCount(int count)
+void DeckMeterContent::setCardCount(size_t count)
 {
     current_len = count;
+    invalidate();
 }

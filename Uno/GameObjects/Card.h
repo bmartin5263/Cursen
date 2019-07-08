@@ -6,14 +6,21 @@
 #define CURSEN_CARD_H
 
 #include <string>
+#include <vector>
 
 #include <Cursen/Drawing/Color.h>
+#include <unordered_map>
 #include "CardColors.h"
 #include "CardValues.h"
+#include "Cursen/Events/Event.h"
 
 class Card {
 
 public:
+
+    static const std::unordered_map<CardValues, std::vector<std::string>, cursen::EnumClassHash> BIG_NUMBERS;
+    static const CardColors COLORS[4];
+    static const CardValues VALUES_NO_WILD[13];
 
     static int score(const Card& card);
     static cursen::Color convertToColor(CardColors color);

@@ -18,13 +18,13 @@ public:
     void initialize() override ;
     void render() override ;
 
-    void setDeckSize(int size);
-    void setCardCount(int count);
+    void setDeckSize(size_t size);
+    void setCardCount(size_t count);
 
 private:
 
-    int max_len;
-    int current_len;
+    size_t max_len;
+    size_t current_len;
 
 };
 

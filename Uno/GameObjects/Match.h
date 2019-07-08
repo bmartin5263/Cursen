@@ -15,8 +15,15 @@ class Match
 
 public:
 
-    Match(Player* players, int num_players);
+    Match(Player* players, int num_players, int my_id);
 
+    Deck& getDeck();
+    size_t getDeckSize();
+    Player* getPlayers();
+    Player& getMyPlayer();
+
+    int getNumPlayers();
+    int getMyId();
 
 private:
 
@@ -26,6 +33,7 @@ private:
     int num_players;
     int current_player_index;
     int current_player_id;
+    int my_id;
 };
 
 

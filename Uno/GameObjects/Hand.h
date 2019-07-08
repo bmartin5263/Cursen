@@ -16,8 +16,8 @@ public:
     void add(const Card&);
     void remove(int index);
 
-    unsigned long size();
-    bool empty();
+    unsigned long size() const;
+    bool empty() const;
 
 private:
 

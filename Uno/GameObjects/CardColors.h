@@ -7,7 +7,7 @@
 
 enum class CardColors {
 
-    BLUE, RED, GREEN, YELLOW
+    BLUE, RED, GREEN, YELLOW, WHITE
 
 };
 
