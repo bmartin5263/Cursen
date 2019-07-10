@@ -43,12 +43,12 @@ namespace cursen {
 
 
     chtype operator|(chtype c, const ColorPair &n) {
-        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::INVISIBLE) return c;
+        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
         return c | CursesManager::GetColorPair(n);
     }
 
     chtype operator|(const ColorPair &n, chtype c) {
-        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::INVISIBLE) return c;
+        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
         return c | CursesManager::GetColorPair(n);
     }
 
@@ -61,7 +61,7 @@ namespace cursen {
     }
 
     chtype& operator |= (chtype& c, const cursen::ColorPair &n) {
-        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::INVISIBLE) return c;
+        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
         c |= cursen::CursesManager::GetColorPair(n);
         return c;
     }

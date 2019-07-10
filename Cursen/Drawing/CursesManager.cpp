@@ -171,7 +171,7 @@ namespace cursen
                 for (int x = offset; x < dimensions.x; ++x)
                 {
                     chtype c = row[x];
-                    if (c != Content::INVISIBLE)
+                    if (c != Content::TRANSPARENT)
                     {
                         mvaddch(position.y + y, position.x + i, c);
                     }

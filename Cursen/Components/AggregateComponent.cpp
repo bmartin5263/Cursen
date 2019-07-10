@@ -44,9 +44,14 @@ namespace cursen {
 
     void AggregateComponent::setDrawOrder(int order)
     {
-        Component::setDrawOrder(order);
-        for (auto child : getChildren()) {
-            child->setDrawOrder(order);
+        int curr = getDrawOrder();
+        if (curr != order)
+        {
+            int diff = order - curr;
+            Component::addDrawOrder(diff);
+            for (auto child : getChildren()) {
+                child->addDrawOrder(diff);
+            }
         }
     }
 
@@ -104,6 +109,34 @@ namespace cursen {
         for (auto child : getChildren()) {
             child->setText(text);
         }
+    }
+
+    void AggregateComponent::add(Component* component)
+    {
+        Component::add(component);
+        if (component->getDrawOrder() > getDrawOrder())
+        {
+            Component::setDrawOrder(component->getDrawOrder());
+        }
+    }
+
+    void AggregateComponent::addRelative(Component* component)
+    {
+        Component::addRelative(component);
+        if (component->getDrawOrder() > getDrawOrder())
+        {
+            Component::setDrawOrder(component->getDrawOrder());
+        }
+    }
+
+    void AggregateComponent::drawOnTopOf(const Component& component)
+    {
+        setDrawOrder(component.getDrawOrder() + 1);
+    }
+
+    void AggregateComponent::addDrawOrder(const int value)
+    {
+        setDrawOrder(getDrawOrder() + value);
     }
 
 }

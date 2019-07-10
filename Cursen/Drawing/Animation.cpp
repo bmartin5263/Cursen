@@ -99,7 +99,7 @@ namespace cursen
         }
         else
         {
-            frames[currentFrame]();
+            //frames[currentFrame]();
         }
 
         currentFrame = (currentFrame + 1) % numFrames;

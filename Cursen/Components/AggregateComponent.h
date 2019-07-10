@@ -22,6 +22,7 @@ namespace cursen {
         virtual void setForeground(const Color &color) override;
         virtual void setDrawOrder(int order) override;
         virtual void setHighlight(const ColorPair& colorPair) override;
+
         void move(const Vect2& movement) override;
         void setSilenced(bool value) override;
         void setCursable(bool value) override;
@@ -29,8 +30,12 @@ namespace cursen {
         void setDisabled(const ColorPair& color) override;
         void setText(const std::string& text) override;
 
-    private:
+        void add(Component* component) override;
+        void addRelative(Component* component) override;
+        void drawOnTopOf(const Component& component) override;
+        void addDrawOrder(const int value) override;
 
+    private:
 
     };
 

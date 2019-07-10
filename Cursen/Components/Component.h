@@ -66,6 +66,13 @@ namespace cursen {
         virtual void drawOnTopOf(const Component& component);
 
         /**
+         * @brief Adds values to this Component's draw order
+         *
+         * @param value Value to add to the draw order
+         */
+         virtual void addDrawOrder(const int value);
+
+        /**
          * @brief Sets 'invalid' flag to True, causing Component to be re-rendered next Screen Draw
          *
          * Whenever any visual data is changed for the Component this method should be called.
@@ -75,7 +82,7 @@ namespace cursen {
         /**
          * @brief Sets 'invalid' flag to False, preventing Component from being re-rendered next Screen Draw
          *
-         * This method is called by CursesManager after it is done with rendering the Component.
+         * This method is automatically called by CursesManager after it is done with rendering the Component.
          */
         void validate();
 
@@ -91,9 +98,9 @@ namespace cursen {
         virtual void setPosition(const Vect2& pos);
         virtual void move(const Vect2& movement);
 
-        // Component Relationship
+        virtual // Component Relationship
         void add(Component *);
-        void addRelative(Component *);
+        virtual void addRelative(Component *);
         void remove(Component *);
         Component* getParent();
         const std::vector<Component*> & getChildren();

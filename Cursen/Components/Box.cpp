@@ -59,15 +59,16 @@ namespace cursen {
     void Box::setBorder(chtype ul, chtype top, chtype ur, chtype left, chtype fill, chtype right, chtype ll, chtype bottom,
                         chtype lr)
     {
-        setUpperLeft(ul);
-        setUpper(top);
-        setUpperRight(ur);
-        setLeft(left);
-        setFill(fill);
-        setRight(right);
-        setLowerLeft(ll);
-        setLower(bottom);
-        setLowerRight(lr);
+        this->upperLeft = ul;
+        this->upper = top;
+        this->upperRight = ur;
+        this->left = left;
+        this->fill = fill;
+        this->right = right;
+        this->lowerLeft = ll;
+        this->lower = bottom;
+        this->lowerRight = lr;
+        invalidate();
     }
 
     void Box::setUpperRight(const chtype &upperRight) {
@@ -112,6 +113,12 @@ namespace cursen {
 
     void Box::setFill(const chtype &fill) {
         this->fill = fill;
+        invalidate();
+    }
+
+    void Box::setTransparentFill()
+    {
+        this->fill = Content::TRANSPARENT;
         invalidate();
     }
 

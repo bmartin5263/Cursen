@@ -10,195 +10,248 @@
 #include "Cursen/Events/EventManager.h"
 #include "Component.h"
 
-namespace cursen {
+namespace cursen
+{
 
     Component::Component() :
-            enabled(true), position(Vect2()), invalid(true), hidden(false), silenced(false), cursable(true), registeredForUpdates(false),
-            drawOrder(0) {
+            enabled(true), position(Vect2()), invalid(true), hidden(false), silenced(false), cursable(true),
+            registeredForUpdates(false),
+            drawOrder(0)
+    {
         id = "n/a";
     }
 
-    Component::Component(const Vect2 &pos) :
-            enabled(true), position(pos), hidden(false), silenced(false), invalid(true), cursable(true), registeredForUpdates(false),
-            drawOrder(0) {
+    Component::Component(const Vect2& pos) :
+            enabled(true), position(pos), hidden(false), silenced(false), invalid(true), cursable(true),
+            registeredForUpdates(false),
+            drawOrder(0)
+    {
         id = "n/a";
     }
 
-    void Component::add(Component *component) {
+    void Component::add(Component* component)
+    {
         assert(component != nullptr);
         component->setParent(this);
-        component->setDrawOrder(component->getDrawOrder() + this->drawOrder + 1);
+        //component->setDrawOrder(component->getDrawOrder() + this->drawOrder + 1);
         children.push_back(component);
     }
 
-    void Component::addRelative(Component *component) {
+    void Component::addRelative(Component* component)
+    {
         assert(component != nullptr);
         component->move(this->position);
         add(component);
     }
 
-    void Component::remove(Component *component) {
+    void Component::remove(Component* component)
+    {
         component->setParent(nullptr);
         children.erase(std::remove(children.begin(), children.end(), component), children.end());
     }
 
-    Component *Component::getParent() {
+    Component* Component::getParent()
+    {
         return parent;
     }
 
-    void Component::setParent(Component *component) {
+    void Component::setParent(Component* component)
+    {
         this->parent = component;
     }
 
-    void Component::onKeyPress(std::function<void(const Event &)> f) {
+    void Component::onKeyPress(std::function<void(const Event&)> f)
+    {
         EventManager::Register(*this, EventType::KeyPressed);
         f_keyPress = f;
     }
 
-    void Component::onEscapePress(std::function<void(const Event &)> f) {
+    void Component::onEscapePress(std::function<void(const Event&)> f)
+    {
         EventManager::Register(*this, EventType::EscPressed);
         f_escapePress = f;
     }
 
-    void Component::onEnterPress(std::function<void(const Event &)> f) {
+    void Component::onEnterPress(std::function<void(const Event&)> f)
+    {
         EventManager::Register(*this, EventType::EnterPressed);
         f_enterPress = f;
     }
 
-    void Component::onDeletePress(std::function<void(const Event &)> f) {
+    void Component::onDeletePress(std::function<void(const Event&)> f)
+    {
         EventManager::Register(*this, EventType::DeletePressed);
         f_deletePress = f;
     }
 
-    void Component::onArrowPress(std::function<void(const Event &)> f) {
+    void Component::onArrowPress(std::function<void(const Event&)> f)
+    {
         EventManager::Register(*this, EventType::ArrowPressed);
         f_arrowPress = f;
     }
 
     void Component::enableIf(std::function<bool()> f)
     {
-        if (!registeredForUpdates) {
+        if (!registeredForUpdates)
+        {
             EventManager::Register(*this, EventType::Update);
             registeredForUpdates = true;
         }
         f_enableIf = f;
     }
 
-    void Component::onCursor(std::function<void()> f) {
+    void Component::onCursor(std::function<void()> f)
+    {
         f_onCursor = f;
     }
 
-    void Component::offCursor(std::function<void()> f) {
+    void Component::offCursor(std::function<void()> f)
+    {
         f_offCursor = f;
     }
 
-    void Component::onClick(std::function<void()> f) {
+    void Component::onClick(std::function<void()> f)
+    {
         f_onClick = f;
     }
 
     void Component::onUpdate(std::function<void()> f)
     {
-        if (!registeredForUpdates) {
+        if (!registeredForUpdates)
+        {
             EventManager::Register(*this, EventType::Update);
             registeredForUpdates = true;
         }
         f_update = f;
     }
 
-    void Component::setEnabled(bool value) {
+    void Component::setEnabled(bool value)
+    {
         this->enabled = value;
     }
 
-    bool Component::isEnabled() const {
+    bool Component::isEnabled() const
+    {
         return enabled;
     }
 
-    void Component::setHidden(bool value) {
+    void Component::setHidden(bool value)
+    {
         hidden = value;
     }
 
-    bool Component::isHidden() const {
+    bool Component::isHidden() const
+    {
         return hidden;
     }
 
-    void Component::CallKeyPress(const Event &e) {
-        if (!isSilenced()) {
-            try {
+    void Component::CallKeyPress(const Event& e)
+    {
+        if (!isSilenced())
+        {
+            try
+            {
                 f_keyPress(e);
             }
-            catch (std::bad_function_call) {
+            catch (std::bad_function_call)
+            {
                 // Pass
             }
         }
     }
 
-    void Component::CallEscapePress(const Event &e) {
-        if (!isSilenced()) {
-            try {
+    void Component::CallEscapePress(const Event& e)
+    {
+        if (!isSilenced())
+        {
+            try
+            {
                 f_escapePress(e);
             }
-            catch (std::bad_function_call) {
+            catch (std::bad_function_call)
+            {
                 // Pass
             }
         }
     }
 
-    void Component::CallEnterPress(const Event &e) {
-        if (!isSilenced()) {
-            try {
+    void Component::CallEnterPress(const Event& e)
+    {
+        if (!isSilenced())
+        {
+            try
+            {
                 f_enterPress(e);
             }
-            catch (std::bad_function_call) {
+            catch (std::bad_function_call)
+            {
                 // Pass
             }
         }
     }
 
-    void Component::CallDeletePress(const Event &e) {
-        if (!isSilenced()) {
-            try {
+    void Component::CallDeletePress(const Event& e)
+    {
+        if (!isSilenced())
+        {
+            try
+            {
                 f_deletePress(e);
             }
-            catch (std::bad_function_call) {
+            catch (std::bad_function_call)
+            {
                 // Pass
             }
         }
     }
 
-    void Component::CallArrowPress(const Event &e) {
-        if (!isSilenced()) {
-            try {
+    void Component::CallArrowPress(const Event& e)
+    {
+        if (!isSilenced())
+        {
+            try
+            {
                 f_arrowPress(e);
             }
-            catch (std::bad_function_call) {
+            catch (std::bad_function_call)
+            {
                 // Pass
             }
         }
     }
 
-    void Component::CallOnCursor() {
-        try {
+    void Component::CallOnCursor()
+    {
+        try
+        {
             f_onCursor();
         }
-        catch (std::bad_function_call) {
+        catch (std::bad_function_call)
+        {
             // Pass
         }
     }
 
-    void Component::CallOffCursor() {
-        try {
+    void Component::CallOffCursor()
+    {
+        try
+        {
             f_offCursor();
         }
-        catch (std::bad_function_call) {
+        catch (std::bad_function_call)
+        {
             // Pass
         }
     }
 
-    void Component::CallOnClick() {
-        try {
+    void Component::CallOnClick()
+    {
+        try
+        {
             f_onClick();
         }
-        catch (std::bad_function_call) {
+        catch (std::bad_function_call)
+        {
             // Pass
         }
     }
@@ -213,40 +266,48 @@ namespace cursen {
         return f_update;
     }
 
-    void Component::detachKeyPress() {
+    void Component::detachKeyPress()
+    {
         EventManager::Deregister(*this, EventType::KeyPressed);
         f_keyPress = 0;
     }
 
-    void Component::detachEscapePress() {
+    void Component::detachEscapePress()
+    {
         EventManager::Deregister(*this, EventType::EscPressed);
         f_escapePress = 0;
     }
 
-    void Component::detachEnterPress() {
+    void Component::detachEnterPress()
+    {
         EventManager::Deregister(*this, EventType::EnterPressed);
         f_enterPress = 0;
     }
 
-    void Component::detachDeletePress() {
+    void Component::detachDeletePress()
+    {
         EventManager::Deregister(*this, EventType::DeletePressed);
         f_deletePress = 0;
     }
 
-    void Component::detachArrowPress() {
+    void Component::detachArrowPress()
+    {
         EventManager::Deregister(*this, EventType::ArrowPressed);
         f_arrowPress = 0;
     }
 
-    void Component::detachOnCursor() {
+    void Component::detachOnCursor()
+    {
         f_onCursor = 0;
     }
 
-    void Component::detachOnClick() {
+    void Component::detachOnClick()
+    {
         f_onClick = 0;
     }
 
-    void Component::detachOffCursor() {
+    void Component::detachOffCursor()
+    {
         f_offCursor = 0;
     }
 
@@ -260,69 +321,89 @@ namespace cursen {
         f_update = 0;
     }
 
-    void Component::move(const Vect2 &movement) {
+    void Component::move(const Vect2& movement)
+    {
         position += movement;
-        for (auto child : children) {
+        for (auto child : children)
+        {
             child->move(movement);
         }
     }
 
-    void Component::invalidate() {
+    void Component::invalidate()
+    {
         invalid = true;
     }
 
-    void Component::validate() {
+    void Component::validate()
+    {
         invalid = false;
     }
 
-    bool Component::isInvalid() {
+    bool Component::isInvalid()
+    {
         return invalid;
     }
 
-    Vect2 Component::getPosition() const {
+    Vect2 Component::getPosition() const
+    {
         return this->position;
     }
 
-    void Component::setPosition(const Vect2 &pos) {
+    void Component::setPosition(const Vect2& pos)
+    {
         this->position = pos;
         invalidate();
     }
 
-    const std::vector<Component *> &Component::getChildren() {
+    const std::vector<Component*>& Component::getChildren()
+    {
         return children;
     }
 
-    Component::~Component() {
+    Component::~Component()
+    {
     }
 
-    int Component::getDrawOrder() const {
+    int Component::getDrawOrder() const
+    {
         // TODO AggregateComponent needs a better way to get its draw order
         return drawOrder;
     }
 
-    void Component::setDrawOrder(int order) {
+    void Component::setDrawOrder(int order)
+    {
         drawOrder = order;
     }
 
-    void Component::setSilenced(bool value) {
+    void Component::setSilenced(bool value)
+    {
         this->silenced = value;
     }
 
-    bool Component::isSilenced() {
+    bool Component::isSilenced()
+    {
         return silenced;
     }
 
-    void Component::setCursable(bool value) {
+    void Component::setCursable(bool value)
+    {
         this->cursable = value;
     }
 
-    bool Component::isCursable() {
+    bool Component::isCursable()
+    {
         return cursable;
     }
 
     void Component::drawOnTopOf(const Component& component)
     {
-       setDrawOrder(component.getDrawOrder() + 1);
+        Component::setDrawOrder(component.getDrawOrder() + 1);
+    }
+
+    void Component::addDrawOrder(const int value)
+    {
+        Component::setDrawOrder(Component::getDrawOrder() + value);
     }
 
 

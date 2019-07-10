@@ -35,7 +35,7 @@ namespace cursen {
         for (int i = 0; i < dimensions.y; i++) {
             body[i] = new chtype[dimensions.x + 1];         // +1 for NULL
             for (int j = 0; j < dimensions.x; j++) {
-                body[i][j] = INVISIBLE;
+                body[i][j] = TRANSPARENT;
             }
             body[i][dimensions.x] = NULL_CHAR;
         }

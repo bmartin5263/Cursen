@@ -50,4 +50,10 @@ namespace cursen {
         Component::setDrawOrder(order);
     }
 
+    void TextComponent::addDrawOrder(int value)
+    {
+        CursenApplication::SetDrawOrder(this, Component::getDrawOrder() + value);
+        Component::addDrawOrder(value);
+    }
+
 }

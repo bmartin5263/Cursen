@@ -21,7 +21,7 @@ namespace cursen {
         typedef chtype* Line;
 
         static const char NULL_CHAR = '\0';
-        static const char INVISIBLE = 18;
+        static const char TRANSPARENT = 18;
 
         static size_t lineLen(const Line line);
 

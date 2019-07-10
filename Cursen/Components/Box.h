@@ -34,6 +34,8 @@ namespace cursen {
         void initialize() override;
         void render() override;
 
+        void setTransparentFill();
+
     private:
 
         chtype upperLeft;
