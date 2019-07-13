@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/15/19.
 //
 
+#include <cassert>
 #include "Cursen/Drawing/CursesManager.h"
 #include "TextField.h"
 
@@ -80,7 +81,7 @@ namespace cursen {
 
     void TextField::setSize(const Vect2 &size) {
         if (size.y < 1) {
-            throw std::range_error("Y Must Be At Least 1");
+            assert(false);
         }
         StandardComponent::setSize(size);
         max_len = size.x;

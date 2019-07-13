@@ -9,14 +9,11 @@ namespace cursen {
     Box::Box() :
             StandardComponent(Vect2(0,0), Vect2(2,2))
     {
-        //initialize();
     }
 
     Box::Box(const Vect2 &pos, const Vect2 &dim) :
             StandardComponent(pos, dim)
     {
-        if (dim.x < 2 || dim.y < 2) throw std::logic_error("Box requires dimensions > 1");
-        //initialize();
     }
 
     void Box::initialize() {

@@ -87,45 +87,6 @@ namespace cursen
         instance.lastUpdate = std::chrono::system_clock::now();
     }
 
-    void AlarmManager::handleStartRequests()
-    {
-        assert(false);
-        Alarm* alarmEntry;
-        while (!startRequests.empty())
-        {
-            alarmEntry = startRequests.front();
-
-            AlarmMap::iterator it = internal_alarms.find(alarmEntry->getId());
-            if (it == internal_alarms.end())
-            {
-                internal_alarms[alarmEntry->getId()] = alarmEntry;
-            }
-
-            startRequests.pop();
-        }
-    }
-
-    void AlarmManager::handleStopRequests()
-    {
-        assert(false);
-        unsigned int id;
-        std::unordered_map<unsigned int, Alarm*>::iterator it;
-        while (!stopRequests.empty())
-        {
-            id = stopRequests.front();
-
-            it = internal_alarms.find(id);
-            if (it != internal_alarms.end())
-            {
-                Alarm* entry = it->second;
-                AlarmFactory::RecycleAlarm(entry);
-                internal_alarms.erase(id);
-            }
-
-            stopRequests.pop();
-        }
-    }
-
     void AlarmManager::handleStopRequests(AlarmManager::AlarmMap& alarmMap)
     {
         unsigned int id;

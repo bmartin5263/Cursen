@@ -138,7 +138,7 @@ namespace cursen
     void CursesManager::privResize(const Vect2& dim)
     {
         std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
-        //printf("%ConnectionSevered", resizeString.c_str());
+        //printf("%s", resizeString.c_str());
         fflush(stdout);
     }
 

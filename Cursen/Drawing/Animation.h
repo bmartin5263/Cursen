@@ -18,6 +18,8 @@ namespace cursen {
 
     public:
 
+        typedef std::function<void()> VoidFunction;
+
         /**
          * @brief Construct an empty animation.
          */
@@ -66,7 +68,7 @@ namespace cursen {
          * @param fn Function to call for the new frame
          * @return Reference to added Frame
          */
-        Frame& add(Frame::VoidFunction fn);
+        Frame& add(VoidFunction fn);
 
         /**
          * Get the frame by reference at the specified position. Performs bounds checking.
@@ -102,6 +104,15 @@ namespace cursen {
          * @return Seconds per frame
          */
         double getDuration();
+
+        void setLoops(size_t count);
+
+        /**
+         * @brief Get the number of loops for this animation.
+         *
+         * @return Seconds per frame
+         */
+        size_t getLoops();
         
         // TODO: Keep this internal
         void setVariableTime(bool value);
@@ -125,13 +136,33 @@ namespace cursen {
          */
         void nextFrame();
 
+        void clear();
+
+        void onStop(VoidFunction& f);
+        void onPause(VoidFunction& f);
+        void onLoopEnd(VoidFunction& f);
+
+        void detachOnStop();
+        void detachOnPause();
+        void detachOnLoopEnd();
+
     private:
 
+        void callOnStop();
+        void callOnPause();
+        void callOnLoopEnd();
+
         AlarmHandle animationHandle;
+
+        VoidFunction f_stop;    // For explicit stops
+        VoidFunction f_pause;   // For pauses
+        VoidFunction f_end;     // For loop ends
 
         double default_duration;
         size_t currentFrame;
         size_t numFrames;
+        size_t loops;
+        size_t loop_counter;
         std::vector<Frame> frames;
         bool running;
         bool paused;

@@ -51,7 +51,7 @@ namespace cursen {
         CursorSet& getCursors();
         ComponentMap& getComponentDrawMap();
         AlarmMap& getAlarmMap();
-        EventComponentMap& getDispatchMap();
+        EventComponentMap& getEventDispatchMap();
         ComponentRegistrationMap& getEventRegistrationMap();
 
     private:

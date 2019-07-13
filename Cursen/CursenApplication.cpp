@@ -87,7 +87,7 @@ CURSEN_CLASS_START
         Form* form = GetCurrentForm();
         AlarmManager::ProcessAlarms(form->getAlarmMap());
         InputManager::ProcessInput();
-        EventManager::ProcessEvents(form->getDispatchMap());
+        EventManager::ProcessEvents(form->getEventDispatchMap());
         Instance().UserUpdate();
         CursorManager::RefreshCursors(form->getCursors());
     }

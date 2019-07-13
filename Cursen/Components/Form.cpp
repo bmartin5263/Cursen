@@ -3,6 +3,7 @@
 //
 
 #include <functional>
+#include <cassert>
 
 #include "Form.h"
 #include "Component.h"
@@ -12,7 +13,8 @@ namespace cursen {
 
     Form::Form(const Vect2 &dim) :
             AggregateComponent(Vect2(0, 0)), dimensions(dim) {
-        if (dim.x < 1 || dim.y < 1) throw std::logic_error("Form requires dimensions > 0");
+        assert(dim.x > 0);
+        assert(dim.y > 0);
     }
 
     Vect2 Form::getSize() {
@@ -106,7 +108,7 @@ namespace cursen {
         return alarmMap;
     }
 
-    Form::EventComponentMap& Form::getDispatchMap()
+    Form::EventComponentMap& Form::getEventDispatchMap()
     {
         return dispatchMap;
     }
