@@ -20,6 +20,7 @@
 
 class MatchController;
 class Match;
+class MatchState;
 class MatchForm : public cursen::Form
 {
 
@@ -36,16 +37,29 @@ public:
     void setDeckMeterSize(size_t size);
     void setHandName(std::string name);
 
-    Match* getMatch();
+    void setConsoleMessage(std::string& msg);
+    void setConsoleWarning(std::string& msg);
 
+    void setState(const MatchState* state);
+
+    void dealCards();
+
+    void switchPileCard();
+
+    Match* getMatch();
+    MatchController* getController();
+    const MatchState* getState();
 
     void clickCard();
     void pressDraw();
+
+    void enterPress(const cursen::Event& event);
 
 private:
 
     MatchController* controller;
     Match* match;
+    const MatchState* state;
 
     int card_index;
     int hand_index;
@@ -60,22 +74,7 @@ private:
     cursen::Box hand_box;
     HandCard leftCard;
     HandCard rightCard;
-    HandCard card0;
-    HandCard card1;
-    HandCard card2;
-    HandCard card3;
-    HandCard card4;
-    HandCard card5;
-    HandCard card6;
-    HandCard card7;
-    HandCard card8;
-    HandCard card9;
-    HandCard card10;
-    HandCard card11;
-    HandCard card12;
-    HandCard card13;
-    HandCard* card_array[14];
-    cursen::Cursor card_cursor;
+    HandCard card_array[14];
     DeckMeter deckMeter;
     PlayerTile p0Tile;
     PlayerTile p1Tile;
@@ -85,6 +84,7 @@ private:
     GiantCard front_card;
     GiantCard back_card;
 
+    cursen::Animation card_deal_animation;
 };
 
 

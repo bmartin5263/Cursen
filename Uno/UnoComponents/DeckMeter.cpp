@@ -31,7 +31,7 @@ void DeckMeter::initialize()
     meter.setPosition(Vect2(2,1));
     addRelative(&meter);
 
-    low_deck.setDuration(.6);
+    low_deck.setFrameDuration(.6);
     low_deck.add([&]() { border.setForeground(Color::RED); });
     low_deck.add([&]() { border.setForeground(Color::WHITE); });
 }

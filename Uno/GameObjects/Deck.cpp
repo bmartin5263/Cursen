@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/5/19.
 //
 
+#include <cassert>
 #include "Deck.h"
 
 void Deck::InitializeDeck(Deck& deck)
@@ -32,18 +33,14 @@ void Deck::pushCard(const Card& card) {
 }
 
 Card Deck::popCard() {
-    if (cards.empty()) {
-        throw std::underflow_error("Deck Underflow");
-    }
+    assert(!cards.empty());
     Card card = cards.back();
     cards.pop_back();
     return card;
 }
 
 const Card &Deck::peekCard() {
-    if (cards.empty()) {
-        throw std::underflow_error("Deck Underflow");
-    }
+    assert(!cards.empty());
     return cards.back();
 }
 

@@ -14,7 +14,7 @@ void LowerBorder::initialize()
     border.setSize(Vect2(70, 26));
     border.setUpperLeft(CursesManager::LTEE);
     border.setUpperRight(CursesManager::RTEE);
-    border.setFill(Content::INVISIBLE);
+    border.setFill(Content::TRANSPARENT);
     addRelative(&border);
 
 }

@@ -46,7 +46,7 @@ void LocalController::clickAddAI()
 
 void LocalController::clickSearch()
 {
-    throw std::logic_error("Local cannot search.");
+    assert(false);
 }
 
 void LocalController::clickClose()

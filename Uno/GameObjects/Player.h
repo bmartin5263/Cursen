@@ -37,6 +37,7 @@ public:
     size_t sizeOf() const override;
 
     size_t getHandSize() const;
+    Hand& getHand();
 
 private:
 

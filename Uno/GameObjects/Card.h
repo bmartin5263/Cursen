@@ -16,16 +16,20 @@
 
 class Card {
 
-public:
+private:
 
     static const std::unordered_map<CardValues, std::vector<std::string>, cursen::EnumClassHash> BIG_NUMBERS;
+
+public:
+
     static const CardColors COLORS[4];
     static const CardValues VALUES_NO_WILD[13];
 
     static int score(const Card& card);
-    static cursen::Color convertToColor(CardColors color);
+    static cursen::Color ConvertToColor(CardColors color);
     static std::string getUpperLabel(CardValues value);
     static std::string getLowerLabel(CardValues value);
+    static const std::vector<std::string>& GetBigNumber(CardValues value);
 
     Card(CardColors color, CardValues value);
 

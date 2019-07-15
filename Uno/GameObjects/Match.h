@@ -21,9 +21,13 @@ public:
     size_t getDeckSize();
     Player* getPlayers();
     Player& getMyPlayer();
+    Player& getPlayerById(int player_id);
 
     int getNumPlayers();
     int getMyId();
+
+    bool canDrawCard(int player_id);
+    void drawCard(int player_id);
 
 private:
 

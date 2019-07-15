@@ -18,3 +18,13 @@ void MatchHostController::start()
 {
 
 }
+
+void MatchHostController::pressEnter()
+{
+
+}
+
+void MatchHostController::handleDealCards()
+{
+
+}

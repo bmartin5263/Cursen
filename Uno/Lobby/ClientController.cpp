@@ -27,17 +27,17 @@ void ClientController::destroy()
 
 void ClientController::clickStart()
 {
-    throw std::logic_error("Client cannot start game.");
+    assert(false);
 }
 
 void ClientController::clickAddAI()
 {
-    throw std::logic_error("Client cannot add AI.");
+    assert(false);
 }
 
 void ClientController::clickSearch()
 {
-    throw std::logic_error("Client cannot search.");
+    assert(false);
 }
 
 void ClientController::clickClose()
@@ -76,7 +76,7 @@ void ClientController::sendChat()
 
 void ClientController::selectPlayerToKick(int id)
 {
-    throw std::logic_error("Client cannot kick players.");
+    assert(false);
 }
 
 void ClientController::handleClose(std::string msg, bool kicked)

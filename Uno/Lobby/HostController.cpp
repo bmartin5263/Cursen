@@ -58,7 +58,6 @@ void HostController::clickClose()
 
 void HostController::clickChangeColor()
 {
-    // Broadcast color change
     DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);

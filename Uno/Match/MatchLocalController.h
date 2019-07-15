@@ -15,6 +15,8 @@ public:
     void clickCard() override;
     void pressDraw() override;
     void start() override;
+    void pressEnter() override;
+    void handleDealCards() override;
 
 };
 

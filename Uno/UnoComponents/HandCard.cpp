@@ -42,7 +42,7 @@ void HandCard::initialize()
 
     this->color = Color::WHITE;
 
-    animation.setDuration(.06f);
+    animation.setFrameDuration(.06f);
     animation.add([&]() { setForeground(cursen::Color::RED); });
     animation.add([&]() { setForeground(cursen::Color::ORANGE); });
     animation.add([&]() { setForeground(cursen::Color::YELLOW); });
@@ -92,7 +92,7 @@ void HandCard::injectCard(const Card& card)
     }
     else
     {
-        this->color = Card::convertToColor(card.getColor());
+        this->color = Card::ConvertToColor(card.getColor());
         wild = false;
         if (!hovered)
         {

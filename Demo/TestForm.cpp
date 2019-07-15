@@ -113,7 +113,7 @@ void TestForm::initialize() {
 
     onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
 
-    rainbow.setDuration(.06f);
+    rainbow.setFrameDuration(.06f);
     rainbow.add([&]() { box.setForeground(cursen::Color::RED); });
     rainbow.add([&]() { box.setForeground(cursen::Color::ORANGE); });
     rainbow.add([&]() { box.setForeground(cursen::Color::YELLOW); });

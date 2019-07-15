@@ -50,3 +50,25 @@ Player& Match::getMyPlayer()
     assert(false);
     return players[0];
 }
+
+bool Match::canDrawCard(int player_id)
+{
+    return false;
+}
+
+void Match::drawCard(int player_id)
+{
+    assert(canDrawCard(player_id));
+    Card c = deck.popCard();
+    getPlayerById(player_id).getHand().add(c);
+}
+
+Player& Match::getPlayerById(int player_id)
+{
+    for (auto& player : players)
+    {
+        if (player.getId() == player_id) return player;
+    }
+    assert(false);
+    return players[0];
+}

@@ -49,7 +49,7 @@ public:
 
     Context getContext() override
     {
-        return Context::Lobby;
+        return Context::ContextLobby;
     }
 
     DataMessage* clone() override

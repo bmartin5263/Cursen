@@ -20,6 +20,7 @@ public:
 
     void initialize() override;
     void setSize(const cursen::Vect2& size);
+    void injectCard(const Card& card);
 
     void shrink();
     void grow();

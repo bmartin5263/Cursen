@@ -5,7 +5,6 @@
 #ifndef CURSEN_DATAMESSAGE_H
 #define CURSEN_DATAMESSAGE_H
 
-
 #include "Uno/Data/Context.h"
 #include "MessageType.h"
 #include "SendType.h"

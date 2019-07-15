@@ -5,9 +5,7 @@
 #ifndef CURSEN_MATCHCONTROLLER_H
 #define CURSEN_MATCHCONTROLLER_H
 
-#include "Uno/Forms/MatchForm.h"
-#include "Uno/GameObjects/Match.h"
-
+class MatchForm;
 class MatchController
 {
 
@@ -19,8 +17,14 @@ public:
     void setMatchForm(MatchForm* matchForm) { this->matchForm = matchForm; };
     MatchForm* getMatchForm() { return this->matchForm; }
 
+    // Inputs
+    virtual void pressEnter() = 0;
+
+
+    // Concrete Actions
     virtual void clickCard() = 0;
     virtual void pressDraw() = 0;
+    virtual void handleDealCards() = 0;
 
     virtual void start() = 0;
 

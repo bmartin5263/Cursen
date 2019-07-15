@@ -20,7 +20,7 @@ public:
 
     Context getContext() override
     {
-        return Context::Lobby;
+        return Context::ContextLobby;
     }
 
     void execute() override

@@ -108,3 +108,8 @@ size_t Player::getHandSize() const
 {
     return hand.size();
 }
+
+Hand& Player::getHand()
+{
+    return hand;
+}

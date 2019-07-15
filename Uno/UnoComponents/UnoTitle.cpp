@@ -27,7 +27,7 @@ void UnoTitle::initialize() {
     lit_green_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(121, cursen::Color(28)));
     lit_red_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(219, cursen::Color(88)));
 
-    neonFlash.setDuration(4.0);
+    neonFlash.setFrameDuration(4.0);
     neonFlash.add([&]() { blueLit = false; redLit = false; greenLit = false; invalidate(); });
     neonFlash.add([&]() { blueLit = true; invalidate(); }).setDuration(.4);
     neonFlash.add([&]() { blueLit = false; invalidate(); }).setDuration(.07);

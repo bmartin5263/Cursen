@@ -28,7 +28,9 @@ enum class MessageType {
     StartSearch,
     StopSearch,
     DisconnectFromHost,
-    ConnectionSevered
+    ConnectionSevered,
+    InputEnter,
+    DealCards
 
 };
 

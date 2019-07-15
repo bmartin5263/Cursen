@@ -118,6 +118,7 @@ void LobbyForm::initialize()
         mode_select_box.getMainPlayerStage().getTextField().onEnterPress(std::bind(&LobbyForm::setMainPlayerName, this));
     }
 
+    lobby_cursor.initialize();
     lobby_cursor.moveTo(&start_button);
     lobby_cursor.mapComponent(&start_button, cursen::ArrowMap(nullptr, &change_color_button, nullptr, &add_ai_button));
     lobby_cursor.mapComponent(&add_ai_button,
@@ -148,7 +149,7 @@ void LobbyForm::initialize()
         }
     });
 
-    DataManager::SetContext(Context::Lobby);
+    DataManager::SetContext(Context::ContextLobby);
 }
 
 void LobbyForm::initializeForLocal()

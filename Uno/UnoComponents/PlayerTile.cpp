@@ -22,7 +22,7 @@ void PlayerTile::initialize()
 {
     border.initialize();
     border.setSize(Vect2(14, 4));
-    border.setFill(Content::INVISIBLE);
+    border.setFill(Content::TRANSPARENT);
     addRelative(&border);
 
     player_name.initialize();

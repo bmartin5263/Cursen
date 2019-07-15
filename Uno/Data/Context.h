@@ -7,7 +7,7 @@
 
 enum class Context {
 
-    None, Lobby, Match
+    None, ContextLobby, ContextMatch
 
 };
 

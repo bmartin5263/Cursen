@@ -3,6 +3,7 @@
 //
 
 #include <cassert>
+#include <Uno/Match/Messages/InputDealCards.h>
 
 #include "DataMessage.h"
 #include "AddAI.h"
@@ -92,6 +93,12 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::ConnectionSevered:
             msg = new ConnectionSevered;
+            break;
+        case MessageType::InputEnter:
+            msg = new InputDealCards;
+            break;
+        case MessageType::DealCards:
+            msg = new DealCards;
             break;
     }
     assert(msg != nullptr);

@@ -5,8 +5,12 @@
 #include <cassert>
 
 #include <Uno/Match/MatchControllers.h>
+#include <Uno/Data/DataManager.h>
 #include "MatchForm.h"
 #include "Cursen/CursenApplication.h"
+#include "Uno/Match/FSM/MatchState.h"
+#include "Uno/Match/FSM/MatchFSM.h"
+#include "Uno/GameObjects/Match.h"
 
 using namespace cursen;
 
@@ -35,15 +39,13 @@ MatchForm::~MatchForm()
 
 void MatchForm::initialize()
 {
+    DataManager::SetContext(Context::ContextMatch);
     welcome.initialize();
     welcome.setPosition(Vect2(0,0));
     welcome.setText("Welcome to the Match!");
     welcome.onEscapePress([](const Event e) { CursenApplication::CloseForm(); });
     welcome.onDeletePress([&](const Event e) {
         front_card.shrink();
-    });
-    welcome.onKeyPress([&](const Event e) {
-        if (e.key.code == 'g') front_card.grow();
     });
 
     console.initialize();
@@ -74,7 +76,7 @@ void MatchForm::initialize()
     hand_box.setLowerRight(CursesManager::RTEE);
     hand_box.setLowerLeft(CursesManager::LTEE);
     hand_box.setUpperLeft(CursesManager::LTEE);
-    hand_box.setFill(Content::INVISIBLE);
+    hand_box.setFill(Content::TRANSPARENT);
     hand_box.setDrawOrder(lowerBorder.getDrawOrder() + 1);
 
     deckMeter.initialize();
@@ -100,116 +102,41 @@ void MatchForm::initialize()
     rightCard.setPosition(Vect2(64, 27));
     rightCard.setRight();
 
-    card0.initialize();
-    card0.setPosition(Vect2(7, 27));
-    card0.setHidden(true);
-    card0.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card1.initialize();
-    card1.setPosition(Vect2(11, 27));
-    card1.setHidden(true);
-    card1.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card2.initialize();
-    card2.setPosition(Vect2(15, 27));
-    card2.setHidden(true);
-    card2.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card3.initialize();
-    card3.setPosition(Vect2(19, 27));
-    card3.setHidden(true);
-    card3.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card4.initialize();
-    card4.setPosition(Vect2(23, 27));
-    card4.setHidden(true);
-    card4.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card5.initialize();
-    card5.setPosition(Vect2(27, 27));
-    card5.setHidden(true);
-    card5.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card6.initialize();
-    card6.setPosition(Vect2(31, 27));
-    card6.setHidden(true);
-    card6.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card7.initialize();
-    card7.setPosition(Vect2(35, 27));
-    card7.setHidden(true);
-    card7.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card8.initialize();
-    card8.setPosition(Vect2(39, 27));
-    card8.setHidden(true);
-    card8.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card9.initialize();
-    card9.setPosition(Vect2(43, 27));
-    card9.setHidden(true);
-    card9.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card10.initialize();
-    card10.setPosition(Vect2(47, 27));
-    card10.setHidden(true);
-    card10.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card11.initialize();
-    card11.setPosition(Vect2(51, 27));
-    card11.setHidden(true);
-    card11.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card12.initialize();
-    card12.setPosition(Vect2(55, 27));
-    card12.setHidden(true);
-    card12.onClick(std::bind(&MatchForm::clickCard, this));
-
-    card13.initialize();
-    card13.setPosition(Vect2(59, 27));
-    card13.setHidden(true);
-    card13.onClick(std::bind(&MatchForm::clickCard, this));
+    int x = 7;
+    for (int i = 0; i < 14; i++)
+    {
+        card_array[i].initialize();
+        card_array[i].setPosition(Vect2(x + (4 * i), 27));
+        card_array[i].setHidden(true);
+        card_array[i].onClick(std::bind(&MatchForm::clickCard, this));
+    }
 
     //back_card.initialize();
     back_card.initialize();
     back_card.setPosition(Vect2(27,8));
-    back_card.setForeground(Color::WHITE);
+    back_card.setHidden(true);
 
     front_card.initialize();
     front_card.setPosition(Vect2(29,10));
-    front_card.setDrawOrder(back_card.getDrawOrder() + 10);
+    front_card.drawOnTopOf(back_card);
+    front_card.setHidden(true);
 
-    card_cursor.moveTo(&card0);
-    card_cursor.mapComponent(&card0, ArrowMap(&card13, nullptr, &card1, nullptr));
-    card_cursor.mapComponent(&card1, ArrowMap(&card0, nullptr, &card2, nullptr));
-    card_cursor.mapComponent(&card2, ArrowMap(&card1, nullptr, &card3, nullptr));
-    card_cursor.mapComponent(&card3, ArrowMap(&card2, nullptr, &card4, nullptr));
-    card_cursor.mapComponent(&card4, ArrowMap(&card3, nullptr, &card5, nullptr));
-    card_cursor.mapComponent(&card5, ArrowMap(&card4, nullptr, &card6, nullptr));
-    card_cursor.mapComponent(&card6, ArrowMap(&card5, nullptr, &card7, nullptr));
-    card_cursor.mapComponent(&card7, ArrowMap(&card6, nullptr, &card8, nullptr));
-    card_cursor.mapComponent(&card8, ArrowMap(&card7, nullptr, &card9, nullptr));
-    card_cursor.mapComponent(&card9, ArrowMap(&card8, nullptr, &card10, nullptr));
-    card_cursor.mapComponent(&card10, ArrowMap(&card9, nullptr, &card11, nullptr));
-    card_cursor.mapComponent(&card11, ArrowMap(&card10, nullptr, &card12, nullptr));
-    card_cursor.mapComponent(&card12, ArrowMap(&card11, nullptr, &card13, nullptr));
-    card_cursor.mapComponent(&card13, ArrowMap(&card12, nullptr, &card0, nullptr));
-    card_cursor.setEnabled(true);
-
-    card_array[0] = &card0;
-    card_array[1] = &card1;
-    card_array[2] = &card2;
-    card_array[3] = &card3;
-    card_array[4] = &card4;
-    card_array[5] = &card5;
-    card_array[6] = &card6;
-    card_array[7] = &card7;
-    card_array[8] = &card8;
-    card_array[9] = &card9;
-    card_array[10] = &card10;
-    card_array[11] = &card11;
-    card_array[12] = &card12;
-    card_array[13] = &card13;
+//    card_cursor.moveTo(&card_array[0]);
+//    card_cursor.mapComponent(&card_array[0], ArrowMap(&card_array[13], nullptr, &card_array[1], nullptr));
+//    card_cursor.mapComponent(&card_array[1], ArrowMap(&card_array[0], nullptr, &card_array[2], nullptr));
+//    card_cursor.mapComponent(&card_array[2], ArrowMap(&card_array[1], nullptr, &card_array[3], nullptr));
+//    card_cursor.mapComponent(&card_array[3], ArrowMap(&card_array[2], nullptr, &card_array[4], nullptr));
+//    card_cursor.mapComponent(&card_array[4], ArrowMap(&card_array[3], nullptr, &card_array[5], nullptr));
+//    card_cursor.mapComponent(&card_array[5], ArrowMap(&card_array[4], nullptr, &card_array[6], nullptr));
+//    card_cursor.mapComponent(&card_array[6], ArrowMap(&card_array[5], nullptr, &card_array[7], nullptr));
+//    card_cursor.mapComponent(&card_array[7], ArrowMap(&card_array[6], nullptr, &card_array[8], nullptr));
+//    card_cursor.mapComponent(&card_array[8], ArrowMap(&card_array[7], nullptr, &card_array[9], nullptr));
+//    card_cursor.mapComponent(&card_array[9], ArrowMap(&card_array[8], nullptr, &card_array[10], nullptr));
+//    card_cursor.mapComponent(&card_array[10], ArrowMap(&card_array[9], nullptr, &card_array[11], nullptr));
+//    card_cursor.mapComponent(&card_array[11], ArrowMap(&card_array[10], nullptr, &card_array[12], nullptr));
+//    card_cursor.mapComponent(&card_array[12], ArrowMap(&card_array[11], nullptr, &card_array[13], nullptr));
+//    card_cursor.mapComponent(&card_array[13], ArrowMap(&card_array[12], nullptr, &card_array[0], nullptr));
+//    card_cursor.setEnabled(true);
 
     tile_array[0] = &p0Tile;
     tile_array[1] = &p1Tile;
@@ -217,6 +144,8 @@ void MatchForm::initialize()
     tile_array[3] = &p3Tile;
 
     start();
+
+    onEnterPress(std::bind(&MatchForm::enterPress, this, std::placeholders::_1));
 }
 
 void MatchForm::clickCard()
@@ -245,7 +174,7 @@ void MatchForm::updatePlayers()
     {
         tile_array[i]->injectPlayer(players[i]);
     }
-    for (; i < 4; ++i)
+    for (; i < Lobby::MAX_PLAYERS; ++i)
     {
         tile_array[i]->clear();
     }
@@ -273,3 +202,58 @@ void MatchForm::setHandName(std::string name)
     hand_label.setText(name + "'s Hand");
 }
 
+void MatchForm::switchPileCard()
+{
+    // TODO
+}
+
+void MatchForm::dealCards()
+{
+    console.setMessage("Dealing Cards...");
+    state = &MatchFSM::animationState;
+    card_deal_animation.clear();
+    card_deal_animation.add([&]()
+    {
+        getMatch()->getDeck().popCard();
+        setDeckMeterCount(getMatch()->getDeck().size());
+    });
+    card_deal_animation.setFrameDuration(.05);
+    card_deal_animation.setLoops(6);
+    card_deal_animation.start();
+}
+
+void MatchForm::setConsoleMessage(std::string& msg)
+{
+    this->console.setText(msg);
+}
+
+void MatchForm::setConsoleWarning(std::string& msg)
+{
+    this->console.setWarning(msg);
+}
+
+void MatchForm::enterPress(const cursen::Event& event)
+{
+    switch (event.key.code)
+    {
+        case CursesManager::ENTER:
+            state->pressEnter(*this);
+        default:
+            break;
+    }
+}
+
+void MatchForm::setState(const MatchState* state)
+{
+    this->state = state;
+}
+
+MatchController* MatchForm::getController()
+{
+    return controller;
+}
+
+const MatchState* MatchForm::getState()
+{
+    return state;
+}

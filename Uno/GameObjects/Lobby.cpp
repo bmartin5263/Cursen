@@ -13,14 +13,14 @@ Lobby::Lobby() :
 
 void Lobby::addPlayer(Player player) {
     if (numPlayers >= MAX_PLAYERS) {
-        throw std::overflow_error("Max Players Reached");
+        assert(false);
     }
     players[numPlayers++] = player;
 }
 
 void Lobby::removePlayer(const int id) {
     if (numPlayers <= 0) {
-        throw std::underflow_error("No Players to Remove");
+        assert(false);
     }
 
     int i;
@@ -100,7 +100,7 @@ PlayerColor Lobby::getAvailableColor() const {
             }
         }
         if (ok) return color;
-        if (i == start) throw std::logic_error("Not enough colors");
+        if (i == start) assert(false);
     }
 }
 
@@ -113,7 +113,7 @@ PlayerColor Lobby::getAvailableColorRGBY() const {
         PlayerColor color = Constants::COLORS[i];
         if (!colorTaken(color)) return color;
         i = (i + 1) % num_colors_rgb;
-        if (i == start) throw std::logic_error("Not enough colors");
+        if (i == start) assert(false);
     }
 }
 

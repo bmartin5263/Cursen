@@ -26,8 +26,6 @@ void GiantCard::initialize()
     number.initialize();
     number.setHidden(false);
     number.setPosition(Vect2(1,2));
-    number.loadFromVector(Card::BIG_NUMBERS.find(CardValues::SIX)->second);
-    number.setForeground(Color::RED);
     number.drawOnTopOf(border);
     addRelative(&number);
 }
@@ -45,4 +43,10 @@ void GiantCard::shrink()
 void GiantCard::grow()
 {
     border.setSize(border.getSize() + Vect2(1,1));
+}
+
+void GiantCard::injectCard(const Card& card)
+{
+    number.loadFromVector(Card::GetBigNumber(card.getValue()));
+    setForeground(Card::ConvertToColor(card.getColor()));
 }

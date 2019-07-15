@@ -14,8 +14,15 @@ DataManager::DataManager() :
 
 void DataManager::ProcessDataMessages()
 {
-    Instance().processOut();
-    Instance().processIn();
+    DataManager& instance = Instance();
+    MessageQueue& in = instance.in;
+    instance.processIn();
+    instance.processOut();
+    while (!in.isEmpty())
+    {
+        instance.processIn();
+        instance.processOut();
+    }
 }
 
 void DataManager::privPushMessage(DataMessage* message)

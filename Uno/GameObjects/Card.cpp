@@ -89,7 +89,7 @@ void Card::changeColor(const CardColors &new_color) {
     }
 }
 
-cursen::Color Card::convertToColor(CardColors color)
+cursen::Color Card::ConvertToColor(CardColors color)
 {
     switch (color)
     {
@@ -178,4 +178,9 @@ std::string Card::getLowerLabel(CardValues value)
         case CardValues::REVERSE:
             return "R ";
     }
+}
+
+const std::vector<std::string>& Card::GetBigNumber(CardValues value)
+{
+    return Card::BIG_NUMBERS.at(value);
 }

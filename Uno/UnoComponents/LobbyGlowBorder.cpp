@@ -27,7 +27,7 @@ void LobbyGlowBorder::initialize()
     chtype RT = ACS_RTEE;
     chtype LL = ACS_LLCORNER;
     chtype LR = ACS_LRCORNER;
-    chtype X = Content::INVISIBLE;
+    chtype X = Content::TRANSPARENT;
 
     /* Cache the pair values */
     blue_pair = CursesManager::GetColorPair(ColorPair(Color::BLUE));
@@ -479,7 +479,7 @@ void LobbyGlowBorder::initialize()
     animation.add([&]() {
         invalidate();
     });
-    animation.setDuration(.01);
+    animation.setFrameDuration(.01);
     animation.setVariableTime(false);
     validate();
 }
