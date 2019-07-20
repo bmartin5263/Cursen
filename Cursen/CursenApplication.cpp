@@ -127,6 +127,7 @@ CURSEN_CLASS_START
     {
         Instance().form_stack.push(nextForm);
         nextForm->initialize();
+        nextForm->CallOnOpen();
 
         nextForm = nullptr;
         requestFormOpen = false;
@@ -140,15 +141,20 @@ CURSEN_CLASS_START
 
     void CursenApplication::doFormClose()
     {
+        requestFormClose = false;
+
         std::stack<Form*>& form_stack = Instance().form_stack;
         Form* current_form = form_stack.top();
+        current_form->CallOnClose();
         delete current_form;
+
         form_stack.pop();
         if (form_stack.empty())
         {
             Quit();
         }
-        requestFormClose = false;
+
+        form_stack.top()->CallOnOpen();
     }
 
     void CursenApplication::OnUpdate(UserFunction user_callback)

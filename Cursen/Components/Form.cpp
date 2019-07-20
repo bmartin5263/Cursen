@@ -134,4 +134,34 @@ namespace cursen {
         return stopRequests;
     }
 
+    void Form::onOpen(Form::VoidFunction f)
+    {
+        fOpen = f;
+    }
+
+    void Form::onClose(Form::VoidFunction f)
+    {
+        fClose = f;
+    }
+
+    void Form::detachOnOpen()
+    {
+        fOpen = 0;
+    }
+
+    void Form::detachOnClose()
+    {
+        fClose = 0;
+    }
+
+    void Form::CallOnOpen()
+    {
+        if (fOpen) fOpen();
+    }
+
+    void Form::CallOnClose()
+    {
+        if (fClose) fClose();
+    }
+
 }

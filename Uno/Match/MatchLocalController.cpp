@@ -31,6 +31,7 @@ void MatchLocalController::start()
     matchForm->setDeckMeterSize(Deck::SIZE);
     matchForm->setDeckMeterCount(deck.size());
     matchForm->setHandName(match->getMyPlayer().getName());
+    matchForm->setConsoleMessage("Press Enter to Deal Cards");
     matchForm->setState(&MatchFSM::waitingToDealCardsState);
 }
 

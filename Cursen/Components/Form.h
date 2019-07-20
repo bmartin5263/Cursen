@@ -34,6 +34,7 @@ namespace cursen {
         typedef std::unordered_map<EventType, ComponentList, EnumClassHash> EventComponentMap;
         typedef std::queue<Alarm*> AlarmQueue;
         typedef std::queue<unsigned int> IntQueue;
+        typedef std::function<void()> VoidFunction;
 
     public:
 
@@ -51,6 +52,15 @@ namespace cursen {
         void registerForEvents(Component* component, EventType events);
         void deregisterForEvents(Component* component, EventType events);
 
+        virtual void onOpen(VoidFunction f);
+        virtual void onClose(VoidFunction f);
+
+        void detachOnOpen();
+        void detachOnClose();
+
+        void CallOnOpen();
+        void CallOnClose();
+
         CursorSet& getCursors();
         ComponentMap& getComponentDrawMap();
         AlarmMap& getAlarmMap();
@@ -60,6 +70,9 @@ namespace cursen {
         IntQueue& getStopRequests();
 
     private:
+
+        VoidFunction fOpen;
+        VoidFunction fClose;
 
         CursorSet cursors;
         ComponentMap componentDrawMap;

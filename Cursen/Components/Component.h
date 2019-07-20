@@ -283,29 +283,29 @@ namespace cursen {
          */
         void onArrowPress(std::function<void(const Event &)> f);
 
-        virtual /**
+         /**
          * @brief Set the callback for when a Cursor hovers over this Component
          *
          * @param f Cursor On Function
          * @sa Cursor
          */
-        void onCursor(std::function<void()> f);
+         virtual void onCursor(std::function<void()> f);
 
-        virtual /**
+        /**
          * @brief Set the callback for when a Cursor hovers away from this Component
          *
          * @param f Cursor Off Function
          * @sa Cursor
          */
-        void offCursor(std::function<void()> f);
+         virtual void offCursor(std::function<void()> f);
 
-        virtual /**
+        /**
          * @brief Set the callback for when a Cursor 'clicks' on this Component
          *
          * @param f Click Function
          * @sa Cursor
          */
-        void onClick(std::function<void()> f);
+         virtual void onClick(std::function<void()> f);
 
         /**
          * @brief Set the callback for each update cycle
