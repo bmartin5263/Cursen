@@ -85,7 +85,7 @@ CURSEN_CLASS_START
     void CursenApplication::Update()
     {
         Form* form = GetCurrentForm();
-        AlarmManager::ProcessAlarms(form->getAlarmMap());
+        AlarmManager::ProcessAlarms(form->getAlarmMap(), form->getStartRequests(), form->getStopRequests());
         InputManager::ProcessInput();
         EventManager::ProcessEvents(form->getEventDispatchMap());
         Instance().UserUpdate();
@@ -118,8 +118,9 @@ CURSEN_CLASS_START
 
     void CursenApplication::OpenForm(Form* form)
     {
-        Instance().requestFormOpen = true;
-        Instance().nextForm = form;
+        CursenApplication& instance = Instance();
+        instance.requestFormOpen = true;
+        instance.nextForm = form;
     }
 
     void CursenApplication::doFormOpen()

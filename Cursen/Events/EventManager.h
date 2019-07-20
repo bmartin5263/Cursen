@@ -29,36 +29,24 @@ namespace cursen {
 
     public:
 
-        static Event PollEvent() { return Instance().privPollEvent(); };
-        static void ProcessEvent(const Event& event) { Instance().privProcessEvent(event); }
-
-        static void ProcessEvents() { Instance().privProcessEvents(); }
         static void ProcessEvents(EventComponentMap& dispatchMap);
 
-        static void PushEvent(Event e) { Instance().privPushEvent(e); }
+        static void PushEvent(Event e) { Instance().eventQueue.push(e); }
 
         static void Register(Component& component, EventType events) { Instance().registerComponent(component, events); }
         static void Deregister(Component& component, EventType events) { Instance().deregisterComponent(component, events); }
 
-        static EventQueue* GetEventQueue() { return Instance().privGetEventQueue(); }
+        static EventQueue* GetEventQueue() { return &Instance().eventQueue; }
 
     private:
 
         // Methods
-        void processUpdates();
         void processUpdates(EventComponentMap& dispatchMap);
-        Event privPollEvent();
-        void privProcessEvent(const Event &event);
         void privProcessEvent(EventComponentMap& dispatchMap, const Event &event);
         void registerComponent(Component& component, EventType eventFlag);
         void deregisterComponent(Component& component, EventType events);
-        void privPushEvent(Event e);
-        void privProcessEvents();
-        EventQueue* privGetEventQueue();
 
         // Instance Data
-        EventComponentMap internal_dispatchMap;
-        ComponentRegistrationMap internal_registrationMap;
         EventQueue eventQueue;
 
         // Static Data

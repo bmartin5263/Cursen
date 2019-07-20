@@ -25,15 +25,15 @@ namespace cursen {
         typedef std::function<void()> VoidFunc;
         typedef std::chrono::system_clock::time_point TimePoint;
         typedef std::unordered_map<unsigned int, Alarm*> AlarmMap;
+        typedef std::queue<Alarm*> AlarmQueue;
+        typedef std::queue<unsigned int> IntQueue;
 
     public:
 
         /**
          * @brief Iterate through the alarms and call their interval functions if ready
          */
-        static void ProcessAlarms() { Instance().privProcessAlarms(); }
-
-        static void ProcessAlarms(AlarmMap& alarmMap);
+        static void ProcessAlarms(AlarmMap& alarmMap, AlarmQueue& startRequests, IntQueue& stopRequests);
 
         /**
          * @brief Stops and removes an Alarm from the update list
@@ -66,27 +66,20 @@ namespace cursen {
         static void ResetAlarm(unsigned int id);
 
         static AlarmMap& GetAlarms();
+        static IntQueue& GetStopRequests();
+        static AlarmQueue& GetStartRequests();
 
         static AlarmHandle SetTimeout(VoidFunc callback, double seconds);
-        static AlarmHandle SetAlarm(VoidFunc callback, double seconds, double max_time, VoidFunc cancel_callback);
         static AlarmHandle SetInterval(VoidFunc callback, double seconds);
 
     private:
 
         static unsigned int ID;
 
-        typedef std::queue<Alarm*> AlarmQueue;
-        typedef std::queue<unsigned int> IntQueue;
-
-        void privProcessAlarms();
         unsigned int nextId();
-        void handleStopRequests();
-        void handleStartRequests();
-        void handleStopRequests(AlarmMap& alarmMap);
-        void handleStartRequests(AlarmMap& alarmMap);
+        void handleStopRequests(AlarmMap& alarmMap, IntQueue& stopRequests) const;
+        void handleStartRequests(AlarmMap& alarmMap, AlarmQueue& startRequests) const;
 
-        AlarmQueue startRequests;       /// Queue for requests to start Alarms
-        IntQueue stopRequests;          /// Queue for requests to cancel Alarms
         AlarmMap internal_alarms;       /// Map unsigned int -> Alarm*
         TimePoint lastUpdate;           /// TimePoint for the last time ProcessAlarms was called
 

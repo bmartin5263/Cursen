@@ -61,17 +61,22 @@ namespace cursen
         return false;
     }
 
-    void Animation::start()
+    void Animation::start(bool callFirstFrame)
     {
+        // TODO callFirstFrame seems jank, better way?
         if (!running) {
             running = true;
             currentFrame = 0;
             loop_counter = 0;
 
-            nextFrame();
             if (!variable_time)
             {
                 animationHandle = AlarmManager::SetInterval(std::bind(&Animation::nextFrame, this), default_duration);
+            }
+            else
+            {
+                if (callFirstFrame) nextFrame();
+                else animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), frames[frames.size() - 1].getDuration());
             }
 
         }
@@ -81,36 +86,43 @@ namespace cursen
     {
         if (running) {
             animationHandle.cancel();
-            running = false;
-            paused = false;
+            end();
         }
     }
 
     void Animation::nextFrame()
     {
-        frames[currentFrame]();
+        callCurrentFrame();
+        double time = frames[currentFrame].getDuration();
+        if (time <= 0.0)
+        {
+            time = default_duration;
+        }
+        currentFrame = (currentFrame + 1) % numFrames;
 
         if (running && !paused)
         {
             if (variable_time)
             {
-                double time = frames[currentFrame].getDuration();
-                if (time <= 0.0)
-                {
-                    time = default_duration;
-                }
-
                 animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
             }
 
-            currentFrame = (currentFrame + 1) % numFrames;
-            if (currentFrame == 0) loop_counter++;
-
-            if (loops > 0 && loop_counter >= loops) stop();
+            if (currentFrame == 0 && loops > 0)
+            {
+                if (loop_counter >= loops)
+                {
+                    stop();
+                    callOnEnd();
+                }
+                else
+                {
+                    loop_counter++;
+                }
+            }
         }
     }
 
-    void Animation::setDuration(double time)
+    void Animation::setFrameDuration(double time)
     {
         this->default_duration = time;
     }
@@ -171,19 +183,22 @@ namespace cursen
         this->loop_counter = 0;
         this->currentFrame = 0;
         this->frames.clear();
+        detachOnEnd();
+        detachOnPause();
+        detachOnStop();
     }
 
-    void Animation::onStop(Animation::VoidFunction& f)
+    void Animation::onStop(Animation::VoidFunction f)
     {
         f_stop = f;
     }
 
-    void Animation::onPause(Animation::VoidFunction& f)
+    void Animation::onPause(Animation::VoidFunction f)
     {
         f_pause = f;
     }
 
-    void Animation::onLoopEnd(Animation::VoidFunction& f)
+    void Animation::onEnd(Animation::VoidFunction f)
     {
         f_end = f;
     }
@@ -198,7 +213,7 @@ namespace cursen
         f_pause = 0;
     }
 
-    void Animation::detachOnLoopEnd()
+    void Animation::detachOnEnd()
     {
         f_end = 0;
     }
@@ -213,9 +228,20 @@ namespace cursen
         if (f_pause) f_pause();
     }
 
-    void Animation::callOnLoopEnd()
+    void Animation::callOnEnd()
     {
         if (f_end) f_end();
+    }
+
+    void Animation::end()
+    {
+        this->running = false;
+        this->paused = false;
+    }
+
+    void Animation::callCurrentFrame()
+    {
+        frames[currentFrame]();
     }
 
 }

@@ -28,15 +28,11 @@ namespace cursen {
     }
 
     void Alarm::callInterval() {
-        if (interval_function) {
-            interval_function();
-        }
+        if (interval_function) interval_function();
     }
 
     void Alarm::callExpire() {
-        if (cancel_function) {
-            cancel_function();
-        }
+        if (cancel_function) cancel_function();
     }
 
     void Alarm::updateTime(double elapsed) {

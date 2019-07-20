@@ -20,7 +20,7 @@ namespace cursen {
         void start();
         void stop();
         void toggle();
-        void setState(const bool &on);
+        void setState(const bool on);
         bool isSpinning();
         void initialize() override;
         void setForeground(const Color &color) override;

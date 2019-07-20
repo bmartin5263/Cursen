@@ -27,7 +27,7 @@ namespace cursen {
         twirl_label.setHidden(true);
         add(&twirl_label);
 
-        animation.setDuration(.1);
+        animation.setFrameDuration(.1);
         animation.add([&]() { twirl_label.setText("/"); });
         animation.add([&]() { twirl_label.setText("-"); });
         animation.add([&]() { twirl_label.setText("\\"); });
@@ -53,7 +53,7 @@ namespace cursen {
         else start();
     }
 
-    void TwirlProgress::setState(const bool &on) {
+    void TwirlProgress::setState(const bool on) {
         if (on) start();
         else stop();
     }

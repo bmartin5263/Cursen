@@ -124,4 +124,14 @@ namespace cursen {
         componentDrawMap[order].insert(component);
     }
 
+    Form::AlarmQueue& Form::getStartRequests()
+    {
+        return startRequests;
+    }
+
+    Form::IntQueue& Form::getStopRequests()
+    {
+        return stopRequests;
+    }
+
 }

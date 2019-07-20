@@ -40,7 +40,7 @@ namespace cursen
         this->onCursor(std::bind(&StandardComponent::cursorOn, this));
         this->offCursor(std::bind(&StandardComponent::cursorOff, this));
 
-        animation.setDuration(.03);
+        animation.setFrameDuration(.03);
         animation.add([&]() { setForeground(Color::WHITE); }).setDuration(.1);
         animation.add([&]() { setForeground(Color(195)); });
         animation.add([&]() { setForeground(Color(159)); });

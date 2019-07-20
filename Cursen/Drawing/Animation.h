@@ -96,7 +96,7 @@ namespace cursen {
          *
          * @param time Seconds per frame
          */
-        void setDuration(double time);
+        void setFrameDuration(double time);
 
         /**
          * @brief Get the animation duration.
@@ -118,7 +118,7 @@ namespace cursen {
         void setVariableTime(bool value);
 
         /* Animation Control */
-        void start();
+        void start(bool callFirstFrame = true);
         void stop();
         void pause();
         void resume();
@@ -136,27 +136,30 @@ namespace cursen {
          */
         void nextFrame();
 
+        void callCurrentFrame();
+
         void clear();
 
-        void onStop(VoidFunction& f);
-        void onPause(VoidFunction& f);
-        void onLoopEnd(VoidFunction& f);
+        void onStop(VoidFunction f);
+        void onPause(VoidFunction f);
+        void onEnd(VoidFunction f);
 
         void detachOnStop();
         void detachOnPause();
-        void detachOnLoopEnd();
+        void detachOnEnd();
 
     private:
 
+        void end();
         void callOnStop();
         void callOnPause();
-        void callOnLoopEnd();
+        void callOnEnd();
 
         AlarmHandle animationHandle;
 
         VoidFunction f_stop;    // For explicit stops
         VoidFunction f_pause;   // For pauses
-        VoidFunction f_end;     // For loop ends
+        VoidFunction f_end;     // For ends
 
         double default_duration;
         size_t currentFrame;
