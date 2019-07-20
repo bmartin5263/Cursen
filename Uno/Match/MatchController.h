@@ -27,6 +27,7 @@ public:
     virtual void handleDealCards() = 0;
 
     virtual void start() = 0;
+    virtual void waitToBegin() = 0;
 
 private:
 

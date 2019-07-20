@@ -28,9 +28,9 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
-            LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
+        CONTEXT_CHECK_BEGIN
+
+            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
             if (lobbyForm->getLobby().isSearching())
             {
                 DataMessage* msg = new StopSearch;
@@ -43,7 +43,8 @@ public:
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);
             }
-        }
+
+        CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override

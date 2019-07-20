@@ -1,25 +1,22 @@
 //
-// Created by Brandon Martin on 7/14/19.
+// Created by Brandon Martin on 7/19/19.
 //
 
-#ifndef CURSEN_DEALCARDS_H
-#define CURSEN_DEALCARDS_H
+#ifndef CURSEN_BEGINGAME_H
+#define CURSEN_BEGINGAME_H
 
-#include "Uno/Data/DataManager.h"
+#include <Uno/Data/DataManager.h>
+#include <Uno/Forms/MatchForm.h>
 #include "Uno/Messages/DataMessage.h"
-#include "Uno/Match/FSM/MatchState.h"
-#include "Uno/Forms/MatchForm.h"
 #include "Uno/GameObjects/Match.h"
 
-class DealCards : public DataMessage
+class BeginGame : public DataMessage
 {
 public:
 
-    DealCards() = default;
-
     MessageType getType() override
     {
-        return MessageType::DealCards;
+        return MessageType::BeginGame;
     }
 
     Context getContext() override
@@ -32,28 +29,26 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            matchForm->dealCards();
+            matchForm->beginGame();
 
         CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override
     {
-        return new DealCards(*this);
+        return nullptr;
     }
 
     size_t serialize(char* const buffer) const override
     {
-        return 0;
+        return DataMessage::serialize(buffer);
     }
 
     size_t deserialize(const char* const buffer) override
     {
-        return 0;
+        return DataMessage::deserialize(buffer);
     }
-
-private:
 
 };
 
-#endif //CURSEN_DEALCARDS_H
+#endif //CURSEN_BEGINGAME_H

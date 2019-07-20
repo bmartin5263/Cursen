@@ -53,7 +53,7 @@ Player& Match::getMyPlayer()
 
 bool Match::canDrawCard(int player_id)
 {
-    return false;
+    return current_player_id == player_id && deck.size() > 0;
 }
 
 void Match::drawCard(int player_id)
@@ -71,4 +71,15 @@ Player& Match::getPlayerById(int player_id)
     }
     assert(false);
     return players[0];
+}
+
+void Match::drawCardByIndex(int player_index)
+{
+    Card c = deck.popCard();
+    players[player_index].getHand().add(c);
+}
+
+std::string Match::getCurrentPlayerName()
+{
+    return players[current_player_index].getName();
 }

@@ -32,11 +32,12 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
-            LobbyForm* lobby = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
+        CONTEXT_CHECK_BEGIN
+
+            LobbyForm* lobby = getCurrentForm<LobbyForm>();
             lobby->changeColor(id, new_color);
-        }
+
+        CONTEXT_CHECK_END
     }
 
     size_t sizeOf() const override

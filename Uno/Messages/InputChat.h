@@ -32,12 +32,13 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
+        CONTEXT_CHECK_BEGIN
+
             DataMessage* msg = new PushChatLog(id, message);
             msg->setSendType(SendType::Both);
             DataManager::PushMessage(msg);
-        }
+
+        CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override

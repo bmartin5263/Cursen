@@ -42,3 +42,11 @@ void MatchLocalController::handleDealCards()
 {
     getMatchForm()->dealCards();
 }
+
+void MatchLocalController::waitToBegin()
+{
+    MatchForm* matchForm = getMatchForm();
+    std::string name = matchForm->getMatch()->getCurrentPlayerName();
+    matchForm->setConsoleMessage("First Turn will be " + name + ". Press Enter To Begin.");
+    matchForm->setState(&MatchFSM::waitingToBeginState);
+}

@@ -17,6 +17,7 @@ public:
     void start() override;
     void pressEnter() override;
     void handleDealCards() override;
+    void waitToBegin() override;
 
 };
 

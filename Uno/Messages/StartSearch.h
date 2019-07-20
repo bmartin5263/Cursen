@@ -26,11 +26,12 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
+        CONTEXT_CHECK_BEGIN
+
             LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
             lobbyForm->getController().handleStartSearch();
-        }
+
+        CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override

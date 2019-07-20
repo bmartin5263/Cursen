@@ -209,25 +209,17 @@ void MatchForm::switchPileCard()
 
 void MatchForm::dealCards()
 {
-    console.setMessage("Dealing Cards...");
     state = &MatchFSM::animationState;
-    card_deal_animation.clear();
-    card_deal_animation.add([&]()
-    {
-        getMatch()->getDeck().popCard();
-        setDeckMeterCount(getMatch()->getDeck().size());
-    });
-    card_deal_animation.setFrameDuration(.05);
-    card_deal_animation.setLoops(6);
-    card_deal_animation.start();
+    console.setMessage("Dealing Cards...");
+    dealCardsEventController.run(this, (size_t)match->getNumPlayers(), 7);
 }
 
-void MatchForm::setConsoleMessage(std::string& msg)
+void MatchForm::setConsoleMessage(std::string msg)
 {
     this->console.setText(msg);
 }
 
-void MatchForm::setConsoleWarning(std::string& msg)
+void MatchForm::setConsoleWarning(std::string  msg)
 {
     this->console.setWarning(msg);
 }
@@ -256,4 +248,14 @@ MatchController* MatchForm::getController()
 const MatchState* MatchForm::getState()
 {
     return state;
+}
+
+void MatchForm::waitToBegin()
+{
+    controller->waitToBegin();
+}
+
+void MatchForm::beginGame()
+{
+    setConsoleMessage("Beginning Game");
 }

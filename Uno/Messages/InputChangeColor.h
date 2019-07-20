@@ -31,15 +31,16 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
-            auto lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
+        CONTEXT_CHECK_BEGIN
+
+            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
             PlayerColor new_color = lobbyForm->getLobby().getAvailableColor();
 
             DataMessage* msg = new ChangeColor(id, new_color);
             msg->setSendType(SendType::Both);
             DataManager::PushMessage(msg);
-        }
+
+        CONTEXT_CHECK_END
     }
 
     size_t sizeOf() const override

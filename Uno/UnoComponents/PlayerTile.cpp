@@ -56,8 +56,7 @@ void PlayerTile::injectPlayer(const Player& player)
 
 void PlayerTile::setCardCount(size_t count)
 {
-    if (count == 1) player_cards.emplaceText("1 Card");
-    else player_cards.emplaceText(std::to_string(count) + " Cards");
+    player_cards.emplaceText(std::to_string(count) + " Cards");
 }
 
 void PlayerTile::setName(const std::string& name)

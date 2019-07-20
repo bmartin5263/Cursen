@@ -30,11 +30,12 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
-            auto* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
+        CONTEXT_CHECK_BEGIN
+
+            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
             lobbyForm->getController().handleDisconnect(getSender());
-        }
+
+        CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override

@@ -13,6 +13,9 @@
 #include "Uno/Lobby/LobbyController.h"
 #include "Cursen/CursenApplication.h"
 
+#define CONTEXT_CHECK_BEGIN if (DataManager::GetContext() == getContext()) {
+#define CONTEXT_CHECK_END }
+
 class DataMessage : public Serializable
 {
 
@@ -46,6 +49,9 @@ public:
     int getSender() { return senderId; }
 
     size_t sizeOf() const override;
+
+    template<typename T>
+    T* getCurrentForm();
 
 private:
 

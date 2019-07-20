@@ -6,4 +6,5 @@
 
 void AnimationState::pressEnter(MatchForm& matchForm) const
 {
+    // Do Nothing Intentionally
 }

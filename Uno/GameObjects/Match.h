@@ -23,11 +23,14 @@ public:
     Player& getMyPlayer();
     Player& getPlayerById(int player_id);
 
+    std::string getCurrentPlayerName();
+
     int getNumPlayers();
     int getMyId();
 
     bool canDrawCard(int player_id);
     void drawCard(int player_id);
+    void drawCardByIndex(int player_index);
 
 private:
 

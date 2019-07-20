@@ -31,11 +31,12 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
-            LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
+        CONTEXT_CHECK_BEGIN
+
+            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
             lobbyForm->getController().handleKickPlayer(id_to_kick);
-        }
+
+        CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override

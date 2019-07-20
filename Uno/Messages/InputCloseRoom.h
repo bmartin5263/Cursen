@@ -34,15 +34,16 @@ public:
 
     void execute() override
     {
-        if (DataManager::GetContext() == getContext())
-        {
-            LobbyForm* lobbyForm = (LobbyForm*)cursen::CursenApplication::GetCurrentForm();
+        CONTEXT_CHECK_BEGIN
+
+            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
             if (id == lobbyForm->getLobby().getMyId())
             {
                 // Security - the host should reject messages without the host's id
                 lobbyForm->getController().sendCloseMessages();
             }
-        }
+
+        CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override

@@ -8,6 +8,7 @@
 
 #include "WaitingToDealCardsState.h"
 #include "AnimationState.h"
+#include "WaitingToBeginState.h"
 
 class MatchFSM
 {
@@ -15,6 +16,7 @@ class MatchFSM
 public:
 
     static const WaitingToDealCardsState waitingToDealCardsState;
+    static const WaitingToBeginState waitingToBeginState;
     static const AnimationState animationState;
 
 };

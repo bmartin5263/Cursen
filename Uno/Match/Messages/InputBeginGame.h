@@ -1,30 +1,29 @@
 //
-// Created by Brandon Martin on 7/14/19.
+// Created by Brandon Martin on 7/19/19.
 //
 
-#ifndef CURSEN_INPUTENTERMESSAGE_H
-#define CURSEN_INPUTENTERMESSAGE_H
+#ifndef CURSEN_INPUTBEGINGAME_H
+#define CURSEN_INPUTBEGINGAME_H
 
 #include "Uno/Data/DataManager.h"
 #include "Uno/Messages/DataMessage.h"
 #include "Uno/Match/FSM/MatchState.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/GameObjects/Match.h"
-#include "DealCards.h"
 #include "BeginGame.h"
 
-class InputDealCards : public DataMessage
+class InputBeginGame : public DataMessage
 {
 public:
 
-    InputDealCards() = default;
+    InputBeginGame() = default;
 
-    InputDealCards(int id) : id(id)
+    InputBeginGame(int id) : id(id)
     {}
 
     MessageType getType() override
     {
-        return MessageType::InputDealCards;
+        return MessageType::InputBeginGame;
     }
 
     Context getContext() override
@@ -39,7 +38,7 @@ public:
             MatchForm* matchForm = getCurrentForm<MatchForm>();
             if (matchForm->getMatch()->getMyId() == id)
             {
-                DataMessage* msg = new DealCards;
+                DataMessage* msg = new BeginGame;
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);
             }
@@ -49,7 +48,7 @@ public:
 
     DataMessage* clone() override
     {
-        return new InputDealCards(*this);
+        return new InputBeginGame(*this);
     }
 
     size_t serialize(char* const buffer) const override
@@ -76,4 +75,4 @@ private:
 
 };
 
-#endif //CURSEN_INPUTENTERMESSAGE_H
+#endif //CURSEN_INPUTBEGINGAME_H
