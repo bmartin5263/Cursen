@@ -49,14 +49,14 @@ namespace cursen {
          *
          * @return Draw Order
          */
-        virtual int getDrawOrder() const;
+        virtual size_t getDrawOrder() const;
 
          /**
          * @brief Set the draw order for this Component
          *
          * @param order New Draw Order
          */
-        virtual void setDrawOrder(int order);
+        virtual void setDrawOrder(const size_t order);
 
         /**
          * @brief Set the draw order for this Component to be greater than the other Component's draw order
@@ -407,7 +407,7 @@ namespace cursen {
         Component* parent;
         std::vector<Component*> children;
         Vect2 position;
-        int drawOrder;
+        size_t drawOrder;
 
         bool enabled;   /// True if Component is active, False if otherwise
         bool invalid;   /// True if Component needs to be re-rendered, False if otherwise

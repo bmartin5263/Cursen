@@ -44,7 +44,7 @@ namespace cursen {
         CursenApplication::Deregister(this);
     }
 
-    void TextComponent::setDrawOrder(int order)
+    void TextComponent::setDrawOrder(const size_t order)
     {
         CursenApplication::SetDrawOrder(this, order);
         Component::setDrawOrder(order);

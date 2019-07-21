@@ -365,13 +365,12 @@ namespace cursen
     {
     }
 
-    int Component::getDrawOrder() const
+    size_t Component::getDrawOrder() const
     {
-        // TODO AggregateComponent needs a better way to get its draw order
         return drawOrder;
     }
 
-    void Component::setDrawOrder(int order)
+    void Component::setDrawOrder(const size_t order)
     {
         drawOrder = order;
     }

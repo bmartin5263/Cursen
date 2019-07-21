@@ -8,6 +8,7 @@
 #include "Form.h"
 #include "Component.h"
 #include "Cursen/Cursor/Cursor.h"
+#include "Cursen/CursenApplication.h"
 
 namespace cursen {
 
@@ -118,7 +119,7 @@ namespace cursen {
         return eventRegistrationMap;
     }
 
-    void Form::setDrawOrder(TextComponent* component, int order)
+    void Form::setDrawOrder(TextComponent* component, size_t order)
     {
         componentDrawMap[component->getDrawOrder()].erase(component);
         componentDrawMap[order].insert(component);
@@ -162,6 +163,16 @@ namespace cursen {
     void Form::CallOnClose()
     {
         if (fClose) fClose();
+    }
+
+    void Form::closeForm()
+    {
+        cursen::CursenApplication::CloseForm();
+    }
+
+    void Form::openForm(Form* form)
+    {
+        cursen::CursenApplication::OpenForm(form);
     }
 
 }

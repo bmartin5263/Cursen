@@ -42,7 +42,7 @@ namespace cursen {
         }
     }
 
-    void AggregateComponent::setDrawOrder(int order)
+    void AggregateComponent::setDrawOrder(const size_t order)
     {
         int curr = getDrawOrder();
         if (curr != order)

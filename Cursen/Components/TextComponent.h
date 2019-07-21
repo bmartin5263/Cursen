@@ -25,7 +25,7 @@ namespace cursen {
         virtual Vect2 getSize();
 
         virtual Content& getContent();
-        void setDrawOrder(int order) override;
+        void setDrawOrder(const size_t order) override;
         void addDrawOrder(int value) override;
 
     private:

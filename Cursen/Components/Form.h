@@ -44,13 +44,16 @@ namespace cursen {
 
         void registerComponent(TextComponent* component);
         void deregisterComponent(TextComponent* component);
-        void setDrawOrder(TextComponent* component, int order);
+        void setDrawOrder(TextComponent* component, size_t order);
 
         void registerCursor(Cursor* cursor);
         void deregisterCursor(Cursor* cursor);
 
         void registerForEvents(Component* component, EventType events);
         void deregisterForEvents(Component* component, EventType events);
+
+        void closeForm();
+        void openForm(Form* form);
 
         virtual void onOpen(VoidFunction f);
         virtual void onClose(VoidFunction f);

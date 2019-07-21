@@ -21,16 +21,14 @@ CURSEN_CLASS_START
 
     CursenApplication::CursenApplication() :
             currentForm(nullptr), running(false), argc(0), argv(nullptr), nextForm(nullptr), requestFormClose(false),
-            requestFormOpen(false), requestFormSet(false)
+            requestFormOpen(false), requestFormSet(false), UserUpdate([](){}), UserDraw([](){})
     {
         initialize();
     }
 
     void CursenApplication::initialize()
     {
-        srand((unsigned) time(0));
-        UserUpdate = [](){};
-        UserDraw = [](){};
+        srand((unsigned) time(nullptr));
     }
 
     /*
@@ -145,16 +143,20 @@ CURSEN_CLASS_START
 
         std::stack<Form*>& form_stack = Instance().form_stack;
         Form* current_form = form_stack.top();
+
         current_form->CallOnClose();
         delete current_form;
 
         form_stack.pop();
+
         if (form_stack.empty())
         {
             Quit();
         }
-
-        form_stack.top()->CallOnOpen();
+        else
+        {
+            form_stack.top()->CallOnOpen();
+        }
     }
 
     void CursenApplication::OnUpdate(UserFunction user_callback)

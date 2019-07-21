@@ -20,7 +20,7 @@ namespace cursen {
         virtual void setEnabled(bool value) override;
         virtual void setPosition(const Vect2& pos) override;
         virtual void setForeground(const Color &color) override;
-        virtual void setDrawOrder(int order) override;
+        virtual void setDrawOrder(const size_t order) override;
         virtual void setHighlight(const ColorPair& colorPair) override;
 
         void move(const Vect2& movement) override;
