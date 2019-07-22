@@ -121,8 +121,13 @@ namespace cursen {
 
     void Form::setDrawOrder(TextComponent* component, size_t order)
     {
-        componentDrawMap[component->getDrawOrder()].erase(component);
-        componentDrawMap[order].insert(component);
+        size_t currentDrawOrder = component->getDrawOrder();
+        auto it = componentDrawMap[currentDrawOrder].find(component);
+        if (it != componentDrawMap[currentDrawOrder].end())
+        {
+            componentDrawMap[currentDrawOrder].erase(component);
+            componentDrawMap[order].insert(component);
+        }
     }
 
     Form::AlarmQueue& Form::getStartRequests()

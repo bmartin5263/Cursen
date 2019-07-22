@@ -36,36 +36,37 @@ CURSEN_CLASS_START
      */
     void CursenApplication::Run(Form* startupForm)
     {
+        CursenApplication& instance = Instance();
         putenv(const_cast<char *>("ESCDELAY=25"));
 
         StopWatch watch;
 
         /* Start the Engine */
-        Instance().running = true;
+        instance.running = true;
 
         /* Very Important! Curses must be initialized BEFORE we call initialize on a Form */
         CursesManager::Initialize(startupForm->getSize());
-        Instance().OpenForm(startupForm);
-        Instance().doFormOpen();
+        instance.OpenForm(startupForm);
+        instance.doFormOpen();
 
         /* Draw the Initial Screen */
         Draw();
 
-        while (Instance().running)
+        while (instance.running)
         {
             watch.tick();
 
-            if (Instance().nextForm != nullptr)
+            if (instance.nextForm != nullptr)
             {
-                Instance().doFormOpen();
+                instance.doFormOpen();
             }
 
             Update();
             Draw();
 
-            if (Instance().requestFormClose)
+            if (instance.requestFormClose)
             {
-                Instance().doFormClose();
+                instance.doFormClose();
             }
 
             watch.tock();
@@ -228,7 +229,7 @@ CURSEN_CLASS_START
         //}
     }
 
-    void CursenApplication::SetDrawOrder(TextComponent* component, int order)
+    void CursenApplication::SetDrawOrder(TextComponent* component, size_t order)
     {
         GetCurrentForm()->setDrawOrder(component, order);
     }

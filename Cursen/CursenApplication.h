@@ -82,7 +82,7 @@ CURSEN_CLASS_START
 
         static void Register(TextComponent* component);
         static void Deregister(TextComponent* component);
-        static void SetDrawOrder(TextComponent* component, int order);
+        static void SetDrawOrder(TextComponent* component, size_t order);
 
         static void RegisterToCurrentForm(TextComponent* component);
         static void DeregisterFromCurrentForm(TextComponent* component);

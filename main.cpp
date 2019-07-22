@@ -109,7 +109,6 @@ int main(int argc, char **argv)
 //    CursesManager::Terminate();
 
 
-    //std::this_thread::sleep_for(std::chrono::seconds(7));
     //We have networking for this program
     CursenApplication::OnUpdate([]() {
         NetworkManager::ProcessNetworkMessages();
@@ -118,6 +117,7 @@ int main(int argc, char **argv)
 
     CursenApplication::SetCommandLineArgs(argc, argv);
 
+    std::this_thread::sleep_for(std::chrono::seconds(7));
     CursenApplication::Run(new LobbyForm());
 
 }
