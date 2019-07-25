@@ -25,7 +25,7 @@ void Deck::InitializeDeck(Deck& deck)
         deck.pushCard(Card(CardColors::WHITE, CardValues::WILD));
         deck.pushCard(Card(CardColors::WHITE, CardValues::PLUS_4));
     }
-    std::random_shuffle(deck.getDeckContainer().begin(), deck.getDeckContainer().end());
+    std::random_shuffle(deck.getDeckContainer().begin(), deck.getDeckContainer().end(), RNG());
 }
 
 void Deck::pushCard(const Card& card) {

@@ -32,25 +32,25 @@ void TestForm::initialize() {
     flashLabel.setPosition(cursen::Vect2(1,1));
     //flashLabel.setSize(cursen::Vect2(40,1));
     flashLabel.setText("Flash");
-    flashLabel.onClick(std::bind(&TestForm::flash, this));
+    flashLabel.onClick([&]() { this->flash(); });
 
     beepLabel.initialize();
     beepLabel.setPosition(cursen::Vect2(1,2));
     //beepLabel.setSize(cursen::Vect2(40,1));
     beepLabel.setText("Beep");
-    beepLabel.onClick(std::bind(&TestForm::beep, this));
+    beepLabel.onClick([&]() { this->beep(); });
 
     changeColorLabel.initialize();
     changeColorLabel.setPosition(cursen::Vect2(1,3));
     changeColorLabel.setSize(cursen::Vect2(40,1));
     changeColorLabel.setText("Change Color");
-    changeColorLabel.onClick(std::bind([&]() { rainbow.nextFrame(); }));
+    changeColorLabel.onClick([&]() { rainbow.nextFrame(); });
 
     exitLabel.initialize();
     exitLabel.setPosition(cursen::Vect2(1,4));
     exitLabel.setSize(cursen::Vect2(40,1));
     exitLabel.setText("Exit");
-    exitLabel.onClick(std::bind(&TestForm::quitGame, this));
+    exitLabel.onClick([&]() { this->quitGame(); });
 
     smileyFace.initialize();
     smileyFace.setPosition(cursen::Vect2(30,30));
@@ -68,17 +68,17 @@ void TestForm::initialize() {
     checkBox.setPosition(cursen::Vect2(1,6));
     checkBox.setText("Exit Enabled");
     checkBox.setState(cursen::CheckState::INDETERMINATE);
-    checkBox.onClick(std::bind(&TestForm::disable, this));
+    checkBox.onClick([&]() { this->disable(); });
 
     checkBox2.initialize();
     checkBox2.setPosition(cursen::Vect2(1,7));
     checkBox2.setText("Rainbow Enabled");
-    checkBox2.onClick(std::bind(&TestForm::doRainbow, this));
+    checkBox2.onClick([&]() { this->doRainbow(); });
 
     twirlCheck.initialize();
     twirlCheck.setPosition(cursen::Vect2(1,8));
     twirlCheck.setText("Twirl Enabled");
-    twirlCheck.onClick(std::bind(&TestForm::activateTwirl, this));
+    twirlCheck.onClick([&]() { this->activateTwirl(); });
 
     twirlProgress.initialize();
     twirlProgress.setPosition(cursen::Vect2(20, 4));
@@ -111,7 +111,7 @@ void TestForm::initialize() {
     cursor.mapComponent(&pressMe, cursen::ArrowMap(nullptr, &twirlCheck, nullptr, &flashLabel));
     cursor.setEnabled(true);
 
-    onKeyPress(std::bind(&TestForm::keyPress, this, std::placeholders::_1));
+    onKeyPress([&](const cursen::Event& event) { this->keyPress(event); });
 
     rainbow.setFrameDuration(.06f);
     rainbow.add([&]() { box.setForeground(cursen::Color::RED); });
@@ -179,12 +179,10 @@ void TestForm::disable() {
 void TestForm::doRainbow() {
     static bool flashing = false;
     if (flashing) {
-        //animation.stop();
         rainbow.stop();
         box.setForeground(cursen::Color::WHITE);
     }
     else {
-        //cursen::AlarmManager::StartAlarm(this, std::bind(&TestForm::alarmFunction, this), .06);
         rainbow.start();
     }
     flashing = !flashing;

@@ -119,10 +119,10 @@ void PlayerStaging::enableCursor()
 
 void PlayerStaging::setCallBacks(LobbyForm* lobby)
 {
-    stages[0].onClick(std::bind(&LobbyForm::selectPlayerToRemove, lobby, 0));
-    stages[1].onClick(std::bind(&LobbyForm::selectPlayerToRemove, lobby, 1));
-    stages[2].onClick(std::bind(&LobbyForm::selectPlayerToRemove, lobby, 2));
-    stages[3].onClick(std::bind(&LobbyForm::selectPlayerToRemove, lobby, 3));
+    stages[0].onClick([=]() { lobby->selectPlayerToRemove(0); });
+    stages[1].onClick([=]() { lobby->selectPlayerToRemove(1); });
+    stages[2].onClick([=]() { lobby->selectPlayerToRemove(2); });
+    stages[3].onClick([=]() { lobby->selectPlayerToRemove(3); });
 }
 
 void PlayerStaging::disableCursor()

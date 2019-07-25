@@ -27,10 +27,14 @@ public:
 
     int getNumPlayers();
     int getMyId();
+    int getId(int player_index);
+    int getIndex(int player_id);
 
     bool canDrawCard(int player_id);
     void drawCard(int player_id);
     void drawCardByIndex(int player_index);
+
+    bool canPlayCard(int player_id, int card_index);
 
 private:
 

@@ -15,7 +15,7 @@
 using namespace cursen;
 
 MatchForm::MatchForm(LobbyType type, Match* match) :
-        Form(cursen::Vect2(70, 33)), match(match), card_index(0), hand_index(0)
+        Form(cursen::Vect2(70, 33)), match(match), card_index(-1), hand_index(0)
 {
     switch (type)
     {
@@ -39,7 +39,6 @@ MatchForm::~MatchForm()
 
 void MatchForm::initialize()
 {
-    DataManager::SetContext(Context::ContextMatch);
     welcome.initialize();
     welcome.setPosition(Vect2(0,0));
     welcome.setText("Welcome to the Match!");
@@ -108,10 +107,9 @@ void MatchForm::initialize()
         card_array[i].initialize();
         card_array[i].setPosition(Vect2(x + (4 * i), 27));
         card_array[i].setHidden(true);
-        card_array[i].onClick(std::bind(&MatchForm::clickCard, this));
+        card_array[i].onClick([&]() { this->clickCard(); });
     }
 
-    //back_card.initialize();
     back_card.initialize();
     back_card.setPosition(Vect2(27,8));
     back_card.setHidden(true);
@@ -121,23 +119,6 @@ void MatchForm::initialize()
     front_card.drawOnTopOf(back_card);
     front_card.setHidden(true);
 
-//    card_cursor.moveTo(&card_array[0]);
-//    card_cursor.mapComponent(&card_array[0], ArrowMap(&card_array[13], nullptr, &card_array[1], nullptr));
-//    card_cursor.mapComponent(&card_array[1], ArrowMap(&card_array[0], nullptr, &card_array[2], nullptr));
-//    card_cursor.mapComponent(&card_array[2], ArrowMap(&card_array[1], nullptr, &card_array[3], nullptr));
-//    card_cursor.mapComponent(&card_array[3], ArrowMap(&card_array[2], nullptr, &card_array[4], nullptr));
-//    card_cursor.mapComponent(&card_array[4], ArrowMap(&card_array[3], nullptr, &card_array[5], nullptr));
-//    card_cursor.mapComponent(&card_array[5], ArrowMap(&card_array[4], nullptr, &card_array[6], nullptr));
-//    card_cursor.mapComponent(&card_array[6], ArrowMap(&card_array[5], nullptr, &card_array[7], nullptr));
-//    card_cursor.mapComponent(&card_array[7], ArrowMap(&card_array[6], nullptr, &card_array[8], nullptr));
-//    card_cursor.mapComponent(&card_array[8], ArrowMap(&card_array[7], nullptr, &card_array[9], nullptr));
-//    card_cursor.mapComponent(&card_array[9], ArrowMap(&card_array[8], nullptr, &card_array[10], nullptr));
-//    card_cursor.mapComponent(&card_array[10], ArrowMap(&card_array[9], nullptr, &card_array[11], nullptr));
-//    card_cursor.mapComponent(&card_array[11], ArrowMap(&card_array[10], nullptr, &card_array[12], nullptr));
-//    card_cursor.mapComponent(&card_array[12], ArrowMap(&card_array[11], nullptr, &card_array[13], nullptr));
-//    card_cursor.mapComponent(&card_array[13], ArrowMap(&card_array[12], nullptr, &card_array[0], nullptr));
-//    card_cursor.setEnabled(true);
-
     tile_array[0] = &p0Tile;
     tile_array[1] = &p1Tile;
     tile_array[2] = &p2Tile;
@@ -145,7 +126,11 @@ void MatchForm::initialize()
 
     start();
 
-    onEnterPress(std::bind(&MatchForm::enterPress, this, std::placeholders::_1));
+    onEnterPress([&](const Event& event) { this->enterPress(event); });
+    onArrowPress([&](const Event& event) { this->arrowPress(event); });
+    onKeyPress([&](const Event& event) { this->keyPress(event); });
+
+    onOpen([]() { DataManager::SetContext(Context::ContextMatch); });
 }
 
 void MatchForm::clickCard()
@@ -180,6 +165,7 @@ void MatchForm::updatePlayers()
     }
 }
 
+
 void MatchForm::setDeckMeterCount(size_t size)
 {
     deckMeter.setCardCount(size);
@@ -204,7 +190,10 @@ void MatchForm::setHandName(std::string name)
 
 void MatchForm::switchPileCard()
 {
-    // TODO
+    size_t bottom_card_order = back_card.getDrawOrder();
+    size_t top_card_order = front_card.getDrawOrder();
+    front_card.setDrawOrder(bottom_card_order);
+    back_card.setDrawOrder(top_card_order);
 }
 
 void MatchForm::dealCards()
@@ -226,13 +215,7 @@ void MatchForm::setConsoleWarning(std::string  msg)
 
 void MatchForm::enterPress(const cursen::Event& event)
 {
-    switch (event.key.code)
-    {
-        case CursesManager::ENTER:
-            state->pressEnter(*this);
-        default:
-            break;
-    }
+    state->pressEnter(*this);
 }
 
 void MatchForm::setState(const MatchState* state)
@@ -257,5 +240,127 @@ void MatchForm::waitToBegin()
 
 void MatchForm::beginGame()
 {
-    setConsoleMessage("Beginning Game");
+    closeForm();
+}
+
+void MatchForm::updateHand()
+{
+    Player& p = match->getMyPlayer();
+    Hand& hand = p.getHand();
+    int start = 14 * hand_index;
+    size_t hand_size = hand.size();
+    while (start > hand_size && hand_index > 0)
+    {
+        --hand_index;
+        start = 14 * hand_index;
+    }
+    int count = 0;
+    for (; start < hand_size; ++start)
+    {
+        const Card& c = hand.get(start);
+        card_array[count].setHidden(false);
+        card_array[count++].injectCard(c);
+        if (count == 14) break;
+    }
+    for (; count < 14; ++count)
+    {
+        card_array[count].setHidden(true);
+    }
+
+    if (hand_size == 0) {
+        card_array[card_index].hoverOff();
+        card_index = -1;
+    }
+    else if (card_index == -1)
+    {
+        card_index = 0;
+        card_array[card_index].hoverOn();
+    }
+}
+
+void MatchForm::drawCardByIndex(int index)
+{
+    int id = match->getId(index);
+    match->drawCardByIndex(index);
+    tile_array[index]->setCardCount(match->getPlayers()[index].getHandSize());
+    setDeckMeterCount(match->getDeckSize());
+    if (id == match->getMyId())
+    {
+        updateHand();
+    }
+}
+
+void MatchForm::drawCard(int player_id)
+{
+    int index = match->getIndex(player_id);
+    match->drawCard(player_id);
+    tile_array[index]->setCardCount(match->getPlayerById(player_id).getHandSize());
+    setDeckMeterCount(match->getDeckSize());
+    if (player_id == match->getMyId())
+    {
+        updateHand();
+        card_array[card_index].hoverOff();
+        card_index = (int)(match->getMyPlayer().getHandSize() % 14) - 1;
+        card_array[card_index].hoverOn();
+    }
+}
+
+void MatchForm::playCard(int player_id, int card_index)
+{
+    //int index = match->getIndex(player_id);
+
+    if (player_id == match->getMyId())
+    {
+        updateHand();
+        card_array[card_index].hoverOff();
+        card_index = (int)(match->getMyPlayer().getHandSize() % 14) - 1;
+        card_array[card_index].hoverOn();
+    }
+}
+
+void MatchForm::arrowPress(const cursen::Event& event)
+{
+    if (card_index > -1)
+    {
+        if (event.arrowPress.left)
+        {
+            if (card_index > 0)
+            {
+                card_array[card_index--].hoverOff();
+                card_array[card_index].hoverOn();
+            }
+        }
+        else if (event.arrowPress.right)
+        {
+            if (card_index < match->getMyPlayer().getHandSize() - 1)
+            {
+                card_array[card_index++].hoverOff();
+                card_array[card_index].hoverOn();
+            }
+        }
+    }
+}
+
+void MatchForm::keyPress(const cursen::Event& event)
+{
+    switch (event.key.code)
+    {
+        case 'D':
+        case 'd':
+            state->pressD(*this);
+            break;
+        case 'F':
+        case 'f':
+            switchPileCard();
+            break;
+        case ' ':
+            state->pressSpace(*this);
+        default:
+            break;
+    }
+}
+
+int MatchForm::getSelectedCardIndex()
+{
+    return (hand_index * 14) + card_index;
 }

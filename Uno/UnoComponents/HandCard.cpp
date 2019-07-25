@@ -37,8 +37,8 @@ void HandCard::initialize()
     lowerLabel.setText("? ");
     addRelative(&lowerLabel);
 
-    onCursor(std::bind(&HandCard::hoverOn, this));
-    offCursor(std::bind(&HandCard::hoverOff, this));
+    onCursor([&]() { this->hoverOn(); });
+    offCursor([&]() { this->hoverOff(); });
 
     this->color = Color::WHITE;
 
@@ -71,16 +71,22 @@ void HandCard::setRight()
 
 void HandCard::hoverOn()
 {
-    move(Vect2(0, -1));
-    hovered = true;
+    if (!hovered)
+    {
+        move(Vect2(0, -1));
+        hovered = true;
+    }
 }
 
 void HandCard::hoverOff()
 {
-    move(Vect2(0, 1));
-    if (wild) animation.start();
-    else setForeground(this->color);
-    hovered = false;
+    if (hovered)
+    {
+        move(Vect2(0, 1));
+        if (wild) animation.start();
+        else setForeground(this->color);
+        hovered = false;
+    }
 }
 
 void HandCard::injectCard(const Card& card)

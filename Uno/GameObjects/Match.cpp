@@ -53,7 +53,7 @@ Player& Match::getMyPlayer()
 
 bool Match::canDrawCard(int player_id)
 {
-    return current_player_id == player_id && deck.size() > 0;
+    return true;
 }
 
 void Match::drawCard(int player_id)
@@ -82,4 +82,44 @@ void Match::drawCardByIndex(int player_index)
 std::string Match::getCurrentPlayerName()
 {
     return players[current_player_index].getName();
+}
+
+int Match::getId(int player_index)
+{
+    return players[player_index].getId();
+}
+
+int Match::getIndex(int player_id)
+{
+    for (int i = 0; i < num_players; ++i)
+    {
+        if (players[i].getId() == player_id) return i;
+    }
+    return -1;
+}
+
+bool Match::canPlayCard(int player_id, int card_index)
+{
+    if (current_player_id == player_id && pile.size() > 0)
+    {
+        Hand& hand = getPlayerById(player_id).getHand();
+        size_t hand_size = hand.size();
+        if (card_index >= 0 && card_index < hand_size)
+        {
+            const Card& card = hand.get(card_index);
+            const Card& top_card = pile.peekCard();
+            if (card.isWild() && !hand.hasPlayableCardFor(card))
+            {
+                return true;
+            }
+            else
+            {
+                if (card.getColor() == top_card.getColor() || card.getValue() == top_card.getValue())
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

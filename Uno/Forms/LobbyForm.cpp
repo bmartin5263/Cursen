@@ -39,52 +39,51 @@ void LobbyForm::initialize()
     start_button.setLength(34);
     start_button.setText("Start Game");
     start_button.setEnabled(false);
-    start_button.onClick(std::bind(&LobbyForm::clickStart, this));
+    start_button.onClick([&]() { this->clickStart(); });
 
     add_ai_button.initialize();
     add_ai_button.setPosition(cursen::Vect2(1, 19));
     add_ai_button.setLength(17);
     add_ai_button.setText("Add AI");
     add_ai_button.setEnabled(false);
-    add_ai_button.onClick(std::bind(&LobbyForm::clickAddAI, this));
+    add_ai_button.onClick([&]() { this->clickAddAI(); });
 
     search_button.initialize();
     search_button.setPosition(cursen::Vect2(18, 19));
     search_button.setLength(17);
     search_button.setText("Search");
     search_button.setEnabled(false);
-    search_button.onClick(std::bind(&LobbyForm::clickSearch, this));
+    search_button.onClick([this]() { clickSearch(); });
 
     kick_button.initialize();
     kick_button.setPosition(cursen::Vect2(1, 22));
     kick_button.setLength(34);
     kick_button.setText("Kick Player");
     kick_button.setEnabled(false);
-    kick_button.onClick(std::bind(&LobbyForm::clickKick, this));
+    kick_button.onClick([this]() { clickKick(); });
 
     close_button.initialize();
     close_button.setPosition(cursen::Vect2(1, 25));
     close_button.setLength(34);
     close_button.setText("Close Room");
     close_button.setEnabled(false);
-    close_button.onClick(std::bind(&LobbyForm::clickClose, this));
+    close_button.onClick([this]() { clickClose(); });
 
     change_color_button.initialize();
     change_color_button.setPosition(cursen::Vect2(1, 28));
     change_color_button.setLength(17);
     change_color_button.setText("Change Color");
     change_color_button.setEnabled(false);
-    change_color_button.onClick(std::bind(&LobbyForm::clickChangeColor, this));
+    change_color_button.onClick([this]() { clickChangeColor(); });
 
     chat_button.initialize();
     chat_button.setPosition(cursen::Vect2(18, 28));
     chat_button.setLength(17);
     chat_button.setText("Chat");
     chat_button.setEnabled(false);
-    chat_button.onClick(std::bind(&LobbyForm::clickChat, this));
+    chat_button.onClick([&]() { this->clickChat(); });
 
     console.initialize();
-    //console.setWarning("                  Developed By Brandon Martin");
 
     playerStaging.initialize();
     playerStaging.setCallBacks(this);
@@ -97,15 +96,15 @@ void LobbyForm::initialize()
 
     mode_select_box.initialize();
     mode_select_box.setPosition(cursen::Vect2(17, 7));
-    mode_select_box.onLocalClick(std::bind(&LobbyForm::clickLocal, this));
-    mode_select_box.onHostClick(std::bind(&LobbyForm::clickHost, this));
-    mode_select_box.onJoinClick(std::bind(&LobbyForm::clickJoin, this));
-    mode_select_box.onExitClick(std::bind(&LobbyForm::clickExit, this));
+    mode_select_box.onLocalClick([this]() { clickLocal(); });
+    mode_select_box.onHostClick([this]() { clickHost(); });
+    mode_select_box.onJoinClick([this]() { clickJoin(); });
+    mode_select_box.onExitClick([this]() { clickExit(); });
     mode_select_box.setLobby(this);
 
     chat_box.initialize();
     chat_box.setPosition(cursen::Vect2(35, 16));
-    chat_box.onEscapePress(std::bind(&LobbyForm::stopChat, this));
+    chat_box.onEscapePress([this](const cursen::Event& event) { stopChat(); });
     chat_box.setActive(false);
     chat_box.setEnabled(false);
 
@@ -115,7 +114,7 @@ void LobbyForm::initialize()
     }
     else {
         mode_select_box.getMainPlayerStage().activateTextField();
-        mode_select_box.getMainPlayerStage().getTextField().onEnterPress(std::bind(&LobbyForm::setMainPlayerName, this));
+        mode_select_box.getMainPlayerStage().getTextField().onEnterPress([&](const cursen::Event& event) { this->setMainPlayerName(); });
     }
 
     lobby_cursor.initialize();
@@ -133,7 +132,6 @@ void LobbyForm::initialize()
                                                              &start_button));
     glowBorder.initialize();
     glowBorder.setDrawOrder(10);
-    //glowBorder.setEnabled(true);
     glowBorder.colorize();
 
     onUpdate([&]() {
@@ -149,7 +147,7 @@ void LobbyForm::initialize()
         }
     });
 
-    DataManager::SetContext(Context::ContextLobby);
+    onOpen([]() { DataManager::SetContext(Context::ContextLobby); });
 }
 
 void LobbyForm::initializeForLocal()
@@ -412,7 +410,7 @@ void LobbyForm::clickHost()
 
 void LobbyForm::clickJoin()
 {
-    mode_select_box.startIpEntry(std::bind(&LobbyForm::tryJoin, this));
+    mode_select_box.startIpEntry([&](const cursen::Event& e) { this->tryJoin(); });
 }
 
 void LobbyForm::tryJoin()
@@ -447,7 +445,7 @@ void LobbyForm::tryJoin()
 
 void LobbyForm::clickExit()
 {
-    cursen::CursenApplication::CloseForm();
+    closeForm();
 }
 
 void LobbyForm::enableRemovePlayerCursor()
@@ -518,7 +516,7 @@ void LobbyForm::startChat()
     lobby_cursor.setEnabled(false);
     chat_button.setForeground(cursen::Color::GREEN);
     console.setMessage("Press Escape to Finish Chatting");
-    chat_box.onEnterPress(std::bind(&LobbyForm::sendChatMessage, this));
+    chat_box.onEnterPress([&](const cursen::Event& e) { this->sendChatMessage(); });
 }
 
 void LobbyForm::stopChat()

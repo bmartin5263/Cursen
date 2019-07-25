@@ -42,8 +42,8 @@ namespace cursen {
         button_text.setTextAlignment(TextAlignment::CENTER);
         add(&button_text);
 
-        onCursor(std::bind(&Button::cursorOn, this));
-        offCursor(std::bind(&Button::cursorOff, this));
+        onCursor([&]() { this->cursorOn(); });
+        offCursor([&]() { this->cursorOff(); });
 
         invalidate();
     }

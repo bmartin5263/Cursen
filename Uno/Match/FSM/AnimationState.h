@@ -12,6 +12,8 @@ class AnimationState : public MatchState
 public:
 
     void pressEnter(MatchForm& matchForm) const override;
+    void pressD(MatchForm& matchForm) const override;
+    void pressSpace(MatchForm& matchForm) const override;
 
 };
 

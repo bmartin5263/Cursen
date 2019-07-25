@@ -5,6 +5,7 @@
 #include <cassert>
 #include <Uno/Match/Messages/InputDealCards.h>
 #include <Uno/Match/Messages/InputBeginGame.h>
+#include <Uno/Match/Messages/InputDrawCard.h>
 
 #include "DataMessage.h"
 #include "AddAI.h"
@@ -107,6 +108,12 @@ DataMessage* DataMessage::Parse(MessageType type)
         case MessageType::BeginGame:
             msg = new BeginGame;
             break;
+        case MessageType::InputDrawCard:
+            msg = new InputDrawCard;
+            break;
+        case MessageType::DrawCard:
+            msg = new DrawCard;
+            break;
     }
     assert(msg != nullptr);
     return msg;
@@ -145,10 +152,4 @@ size_t DataMessage::deserialize(const char* const buffer)
     recipientType = (RecipientType)raw_recipientType;
 
     return read;
-}
-
-template<typename T>
-T* DataMessage::getCurrentForm()
-{
-    return (T*)cursen::CursenApplication::GetCurrentForm();
 }

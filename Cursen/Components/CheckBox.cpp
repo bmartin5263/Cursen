@@ -25,8 +25,8 @@ namespace cursen {
 
         setState(CheckState::UNCHECKED);
 
-        this->onCursor(std::bind(&CheckBox::cursorOn, this));
-        this->offCursor(std::bind(&CheckBox::cursorOff, this));
+        this->onCursor([&]() { this->cursorOn(); });
+        this->offCursor([&]() { this->cursorOff(); });
     }
 
     void CheckBox::setText(const std::string &text) {

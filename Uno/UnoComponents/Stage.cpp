@@ -45,8 +45,8 @@ void Stage::initialize() {
     //textField.setActiveBackgroundColor(cursen::Color::RED);
     addRelative(&textField);
 
-    onCursor(std::bind(&Stage::hoverOn, this));
-    offCursor(std::bind(&Stage::hoverOff, this));
+    onCursor([&]() { this->hoverOn(); });
+    offCursor([&]() { this->hoverOff(); });
 }
 
 void Stage::setStageColor(const cursen::Color &stageColor) {

@@ -9,7 +9,7 @@
 #include <Uno/UnoComponents/PlayerTile.h>
 #include <Uno/GameObjects/LobbyType.h>
 #include <Uno/UnoComponents/GiantCard.h>
-#include <Uno/Other/DealCardsEventController.h>
+#include <Uno/Other/DealCardsEventAnimation.h>
 #include "Cursen/Components/Form.h"
 #include "Cursen/Components/Label.h"
 #include "Cursen/Components/HorizontalLine.h"
@@ -37,11 +37,15 @@ public:
     void setDeckMeterCount(size_t size);
     void setDeckMeterSize(size_t size);
     void setHandName(std::string name);
+    void updateHand();
 
     void setConsoleMessage(std::string msg);
     void setConsoleWarning(std::string msg);
 
     void setState(const MatchState* state);
+    void drawCardByIndex(int index);
+    void drawCard(int player_id);
+    void playCard(int player_id, int card_index);
 
     void dealCards();
     void beginGame();
@@ -57,6 +61,10 @@ public:
     void pressDraw();
 
     void enterPress(const cursen::Event& event);
+    void arrowPress(const cursen::Event& event);
+    void keyPress(const cursen::Event& event);
+
+    int getSelectedCardIndex();
 
 private:
 

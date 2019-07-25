@@ -37,8 +37,8 @@ namespace cursen
         this->disabled_background = CursenApplication::GetColorPalette().getBackground();
         this->draw_color = ColorPair(this->foreground, this->background);
         this->glow_frame = 8;
-        this->onCursor(std::bind(&StandardComponent::cursorOn, this));
-        this->offCursor(std::bind(&StandardComponent::cursorOff, this));
+        this->onCursor([&]() { this->cursorOn(); });
+        this->offCursor([&]() { this->cursorOff(); });
 
         animation.setFrameDuration(.03);
         animation.add([&]() { setForeground(Color::WHITE); }).setDuration(.1);

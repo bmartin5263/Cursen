@@ -19,6 +19,8 @@ public:
     unsigned long size() const;
     bool empty() const;
 
+    bool hasPlayableCardFor(const Card& card);
+
 private:
 
     std::vector<Card> cards;

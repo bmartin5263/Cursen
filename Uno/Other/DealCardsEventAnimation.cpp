@@ -2,7 +2,7 @@
 // Created by Brandon Martin on 7/15/19.
 //
 
-#include "DealCardsEventController.h"
+#include "DealCardsEventAnimation.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/GameObjects/Match.h"
 #include <functional>
@@ -19,14 +19,14 @@ void DealCardsEventController::run(MatchForm* matchForm, size_t num_players, siz
     card_deal_animation.clear();
     card_deal_animation.add([&]()
     {
-        this->matchForm->getMatch()->drawCardByIndex((int)this->currentPlayer);
-        this->matchForm->updatePlayers();
-        this->matchForm->setDeckMeterCount(this->matchForm->getMatch()->getDeckSize());
+        this->matchForm->drawCardByIndex((int)currentPlayer);
     });
     card_deal_animation.setVariableTime(false);
     card_deal_animation.setFrameDuration(.1);
     card_deal_animation.setLoops(cards_to_deal - 1);
-    card_deal_animation.onEnd(std::bind(&DealCardsEventController::loopEnd, this));
+    card_deal_animation.onEnd(
+            [&]() {this->loopEnd();}
+    );
     card_deal_animation.start(false);
 }
 

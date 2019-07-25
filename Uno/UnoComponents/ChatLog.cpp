@@ -20,6 +20,7 @@ ChatLog::ChatLog(const cursen::Vect2& pos) : TextComponent(pos)
 
 void ChatLog::initialize()
 {
+    TextComponent::initialize();
     setPosition(Vect2(1, 3));
     setSize(Vect2(32, 9));
 }

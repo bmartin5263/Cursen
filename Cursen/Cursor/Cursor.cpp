@@ -33,9 +33,9 @@ namespace cursen {
         if (currentComponent != nullptr) {
             Component::setEnabled(value);
             if (enabled) {
-                onArrowPress(std::bind(&Cursor::moveCursor, this, std::placeholders::_1));
-                onEnterPress(std::bind(&Cursor::enterClick, this, std::placeholders::_1));
-                onKeyPress(std::bind(&Cursor::keyClick, this, std::placeholders::_1));
+                onArrowPress([&](const Event& event) { this->moveCursor(event); } );
+                onEnterPress([&](const Event& event) { this->enterClick(event); } );
+                onKeyPress([&](const Event& event) { this->keyClick(event); } );
                 currentComponent->CallOnCursor();
             } else {
                 detachArrowPress();

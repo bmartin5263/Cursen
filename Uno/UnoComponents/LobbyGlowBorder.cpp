@@ -13,12 +13,13 @@ LobbyGlowBorder::LobbyGlowBorder() :
 {
     reference.resize(Vect2(70,32));
     colorFlag = false;
+    setId("glow");
 }
 
 
 void LobbyGlowBorder::initialize()
 {
-
+    TextComponent::initialize();
     chtype UL = ACS_ULCORNER;
     chtype UR = ACS_URCORNER;
     chtype HL = ACS_HLINE;
@@ -481,6 +482,7 @@ void LobbyGlowBorder::initialize()
     });
     animation.setFrameDuration(.01);
     animation.setVariableTime(false);
+    setDrawOrder(100);
     validate();
 }
 
@@ -493,7 +495,7 @@ void LobbyGlowBorder::render()
     for (int j = 0; j < 4; ++j) {
         Runner& runner = runners[j];
         for (int i = 0; i < 20; ++i) {
-            const Vect2 p = runner.get(i);
+            const Vect2 p = runner.coordinates[i];
             content[p.y][p.x] = reference[p.y][p.x];
         }
     }
@@ -503,10 +505,10 @@ void LobbyGlowBorder::render()
     // Redraw
     for (int j = 0; j < 4; ++j) {
         Runner& runner = runners[j];
-        const int colorNum = runner.getColor();
+        const int colorNum = runner.color;
         const short pair = COLOR_LUT[colorNum];
         for (int i = 0; i < 20; ++i) {
-            const Vect2 p = runner.get(i);
+            const Vect2 p = runner.coordinates[i];
             chtype ref = reference[p.y][p.x];
             ref ^= white_pair;
             content[p.y][p.x] = ref | pair;

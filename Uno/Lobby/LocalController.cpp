@@ -32,9 +32,11 @@ void LocalController::clickStart()
     lobbyForm->getConsole().setText("Start Clicked!");
     Player* players = lobbyForm->getLobby().getPlayers();
     int num_players = lobbyForm->getLobby().getNumPlayers();
-    cursen::CursenApplication::OpenForm(
-            new MatchForm(LobbyType::LOCAL, new Match(players, num_players, lobbyForm->getLobby().getMyId()))
-    );
+
+    Match* match = new Match(players, num_players, lobbyForm->getLobby().getMyId());
+    MatchForm* matchForm = new MatchForm(LobbyType::LOCAL, match);
+
+    lobbyForm->openForm(matchForm);
 }
 
 void LocalController::clickAddAI()

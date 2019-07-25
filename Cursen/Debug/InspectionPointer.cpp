@@ -15,8 +15,8 @@ namespace cursen {
     void InspectionPointer::initialize() {
         StandardComponent::initialize();
 
-        onArrowPress(std::bind(&InspectionPointer::movePointer, this, std::placeholders::_1));
-        onKeyPress(std::bind(&InspectionPointer::pressSpace, this, std::placeholders::_1));
+        onArrowPress([&](const Event& event) { this->movePointer(event); });
+        onKeyPress([&](const Event& event) { this->pressSpace(event); });
 
         invalidate();
     }

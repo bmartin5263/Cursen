@@ -16,6 +16,8 @@ public:
     virtual ~MatchState() = default;
 
     virtual void pressEnter(MatchForm& matchForm) const = 0;
+    virtual void pressD(MatchForm& matchForm) const = 0;
+    virtual void pressSpace(MatchForm& matchForm) const = 0;
 
 };
 

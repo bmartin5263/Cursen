@@ -71,12 +71,12 @@ namespace cursen
 
             if (!variable_time)
             {
-                animationHandle = AlarmManager::SetInterval(std::bind(&Animation::nextFrame, this), default_duration);
+                animationHandle = AlarmManager::SetInterval([&]() { this->nextFrame(); }, default_duration);
             }
             else
             {
                 if (callFirstFrame) nextFrame();
-                else animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), frames[frames.size() - 1].getDuration());
+                else animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, frames[frames.size() - 1].getDuration());
             }
 
         }
@@ -104,7 +104,7 @@ namespace cursen
         {
             if (variable_time)
             {
-                animationHandle = AlarmManager::SetTimeout(std::bind(&Animation::nextFrame, this), time);
+                animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
             }
 
             if (currentFrame == 0 && loops > 0)

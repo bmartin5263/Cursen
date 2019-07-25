@@ -16,9 +16,16 @@ enum class Direction
     UNINITIALIZED, NORTH, SOUTH, EAST, WEST
 };
 
+class Runners
+{
+    int colors[4];
+    int next_to_go[4];
+    cursen::Vect2 coordinates[4][20];
+    Direction last[4];
+};
+
 struct Runner
 {
-
     typedef cursen::Vect2 pair;
 
     static Direction getOp(Direction d)
@@ -39,10 +46,11 @@ struct Runner
         }
     }
 
-    pair coordinates[20];
-    Direction last;
     int color;
     int next_to_go;
+    pair coordinates[20];
+    Direction last;
+    std::unordered_set<Direction, cursen::EnumClassHash> canMove;
 
     Runner() = default;
 
@@ -66,12 +74,12 @@ struct Runner
         return coordinates[i];
     };
 
-    int getColor()
+    constexpr int getColor() const
     {
         return color;
     }
 
-    void update(char**& maze)
+    void update(char** maze)
     {
 
         //for (int i = 0; i < 19; i++)
@@ -79,7 +87,7 @@ struct Runner
         //    coordinates[i] = coordinates[i + 1];
         //}
 
-        std::unordered_set<Direction, cursen::EnumClassHash> canMove;
+        canMove.clear();
         canMove.reserve(4);
 
         //int x = coordinates[19].x;
@@ -145,10 +153,29 @@ struct Runner
         coordinates[next_to_go++] = pair(x, y);
         if (next_to_go >= 20) next_to_go = 0;
 
-        last = getOp(next);
+        switch (next)
+        {
+
+            case Direction::UNINITIALIZED:
+                last =  Direction::UNINITIALIZED;
+                break;
+            case Direction::NORTH:
+                last =  Direction::SOUTH;
+                break;
+            case Direction::SOUTH:
+                last =  Direction::NORTH;
+                break;
+            case Direction::EAST:
+                last =  Direction::WEST;
+                break;
+            case Direction::WEST:
+                last =  Direction::EAST;
+                break;
+        }
     }
 
 };
+
 class LobbyEffectGenerator
 {
 

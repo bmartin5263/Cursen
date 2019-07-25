@@ -28,3 +28,15 @@ void Hand::remove(int index)
 {
     cards.erase(cards.begin() + index);
 }
+
+bool Hand::hasPlayableCardFor(const Card& card)
+{
+    for (const Card& c : cards)
+    {
+        if (!c.isWild() && (c.getValue() == card.getValue() || c.getColor() == card.getColor()))
+        {
+            return true;
+        }
+    }
+    return false;
+}

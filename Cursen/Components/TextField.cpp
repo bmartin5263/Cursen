@@ -120,9 +120,9 @@ namespace cursen {
                 setHidden(false);
                 CursesManager::SetCursor(1);
                 CursesManager::MoveCursor(getPosition() + Vect2((int) text.length(), 0));
-                onKeyPress(std::bind(&TextField::keyPress, this, std::placeholders::_1));
-                onDeletePress(std::bind(&TextField::deletePress, this, std::placeholders::_1));
-                onArrowPress(std::bind(&TextField::moveCursor, this, std::placeholders::_1));
+                onKeyPress([&](const Event& event) { this->keyPress(event); });
+                onDeletePress([&](const Event& event) { this->deletePress(event); });
+                onArrowPress([&](const Event& event) { this->moveCursor(event); });
             } else {
                 setHidden(true);
                 CursesManager::SetCursor(0);

@@ -13,3 +13,13 @@ void WaitingToDealCardsState::pressEnter(MatchForm& form) const
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
+
+void WaitingToDealCardsState::pressD(MatchForm& matchForm) const
+{
+    // Cannot Draw Cards Before Game Starts
+}
+
+void WaitingToDealCardsState::pressSpace(MatchForm& matchForm) const
+{
+
+}

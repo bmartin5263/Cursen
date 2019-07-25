@@ -32,7 +32,11 @@ enum class MessageType {
     InputDealCards,
     DealCards,
     InputBeginGame,
-    BeginGame
+    BeginGame,
+    InputDrawCard,
+    DrawCard,
+    InputPlayCard,
+    PlayCard
 
 };
 
