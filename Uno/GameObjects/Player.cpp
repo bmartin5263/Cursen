@@ -7,12 +7,12 @@
 const std::string Player::COMP_NAMES[] = { "Watson", "SkyNet", "Hal 9000", "Metal Gear" };
 
 Player::Player() :
-    points(-1), name("Null"), color(PlayerColor::GRAY), id(-1)
+    name("Null"), color(PlayerColor::GRAY), points(-1), id(-1)
 {
 }
 
 Player::Player(const std::string &name, const PlayerColor& color, int id) :
-    points(0), name(name), color(color), id(id)
+    name(name), color(color), points(0), id(id)
 {
 }
 

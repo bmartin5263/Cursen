@@ -114,6 +114,8 @@ DataMessage* DataMessage::Parse(MessageType type)
         case MessageType::DrawCard:
             msg = new DrawCard;
             break;
+        case MessageType::InputPlayCard:break;
+        case MessageType::PlayCard:break;
     }
     assert(msg != nullptr);
     return msg;

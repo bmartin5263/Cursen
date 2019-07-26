@@ -108,15 +108,6 @@ void LobbyForm::initialize()
     chat_box.setActive(false);
     chat_box.setEnabled(false);
 
-    if (cursen::CursenApplication::GetArgc() > 1) {
-        mode_select_box.getMainPlayerStage().setText(cursen::CursenApplication::GetArgv()[1]);
-        setMainPlayerName();
-    }
-    else {
-        mode_select_box.getMainPlayerStage().activateTextField();
-        mode_select_box.getMainPlayerStage().getTextField().onEnterPress([&](const cursen::Event& event) { this->setMainPlayerName(); });
-    }
-
     lobby_cursor.initialize();
     lobby_cursor.moveTo(&start_button);
     lobby_cursor.mapComponent(&start_button, cursen::ArrowMap(nullptr, &change_color_button, nullptr, &add_ai_button));
@@ -147,7 +138,18 @@ void LobbyForm::initialize()
         }
     });
 
-    onOpen([]() { DataManager::SetContext(Context::ContextLobby); });
+    if (cursen::CursenApplication::GetArgc() > 1) {
+        mode_select_box.getMainPlayerStage().setText(cursen::CursenApplication::GetArgv()[1]);
+        setMainPlayerName();
+    }
+    else {
+        mode_select_box.getMainPlayerStage().activateTextField();
+        mode_select_box.getMainPlayerStage().getTextField().onEnterPress([&](const cursen::Event& event) { this->setMainPlayerName(); });
+    }
+
+    onOpen([this]() {
+        DataManager::SetContext(Context::ContextLobby);
+    });
 }
 
 void LobbyForm::initializeForLocal()

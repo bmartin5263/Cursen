@@ -33,7 +33,7 @@ namespace cursen {
     {
         StandardComponent::render();
         Content& content = getContent();
-        Vect2 dimensions = content.getDimensions();
+        Vect2 dimensions = content.getSize();
 
         if (dimensions.x >= 0)
         {
@@ -58,7 +58,7 @@ namespace cursen {
         StandardComponent::setSize(Vect2(len, 1));
     }
 
-    void HorizontalLine::setSize(Vect2 size)
+    void HorizontalLine::setSize(const Vect2& size)
     {
         (void)size;
         assert(false);

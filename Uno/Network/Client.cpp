@@ -36,7 +36,7 @@ void Client::processNetworkMessages()
 
         if ((result < 0) && (errno!=EINTR) && (errno != EBADF))
         {
-            auto& x = errno;
+            //auto& x = errno;
             assert(false);
         }
 

@@ -37,7 +37,6 @@ private:
     cursen::Box border;
     Stage stages[Lobby::MAX_PLAYERS];
     cursen::Cursor stageCursor;
-    bool spinning;
 
 };
 

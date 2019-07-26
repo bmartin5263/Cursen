@@ -12,7 +12,7 @@ namespace cursen {
     }
 
     Frame::Frame(VoidFunction& frame_function, Animation* parent) :
-            frame_fn(frame_function), duration(0.0), parent(parent)
+            parent(parent), duration(0.0), frame_fn(frame_function)
     {
     }
 

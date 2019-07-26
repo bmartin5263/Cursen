@@ -22,9 +22,10 @@ namespace cursen {
         virtual void render() = 0;
 
         virtual void setSize(const Vect2 &size);
-        virtual Vect2 getSize();
+        virtual Vect2 getSize() const;
 
         virtual Content& getContent();
+        virtual const Content& getContentConst() const;
         void setDrawOrder(const size_t order) override;
         void addDrawOrder(int value) override;
 

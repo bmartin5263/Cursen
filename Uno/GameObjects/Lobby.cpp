@@ -7,7 +7,7 @@
 #include "../Constants.h"
 
 Lobby::Lobby() :
-    numPlayers(0), searching(false), my_id(-1)
+    my_id(-1), numPlayers(0), searching(false)
 {
 }
 

@@ -119,7 +119,7 @@ namespace cursen {
         return eventRegistrationMap;
     }
 
-    void Form::setDrawOrder(TextComponent* component, size_t order)
+    void Form::setComponentDrawOrder(TextComponent* component, size_t order)
     {
         size_t currentDrawOrder = component->getDrawOrder();
         auto it = componentDrawMap[currentDrawOrder].find(component);

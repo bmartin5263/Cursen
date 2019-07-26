@@ -11,13 +11,13 @@ namespace cursen
 {
 
     Animation::Animation() :
-            currentFrame(0), numFrames(0), default_duration(1.0), loops(0), loop_counter(0), running(false),
+            default_duration(1.0), currentFrame(0), numFrames(0), loops(0), loop_counter(0), running(false),
             paused(false), variable_time(true)
     {
     }
 
     Animation::Animation(size_t num_frames) :
-            currentFrame(0), numFrames(0), default_duration(1.0), loops(0), loop_counter(0), running(false),
+            default_duration(1.0), currentFrame(0), numFrames(0), loops(0), loop_counter(0), running(false),
             paused(false), variable_time(true)
     {
         this->frames.reserve(num_frames);

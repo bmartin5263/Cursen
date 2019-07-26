@@ -10,18 +10,20 @@ namespace cursen {
     const ColorPalette ColorPalette::LIGHT = ColorPalette(Color::BLACK, Color::WHITE, Color::GRAY, Color::YELLOW);
 
     ColorPalette::ColorPalette() :
-            foreground(Color::WHITE), background(Color::BLACK), disabled(Color::GRAY), highlight(Color::YELLOW) {
+            foreground(Color::WHITE), background(Color::BLACK), highlight(Color::YELLOW), disabled(Color::GRAY)
+    {
     }
 
     ColorPalette::ColorPalette(const Color &foreground, const Color &background, const Color &disabled,
                                const Color &highlight) :
-            foreground(foreground), background(background), disabled(disabled), highlight(highlight) {
+            foreground(foreground), background(background), highlight(highlight), disabled(disabled)
+    {
     }
 
 
     ColorPalette::ColorPalette(const ColorPalette &other) :
-            foreground(other.foreground), background(other.background), disabled(other.disabled),
-            highlight(other.highlight) {
+            foreground(other.foreground), background(other.background),
+            highlight(other.highlight), disabled(other.disabled) {
     }
 
     ColorPalette &ColorPalette::operator=(const ColorPalette &other) {

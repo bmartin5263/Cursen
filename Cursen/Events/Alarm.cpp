@@ -9,7 +9,7 @@ namespace cursen {
 
     Alarm::Alarm(unsigned int id, Alarm::VoidFun callback, double interval, Alarm::VoidFun cancel_callback,
                  double max_time) :
-        id(id), interval_function(callback), interval(interval), remaining(interval), cancel_function(cancel_callback),
+        id(id), interval_function(callback), cancel_function(cancel_callback), interval(interval), remaining(interval),
         total_time(max_time), has_total(total_time > 0.0), paused(false)
     {
     }

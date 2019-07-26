@@ -44,7 +44,7 @@ namespace cursen {
 
         void registerComponent(TextComponent* component);
         void deregisterComponent(TextComponent* component);
-        void setDrawOrder(TextComponent* component, size_t order);
+        void setComponentDrawOrder(TextComponent* component, size_t order);
 
         void registerCursor(Cursor* cursor);
         void deregisterCursor(Cursor* cursor);

@@ -19,6 +19,7 @@ public:
     static const int MAX_CHAT = 9;
 
     Lobby();
+    virtual ~Lobby() = default;
 
     Player createPlayer(std::string name, PlayerColor color);
 

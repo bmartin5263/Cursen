@@ -26,7 +26,7 @@ namespace cursen {
         Content& content = getContent();
 
         ColorPair& draw_color = getCurrentDrawColor();
-        Vect2 dimensions = content.getDimensions();
+        Vect2 dimensions = content.getSize();
         content.clear();
 
         // Render Top and Bottom Line

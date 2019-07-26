@@ -14,17 +14,19 @@ namespace cursen
 {
 
     Component::Component() :
-            enabled(true), position(Vect2()), invalid(true), hidden(false), silenced(false), cursable(true),
-            registeredForUpdates(false),
-            drawOrder(0)
+            id("n/a"), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
+            f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr), children(), position(),
+            drawOrder(0), enabled(true), invalid(true), hidden(false), silenced(false), cursable(true),
+            registeredForUpdates(false)
     {
         id = "n/a";
     }
 
     Component::Component(const Vect2& pos) :
-            enabled(true), position(pos), hidden(false), silenced(false), invalid(true), cursable(true),
-            registeredForUpdates(false),
-            drawOrder(0)
+            id("n/a"), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
+            f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr), children(), position(pos),
+            drawOrder(0), enabled(true), invalid(true), hidden(false), silenced(false), cursable(true),
+            registeredForUpdates(false)
     {
         id = "n/a";
     }
@@ -145,123 +147,67 @@ namespace cursen
         return hidden;
     }
 
-    void Component::CallKeyPress(const Event& e)
+    void Component::CallKeyPress(const Event& e) const
     {
         if (!isSilenced())
         {
-            try
-            {
-                f_keyPress(e);
-            }
-            catch (std::bad_function_call)
-            {
-                // Pass
-            }
+            if (f_keyPress) f_keyPress(e);;
         }
     }
 
-    void Component::CallEscapePress(const Event& e)
+    void Component::CallEscapePress(const Event& e) const
     {
         if (!isSilenced())
         {
-            try
-            {
-                f_escapePress(e);
-            }
-            catch (std::bad_function_call)
-            {
-                // Pass
-            }
+            if (f_escapePress) f_escapePress(e);
         }
     }
 
-    void Component::CallEnterPress(const Event& e)
+    void Component::CallEnterPress(const Event& e) const
     {
         if (!isSilenced())
         {
-            try
-            {
-                f_enterPress(e);
-            }
-            catch (std::bad_function_call)
-            {
-                // Pass
-            }
+            if (f_enterPress) f_enterPress(e);
         }
     }
 
-    void Component::CallDeletePress(const Event& e)
+    void Component::CallDeletePress(const Event& e) const
     {
         if (!isSilenced())
         {
-            try
-            {
-                f_deletePress(e);
-            }
-            catch (std::bad_function_call)
-            {
-                // Pass
-            }
+            if (f_deletePress) f_deletePress(e);
         }
     }
 
-    void Component::CallArrowPress(const Event& e)
+    void Component::CallArrowPress(const Event& e) const
     {
         if (!isSilenced())
         {
-            try
-            {
-                f_arrowPress(e);
-            }
-            catch (std::bad_function_call)
-            {
-                // Pass
-            }
+            if (f_arrowPress) f_arrowPress(e);
         }
     }
 
-    void Component::CallOnCursor()
+    void Component::CallOnCursor() const
     {
-        try
-        {
-            f_onCursor();
-        }
-        catch (std::bad_function_call)
-        {
-            // Pass
-        }
+        if (f_onCursor) f_onCursor();
     }
 
-    void Component::CallOffCursor()
+    void Component::CallOffCursor() const
     {
-        try
-        {
-            f_offCursor();
-        }
-        catch (std::bad_function_call)
-        {
-            // Pass
-        }
+        if (f_offCursor) f_offCursor();
     }
 
-    void Component::CallOnClick()
+    void Component::CallOnClick() const
     {
-        try
-        {
-            f_onClick();
-        }
-        catch (std::bad_function_call)
-        {
-            // Pass
-        }
+        if (f_onClick) f_onClick();
     }
 
-    std::function<bool()>& Component::GetEnableIf()
+    const std::function<bool()>& Component::GetEnableIf() const
     {
         return f_enableIf;
     }
 
-    std::function<void()>& Component::GetUpdate()
+    const std::function<void()>& Component::GetUpdate() const
     {
         return f_update;
     }
@@ -340,7 +286,7 @@ namespace cursen
         invalid = false;
     }
 
-    bool Component::isInvalid()
+    bool Component::isInvalid() const
     {
         return invalid;
     }
@@ -380,7 +326,7 @@ namespace cursen
         this->silenced = value;
     }
 
-    bool Component::isSilenced()
+    bool Component::isSilenced() const
     {
         return silenced;
     }
@@ -390,7 +336,7 @@ namespace cursen
         this->cursable = value;
     }
 
-    bool Component::isCursable()
+    bool Component::isCursable() const
     {
         return cursable;
     }

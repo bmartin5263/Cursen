@@ -17,7 +17,7 @@ public:
     QueueEntry(MessageType type, DataMessage* msg);
     QueueEntry(const QueueEntry& other);
     QueueEntry& operator = (const QueueEntry& other);
-    ~QueueEntry();
+    virtual ~QueueEntry();
 
     void setSender(int id);
     int getRecipient();

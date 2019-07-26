@@ -33,7 +33,7 @@ private:
     cursen::Label player_name;
     cursen::Label player_cards;
 
-    int card_count;
+//    int card_count;
     std::string name;
 
 };

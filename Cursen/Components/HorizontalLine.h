@@ -24,7 +24,7 @@ namespace cursen
 
     private:
 
-        void setSize(Vect2 size);
+        void setSize(const Vect2& size) override ;
 
         chtype left_marker;
         chtype right_marker;

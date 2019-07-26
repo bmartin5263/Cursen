@@ -17,7 +17,7 @@ public:
     InputChat() = default;
 
     InputChat(int id, std::string msg) :
-        id(id), message(msg)
+        message(msg), id(id)
     {}
 
     MessageType getType() override

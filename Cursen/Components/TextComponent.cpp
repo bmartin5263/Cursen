@@ -31,11 +31,16 @@ namespace cursen {
         invalidate();
     }
 
-    Vect2 TextComponent::getSize() {
-        return content.getDimensions();
+    Vect2 TextComponent::getSize() const {
+        return content.getSize();
     }
 
     Content& TextComponent::getContent() {
+        return content;
+    }
+
+    const Content& TextComponent::getContentConst() const
+    {
         return content;
     }
 

@@ -6,7 +6,7 @@
 #include "Match.h"
 
 Match::Match(Player* players, int numPlayers, int my_id) :
-    num_players(numPlayers), current_player_id(players[0].getId()), current_player_index(0), my_id(my_id)
+    num_players(numPlayers), current_player_index(0), current_player_id(players[0].getId()), my_id(my_id)
 {
     for (int i = 0; i < num_players; ++i)
     {

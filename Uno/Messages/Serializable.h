@@ -53,7 +53,6 @@ public:
 
     static size_t Serialize(char * const buffer, const std::string& str)
     {
-        size_t written = 0;
         auto len = str.length();
         memcpy(buffer, &len, sizeof(len));
         return Serialize(buffer + sizeof(len), str.c_str(), len) + sizeof(len);

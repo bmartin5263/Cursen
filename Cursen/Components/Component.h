@@ -91,15 +91,15 @@ namespace cursen {
          *
          * This method is called by CursesManager to check if it needs to re-render this Component.
          */
-        bool isInvalid();
+        bool isInvalid() const;
 
         //virtual void render() = 0;
         Vect2 getPosition() const;
         virtual void setPosition(const Vect2& pos);
         virtual void move(const Vect2& movement);
 
-        virtual // Component Relationship
-        void add(Component *);
+        // Component Relationship
+        virtual void add(Component *);
         virtual void addRelative(Component *);
         void remove(Component *);
         Component* getParent();
@@ -111,10 +111,10 @@ namespace cursen {
         virtual void enableIf(std::function<bool()> f);
 
         virtual void setSilenced(bool value);
-        virtual bool isSilenced();
+        virtual bool isSilenced() const;
 
         virtual void setCursable(bool value);
-        virtual bool isCursable();
+        virtual bool isCursable() const;
 
         /**
          * @brief Enable or Disable drawing of this Component
@@ -365,17 +365,17 @@ namespace cursen {
          */
         void detachUpdate();
 
-        void CallKeyPress(const Event&);
-        void CallEscapePress(const Event&);
-        void CallEnterPress(const Event&);
-        void CallDeletePress(const Event&);
-        void CallArrowPress(const Event&);
-        void CallOnCursor();
-        void CallOffCursor();
-        void CallOnClick();
+        void CallKeyPress(const Event&) const;
+        void CallEscapePress(const Event&) const;
+        void CallEnterPress(const Event&) const;
+        void CallDeletePress(const Event&) const;
+        void CallArrowPress(const Event&) const;
+        void CallOnCursor() const;
+        void CallOffCursor() const;
+        void CallOnClick() const;
 
-        std::function<bool()>& GetEnableIf();
-        std::function<void()>& GetUpdate();
+        const std::function<bool()>& GetEnableIf() const;
+        const std::function<void()>& GetUpdate() const;
 
         std::string id;
         void setId(std::string id) { this->id = id; }

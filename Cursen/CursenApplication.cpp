@@ -20,8 +20,10 @@ CURSEN_CLASS_START
     //CursenApplication *CursenApplication::instance = nullptr;
 
     CursenApplication::CursenApplication() :
-            currentForm(nullptr), running(false), argc(0), argv(nullptr), nextForm(nullptr), requestFormClose(false),
-            requestFormOpen(false), requestFormSet(false), UserUpdate([](){}), UserDraw([](){})
+            alarmManager(), eventManager(), cursesManager(), inputManager(), cursorManager(), form_stack(),
+            currentForm(nullptr), nextForm(nullptr), UserUpdate([](){}), UserDraw([](){}), cursenDebugger(), palette(),
+            componentMap(), argc(0), argv(nullptr), running(false), requestFormClose(false),
+            requestFormOpen(false), requestFormSet(false), total_nano(0), frames(0)
     {
         initialize();
     }
@@ -71,8 +73,11 @@ CURSEN_CLASS_START
 
             watch.tock();
 
-            //Instance().total_nano += watch.getMicroseconds();
-            //Instance().frames++;
+//            Instance().total_nano += watch.getMicroseconds();
+//            Instance().frames++;
+//
+//            CursesManager::DrawStringBottomLeft(std::to_string(Instance().total_nano / Instance().frames));
+//            CursesManager::Refresh();
 
             // Cheap Frame-rate limiter so I don't chug CPU cycles
             std::this_thread::sleep_for(std::chrono::milliseconds(17 - watch.getMilliseconds()));
@@ -93,9 +98,7 @@ CURSEN_CLASS_START
 
     void CursenApplication::Draw()
     {
-        // Form.getComponentDrawMap()
-        Form* form = GetCurrentForm();
-        CursesManager::Draw(form->getComponentDrawMap());
+        CursesManager::Draw(GetCurrentForm()->getComponentDrawMap());
         Instance().UserDraw();
         CursesManager::Refresh();
     }
@@ -210,28 +213,16 @@ CURSEN_CLASS_START
     void CursenApplication::Register(TextComponent* component)
     {
         GetCurrentForm()->registerComponent(component);
-        //ComponentMap& componentMap = getComponentMap();
-        //auto it = componentMap[component->drawOrder].find(component);
-        //if (it == componentMap[component->drawOrder].end())
-        //{
-        //    componentMap[component->drawOrder].insert(component);
-        //}
     }
 
     void CursenApplication::Deregister(TextComponent* component)
     {
         GetCurrentForm()->deregisterComponent(component);
-        //ComponentMap& componentMap = getComponentMap();
-        //auto it = componentMap[component->drawOrder].find(component);
-        //if (it != componentMap[component->drawOrder].end())
-        //{
-        //    componentMap[component->drawOrder].erase(component);
-        //}
     }
 
     void CursenApplication::SetDrawOrder(TextComponent* component, size_t order)
     {
-        GetCurrentForm()->setDrawOrder(component, order);
+        GetCurrentForm()->setComponentDrawOrder(component, order);
     }
 
     AlarmManager& CursenApplication::GetAlarmManager()

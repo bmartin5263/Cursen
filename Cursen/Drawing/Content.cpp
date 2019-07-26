@@ -17,14 +17,14 @@ namespace cursen {
     }
 
     Content::Content() :
-            dimensions(Vect2(0, 0)), body(nullptr), empty(dimensions.x <= 0 || dimensions.y <= 0)
+            body(nullptr), dimensions(), empty(dimensions.x <= 0 || dimensions.y <= 0)
     {
         assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
         initializeBody();
     }
 
     Content::Content(const Vect2 &dimensions) :
-            dimensions(dimensions), body(nullptr), empty(dimensions.x <= 0 || dimensions.y <= 0)
+            body(nullptr), dimensions(dimensions), empty(dimensions.x <= 0 || dimensions.y <= 0)
     {
         assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
         initializeBody();

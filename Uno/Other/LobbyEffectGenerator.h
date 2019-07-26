@@ -16,13 +16,13 @@ enum class Direction
     UNINITIALIZED, NORTH, SOUTH, EAST, WEST
 };
 
-class Runners
-{
-    int colors[4];
-    int next_to_go[4];
-    cursen::Vect2 coordinates[4][20];
-    Direction last[4];
-};
+//class Runners
+//{
+//    int colors[4];
+//    int next_to_go[4];
+//    cursen::Vect2 coordinates[4][20];
+//    Direction last[4];
+//};
 
 struct Runner
 {

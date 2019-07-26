@@ -92,7 +92,6 @@ namespace cursen
 
     AlarmHandle AlarmManager::SetTimeout(AlarmManager::VoidFunc callback, double seconds)
     {
-        AlarmManager& instance = Instance();
         unsigned int id = ++ID;
 
         AlarmHandle handle(id);
@@ -105,7 +104,6 @@ namespace cursen
 
     AlarmHandle AlarmManager::SetInterval(VoidFunc callback, double seconds)
     {
-        AlarmManager& instance = Instance();
         unsigned int id = ++ID;
 
         AlarmHandle handle(id);

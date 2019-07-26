@@ -6,14 +6,13 @@
 #include "Uno/Constants.h"
 #include "Uno/Forms/LobbyForm.h"
 
-PlayerStaging::PlayerStaging() :
-        spinning(false)
+PlayerStaging::PlayerStaging()
 {
 
 }
 
 PlayerStaging::PlayerStaging(const cursen::Vect2& loc) :
-        AggregateComponent(loc), spinning(false)
+        AggregateComponent(loc)
 {
 
 }

@@ -15,7 +15,7 @@
 Host Host::host_device;
 
 Host::Host() :
-    num_connections(0), listening_sock(-1), listening(false)
+    listening_sock(-1), num_connections(0), listening(false)
 {
     initialize();
 }
@@ -71,7 +71,7 @@ void Host::processNetworkMessages()
 
     if ((result < 0) && (errno!=EINTR) && (errno != EBADF))
     {
-        auto& x = errno;
+        //auto& x = errno;
         assert(false);
     }
 

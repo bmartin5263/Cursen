@@ -5,13 +5,13 @@
 #include "ChatEntry.h"
 
 ChatEntry::ChatEntry() :
-    id(-1), message(""), color(PlayerColor::GRAY)
+    id(-1), color(PlayerColor::GRAY), message("")
 {
 
 }
 
 ChatEntry::ChatEntry(int id, std::string message, PlayerColor color) :
-    id(id), message(message), color(color)
+    id(id), color(color), message(message)
 {
 
 }

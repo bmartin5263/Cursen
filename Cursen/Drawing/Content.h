@@ -54,8 +54,8 @@ namespace cursen {
 
         void colorize(const ColorPair& color);
 
-        chtype** getText() { return body; }
-        Vect2 getDimensions() { return dimensions; }
+        chtype** getText() const { return body; }
+        Vect2 getSize() const { return dimensions; }
 
         void resize(const Vect2& dimensions);
 

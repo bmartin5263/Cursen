@@ -6,5 +6,6 @@
 
 void PlaceCardAnimation::run(MatchForm* matchForm)
 {
+    this->matchForm = matchForm;
     place_card_animation.add([=]() {});
 }
