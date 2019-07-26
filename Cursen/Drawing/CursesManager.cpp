@@ -22,20 +22,72 @@ namespace cursen
     chtype CursesManager::LTEE = '?';
     chtype CursesManager::RTEE = '?';
 
-    CursesManager::CursesManager()
+    CursesManager::CursesManager() :
+        buff_size(0), buffer(nullptr)
     {
     }
 
-    int CursesManager::getCharacter()
+    int CursesManager::GetChar()
     {
         int c = getch();
         return c;
     }
 
-    void CursesManager::initializeCurses(const Vect2& dim)
+    void CursesManager::Draw(ComponentMap& componentMap)
     {
-        dimensions = dim;
-        Resize(dimensions);
+        CursenDebugger& debugger = CursenApplication::GetDebugger();
+        CursesManager& instance = Instance();
+        chtype* buffer = instance.buffer;
+        Vect2 dimensions = instance.dimensions;
+
+        // Clear the old screen
+        erase();
+        instance.clearBuffer();
+
+        for (ComponentMap::const_iterator pair = componentMap.begin(); pair != componentMap.end(); ++pair)
+        {
+            for (ComponentSet::const_iterator componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter)
+            {
+                TextComponent& component = *(*componentIter);
+                if (!component.isHidden())
+                {
+                    instance.drawComponent(component);
+                }
+            }
+        }
+        move(0,0);
+        for (int y = 0; y < dimensions.y; ++y)
+        {
+            for (int x = 0; x < dimensions.x; ++x)
+            {
+                int index = (y * dimensions.x) + x;
+                chtype c = buffer[index];
+                addch(c);
+            }
+        }
+
+        //        if (debugger.getInspectionPointer() != nullptr)
+//        {
+//            InspectionPointer* inspectionPointer = debugger.getInspectionPointer();
+//            drawComponent(*inspectionPointer);
+//            privDrawStringBottomRight(&(*inspectionPointer->getPosition().toString().c_str()));
+//            Vect2 boxSize = inspectionPointer->getBoxSize();
+//            privDrawStringBottomLeft(boxSize.toString().c_str());
+//            Vect2 boxPos = inspectionPointer->getBoxLoc();
+//            for (int y = 0; y < boxSize.y; y++)
+//            {
+//                mvchgat(boxPos.y + y, boxPos.x, boxSize.x, A_NORMAL,
+//                        privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
+//            }
+//        }
+
+        move(instance.cursor_pos.y, instance.cursor_pos.x);
+
+        //refresh();
+    }
+
+    void CursesManager::Initialize(const cursen::Vect2& dim){
+        Resize(dim);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
         // initialize Curses
@@ -135,45 +187,60 @@ namespace cursen
         }
     }
 
-    void CursesManager::privResize(const Vect2& dim)
+    void CursesManager::Resize(const Vect2& dim)
     {
+        CursesManager& instance = Instance();
         std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
         //printf("%s", resizeString.c_str());
         fflush(stdout);
+
+        if (instance.buffer != nullptr)
+        {
+            delete[] instance.buffer;
+        }
+
+        instance.dimensions = dim;
+        instance.buff_size = (size_t)instance.dimensions.x * instance.dimensions.y;
+        instance.buffer = new chtype[instance.buff_size];
+        instance.clearBuffer();
     }
 
     void CursesManager::drawComponent(TextComponent& component)
     {
-        // Check if component needs a redraw
+        /* Check if component needs a redraw */
         if (component.isInvalid())
         {
             component.render();
             component.validate();
         }
 
-        Content& content = component.getContent();
+        const Content& content = component.getContentConst();
 
-        chtype** text = content.getText();
-        Vect2 dimensions = content.getDimensions();
-        Vect2 position = component.getPosition();
+        chtype** const text = content.getText();
+        const Vect2 dim = content.getSize();
+        const Vect2 position = component.getPosition();
 
-        for (int y = 0; y < dimensions.y; ++y)
+        for (int y = 0; y < dim.y; ++y)
         {
-            chtype* row = text[y];
+            chtype* const row = text[y];
             int offset = 0;
             if (position.x < 0)
             {
                 offset = -position.x;
             }
-            if (offset < dimensions.x)
+            if (offset < dim.x)
             {
                 int i = 0;
-                for (int x = offset; x < dimensions.x; ++x)
+                for (int x = offset; x < dim.x; ++x)
                 {
-                    chtype c = row[x];
+                    const chtype c = row[x];
                     if (c != Content::TRANSPARENT)
                     {
-                        mvaddch(position.y + y, position.x + i, c);
+                        int y_pos = position.y + y;
+                        int x_pos = position.x + i;
+                        int index = (dimensions.x * y_pos) + x_pos;
+                        buffer[index] = c;
+                        //mvaddch(y_pos, x_pos, c);
                     }
                     i++;
                 }
@@ -194,69 +261,6 @@ namespace cursen
         drawString(string, 0, y);
     }
 
-    //void CursesManager::privRegisterComponent(TextComponent* component)
-    //{
-    //    auto it = componentMap[component->drawOrder].find(component);
-    //    if (it == componentMap[component->drawOrder].end())
-    //    {
-    //        componentMap[component->drawOrder].insert(component);
-    //    }
-    //}
-//
-    //void CursesManager::privDeregisterComponent(TextComponent* component)
-    //{
-    //    auto it = componentMap[component->drawOrder].find(component);
-    //    if (it != componentMap[component->drawOrder].end())
-    //    {
-    //        componentMap[component->drawOrder].erase(component);
-    //    }
-    //}
-//
-    //void CursesManager::privSetDrawOrder(TextComponent* component, int order)
-    //{
-    //    componentMap[component->getDrawOrder()].erase(component);
-    //    componentMap[order].insert(component);
-    //}
-
-    void CursesManager::privDraw(ComponentMap& componentMap)
-    {
-        CursenDebugger& debugger = CursenApplication::GetDebugger();
-
-        // Clear the old screen
-        erase();
-
-        for (auto pair = componentMap.begin(); pair != componentMap.end(); ++pair)
-        {
-            for (auto componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter)
-            {
-                TextComponent& component = *(*componentIter);
-                if (!component.isHidden())
-                {
-                    drawComponent(component);
-                }
-            }
-        }
-
-        if (debugger.getInspectionPointer() != nullptr)
-        {
-            InspectionPointer* inspectionPointer = debugger.getInspectionPointer();
-            drawComponent(*inspectionPointer);
-            privDrawStringBottomRight(&(*inspectionPointer->getPosition().toString().c_str()));
-            Vect2 boxSize = inspectionPointer->getBoxSize();
-            privDrawStringBottomLeft(boxSize.toString().c_str());
-            Vect2 boxPos = inspectionPointer->getBoxLoc();
-            for (int y = 0; y < boxSize.y; y++)
-            {
-                mvchgat(boxPos.y + y, boxPos.x, boxSize.x, A_NORMAL,
-                        privGetPairNumber(ColorPair(Color::WHITE, Color::DARK_BLUE)), NULL);
-            }
-        }
-
-        move(cursor_pos.y, cursor_pos.x);
-
-        //refresh();
-    }
-
     void CursesManager::privMoveCursor(const Vect2& dim)
     {
         cursor_pos = dim;
@@ -270,5 +274,13 @@ namespace cursen
     CursesManager& CursesManager::Instance()
     {
         return CursenApplication::GetCursesManager();
+    }
+
+    void CursesManager::clearBuffer()
+    {
+        for (int i = 0; i < buff_size; ++i)
+        {
+            buffer[i] = ' ';
+        }
     }
 }

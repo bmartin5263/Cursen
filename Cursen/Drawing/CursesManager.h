@@ -24,6 +24,7 @@ namespace cursen {
 
     public:
 
+        typedef std::set<TextComponent*> ComponentSet;
         typedef std::map<int, std::set<TextComponent*> > ComponentMap;
 
         static const int ESCAPE = 27;
@@ -44,7 +45,7 @@ namespace cursen {
         static chtype HLINE;
 
 
-        static void Initialize(const Vect2& dim) { Instance().initializeCurses(dim); }
+        static void Initialize(const Vect2& dim);
 
         static void DrawChar(int c) { Instance().putCharacter(c); }
         static void DrawString(const std::string &string) { Instance().drawString(string.c_str()); }
@@ -55,7 +56,7 @@ namespace cursen {
         static void DrawStringBottomRight(const std::string &string) { Instance().privDrawStringBottomRight(string.c_str()); }
         static void DrawStringBottomLeft(const std::string &string) { Instance().privDrawStringBottomLeft(string.c_str()); }
 
-        static int GetChar() { return Instance().getCharacter(); }
+        static int GetChar();
 
         static short GetColorPair(const ColorPair& color) {
             return Instance().privGetColorPair(color);
@@ -66,9 +67,9 @@ namespace cursen {
 
         static void Beep() { Instance().doBeep(); }
         static void Flash() { Instance().doFlash(); }
-        static void Resize(const Vect2& dim) { Instance().privResize(dim); }
+        static void Resize(const Vect2& dim);
 
-        static void Draw(ComponentMap& componentMap) { Instance().privDraw(componentMap); };
+        static void Draw(ComponentMap& componentMap);
         static void Refresh() { refresh(); }
 
         static void SetCursor(const int level) { Instance().privSetCursor(level); }
@@ -83,11 +84,11 @@ namespace cursen {
         Vect2 dimensions;
         Vect2 cursor_pos;
         int inputTimeout;
+        size_t buff_size;
         ColorMap colorMap;
         ColorPairMap colorPairMap;
 
-        // Methods
-        void initializeCurses(const Vect2& dim);
+        chtype* buffer;
 
         // Static to Instance Methods
         int getCharacter();
@@ -100,12 +101,11 @@ namespace cursen {
         void doFlash();
         short privGetColorPair(const ColorPair&);
         short privGetPairNumber(const ColorPair&);
-        void privDraw(ComponentMap& componentMap);
-        void privResize(const Vect2& dim);
         void privMoveCursor(const Vect2& dim);
         void privSetCursor(const int level);
 
         void drawComponent(TextComponent& component);
+        void clearBuffer();
 
         // Static Data
 
