@@ -23,11 +23,9 @@ namespace cursen {
         };
 
         struct ArrowEvent {
-            ArrowEvent() {
-                left = false;
-                up = false;
-                right = false;
-                down = false;
+            ArrowEvent() :
+                left(false), up(false), right(false), down(false)
+            {
             }
 
             bool left;
@@ -37,9 +35,9 @@ namespace cursen {
         };
 
         struct AlarmEvent {
-            AlarmEvent() {
-                alarmEntry = nullptr;
-            }
+            AlarmEvent() :
+                alarmEntry(nullptr)
+            {}
 
             Alarm *alarmEntry;
         };

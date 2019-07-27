@@ -118,6 +118,6 @@ int main(int argc, char **argv)
     CursenApplication::SetCommandLineArgs(argc, argv);
 
     //std::this_thread::sleep_for(std::chrono::seconds(7));
-    CursenApplication::Run(new LobbyForm());
+    CursenApplication::Run(new LobbyForm);
 
 }

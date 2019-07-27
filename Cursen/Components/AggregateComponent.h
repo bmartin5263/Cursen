@@ -5,11 +5,11 @@
 #ifndef CURSEN_AGGREGATECOMPONENT_H
 #define CURSEN_AGGREGATECOMPONENT_H
 
-#include "Component.h"
+#include "VisualComponent.h"
 
 namespace cursen {
 
-    class AggregateComponent : public Component {
+    class AggregateComponent : public VisualComponent {
 
     public:
 
@@ -20,7 +20,6 @@ namespace cursen {
         virtual void setEnabled(bool value) override;
         virtual void setPosition(const Vect2& pos) override;
         virtual void setForeground(const Color &color) override;
-        virtual void setDrawOrder(const size_t order) override;
         virtual void setHighlight(const ColorPair& colorPair) override;
 
         void move(const Vect2& movement) override;
@@ -30,12 +29,18 @@ namespace cursen {
         void setDisabled(const ColorPair& color) override;
         void setText(const std::string& text) override;
 
-        void add(Component* component) override;
-        void addRelative(Component* component) override;
-        void drawOnTopOf(const Component& component) override;
-        void addDrawOrder(const int value) override;
+        void add(VisualComponent& component);
+        void addRelative(VisualComponent& component);
+
+        virtual void setDrawOrder(size_t order) override ;
+        void drawOnTopOf(VisualComponent& component) override ;
+        void addDrawOrder(size_t value) override ;
+        size_t getDrawOrder() const override;
 
     private:
+
+        std::vector<VisualComponent*> children;
+        size_t order;
 
     };
 

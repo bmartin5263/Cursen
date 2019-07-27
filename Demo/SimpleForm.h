@@ -9,6 +9,7 @@
 #include "Cursen/Components/Form.h"
 #include "Cursen/Components/Label.h"
 #include "Uno/UnoComponents/ModeSelectBox.h"
+#include <Uno/UnoComponents/GiantCard.h>
 
 class SimpleForm : public cursen::Form {
 
@@ -19,8 +20,8 @@ public:
 
 private:
 
-    cursen::Box myBox;
-    cursen::Label myLabel;
+    GiantCard front;
+    GiantCard back;
 
 };
 

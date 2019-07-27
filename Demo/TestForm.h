@@ -14,6 +14,7 @@
 #include "Cursen/Cursor/Cursor.h"
 #include "Cursen/Components/Button.h"
 #include "Cursen/Drawing/Animation.h"
+#include "Uno/UnoComponents/UnoConsole.h"
 
 class TestForm : public cursen::Form {
 
@@ -50,6 +51,8 @@ private:
     cursen::Box box;
     cursen::Box titleBox;
     cursen::TwirlProgress twirlProgress;
+
+    UnoTitle title;
 
 };
 

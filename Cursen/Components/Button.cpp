@@ -25,7 +25,6 @@ namespace cursen {
         }
         border.setSize(Vect2(len, 3));
         button_text.setSize(Vect2(len-2,1));
-        invalidate();
     }
 
     void Button::initialize() {
@@ -34,18 +33,16 @@ namespace cursen {
         border.initialize();
         border.setPosition(pos);
         border.setSize(Vect2(length, 3));
-        add(&border);
+        add(border);
 
         button_text.initialize();
         button_text.setPosition(pos + Vect2(1,1));
         button_text.setSize(Vect2(length-2, 1));
         button_text.setTextAlignment(TextAlignment::CENTER);
-        add(&button_text);
+        add(button_text);
 
         onCursor([&]() { this->cursorOn(); });
         offCursor([&]() { this->cursorOff(); });
-
-        invalidate();
     }
 
     void Button::setText(const std::string &text) {
@@ -54,7 +51,6 @@ namespace cursen {
         if (length < textLen) {
             setLength((int)textLen);
         }
-        invalidate();
     }
 
     void Button::cursorOn() {
@@ -68,7 +64,7 @@ namespace cursen {
     }
 
     void Button::setPosition(const Vect2 &pos) {
-        Component::setPosition(pos);
+        VisualComponent::setPosition(pos);
         border.setPosition(pos);
         button_text.setPosition(pos + Vect2(1,1));
     }

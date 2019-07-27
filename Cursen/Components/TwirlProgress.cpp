@@ -25,7 +25,7 @@ namespace cursen {
         twirl_label.setText("|");
         twirl_label.setForeground(Color::WHITE);
         twirl_label.setHidden(true);
-        add(&twirl_label);
+        add(twirl_label);
 
         animation.setFrameDuration(.1);
         animation.add([&]() { twirl_label.setText("/"); });
@@ -75,7 +75,7 @@ namespace cursen {
     }
 
     void TwirlProgress::setPosition(const Vect2 &pos) {
-        Component::setPosition(pos);
+        VisualComponent::setPosition(pos);
         twirl_label.setPosition(pos);
     }
 

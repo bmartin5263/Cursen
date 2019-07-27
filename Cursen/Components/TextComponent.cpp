@@ -10,15 +10,18 @@
 namespace cursen {
 
     TextComponent::TextComponent() :
-            Component(Vect2(0, 0)) {
+            VisualComponent(Vect2(0, 0)), order(0), invalid(true)
+    {
     }
 
     TextComponent::TextComponent(const Vect2 &pos) :
-            Component(pos) {
+            VisualComponent(pos), order(0), invalid(true)
+    {
     }
 
     TextComponent::TextComponent(const Vect2 &pos, const Vect2 &dim) :
-            Component(pos), content(dim) {
+            VisualComponent(pos), content(dim), order(0), invalid(true)
+    {
     }
 
     void TextComponent::initialize()
@@ -49,16 +52,52 @@ namespace cursen {
         CursenApplication::Deregister(this);
     }
 
-    void TextComponent::setDrawOrder(const size_t order)
+    size_t TextComponent::getDrawOrder() const
     {
-        CursenApplication::SetDrawOrder(this, order);
-        Component::setDrawOrder(order);
+        return order;
     }
 
-    void TextComponent::addDrawOrder(int value)
+    void TextComponent::setDrawOrder(size_t order)
     {
-        CursenApplication::SetDrawOrder(this, Component::getDrawOrder() + value);
-        Component::addDrawOrder(value);
+        CursenApplication::SetDrawOrder(this, order);
+        this->order = order;
+    }
+
+    void TextComponent::addDrawOrder(size_t value)
+    {
+        setDrawOrder(order + value);
+    }
+
+    void TextComponent::drawOnTopOf(VisualComponent& component)
+    {
+        setDrawOrder(component.getDrawOrder() + 1);
+    }
+
+    void TextComponent::invalidate()
+    {
+        invalid = true;
+    }
+
+    void TextComponent::validate()
+    {
+        invalid = false;
+    }
+
+    bool TextComponent::isInvalid() const
+    {
+        return invalid;
+    }
+
+    void TextComponent::setPosition(const Vect2& pos)
+    {
+        VisualComponent::setPosition(pos);
+        invalidate();
+    }
+
+    void TextComponent::move(const Vect2& movement)
+    {
+        VisualComponent::move(movement);
+        invalidate();
     }
 
 }

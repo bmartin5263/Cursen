@@ -19,7 +19,7 @@ namespace cursen {
     void TextField::initialize() {
         StandardComponent::initialize();
         Component::setEnabled(false);
-        Component::setHidden(true);
+        VisualComponent::setHidden(true);
 
         text = "";
         stretch = false;

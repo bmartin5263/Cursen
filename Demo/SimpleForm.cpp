@@ -3,6 +3,9 @@
 //
 
 #include "SimpleForm.h"
+#include "Uno/GameObjects/Card.h"
+
+using namespace cursen;
 
 SimpleForm::SimpleForm() :
         Form(cursen::Vect2(70,33))
@@ -12,15 +15,14 @@ SimpleForm::SimpleForm() :
 
 void SimpleForm::initialize()
 {
-    myBox.initialize();
-    myBox.setSize(cursen::Vect2(30,3));
-    myBox.setPosition(cursen::Vect2(1,1));
-    myBox.setForeground(cursen::Color::VIOLET);
-    myBox.setDrawOrder(10);
+    back.initialize();
+    back.setPosition(Vect2(0,0));
+    back.injectCard(Card(CardColors::RED, CardValues::TWO));
 
-    myLabel.initialize();
-    myLabel.setPosition(cursen::Vect2(2,2));
-    myLabel.setText("Hello World!");
-    myLabel.setForeground(cursen::Color::YELLOW);
-    myLabel.setDrawOrder(1);
+    front.initialize();
+    front.setPosition(Vect2(3,3));
+    front.injectCard(Card(CardColors::BLUE, CardValues::ONE));
+
+    onEnterPress([this](const cursen::Event& event) { front.drawOnTopOf(back); });
 }
+

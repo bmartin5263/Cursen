@@ -52,7 +52,7 @@ CURSEN_CLASS_START
         instance.doFormOpen();
 
         /* Draw the Initial Screen */
-        Draw();
+        //Draw();
 
         while (instance.running)
         {

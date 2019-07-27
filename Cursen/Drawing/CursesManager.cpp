@@ -2,12 +2,10 @@
 // Created by Brandon Martin on 3/7/19.
 //
 
-#include <thread>
 #include <ncurses.h>
 
 #include "Cursen/Components/TextComponent.h"
 #include "CursesManager.h"
-#include "Content.h"
 #include "Cursen/CursenApplication.h"
 
 namespace cursen
@@ -146,7 +144,7 @@ namespace cursen
 
     void CursesManager::drawString(const char* string, int x, int y)
     {
-        short i = privGetColorPair(ColorPair());
+        short i = COLOR_PAIR(0);
         attron(i);
         mvaddstr(y, x, string);
         attroff(i);

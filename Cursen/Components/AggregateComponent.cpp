@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/3/19.
 //
 
+#include <cassert>
 #include "AggregateComponent.h"
 
 namespace cursen {
@@ -11,45 +12,45 @@ namespace cursen {
     }
 
     AggregateComponent::AggregateComponent(const Vect2 &pos) :
-            Component(pos) {
+            VisualComponent(pos) {
 
     }
 
     void AggregateComponent::setHidden(bool value) {
-        Component::setHidden(value);
-        for (auto child : getChildren()) {
+        VisualComponent::setHidden(value);
+        for (auto child : children) {
             child->setHidden(value);
         }
     }
 
     void AggregateComponent::setEnabled(bool value) {
         Component::setEnabled(value);
-        Component::setCursable(value);
-        for (auto child : getChildren()) {
+        VisualComponent::setCursable(value);
+        for (auto child : children) {
             child->setEnabled(value);
         }
     }
 
     void AggregateComponent::setPosition(const Vect2 &pos) {
         Vect2 difference = pos - getPosition();
-        Component::move(difference);
+        move(difference);
     }
 
     void AggregateComponent::setForeground(const Color &color) {
-        Component::setForeground(color);
-        for (auto child : getChildren()) {
+        VisualComponent::setForeground(color);
+        for (auto child : children) {
             child->setForeground(color);
         }
     }
 
-    void AggregateComponent::setDrawOrder(const size_t order)
+    void AggregateComponent::setDrawOrder(size_t order)
     {
-        int curr = getDrawOrder();
+        size_t curr = getDrawOrder();
         if (curr != order)
         {
-            int diff = order - curr;
-            Component::addDrawOrder(diff);
-            for (auto child : getChildren()) {
+            size_t diff = order - curr;
+            this->order += diff;
+            for (auto child : children) {
                 child->addDrawOrder(diff);
             }
         }
@@ -57,86 +58,91 @@ namespace cursen {
 
     void AggregateComponent::setHighlight(const ColorPair& colorPair)
     {
-        Component::setHighlight(colorPair);
-        for (auto child : getChildren()) {
+        VisualComponent::setHighlight(colorPair);
+        for (auto child : children) {
             child->setHighlight(colorPair);
         }
     }
 
     void AggregateComponent::move(const Vect2& movement)
     {
-        Component::move(movement);
-        //for (auto child : getChildren()) {
-        //    child->move(movement);
-        //}
+        VisualComponent::move(movement);
+        for (auto child : children) {
+            child->move(movement);
+        }
     }
 
     void AggregateComponent::setSilenced(bool value)
     {
         Component::setSilenced(value);
-        for (auto child : getChildren()) {
+        for (auto child : children) {
             child->setSilenced(value);
         }
     }
 
     void AggregateComponent::setCursable(bool value)
     {
-        Component::setCursable(value);
-        for (auto child : getChildren()) {
+        VisualComponent::setCursable(value);
+        for (auto child : children) {
             child->setCursable(value);
         }
     }
 
     void AggregateComponent::setBackground(const Color& color)
     {
-        Component::setBackground(color);
-        for (auto child : getChildren()) {
+        VisualComponent::setBackground(color);
+        for (auto child : children) {
             child->setBackground(color);
         }
     }
 
     void AggregateComponent::setDisabled(const ColorPair& color)
     {
-        Component::setDisabled(color);
-        for (auto child : getChildren()) {
+        VisualComponent::setDisabled(color);
+        for (auto child : children) {
             child->setDisabled(color);
         }
     }
 
     void AggregateComponent::setText(const std::string& text)
     {
-        Component::setText(text);
-        for (auto child : getChildren()) {
+        VisualComponent::setText(text);
+        for (auto child : children) {
             child->setText(text);
         }
     }
 
-    void AggregateComponent::add(Component* component)
+    void AggregateComponent::add(VisualComponent& component)
     {
-        Component::add(component);
-        if (component->getDrawOrder() > getDrawOrder())
+        component.setParent(this);
+        //component->setDrawOrder(component->getDrawOrder() + this->drawOrder + 1);
+        children.push_back(&component);
+        if (component.getDrawOrder() > getDrawOrder())
         {
-            Component::setDrawOrder(component->getDrawOrder());
+           order = component.getDrawOrder();
         }
     }
 
-    void AggregateComponent::addRelative(Component* component)
+    void AggregateComponent::addRelative(VisualComponent& component)
     {
-        Component::addRelative(component);
-        if (component->getDrawOrder() > getDrawOrder())
-        {
-            Component::setDrawOrder(component->getDrawOrder());
-        }
+        component.move(getPosition());
+        add(component);
     }
 
-    void AggregateComponent::drawOnTopOf(const Component& component)
+    void AggregateComponent::drawOnTopOf(VisualComponent& component)
     {
-        setDrawOrder(component.getDrawOrder() + 1);
+        size_t order = component.getDrawOrder();
+        setDrawOrder(order + 1);
     }
 
-    void AggregateComponent::addDrawOrder(const int value)
+    void AggregateComponent::addDrawOrder(const size_t value)
     {
         setDrawOrder(getDrawOrder() + value);
+    }
+
+    size_t AggregateComponent::getDrawOrder() const
+    {
+        return order;
     }
 
 }

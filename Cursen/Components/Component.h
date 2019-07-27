@@ -44,66 +44,7 @@ namespace cursen {
          */
         //virtual Content * getContent() = 0;
 
-        /**
-         * @brief Get the draw order for this Component
-         *
-         * @return Draw Order
-         */
-        virtual size_t getDrawOrder() const;
-
-         /**
-         * @brief Set the draw order for this Component
-         *
-         * @param order New Draw Order
-         */
-        virtual void setDrawOrder(const size_t order);
-
-        /**
-         * @brief Set the draw order for this Component to be greater than the other Component's draw order
-         *
-         * @param component Component to be drawn on top of
-         */
-        virtual void drawOnTopOf(const Component& component);
-
-        /**
-         * @brief Adds values to this Component's draw order
-         *
-         * @param value Value to add to the draw order
-         */
-         virtual void addDrawOrder(const int value);
-
-        /**
-         * @brief Sets 'invalid' flag to True, causing Component to be re-rendered next Screen Draw
-         *
-         * Whenever any visual data is changed for the Component this method should be called.
-         */
-        void invalidate();
-
-        /**
-         * @brief Sets 'invalid' flag to False, preventing Component from being re-rendered next Screen Draw
-         *
-         * This method is automatically called by CursesManager after it is done with rendering the Component.
-         */
-        void validate();
-
-        /**
-         * @brief Tells if this Component is invalid and needs to be re-rendered.
-         *
-         * This method is called by CursesManager to check if it needs to re-render this Component.
-         */
-        bool isInvalid() const;
-
         //virtual void render() = 0;
-        Vect2 getPosition() const;
-        virtual void setPosition(const Vect2& pos);
-        virtual void move(const Vect2& movement);
-
-        // Component Relationship
-        virtual void add(Component *);
-        virtual void addRelative(Component *);
-        void remove(Component *);
-        Component* getParent();
-        const std::vector<Component*> & getChildren();
 
         // Attributes
         virtual void setEnabled(bool value);
@@ -112,124 +53,6 @@ namespace cursen {
 
         virtual void setSilenced(bool value);
         virtual bool isSilenced() const;
-
-        virtual void setCursable(bool value);
-        virtual bool isCursable() const;
-
-        /**
-         * @brief Enable or Disable drawing of this Component
-         *
-         * @param value True to hide component, False to show component
-         */
-        virtual void setHidden(bool value);
-
-        /**
-         * @brief Tell whether the Component is hidden or not
-         *
-         * @return True if Component is hidden, False if otherwise
-         */
-        virtual bool isHidden() const;
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-        /**
-         * Common Attributes:
-         *
-         * The following methods provide an interface for editing common elements across most Components.
-         * By Default, these methods provide no meaningful functionality, all subclasses of Component should
-         * override these methods with functionality that makes sense for that Component.
-         */
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /**
-         * @brief Set the Foreground Color of the Component
-         *
-         * @param color Foreground Color
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual void setForeground(const Color &color) {};
-
-        /**
-         * @brief Get the Foreground Color of the Component
-         *
-         * @returns Foreground Color
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual Color getForeground() { return Color::NONE; };
-
-        /**
-         * @brief Set the Background Color of the Component
-         *
-         * @returns Background Color
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual void setBackground(const Color &color) {};
-
-        /**
-         * @brief Get the Background Color of the Component
-         *
-         * @param color Background Color
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual Color getBackground() { return Color::NONE; };
-
-        /**
-         * @brief Set the ColorPair to be used for when a Cursor highlights this Component
-         *
-         * @param colorPair Highlight ColorPair
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual void setHighlight(const ColorPair &colorPair) {};
-
-        /**
-         * @brief Get the ColorPair used for when a Cursor highlights this Component
-         *
-         * @returns Highlight ColorPair
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual ColorPair getHighlight() { return ColorPair::NONE; };
-
-        /**
-         * @brief Set the ColorPair to be used for when this Component is disabled.
-         *
-         * @param colorPair Disabled ColorPair
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual void setDisabled(const ColorPair &color) {};
-
-        /**
-         * @brief Get the ColorPair used for when this Component is disabled.
-         *
-         * @returns Disabled ColorPair
-         *
-         * @note This method is purposely stubbed out to perform no meaningful action. All subclassed
-         * of Component should override this in a manner that makes sense for that Component's
-         * function.
-         */
-        virtual ColorPair getDisabled() { return ColorPair::NONE; };
-
-        virtual void setText(const std::string& text) {};
-        virtual std::string getText() { return ""; };
 
         // Event Functions
 
@@ -365,11 +188,11 @@ namespace cursen {
          */
         void detachUpdate();
 
-        void CallKeyPress(const Event&) const;
-        void CallEscapePress(const Event&) const;
-        void CallEnterPress(const Event&) const;
-        void CallDeletePress(const Event&) const;
-        void CallArrowPress(const Event&) const;
+        void CallKeyPress(const Event& event) const;
+        void CallEscapePress(const Event& event) const;
+        void CallEnterPress(const Event& event) const;
+        void CallDeletePress(const Event& event) const;
+        void CallArrowPress(const Event& event) const;
         void CallOnCursor() const;
         void CallOffCursor() const;
         void CallOnClick() const;
@@ -380,14 +203,9 @@ namespace cursen {
         std::string id;
         void setId(std::string id) { this->id = id; }
 
-    private:
-
-        friend class EventManager;
-        friend class CursesManager;
-        friend class CursenApplication;
-        friend class Cursor;
-
         void setParent(Component*);
+
+    private:
 
         std::function<void(const Event&)> f_keyPress;
         std::function<void(const Event&)> f_escapePress;
@@ -405,15 +223,9 @@ namespace cursen {
         std::function<bool()> f_enableIf;
 
         Component* parent;
-        std::vector<Component*> children;
-        Vect2 position;
-        size_t drawOrder;
 
         bool enabled;   /// True if Component is active, False if otherwise
-        bool invalid;   /// True if Component needs to be re-rendered, False if otherwise
-        bool hidden;    /// True if Component should not be drawn, False if otherwise
         bool silenced;  /// True if Component should not respond to events, False if otherwise
-        bool cursable;  /// True if Cursor should cursor over Component, False if otherwise
         bool registeredForUpdates;
 
     };

@@ -20,15 +20,15 @@ namespace cursen {
     public:
 
         Cursor();
-        Cursor(Component *start);
+        Cursor(VisualComponent *start);
 
         void initialize() override;
-        Component* getHoveredComponent();
+        VisualComponent* getHoveredComponent();
 
         void setEnabled(bool value) override;
-        void moveTo(Component *start);
-        void mapComponent(Component *component, cursen::ArrowMap arrowMap);
-        void unmapComponent(Component *component);
+        void moveTo(VisualComponent *start);
+        void mapComponent(VisualComponent *component, cursen::ArrowMap arrowMap);
+        void unmapComponent(VisualComponent *component);
         bool cursorDown();
         bool cursorLeft();
         bool cursorRight();
@@ -41,8 +41,8 @@ namespace cursen {
         void enterClick(const Event &event);
         void keyClick(const Event &event);
 
-        Component *currentComponent;
-        std::unordered_map<Component *, cursen::ArrowMap> componentMap;
+        VisualComponent *currentComponent;
+        std::unordered_map<VisualComponent *, cursen::ArrowMap> componentMap;
 
     };
 }

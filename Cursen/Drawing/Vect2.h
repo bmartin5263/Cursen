@@ -27,8 +27,11 @@ namespace cursen {
         }
 
         Vect2& operator = (const Vect2& other) {
-            this->x = other.x;
-            this->y = other.y;
+            if (this != &other)
+            {
+                this->x = other.x;
+                this->y = other.y;
+            }
             return *this;
         }
 

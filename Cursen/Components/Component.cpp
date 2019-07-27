@@ -15,46 +15,16 @@ namespace cursen
 
     Component::Component() :
             id("n/a"), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
-            f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr), children(), position(),
-            drawOrder(0), enabled(true), invalid(true), hidden(false), silenced(false), cursable(true),
-            registeredForUpdates(false)
+            f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr),
+            enabled(true), silenced(false), registeredForUpdates(false)
     {
-        id = "n/a";
     }
 
     Component::Component(const Vect2& pos) :
             id("n/a"), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
-            f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr), children(), position(pos),
-            drawOrder(0), enabled(true), invalid(true), hidden(false), silenced(false), cursable(true),
-            registeredForUpdates(false)
+            f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr),
+            enabled(true), silenced(false), registeredForUpdates(false)
     {
-        id = "n/a";
-    }
-
-    void Component::add(Component* component)
-    {
-        assert(component != nullptr);
-        component->setParent(this);
-        //component->setDrawOrder(component->getDrawOrder() + this->drawOrder + 1);
-        children.push_back(component);
-    }
-
-    void Component::addRelative(Component* component)
-    {
-        assert(component != nullptr);
-        component->move(this->position);
-        add(component);
-    }
-
-    void Component::remove(Component* component)
-    {
-        component->setParent(nullptr);
-        children.erase(std::remove(children.begin(), children.end(), component), children.end());
-    }
-
-    Component* Component::getParent()
-    {
-        return parent;
     }
 
     void Component::setParent(Component* component)
@@ -135,16 +105,6 @@ namespace cursen
     bool Component::isEnabled() const
     {
         return enabled;
-    }
-
-    void Component::setHidden(bool value)
-    {
-        hidden = value;
-    }
-
-    bool Component::isHidden() const
-    {
-        return hidden;
     }
 
     void Component::CallKeyPress(const Event& e) const
@@ -267,58 +227,13 @@ namespace cursen
         f_update = 0;
     }
 
-    void Component::move(const Vect2& movement)
-    {
-        position += movement;
-        for (auto child : children)
-        {
-            child->move(movement);
-        }
-    }
-
-    void Component::invalidate()
-    {
-        invalid = true;
-    }
-
-    void Component::validate()
-    {
-        invalid = false;
-    }
-
-    bool Component::isInvalid() const
-    {
-        return invalid;
-    }
-
-    Vect2 Component::getPosition() const
-    {
-        return this->position;
-    }
-
-    void Component::setPosition(const Vect2& pos)
-    {
-        this->position = pos;
-        invalidate();
-    }
-
-    const std::vector<Component*>& Component::getChildren()
-    {
-        return children;
-    }
+//    const std::vector<Component*>& Component::getChildren()
+//    {
+//        return children;
+//    }
 
     Component::~Component()
     {
-    }
-
-    size_t Component::getDrawOrder() const
-    {
-        return drawOrder;
-    }
-
-    void Component::setDrawOrder(const size_t order)
-    {
-        drawOrder = order;
     }
 
     void Component::setSilenced(bool value)
@@ -329,26 +244,6 @@ namespace cursen
     bool Component::isSilenced() const
     {
         return silenced;
-    }
-
-    void Component::setCursable(bool value)
-    {
-        this->cursable = value;
-    }
-
-    bool Component::isCursable() const
-    {
-        return cursable;
-    }
-
-    void Component::drawOnTopOf(const Component& component)
-    {
-        Component::setDrawOrder(component.getDrawOrder() + 1);
-    }
-
-    void Component::addDrawOrder(const int value)
-    {
-        Component::setDrawOrder(Component::getDrawOrder() + value);
     }
 
 

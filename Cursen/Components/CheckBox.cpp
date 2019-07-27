@@ -17,11 +17,11 @@ namespace cursen {
     void CheckBox::initialize() {
         text.initialize();
         text.setPosition(getPosition() + Vect2(4, 0));
-        add(&text);
+        add(text);
 
         box.initialize();
         box.setPosition(getPosition());
-        add(&box);
+        add(box);
 
         setState(CheckState::UNCHECKED);
 
@@ -88,7 +88,7 @@ namespace cursen {
     }
 
     void CheckBox::setPosition(const Vect2 &size) {
-        Component::setPosition(size);
+        VisualComponent::setPosition(size);
         text.setPosition(getPosition() + Vect2(4, 0));
         box.setPosition(getPosition());
     }

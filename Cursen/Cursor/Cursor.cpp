@@ -13,7 +13,7 @@ namespace cursen {
             currentComponent(nullptr) {
     }
 
-    Cursor::Cursor(Component *start) :
+    Cursor::Cursor(VisualComponent *start) :
             currentComponent(start) {
     }
 
@@ -22,7 +22,7 @@ namespace cursen {
         CursorManager::Register(this);
     }
 
-    void Cursor::mapComponent(Component *component, cursen::ArrowMap arrowMap) {
+    void Cursor::mapComponent(VisualComponent *component, cursen::ArrowMap arrowMap) {
         componentMap[component] = arrowMap;
         if (currentComponent == nullptr) {
             currentComponent = component;
@@ -32,7 +32,7 @@ namespace cursen {
     void Cursor::setEnabled(bool value) {
         if (currentComponent != nullptr) {
             Component::setEnabled(value);
-            if (enabled) {
+            if (isEnabled()) {
                 onArrowPress([&](const Event& event) { this->moveCursor(event); } );
                 onEnterPress([&](const Event& event) { this->enterClick(event); } );
                 onKeyPress([&](const Event& event) { this->keyClick(event); } );
@@ -101,7 +101,7 @@ namespace cursen {
     }
 
 
-    void Cursor::unmapComponent(Component *component) {
+    void Cursor::unmapComponent(VisualComponent *component) {
         if (componentMap.find(component) != componentMap.end()) {
             componentMap.erase(component);
             if (component == currentComponent) {
@@ -112,7 +112,7 @@ namespace cursen {
 
     bool Cursor::refresh()
     {
-        if (enabled)
+        if (isEnabled())
         {
             if (currentComponent == nullptr || !currentComponent->isCursable())
             {
@@ -125,12 +125,12 @@ namespace cursen {
         return true;
     }
 
-    void Cursor::moveTo(Component *start) {
+    void Cursor::moveTo(VisualComponent *start) {
         currentComponent = start;
     }
 
     bool Cursor::cursorDown() {
-        Component *originalComponent = currentComponent;
+        VisualComponent *originalComponent = currentComponent;
         cursen::ArrowMap map = componentMap[currentComponent];
         currentComponent = map.down;
         if (currentComponent == nullptr) {
@@ -150,7 +150,7 @@ namespace cursen {
     }
 
     bool Cursor::cursorLeft() {
-        Component *originalComponent = currentComponent;
+        VisualComponent *originalComponent = currentComponent;
         cursen::ArrowMap map = componentMap[currentComponent];
         currentComponent = map.left;
         if (currentComponent == nullptr) {
@@ -170,7 +170,7 @@ namespace cursen {
     }
 
     bool Cursor::cursorRight() {
-        Component *originalComponent = currentComponent;
+        VisualComponent *originalComponent = currentComponent;
         cursen::ArrowMap map = componentMap[currentComponent];
         currentComponent = map.right;
         if (currentComponent == nullptr) {
@@ -190,7 +190,7 @@ namespace cursen {
     }
 
     bool Cursor::cursorUp() {
-        Component *originalComponent = currentComponent;
+        VisualComponent *originalComponent = currentComponent;
         cursen::ArrowMap map = componentMap[currentComponent];
         currentComponent = map.up;
         if (currentComponent == nullptr) {
@@ -209,7 +209,7 @@ namespace cursen {
         return true;
     }
 
-    Component* Cursor::getHoveredComponent()
+    VisualComponent* Cursor::getHoveredComponent()
     {
         return currentComponent;
     }

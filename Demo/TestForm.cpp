@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 3/11/19.
 //
 
+#include <Uno/Forms/LobbyForm.h>
 #include "Cursen/Drawing/CursesManager.h"
 #include "Cursen/CursenApplication.h"
 #include "Cursen/Events/AlarmManager.h"
@@ -14,12 +15,11 @@ TestForm::TestForm() :
 }
 
 void TestForm::initialize() {
-    setHidden(true);
 
     box.initialize();
     box.setPosition(cursen::Vect2(2,3));
     box.setSize(cursen::Vect2(21, 10));
-    box.setHidden(false);
+    box.setFill(cursen::Content::TRANSPARENT);
 
     titleBox.initialize();
     titleBox.setPosition(cursen::Vect2(0,0));
@@ -62,6 +62,7 @@ void TestForm::initialize() {
     messageLabel.setSize(cursen::Vect2(getSize().x - 2,1));
     messageLabel.setText("Welcome to Cursen!");
     messageLabel.setForeground(cursen::Color::YELLOW);
+    messageLabel.setDrawOrder(101);
 
     //checkBox = new CheckBox(cursen::Vect2(1,6));
     checkBox.initialize();
@@ -83,22 +84,25 @@ void TestForm::initialize() {
     twirlProgress.initialize();
     twirlProgress.setPosition(cursen::Vect2(20, 4));
 
-    box.add(&twirlProgress);
-    titleBox.addRelative(&messageLabel);
-    box.addRelative(&flashLabel);
-    box.addRelative(&beepLabel);
-    box.addRelative(&changeColorLabel);
-    box.addRelative(&exitLabel);
-    box.addRelative(&checkBox);
-    box.addRelative(&checkBox2);
-    box.addRelative(&twirlCheck);
+//    box.add(&twirlProgress);
+//    titleBox.addRelative(&messageLabel);
+//    box.addRelative(&flashLabel);
+//    box.addRelative(&beepLabel);
+//    box.addRelative(&changeColorLabel);
+//    box.addRelative(&exitLabel);
+//    box.addRelative(&checkBox);
+//    box.addRelative(&checkBox2);
+//    box.addRelative(&twirlCheck);
 
     pressMe.initialize();
     pressMe.setLength(21);
     pressMe.setText("");
     pressMe.setPosition(cursen::Vect2(2,13));
     //pressMe.setText("Hello");
-    add(&pressMe);
+//    add(&pressMe);
+
+    title.initialize();
+    title.setPosition(cursen::Vect2(0,20));
 
     cursor.moveTo(&flashLabel);
     cursor.mapComponent(&flashLabel, cursen::ArrowMap(nullptr, &pressMe, nullptr, &beepLabel));
@@ -147,11 +151,13 @@ void TestForm::quitGame() {
 void TestForm::flash() {
     cursen::CursesManager::Flash();
     messageLabel.setText("Flashy Flash");
+    openForm(new LobbyForm);
 }
 
 void TestForm::beep() {
-    cursen::CursesManager::Beep();
+    //cursen::CursesManager::Beep();
     messageLabel.setText("Beep Boop");
+    openForm(new TestForm);
 }
 
 void TestForm::moveComponent(const cursen::Event &event) {
