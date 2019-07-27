@@ -35,12 +35,16 @@ namespace cursen {
         virtual void setDrawOrder(size_t order) override ;
         void drawOnTopOf(VisualComponent& component) override ;
         void addDrawOrder(size_t value) override ;
+
         size_t getDrawOrder() const override;
+        size_t getMinOrder() const;
+        size_t getMaxOrder() const;
 
     private:
 
         std::vector<VisualComponent*> children;
-        size_t order;
+        size_t min_order;
+        size_t max_order;
 
     };
 

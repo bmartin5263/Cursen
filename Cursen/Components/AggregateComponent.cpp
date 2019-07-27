@@ -7,13 +7,14 @@
 
 namespace cursen {
 
-    AggregateComponent::AggregateComponent() {
-
+    AggregateComponent::AggregateComponent() :
+        min_order(0), max_order(0)
+    {
     }
 
     AggregateComponent::AggregateComponent(const Vect2 &pos) :
-            VisualComponent(pos) {
-
+            VisualComponent(pos), min_order(0), max_order(0)
+    {
     }
 
     void AggregateComponent::setHidden(bool value) {
@@ -45,14 +46,14 @@ namespace cursen {
 
     void AggregateComponent::setDrawOrder(size_t order)
     {
-        size_t curr = getDrawOrder();
-        if (curr != order)
+        if (order != getDrawOrder())
         {
-            size_t diff = order - curr;
-            this->order += diff;
+            size_t diff = order - min_order;
             for (auto child : children) {
                 child->addDrawOrder(diff);
             }
+            this->max_order += diff;
+            this->min_order += diff;
         }
     }
 
@@ -115,11 +116,17 @@ namespace cursen {
     void AggregateComponent::add(VisualComponent& component)
     {
         component.setParent(this);
-        //component->setDrawOrder(component->getDrawOrder() + this->drawOrder + 1);
         children.push_back(&component);
-        if (component.getDrawOrder() > getDrawOrder())
+
+        size_t order = component.getDrawOrder();
+
+        if (order > getMaxOrder())
         {
-           order = component.getDrawOrder();
+            max_order = order;
+        }
+        if (order < getMinOrder())
+        {
+            min_order = order;
         }
     }
 
@@ -142,7 +149,17 @@ namespace cursen {
 
     size_t AggregateComponent::getDrawOrder() const
     {
-        return order;
+        return getMaxOrder();
+    }
+
+    size_t AggregateComponent::getMinOrder() const
+    {
+        return min_order;
+    }
+
+    size_t AggregateComponent::getMaxOrder() const
+    {
+        return max_order;
     }
 
 }
