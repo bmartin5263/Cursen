@@ -237,8 +237,7 @@ namespace cursen
                         int y_pos = position.y + y;
                         int x_pos = position.x + i;
                         int index = (dimensions.x * y_pos) + x_pos;
-                        buffer[index] = c;
-                        //mvaddch(y_pos, x_pos, c);
+                        if (index >= 0 && index < buff_size) buffer[index] = c;
                     }
                     i++;
                 }

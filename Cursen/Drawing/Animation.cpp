@@ -12,13 +12,13 @@ namespace cursen
 
     Animation::Animation() :
             default_duration(1.0), currentFrame(0), numFrames(0), loops(0), loop_counter(0), running(false),
-            paused(false), variable_time(true)
+            paused(false), variable_time(true), continuous(true)
     {
     }
 
     Animation::Animation(size_t num_frames) :
             default_duration(1.0), currentFrame(0), numFrames(0), loops(0), loop_counter(0), running(false),
-            paused(false), variable_time(true)
+            paused(false), variable_time(true), continuous(true)
     {
         this->frames.reserve(num_frames);
     }
@@ -98,26 +98,39 @@ namespace cursen
         {
             time = default_duration;
         }
+
         currentFrame = (currentFrame + 1) % numFrames;
 
         if (running && !paused)
         {
-            if (variable_time)
+            if (currentFrame == 0)
             {
-                animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
-            }
-
-            if (currentFrame == 0 && loops > 0)
-            {
-                if (loop_counter >= loops)
+                if (continuous)
                 {
-                    stop();
-                    callOnEnd();
+                    if (variable_time)
+                    {
+                        animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
+                    }
                 }
                 else
                 {
-                    loop_counter++;
+                    if (loop_counter >= loops)
+                    {
+                        stop();
+                    }
+                    else
+                    {
+                        loop_counter++;
+                        if (variable_time)
+                        {
+                            animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
+                        }
+                    }
                 }
+            }
+            else
+            {
+                if (variable_time) animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
             }
         }
     }
@@ -164,6 +177,7 @@ namespace cursen
     void Animation::setLoops(size_t count)
     {
         this->loops = count;
+        this->continuous = false;
     }
 
     size_t Animation::getLoops()
@@ -188,11 +202,6 @@ namespace cursen
         detachOnStop();
     }
 
-    void Animation::onStop(Animation::VoidFunction f)
-    {
-        f_stop = f;
-    }
-
     void Animation::onPause(Animation::VoidFunction f)
     {
         f_pause = f;
@@ -203,11 +212,6 @@ namespace cursen
         f_end = f;
     }
 
-    void Animation::detachOnStop()
-    {
-        f_stop = 0;
-    }
-
     void Animation::detachOnPause()
     {
         f_pause = 0;
@@ -216,11 +220,6 @@ namespace cursen
     void Animation::detachOnEnd()
     {
         f_end = 0;
-    }
-
-    void Animation::callOnStop()
-    {
-        if (f_stop) f_stop();
     }
 
     void Animation::callOnPause()
@@ -237,11 +236,26 @@ namespace cursen
     {
         this->running = false;
         this->paused = false;
+        callOnEnd();
     }
 
     void Animation::callCurrentFrame()
     {
         frames[currentFrame]();
+    }
+
+    void Animation::setContinuous(bool value)
+    {
+        this->continuous = value;
+        if (continuous) {
+            this->loops = 0;
+            this->loop_counter = 0;
+        }
+    }
+
+    bool Animation::isContinuous()
+    {
+        return continuous;
     }
 
 }

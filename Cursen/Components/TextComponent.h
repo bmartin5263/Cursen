@@ -57,7 +57,6 @@ namespace cursen {
 
     private:
 
-        VisualComponent* parent;
         Content content;
         size_t order;
         bool invalid;   /// True if Component needs to be re-rendered, False if otherwise

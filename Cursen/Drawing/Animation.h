@@ -140,7 +140,9 @@ namespace cursen {
 
         void clear();
 
-        void onStop(VoidFunction f);
+        void setContinuous(bool value);
+        bool isContinuous();
+
         void onPause(VoidFunction f);
         void onEnd(VoidFunction f);
 
@@ -151,13 +153,11 @@ namespace cursen {
     private:
 
         void end();
-        void callOnStop();
         void callOnPause();
         void callOnEnd();
 
         AlarmHandle animationHandle;
 
-        VoidFunction f_stop;    // For explicit stops
         VoidFunction f_pause;   // For pauses
         VoidFunction f_end;     // For ends
 
@@ -170,6 +170,7 @@ namespace cursen {
         bool running;
         bool paused;
         bool variable_time;
+        bool continuous;
 
     };
 
