@@ -19,15 +19,16 @@ void MatchHostController::pressDraw()
 
 void MatchHostController::start()
 {
-//    Match* match = getMatchForm()->getMatch();
-//    MatchForm* matchForm = getMatchForm();
-//    Deck& deck = match->getDeck();
-//    Deck::InitializeDeck(deck);
-//    matchForm->updatePlayers();
-//    matchForm->setDeckMeterSize(Deck::SIZE);
-//    matchForm->setDeckMeterCount(deck.size());
-//    matchForm->setHandName(match->getMyPlayer().getName());
-//    matchForm->setState(&MatchFSM::waitingToDealCardsState);
+    Match* match = getMatchForm()->getMatch();
+    MatchForm* matchForm = getMatchForm();
+    Deck& deck = match->getDeck();
+    Deck::InitializeDeck(deck);
+    matchForm->updatePlayers();
+    matchForm->setDeckMeterSize(Deck::SIZE);
+    matchForm->setDeckMeterCount(deck.size());
+    matchForm->setHandName(match->getMyPlayer().getName());
+    matchForm->setState(&MatchFSM::waitingToDealCardsState);
+    getMatchForm()->setConsoleMessage("Waiting for Clients...");
 }
 
 void MatchHostController::pressEnter()

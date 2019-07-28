@@ -20,7 +20,12 @@ void MatchClientController::pressDraw()
 
 void MatchClientController::start()
 {
-
+    Match* match = getMatchForm()->getMatch();
+    MatchForm* matchForm = getMatchForm();
+    matchForm->updatePlayers();
+    matchForm->setHandName(match->getMyPlayer().getName());
+    matchForm->setState(&MatchFSM::animationState);
+    getMatchForm()->setConsoleMessage("Receiving Data From Host...");
 }
 
 void MatchClientController::pressEnter()

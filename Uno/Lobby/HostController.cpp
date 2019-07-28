@@ -3,6 +3,9 @@
 //
 
 #include <Uno/Messages/InputSearch.h>
+#include <Uno/GameObjects/Match.h>
+#include <Uno/Forms/MatchForm.h>
+#include <Uno/Messages/InputEnterMatch.h>
 #include "Uno/Network/Host.h"
 #include "Uno/Network/NetworkManager.h"
 #include "HostController.h"
@@ -31,8 +34,9 @@ void HostController::destroy()
 
 void HostController::clickStart()
 {
-    // Broadcast message to start the game
-    lobbyForm->getConsole().setText("Start Clicked!");
+    DataMessage* msg = new InputEnterMatch(lobbyForm->getLobby().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void HostController::clickAddAI()
@@ -184,6 +188,7 @@ void HostController::handleDisconnect(int sock)
     if (suddenDisconnect)
     {
         selectPlayerToKick(playerId);
+        socket_map.erase(sock);
     }
 }
 
@@ -192,4 +197,15 @@ void HostController::sendCloseMessages()
     DataMessage* close_message = new CloseRoom("Host Has Closed Lobby", true);
     close_message->setSendType(SendType::Both);
     DataManager::PushMessage(close_message);
+}
+
+void HostController::handleEnterMatch()
+{
+    Player* players = lobbyForm->getLobby().getPlayers();
+    int num_players = lobbyForm->getLobby().getNumPlayers();
+
+    Match* match = new Match(players, num_players, lobbyForm->getLobby().getMyId());
+    MatchForm* matchForm = new MatchForm(LobbyType::HOST, match);
+
+    lobbyForm->openForm(matchForm);
 }

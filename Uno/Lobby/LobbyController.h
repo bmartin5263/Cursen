@@ -39,6 +39,8 @@ public:
     virtual void handleDisconnect(int sock) = 0;
     virtual void sendCloseMessages() = 0;
 
+    virtual void handleEnterMatch() = 0;
+
 protected:
 
     LobbyForm* lobbyForm;

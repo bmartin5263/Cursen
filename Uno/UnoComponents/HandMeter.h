@@ -18,6 +18,7 @@ public:
     HandMeter(cursen::Vect2 pos);
 
     void initialize() override ;
+    void update(int hand_size, int hand_index);
 
 private:
 

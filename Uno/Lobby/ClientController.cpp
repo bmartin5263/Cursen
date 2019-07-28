@@ -4,6 +4,8 @@
 
 #include <Uno/Network/NetworkManager.h>
 #include <Uno/Network/Client.h>
+#include <Uno/GameObjects/Match.h>
+#include <Uno/Forms/MatchForm.h>
 #include "ClientController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Constants.h"
@@ -46,6 +48,7 @@ void ClientController::clickClose()
     //msg->setSendType(SendType::Local);
     //DataManager::PushMessage(msg);
     ((Client&)NetworkManager::GetDevice()).closeConnection();
+    handleClose("Goodbye!", false);
 }
 
 void ClientController::clickChangeColor()
@@ -126,4 +129,15 @@ void ClientController::handleDisconnect(int sock)
 void ClientController::sendCloseMessages()
 {
     assert(false);
+}
+
+void ClientController::handleEnterMatch()
+{
+    Player* players = lobbyForm->getLobby().getPlayers();
+    int num_players = lobbyForm->getLobby().getNumPlayers();
+
+    Match* match = new Match(players, num_players, lobbyForm->getLobby().getMyId());
+    MatchForm* matchForm = new MatchForm(LobbyType::JOIN, match);
+
+    lobbyForm->openForm(matchForm);
 }

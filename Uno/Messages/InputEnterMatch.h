@@ -1,30 +1,27 @@
 //
-// Created by Brandon Martin on 6/6/19.
+// Created by Brandon Martin on 7/28/19.
 //
 
-#ifndef CURSEN_INPUTCLOSE_H
-#define CURSEN_INPUTCLOSE_H
+#ifndef CURSEN_INPUTENTERMATCH_H
+#define CURSEN_INPUTENTERMATCH_H
 
+#include <Uno/Data/DataManager.h>
 #include "DataMessage.h"
-#include "CloseRoom.h"
-#include "KickPlayer.h"
-#include "Uno/Data/DataManager.h"
-#include "Uno/Forms/LobbyForm.h"
-#include "Cursen/CursenApplication.h"
+#include "EnterMatch.h"
 
-class InputCloseRoom : public DataMessage
+class InputEnterMatch : public DataMessage
 {
 
 public:
 
-    InputCloseRoom() = default;
-    InputCloseRoom(int id) :
-        id(id)
+    InputEnterMatch() = default;
+    InputEnterMatch(int id) :
+            id(id)
     {}
 
     MessageType getType() override
     {
-        return MessageType::InputClose;
+        return MessageType::InputEnterMatch;
     }
 
     Context getContext() override
@@ -37,10 +34,11 @@ public:
         CONTEXT_CHECK_BEGIN
 
             LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
-            if (id == lobbyForm->getLobby().getMyId())
+            if (id == lobbyForm->getLobby().getMyId() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START)
             {
-                // Security - the host should reject messages without the host's id
-                lobbyForm->getController().sendCloseMessages();
+                DataMessage* msg = new EnterMatch;
+                msg->setSendType(SendType::Both);
+                DataManager::PushMessage(msg);
             }
 
         CONTEXT_CHECK_END
@@ -48,12 +46,12 @@ public:
 
     DataMessage* clone() override
     {
-        return new InputCloseRoom(*this);
+        return new InputEnterMatch(*this);
     }
 
     size_t sizeOf() const override
     {
-        return sizeof(InputCloseRoom);
+        return sizeof(InputEnterMatch);
     };
 
     size_t serialize(char* const buffer) const override
@@ -80,4 +78,4 @@ private:
 
 };
 
-#endif //CURSEN_INPUTCLOSE_H
+#endif //CURSEN_INPUTENTERMATCH_H

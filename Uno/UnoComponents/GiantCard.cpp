@@ -65,7 +65,8 @@ void GiantCard::setValuesFrom(GiantCard& giantCard)
     this->value = giantCard.value;
     number.loadFromVector(Card::GetBigNumber(this->value));
     setForeground(Card::ConvertToColor(color));
-    if (isHidden()) setHidden(false);
+    border.setHidden(false);
+    number.setHidden(false);
     card_injected = true;
 }
 

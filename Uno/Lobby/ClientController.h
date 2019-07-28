@@ -30,6 +30,7 @@ public:
     void sendKickMessages(int id) override;
     void handleDisconnect(int sock) override;
     void sendCloseMessages() override;
+    void handleEnterMatch() override;
 
 };
 

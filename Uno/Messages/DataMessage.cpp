@@ -26,6 +26,7 @@
 #include "InputSearch.h"
 #include "DisconnectFromHost.h"
 #include "ConnectionSevered.h"
+#include "InputEnterMatch.h"
 
 DataMessage* DataMessage::Parse(MessageType type)
 {
@@ -127,6 +128,12 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::WildColorChange:
             msg = new WildColorChange;
+            break;
+        case MessageType::InputEnterMatch:
+            msg = new InputEnterMatch;
+            break;
+        case MessageType::EnterMatch:
+            msg = new EnterMatch;
             break;
     }
     assert(msg != nullptr);

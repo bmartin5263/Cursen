@@ -91,27 +91,30 @@ void HandCard::hoverOff()
 
 void HandCard::injectCard(const Card& card)
 {
+    bool activate_animation = false;
     if (card.isWild())
     {
         this->color = Color::WHITE;
-        wild = true;
+        if (!wild)
+        {
+            activate_animation = true;
+            wild = true;
+        }
     }
     else
     {
         this->color = Card::ConvertToColor(card.getColor());
+        if (wild) animation.stop();
         wild = false;
-        if (!hovered)
-        {
-            setForeground(this->color);
-        }
+        setForeground(this->color);
     }
     lowerLabel.setText(Card::getLowerLabel(card.getValue()));
     upperLabel.setText(Card::getUpperLabel(card.getValue()));
-    if (!hovered)
-    {
-        if (wild) animation.start();
-        else setForeground(this->color);
+
+    if (wild) {
+        if (activate_animation) animation.start();
     }
+    else setForeground(this->color);
 }
 
 void HandCard::setHidden(bool value)
@@ -125,5 +128,12 @@ void HandCard::setForeground(const cursen::Color& color)
     border.setForeground(color);
     lowerLabel.setForeground(Color::WHITE);
     upperLabel.setForeground(Color::WHITE);
+}
+
+void HandCard::clear()
+{
+    if (wild) animation.stop();
+    this->wild = false;
+    setHidden(true);
 }
 

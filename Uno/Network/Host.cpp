@@ -99,11 +99,13 @@ void Host::processNetworkMessages()
             {
                 /* Send a message that the socket disconnected */
                 removeSock(sock);
-                ((LobbyForm*)cursen::CursenApplication::GetCurrentForm())->getConsole().setWarning("Buh Bye");
-
-                DataMessage* msg = new ConnectionSevered(sock);
-                msg->setSendType(SendType::Local);
-                DataManager::PushMessage(msg);
+                if (DataManager::GetContext() == Context::ContextLobby) {
+                    ((LobbyForm*)cursen::CursenApplication::GetCurrentForm())->getConsole().setWarning("Buh Bye");
+                    DataMessage* msg = new ConnectionSevered(sock);
+                    msg->setSender(sock);
+                    msg->setSendType(SendType::Local);
+                    DataManager::PushMessage(msg);
+                }
 
             }
             else

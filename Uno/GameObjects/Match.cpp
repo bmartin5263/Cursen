@@ -54,7 +54,7 @@ Player& Match::getMyPlayer()
 
 bool Match::canDrawCard(int player_id)
 {
-    return true;
+    return (deck.size() > 0);
 }
 
 void Match::drawCard(int player_id)
@@ -101,25 +101,31 @@ int Match::getIndex(int player_id)
 
 bool Match::canPlayCard(int player_id, int card_index)
 {
-    return true;
-    if (!waitingForWildCardColor && current_player_id == player_id && pile.size() > 0)
+    if (!waitingForWildCardColor && (current_player_id == player_id || true) && (pile.size() > 0 || true))
     {
         Hand& hand = getPlayerById(player_id).getHand();
         size_t hand_size = hand.size();
         if (card_index >= 0 && card_index < hand_size)
         {
             const Card& card = hand.get(card_index);
-            const Card& top_card = pile.peekCard();
-            if (card.isWild() && !hand.hasPlayableCardFor(card))
+            if (pile.size() > 0)
             {
-                return true;
-            }
-            else
-            {
-                if (card.getColor() == top_card.getColor() || card.getValue() == top_card.getValue())
+                const Card& top_card = pile.peekCard();
+                if (card.isWild() && !hand.hasPlayableCardFor(card))
                 {
                     return true;
                 }
+                else
+                {
+                    if (card.getColor() == top_card.getColor() || card.getValue() == top_card.getValue())
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                return true;
             }
         }
     }

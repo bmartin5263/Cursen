@@ -92,6 +92,8 @@ public:
     void addPlayer(Player p, int sock);
     void close(int playerId);
 
+    void enterMatch();
+
     UnoConsole& getConsole() { return this->console; };
     Lobby& getLobby();
     ChatBox& getChatBox() { return this->chat_box; };

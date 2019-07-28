@@ -21,6 +21,8 @@ public:
     void setHidden(bool value) override;
     void setForeground(const cursen::Color& color) override;
 
+    void clear();
+
     void setLeft();
     void setRight();
 

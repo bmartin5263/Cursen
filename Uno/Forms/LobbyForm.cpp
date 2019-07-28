@@ -622,3 +622,8 @@ Lobby& LobbyForm::getLobby()
 {
     return *this->lobby;
 }
+
+void LobbyForm::enterMatch()
+{
+    controller->handleEnterMatch();
+}

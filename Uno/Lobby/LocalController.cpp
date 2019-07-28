@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 5/20/19.
 //
 
+#include <Uno/Messages/InputEnterMatch.h>
 #include "LocalController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Messages/InputAddAi.h"
@@ -29,14 +30,9 @@ void LocalController::destroy()
 
 void LocalController::clickStart()
 {
-    lobbyForm->getConsole().setText("Start Clicked!");
-    Player* players = lobbyForm->getLobby().getPlayers();
-    int num_players = lobbyForm->getLobby().getNumPlayers();
-
-    Match* match = new Match(players, num_players, lobbyForm->getLobby().getMyId());
-    MatchForm* matchForm = new MatchForm(LobbyType::LOCAL, match);
-
-    lobbyForm->openForm(matchForm);
+    DataMessage* msg = new InputEnterMatch(lobbyForm->getLobby().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void LocalController::clickAddAI()
@@ -120,4 +116,15 @@ void LocalController::sendCloseMessages()
     DataMessage* msg = new CloseRoom("Local Has Closed", false);
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
+}
+
+void LocalController::handleEnterMatch()
+{
+    Player* players = lobbyForm->getLobby().getPlayers();
+    int num_players = lobbyForm->getLobby().getNumPlayers();
+
+    Match* match = new Match(players, num_players, lobbyForm->getLobby().getMyId());
+    MatchForm* matchForm = new MatchForm(LobbyType::LOCAL, match);
+
+    lobbyForm->openForm(matchForm);
 }

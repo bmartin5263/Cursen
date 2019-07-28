@@ -112,15 +112,13 @@ void MatchForm::initialize()
 
     back_card.initialize();
     back_card.setPosition(Vect2(27,8));
-    back_card.injectCard(Card(CardColor::RED, CardValues::EIGHT));
-    back_card.setHidden(false);
+    back_card.setHidden(true);
 
     front_card.initialize();
     front_card.setPosition(Vect2(29,10));
     front_card.drawOnTopOf(back_card);
-    front_card.injectCard(Card(CardColor::BLUE, CardValues::SEVEN));
     //front_card.shrinkCompletely();
-    front_card.setHidden(false);
+    front_card.setHidden(true);
 
     tile_array[0] = &p0Tile;
     tile_array[1] = &p1Tile;
@@ -275,7 +273,7 @@ void MatchForm::updateHand()
     }
     for (; count < 14; ++count)
     {
-        card_array[count].setHidden(true);
+        card_array[count].clear();
     }
 
     if (hand_size == 0) {
@@ -287,6 +285,7 @@ void MatchForm::updateHand()
         card_index = 0;
         card_array[card_index].hoverOn();
     }
+    handMeter.update((int)hand_size, hand_index);
 }
 
 void MatchForm::drawCardByIndex(int index)
@@ -304,15 +303,17 @@ void MatchForm::drawCardByIndex(int index)
 void MatchForm::drawCard(int player_id)
 {
     int index = match->getIndex(player_id);
+    int new_hand_index = (int)(match->getMyPlayer().getHand().size() / 14);
     match->drawCard(player_id);
     tile_array[index]->setCardCount(match->getPlayerById(player_id).getHandSize());
     setDeckMeterCount(match->getDeckSize());
     if (player_id == match->getMyId())
     {
-        updateHand();
         card_array[card_index].hoverOff();
-        card_index = (int)(match->getMyPlayer().getHandSize() % 14) - 1;
+        card_index = ((int)match->getMyPlayer().getHandSize() - 1) % 14;
         card_array[card_index].hoverOn();
+        hand_index = new_hand_index;
+        updateHand();
     }
 }
 
@@ -353,13 +354,45 @@ void MatchForm::arrowPress(const cursen::Event& event)
                 card_array[card_index--].hoverOff();
                 card_array[card_index].hoverOn();
             }
+            else if (hand_index > 0)
+            {
+                card_array[card_index].hoverOff();
+                card_index = 13;
+                card_array[card_index].hoverOn();
+                hand_index--;
+                updateHand();
+            }
         }
         else if (event.arrowPress.right)
         {
-            if (card_index < match->getMyPlayer().getHandSize() - 1)
+            int max_hand_index = (int)(match->getMyPlayer().getHand().size() / 14);
+            int upper_limit = (int)(match->getMyPlayer().getHandSize() % 14) - 1;
+            if (card_index < 13)
             {
-                card_array[card_index++].hoverOff();
-                card_array[card_index].hoverOn();
+                if (hand_index == max_hand_index)
+                {
+                    if (card_index < upper_limit)
+                    {
+                        card_array[card_index++].hoverOff();
+                        card_array[card_index].hoverOn();
+                    }
+                }
+                else
+                {
+                    card_array[card_index++].hoverOff();
+                    card_array[card_index].hoverOn();
+                }
+            }
+            else
+            {
+                if (hand_index < max_hand_index)
+                {
+                    card_array[card_index].hoverOff();
+                    card_index = 0;
+                    card_array[card_index].hoverOn();
+                    hand_index++;
+                    updateHand();
+                }
             }
         }
     }
