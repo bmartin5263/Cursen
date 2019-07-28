@@ -505,8 +505,7 @@ void LobbyGlowBorder::render()
     // Redraw
     for (int j = 0; j < 4; ++j) {
         Runner& runner = runners[j];
-        const int colorNum = runner.color;
-        const short pair = COLOR_LUT[colorNum];
+        const short pair = COLOR_LUT[runner.color];
         for (int i = 0; i < 20; ++i) {
             const Vect2 p = runner.coordinates[i];
             chtype ref = reference[p.y][p.x];
@@ -519,7 +518,7 @@ void LobbyGlowBorder::render()
 void LobbyGlowBorder::setEnabled(bool value)
 {
     Component::setEnabled(value);
-    Component::setHidden(!value);
+    VisualComponent::setHidden(!value);
 
     if (isEnabled()) {
         animation.start();

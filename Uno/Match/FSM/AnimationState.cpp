@@ -16,5 +16,25 @@ void AnimationState::pressD(MatchForm& matchForm) const
 
 void AnimationState::pressSpace(MatchForm& matchForm) const
 {
+    // Do Nothing Intentionally
+}
 
+void AnimationState::pressB(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void AnimationState::pressR(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void AnimationState::pressY(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void AnimationState::pressG(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
 }

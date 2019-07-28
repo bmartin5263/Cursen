@@ -18,6 +18,10 @@ public:
     virtual void pressEnter(MatchForm& matchForm) const = 0;
     virtual void pressD(MatchForm& matchForm) const = 0;
     virtual void pressSpace(MatchForm& matchForm) const = 0;
+    virtual void pressB(MatchForm& matchForm) const = 0;
+    virtual void pressR(MatchForm& matchForm) const = 0;
+    virtual void pressY(MatchForm& matchForm) const = 0;
+    virtual void pressG(MatchForm& matchForm) const = 0;
 
 };
 

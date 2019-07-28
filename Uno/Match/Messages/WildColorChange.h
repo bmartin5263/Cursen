@@ -1,25 +1,26 @@
 //
-// Created by Brandon Martin on 7/21/19.
+// Created by Brandon Martin on 7/27/19.
 //
 
-#ifndef CURSEN_PLAYCARD_H
-#define CURSEN_PLAYCARD_H
+#ifndef CURSEN_WILDCOLORCHANGE_H
+#define CURSEN_WILDCOLORCHANGE_H
 
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/MatchForm.h"
+#include "Uno/GameObjects/Match.h"
 
-class PlayCard : public DataMessage
+class WildColorChange : public DataMessage
 {
 public:
 
-    PlayCard() = default;
-    PlayCard(int id, int card_index) :
-            id(id), card_index(card_index)
+    WildColorChange() = default;
+    WildColorChange(int id, CardColor color) :
+            id(id), color(color)
     {}
 
     MessageType getType() override
     {
-        return MessageType::PlayCard;
+        return MessageType::WildColorChange;
     }
 
     Context getContext() override
@@ -32,14 +33,14 @@ public:
         CONTEXT_CHECK_BEGIN
 
         MatchForm* matchForm = getCurrentForm<MatchForm>();
-        matchForm->playCard(id, card_index);
+        matchForm->wildColorChange(color);
 
         CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override
     {
-        return new PlayCard(*this);
+        return new WildColorChange(*this);
     }
 
     size_t serialize(char* const buffer) const override
@@ -47,7 +48,7 @@ public:
         size_t written =  DataMessage::serialize(buffer);
 
         written += Serializable::Serialize(buffer + written, id);
-        written += Serializable::Serialize(buffer + written, card_index);
+        written += Serializable::Serialize(buffer + written, (int)color);
 
         return written;
     }
@@ -57,7 +58,9 @@ public:
         size_t read = DataMessage::deserialize(buffer);
 
         read += Serializable::Deserialize(buffer + read, id);
-        read += Serializable::Deserialize(buffer + read, card_index);
+        int raw_color = 0;
+        read += Serializable::Deserialize(buffer + read, raw_color);
+        color = (CardColor)raw_color;
 
         return read;
     }
@@ -65,9 +68,8 @@ public:
 private:
 
     int id;
-    int card_index;
+    CardColor color;
 
 };
 
-
-#endif //CURSEN_PLAYCARD_H
+#endif //CURSEN_WILDCOLORCHANGE_H

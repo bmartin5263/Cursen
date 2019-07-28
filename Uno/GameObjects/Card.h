@@ -10,7 +10,7 @@
 
 #include <Cursen/Drawing/Color.h>
 #include <unordered_map>
-#include "CardColors.h"
+#include "CardColor.h"
 #include "CardValues.h"
 #include "Cursen/Events/Event.h"
 
@@ -22,28 +22,29 @@ private:
 
 public:
 
-    static const CardColors COLORS[4];
+    static const CardColor COLORS[4];
     static const CardValues VALUES_NO_WILD[13];
 
     static int score(const Card& card);
-    static cursen::Color ConvertToColor(CardColors color);
+    static cursen::Color ConvertToColor(CardColor color);
     static std::string getUpperLabel(CardValues value);
     static std::string getLowerLabel(CardValues value);
     static const std::vector<std::string>& GetBigNumber(CardValues value);
 
-    Card(CardColors color, CardValues value);
+    Card(CardColor color, CardValues value);
+    Card(CardColor color, CardValues value, bool wildOverride);
 
     bool operator == (const Card & other) const;
 
     bool isWild() const;
-    void changeColor(const CardColors& color);
+    Card changeColor(CardColor color) const;
 
-    CardColors getColor() const;
+    CardColor getColor() const;
     CardValues getValue() const;
 
 private:
 
-    CardColors color;
+    CardColor color;
     CardValues value;
     bool wild;
 

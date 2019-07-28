@@ -3,6 +3,7 @@
 //
 
 #include <Uno/Match/Messages/InputBeginGame.h>
+#include <Uno/Match/Messages/InputPlayCard.h>
 #include "WaitingToBeginState.h"
 #include "Uno/Data/DataManager.h"
 #include "Uno/Match/Messages/InputDealCards.h"
@@ -25,7 +26,27 @@ void WaitingToBeginState::pressD(MatchForm& matchForm) const
 
 void WaitingToBeginState::pressSpace(MatchForm& matchForm) const
 {
-    //DataMessage* msg = new InputPlayCard(matchForm.getMatch()->getMyId(), matchForm.getSelectedCardIndex());
-    //msg->setSendType(SendType::Local);
-    //DataManager::PushMessage(msg);
+    DataMessage* msg = new InputPlayCard(matchForm.getMatch()->getMyId(), matchForm.getSelectedCardIndex());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
+}
+
+void WaitingToBeginState::pressB(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void WaitingToBeginState::pressR(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void WaitingToBeginState::pressY(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void WaitingToBeginState::pressG(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
 }

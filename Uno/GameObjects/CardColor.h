@@ -5,7 +5,7 @@
 #ifndef CURSEN_CARDCOLORS_H
 #define CURSEN_CARDCOLORS_H
 
-enum class CardColors {
+enum class CardColor {
 
     BLUE, RED, GREEN, YELLOW, WHITE
 

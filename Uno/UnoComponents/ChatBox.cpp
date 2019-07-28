@@ -23,38 +23,38 @@ void ChatBox::initialize()
     border.initialize();
     border.setSize(Vect2(34, 15));
     border.setPosition(Vect2(0, 0));
-    addRelative(&border);
+    addRelative(border);
 
     titleBox.initialize();
     titleBox.setSize(Vect2(34, 3));
     titleBox.setPosition(Vect2(0, 0));
     titleBox.setLowerLeft(CursesManager::LTEE);
     titleBox.setLowerRight(CursesManager::RTEE);
-    addRelative(&titleBox);
+    addRelative(titleBox);
 
     messageBox.initialize();
     messageBox.setSize(Vect2(34, 3));
     messageBox.setPosition(Vect2(0,12));
     messageBox.setUpperRight(CursesManager::RTEE);
     messageBox.setUpperLeft(CursesManager::LTEE);
-    addRelative(&messageBox);
+    addRelative(messageBox);
 
     title.initialize();
     title.setSize(Vect2(32, 1));
     title.setPosition(Vect2(1,1));
     title.setTextAlignment(TextAlignment::CENTER);
     title.emplaceText("Chat");
-    addRelative(&title);
+    addRelative(title);
 
     chat_entry.initialize();
     chat_entry.setSize(Vect2(32, 1));
     chat_entry.setPosition(Vect2(Vect2(1,13)));
     chat_entry.setForeground(Color::WHITE);
     chat_entry.setBackground(Color::DARK_BLUE);
-    addRelative(&chat_entry);
+    addRelative(chat_entry);
 
     log.initialize();
-    addRelative(&log);
+    addRelative(log);
 
 }
 

@@ -23,17 +23,17 @@ void PlayerTile::initialize()
     border.initialize();
     border.setSize(Vect2(14, 4));
     border.setFill(Content::TRANSPARENT);
-    addRelative(&border);
+    addRelative(border);
 
     player_name.initialize();
     player_name.setPosition(Vect2(1,1));
-    addRelative(&player_name);
+    addRelative(player_name);
 
     player_cards.initialize();
     player_cards.setPosition(Vect2(1, 2));
     player_cards.setTextAlignment(TextAlignment::RIGHT);
     player_cards.setSize(Vect2(12, 1));
-    addRelative(&player_cards);
+    addRelative(player_cards);
 
     clear();
 }

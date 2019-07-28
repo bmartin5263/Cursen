@@ -21,5 +21,25 @@ void WaitingToDealCardsState::pressD(MatchForm& matchForm) const
 
 void WaitingToDealCardsState::pressSpace(MatchForm& matchForm) const
 {
+    // Do Nothing Intentionally
+}
 
+void WaitingToDealCardsState::pressB(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void WaitingToDealCardsState::pressR(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void WaitingToDealCardsState::pressY(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
+
+void WaitingToDealCardsState::pressG(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
 }

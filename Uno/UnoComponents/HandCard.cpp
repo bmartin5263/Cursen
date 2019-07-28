@@ -23,26 +23,26 @@ void HandCard::initialize()
     border.initialize();
     border.setPosition(Vect2(0,0));
     border.setSize(Vect2(4,4));
-    addRelative(&border);
+    addRelative(border);
 
     upperLabel.initialize();
     upperLabel.setPosition(Vect2(1,1));
     upperLabel.setDrawOrder(border.getDrawOrder() + 1);
     upperLabel.setText(" ?");
-    addRelative(&upperLabel);
+    addRelative(upperLabel);
 
     lowerLabel.initialize();
     lowerLabel.setPosition(Vect2(1,2));
     lowerLabel.setDrawOrder(border.getDrawOrder() + 1);
     lowerLabel.setText("? ");
-    addRelative(&lowerLabel);
+    addRelative(lowerLabel);
 
     onCursor([&]() { this->hoverOn(); });
     offCursor([&]() { this->hoverOff(); });
 
     this->color = Color::WHITE;
 
-    animation.setFrameDuration(.06f);
+    animation.setFrameDuration(.06);
     animation.add([&]() { setForeground(cursen::Color::RED); });
     animation.add([&]() { setForeground(cursen::Color::ORANGE); });
     animation.add([&]() { setForeground(cursen::Color::YELLOW); });

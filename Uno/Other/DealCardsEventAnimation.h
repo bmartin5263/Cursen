@@ -8,13 +8,13 @@
 #include "Cursen/Drawing/Animation.h"
 
 class MatchForm;
-class DealCardsEventController
+class DealCardsEventAnimation
 {
 
 public:
 
-    DealCardsEventController() = default;
-    ~DealCardsEventController() = default;
+    DealCardsEventAnimation();
+    ~DealCardsEventAnimation() = default;
 
     void run(MatchForm* matchForm, size_t num_players, size_t cards_to_deal);
 

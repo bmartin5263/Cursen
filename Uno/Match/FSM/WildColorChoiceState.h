@@ -1,13 +1,14 @@
 //
-// Created by Brandon Martin on 7/14/19.
+// Created by Brandon Martin on 7/27/19.
 //
 
-#ifndef CURSEN_ANIMATIONSTATE_H
-#define CURSEN_ANIMATIONSTATE_H
+#ifndef CURSEN_WILDCOLORCHOICESTATE_H
+#define CURSEN_WILDCOLORCHOICESTATE_H
+
 
 #include "MatchState.h"
 
-class AnimationState : public MatchState
+class WildColorChoiceState : public MatchState
 {
 public:
 
@@ -18,8 +19,7 @@ public:
     void pressR(MatchForm& matchForm) const override;
     void pressY(MatchForm& matchForm) const override;
     void pressG(MatchForm& matchForm) const override;
-
 };
 
 
-#endif //CURSEN_ANIMATIONSTATE_H
+#endif //CURSEN_WILDCOLORCHOICESTATE_H

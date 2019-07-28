@@ -20,5 +20,5 @@ void HandMeter::initialize()
 {
     meter.initialize();
     meter.setText("[]");
-    addRelative(&meter);
+    addRelative(meter);
 }

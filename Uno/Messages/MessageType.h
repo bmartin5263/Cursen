@@ -36,7 +36,9 @@ enum class MessageType {
     InputDrawCard,
     DrawCard,
     InputPlayCard,
-    PlayCard
+    PlayCard,
+    InputWildColorChange,
+    WildColorChange
 
 };
 

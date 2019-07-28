@@ -39,14 +39,14 @@ void LobbyForm::initialize()
     start_button.setLength(34);
     start_button.setText("Start Game");
     start_button.setEnabled(false);
-    start_button.onClick([&]() { this->clickStart(); });
+    start_button.onClick([this]() { clickStart(); });
 
     add_ai_button.initialize();
     add_ai_button.setPosition(cursen::Vect2(1, 19));
     add_ai_button.setLength(17);
     add_ai_button.setText("Add AI");
     add_ai_button.setEnabled(false);
-    add_ai_button.onClick([&]() { this->clickAddAI(); });
+    add_ai_button.onClick([this]() { clickAddAI(); });
 
     search_button.initialize();
     search_button.setPosition(cursen::Vect2(18, 19));
@@ -81,7 +81,7 @@ void LobbyForm::initialize()
     chat_button.setLength(17);
     chat_button.setText("Chat");
     chat_button.setEnabled(false);
-    chat_button.onClick([&]() { this->clickChat(); });
+    chat_button.onClick([this]() { clickChat(); });
 
     console.initialize();
 

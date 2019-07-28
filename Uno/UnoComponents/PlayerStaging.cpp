@@ -27,7 +27,7 @@ void PlayerStaging::initialize()
     border.setUpperRight(ACS_RTEE);
     border.setLowerLeft(ACS_LTEE);
     border.setUpperLeft(ACS_LTEE);
-    addRelative(&border);
+    addRelative(border);
 
     for (Stage& stage : stages)
     {
@@ -37,22 +37,22 @@ void PlayerStaging::initialize()
     stages[0].setPosition(cursen::Vect2(1, 1));
     stages[0].setEnabled(false);
     stages[0].setStageColor(cursen::Color::DARK_BLUE);
-    addRelative(&stages[0]);
+    addRelative(stages[0]);
 
     stages[1].setPosition(cursen::Vect2(35, 1));
     stages[1].setEnabled(false);
     stages[1].setStageColor(cursen::Color::DARK_BLUE);
-    addRelative(&stages[1]);
+    addRelative(stages[1]);
 
     stages[2].setPosition(cursen::Vect2(1, 5));
     stages[2].setEnabled(false);
     stages[2].setStageColor(cursen::Color::DARK_BLUE);
-    addRelative(&stages[2]);
+    addRelative(stages[2]);
 
     stages[3].setPosition(cursen::Vect2(35, 5));
     stages[3].setEnabled(false);
     stages[3].setStageColor(cursen::Color::DARK_BLUE);
-    addRelative(&stages[3]);
+    addRelative(stages[3]);
 
     stageCursor.mapComponent(&stages[0], cursen::ArrowMap(&stages[1], &stages[2], &stages[1], &stages[2]));
     stageCursor.mapComponent(&stages[1], cursen::ArrowMap(&stages[0], &stages[3], &stages[0], &stages[3]));

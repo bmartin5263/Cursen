@@ -18,6 +18,7 @@ public:
     Match(Player* players, int num_players, int my_id);
 
     Deck& getDeck();
+    Deck& getPile();
     size_t getDeckSize();
     Player* getPlayers();
     Player& getMyPlayer();
@@ -29,12 +30,17 @@ public:
     int getMyId();
     int getId(int player_index);
     int getIndex(int player_id);
+    int currentTurnId();
 
     bool canDrawCard(int player_id);
     void drawCard(int player_id);
     void drawCardByIndex(int player_index);
 
     bool canPlayCard(int player_id, int card_index);
+    void playCard(int player_id, int card_index);
+
+    bool isWaitingForWildColor();
+    void setWildColor(CardColor color);
 
 private:
 
@@ -45,6 +51,7 @@ private:
     int current_player_index;
     int current_player_id;
     int my_id;
+    bool waitingForWildCardColor;
 };
 
 

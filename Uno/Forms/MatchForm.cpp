@@ -112,12 +112,15 @@ void MatchForm::initialize()
 
     back_card.initialize();
     back_card.setPosition(Vect2(27,8));
-    back_card.setHidden(true);
+    back_card.injectCard(Card(CardColor::RED, CardValues::EIGHT));
+    back_card.setHidden(false);
 
     front_card.initialize();
     front_card.setPosition(Vect2(29,10));
     front_card.drawOnTopOf(back_card);
-    front_card.setHidden(true);
+    front_card.injectCard(Card(CardColor::BLUE, CardValues::SEVEN));
+    //front_card.shrinkCompletely();
+    front_card.setHidden(false);
 
     tile_array[0] = &p0Tile;
     tile_array[1] = &p1Tile;
@@ -131,6 +134,22 @@ void MatchForm::initialize()
     onKeyPress([&](const Event& event) { this->keyPress(event); });
 
     onOpen([]() { DataManager::SetContext(Context::ContextMatch); });
+
+    placeCardAnimation.setForm(this);
+
+    wildColorAnimation.setContinuous(false);
+    wildColorAnimation.setLoops(2);
+    wildColorAnimation.setVariableTime(false);
+    wildColorAnimation.setFrameDuration(.06);
+    wildColorAnimation.add([this]() { front_card.setForeground(Color::RED); });
+    wildColorAnimation.add([this]() { front_card.setForeground(Color::ORANGE); });
+    wildColorAnimation.add([this]() { front_card.setForeground(Color::YELLOW); });
+    wildColorAnimation.add([this]() { front_card.setForeground(Color::GREEN); });
+    wildColorAnimation.add([this]() { front_card.setForeground(Color::BLUE); });
+    wildColorAnimation.onEnd([this]() {
+        front_card.setForeground(Card::ConvertToColor(match->getPile().peekCard().getColor()));
+        setState(&MatchFSM::waitingToBeginState);
+    });
 }
 
 void MatchForm::clickCard()
@@ -186,14 +205,6 @@ void MatchForm::pressDraw()
 void MatchForm::setHandName(std::string name)
 {
     hand_label.setText(name + "'s Hand");
-}
-
-void MatchForm::switchPileCard()
-{
-    size_t bottom_card_order = back_card.getDrawOrder();
-    size_t top_card_order = front_card.getDrawOrder();
-    front_card.setDrawOrder(bottom_card_order);
-    back_card.setDrawOrder(top_card_order);
 }
 
 void MatchForm::dealCards()
@@ -309,13 +320,26 @@ void MatchForm::playCard(int player_id, int card_index)
 {
     //int index = match->getIndex(player_id);
 
-    if (player_id == match->getMyId())
+    if (front_card.hasCardInjected())
     {
-        updateHand();
-        card_array[card_index].hoverOff();
-        card_index = (int)(match->getMyPlayer().getHandSize() % 14) - 1;
-        card_array[card_index].hoverOn();
+        back_card.setValuesFrom(front_card);
     }
+
+    match->playCard(player_id, card_index);
+
+    front_card.injectCard(match->getPile().peekCard());
+
+    front_card.shrinkCompletely();
+    front_card.setHidden(true);
+    placeCardAnimation.run();
+
+//    if (player_id == match->getMyId())
+//    {
+//        updateHand();
+//        card_array[card_index].hoverOff();
+//        card_index = (int)(match->getMyPlayer().getHandSize() % 14) - 1;
+//        card_array[card_index].hoverOn();
+//    }
 }
 
 void MatchForm::arrowPress(const cursen::Event& event)
@@ -349,12 +373,28 @@ void MatchForm::keyPress(const cursen::Event& event)
         case 'd':
             state->pressD(*this);
             break;
-        case 'F':
-        case 'f':
-            switchPileCard();
-            break;
         case ' ':
             state->pressSpace(*this);
+            break;
+        case 'q':
+            front_card.grow();
+            break;
+        case 'B':
+        case 'b':
+            state->pressB(*this);
+            break;
+        case 'Y':
+        case 'y':
+            state->pressY(*this);
+            break;
+        case 'R':
+        case 'r':
+            state->pressR(*this);
+            break;
+        case 'G':
+        case 'g':
+            state->pressG(*this);
+            break;
         default:
             break;
     }
@@ -363,4 +403,16 @@ void MatchForm::keyPress(const cursen::Event& event)
 int MatchForm::getSelectedCardIndex()
 {
     return (hand_index * 14) + card_index;
+}
+
+GiantCard& MatchForm::getFrontCard()
+{
+    return front_card;
+}
+
+void MatchForm::wildColorChange(CardColor color)
+{
+    match->setWildColor(color);
+    front_card.injectCard(match->getPile().peekCard());
+    wildColorAnimation.start(false);
 }

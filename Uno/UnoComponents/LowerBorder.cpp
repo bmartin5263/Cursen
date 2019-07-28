@@ -15,6 +15,6 @@ void LowerBorder::initialize()
     border.setUpperLeft(CursesManager::LTEE);
     border.setUpperRight(CursesManager::RTEE);
     border.setFill(Content::TRANSPARENT);
-    addRelative(&border);
+    addRelative(border);
 
 }

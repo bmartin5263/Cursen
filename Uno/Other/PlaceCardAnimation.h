@@ -5,14 +5,19 @@
 #ifndef CURSEN_PLACECARDANIMATION_H
 #define CURSEN_PLACECARDANIMATION_H
 
-#include "Uno/Forms/MatchForm.h"
+#include "Cursen/Drawing/Animation.h"
 
+class MatchForm;
 class PlaceCardAnimation
 {
 
 public:
 
-    void run(MatchForm* matchForm);
+    PlaceCardAnimation();
+
+    void setForm(MatchForm* matchForm);
+    void run();
+    void animationEnd();
 
 private:
 

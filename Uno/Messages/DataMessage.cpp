@@ -6,6 +6,8 @@
 #include <Uno/Match/Messages/InputDealCards.h>
 #include <Uno/Match/Messages/InputBeginGame.h>
 #include <Uno/Match/Messages/InputDrawCard.h>
+#include <Uno/Match/Messages/InputPlayCard.h>
+#include <Uno/Match/Messages/InputWildColorChange.h>
 
 #include "DataMessage.h"
 #include "AddAI.h"
@@ -114,8 +116,18 @@ DataMessage* DataMessage::Parse(MessageType type)
         case MessageType::DrawCard:
             msg = new DrawCard;
             break;
-        case MessageType::InputPlayCard:break;
-        case MessageType::PlayCard:break;
+        case MessageType::InputPlayCard:
+            msg = new InputPlayCard;
+            break;
+        case MessageType::PlayCard:
+            msg = new PlayCard;
+            break;
+        case MessageType::InputWildColorChange:
+            msg = new InputWildColorChange;
+            break;
+        case MessageType::WildColorChange:
+            msg = new WildColorChange;
+            break;
     }
     assert(msg != nullptr);
     return msg;

@@ -21,7 +21,7 @@ void ModeSelectBox::initialize() {
     border.initialize();
     border.setPosition(cursen::Vect2(0,0));
     border.setSize(cursen::Vect2(36, 21));
-    addRelative(&border);
+    addRelative(border);
 
     console_box.initialize();
     console_box.setSize(cursen::Vect2(36, 3));
@@ -30,59 +30,59 @@ void ModeSelectBox::initialize() {
     console_box.setLowerLeft(ACS_LTEE);
     console_box.setUpperRight(ACS_RTEE);
     console_box.setUpperLeft(ACS_LTEE);
-    addRelative(&console_box);
+    addRelative(console_box);
 
     console_message.initialize();
     console_message.setPosition(cursen::Vect2(1,6));
     console_message.setForeground(cursen::Color::YELLOW);
     console_message.setText("Please Enter Your Name");
-    addRelative(&console_message);
+    addRelative(console_message);
 
     player_stage.initialize();
     player_stage.setPosition(cursen::Vect2(1,1));
     player_stage.setForeground(cursen::Color::GRAY);
     player_stage.setStageColor(cursen::Color::BLUE);
-    addRelative(&player_stage);
+    addRelative(player_stage);
 
     local_button.initialize();
     local_button.setPosition(cursen::Vect2(1,8));
     local_button.setLength(34);
     local_button.setText("Local Singleplayer");
     local_button.setEnabled(false);
-    addRelative(&local_button);
+    addRelative(local_button);
 
     host_button.initialize();
     host_button.setPosition(cursen::Vect2(1,11));
     host_button.setLength(34);
     host_button.setText("Host Multiplayer");
     host_button.setEnabled(false);
-    addRelative(&host_button);
+    addRelative(host_button);
 
     join_button.initialize();
     join_button.setPosition(cursen::Vect2(1,14));
     join_button.setLength(34);
     join_button.setText("Join Multiplayer");
     join_button.setEnabled(false);
-    addRelative(&join_button);
+    addRelative(join_button);
 
     exit_button.initialize();
     exit_button.setPosition(cursen::Vect2(1,17));
     exit_button.setLength(34);
     exit_button.setText("Exit");
     exit_button.setEnabled(false);
-    addRelative(&exit_button);
+    addRelative(exit_button);
 
     ip_entry.initialize();
     ip_entry.setSize(cursen::Vect2(50, 1));
     ip_entry.setPosition(cursen::Vect2(2,15));
     ip_entry.setForeground(cursen::Color::WHITE);
     ip_entry.setEnabled(false);
-    addRelative(&ip_entry);
+    addRelative(ip_entry);
 
     join_progress.initialize();
     join_progress.setForeground(cursen::Color::RED);
     join_progress.setPosition(cursen::Vect2(22,15));
-    addRelative(&join_progress);
+    addRelative(join_progress);
 
     mode_cursor.moveTo(&local_button);
     mode_cursor.mapComponent(&local_button, cursen::ArrowMap(nullptr, &exit_button, nullptr, &host_button));

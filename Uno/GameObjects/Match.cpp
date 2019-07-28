@@ -6,7 +6,8 @@
 #include "Match.h"
 
 Match::Match(Player* players, int numPlayers, int my_id) :
-    num_players(numPlayers), current_player_index(0), current_player_id(players[0].getId()), my_id(my_id)
+    num_players(numPlayers), current_player_index(0), current_player_id(players[0].getId()), my_id(my_id),
+    waitingForWildCardColor(false)
 {
     for (int i = 0; i < num_players; ++i)
     {
@@ -100,7 +101,8 @@ int Match::getIndex(int player_id)
 
 bool Match::canPlayCard(int player_id, int card_index)
 {
-    if (current_player_id == player_id && pile.size() > 0)
+    return true;
+    if (!waitingForWildCardColor && current_player_id == player_id && pile.size() > 0)
     {
         Hand& hand = getPlayerById(player_id).getHand();
         size_t hand_size = hand.size();
@@ -122,4 +124,39 @@ bool Match::canPlayCard(int player_id, int card_index)
         }
     }
     return false;
+}
+
+void Match::playCard(int player_id, int card_index)
+{
+    Player& p = getPlayerById(player_id);
+    const Card& card = p.getHand().get(card_index);
+    pile.pushCard(card);
+    if (card.isWild())
+    {
+        waitingForWildCardColor = true;
+    }
+}
+
+Deck& Match::getPile()
+{
+    return pile;
+}
+
+bool Match::isWaitingForWildColor()
+{
+    return waitingForWildCardColor;
+}
+
+void Match::setWildColor(CardColor color)
+{
+    const Card& top = pile.peekCard();
+    Card new_card = top.changeColor(color);
+    pile.popCard();
+    pile.pushCard(new_card);
+    waitingForWildCardColor = false;
+}
+
+int Match::currentTurnId()
+{
+    return current_player_id;
 }

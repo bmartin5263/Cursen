@@ -25,11 +25,11 @@ void DeckMeter::initialize()
     border.initialize();
     border.setPosition(Vect2(0,0));
     border.setSize(Vect2(5, 11));
-    addRelative(&border);
+    addRelative(border);
 
     meter.initialize();
     meter.setPosition(Vect2(2,1));
-    addRelative(&meter);
+    addRelative(meter);
 
     low_deck.setFrameDuration(.6);
     low_deck.add([&]() { border.setForeground(Color::RED); });

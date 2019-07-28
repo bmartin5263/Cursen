@@ -154,7 +154,7 @@ void Host::writeMessage(QueueEntry* entry)
             assert(false);
             break;
         case RecipientType::Broadcast:
-            for (auto& sock : connections)
+            for (auto sock : connections)
             {
                 if (sock != -1)
                 {
@@ -164,7 +164,7 @@ void Host::writeMessage(QueueEntry* entry)
             }
             break;
         case RecipientType::Broadcast_Except_Recipient:
-            for (auto& sock : connections)
+            for (auto sock : connections)
             {
                 if (sock != -1 && sock != recipient)
                 {

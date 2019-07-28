@@ -4,7 +4,7 @@
 
 #include "Card.h"
 
-const CardColors Card::COLORS[4] = {CardColors::BLUE, CardColors::RED, CardColors::GREEN, CardColors::YELLOW};
+const CardColor Card::COLORS[4] = {CardColor::BLUE, CardColor::RED, CardColor::GREEN, CardColor::YELLOW};
 const CardValues Card::VALUES_NO_WILD[13] = {
         CardValues::ZERO, CardValues::ONE, CardValues::TWO, CardValues::THREE, CardValues::FOUR,
         CardValues::FIVE, CardValues::SIX, CardValues::SEVEN, CardValues::EIGHT, CardValues::NINE,
@@ -61,8 +61,13 @@ int Card::score(const Card &card) {
     }
 }
 
-Card::Card(CardColors color, CardValues value) :
-    color(color), value(value), wild(value == CardValues::PLUS_4 || value == CardValues::WILD)
+Card::Card(CardColor color, CardValues value) :
+        color(color), value(value), wild(value == CardValues::PLUS_4 || value == CardValues::WILD)
+{
+}
+
+Card::Card(CardColor color, CardValues value, bool wildOverride) :
+        color(color), value(value), wild(wildOverride)
 {
 }
 
@@ -74,7 +79,7 @@ CardValues Card::getValue() const {
     return value;
 }
 
-CardColors Card::getColor() const {
+CardColor Card::getColor() const {
     return color;
 }
 
@@ -82,26 +87,26 @@ bool Card::isWild() const {
     return wild;
 }
 
-void Card::changeColor(const CardColors &new_color) {
+Card Card::changeColor(CardColor new_color) const {
     if (wild) {
-        wild = false;
-        color = new_color;
+        return Card(new_color, this->value, false);
     }
+    return *this;
 }
 
-cursen::Color Card::ConvertToColor(CardColors color)
+cursen::Color Card::ConvertToColor(CardColor color)
 {
     switch (color)
     {
-        case CardColors::BLUE:
+        case CardColor::BLUE:
             return cursen::Color::BLUE;
-        case CardColors::RED:
+        case CardColor::RED:
             return cursen::Color::RED;
-        case CardColors::GREEN:
+        case CardColor::GREEN:
             return cursen::Color::GREEN;
-        case CardColors::YELLOW:
+        case CardColor::YELLOW:
             return cursen::Color::YELLOW;
-        case CardColors::WHITE:
+        case CardColor::WHITE:
             return cursen::Color::WHITE;
     }
 }

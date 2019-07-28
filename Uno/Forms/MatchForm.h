@@ -10,6 +10,7 @@
 #include <Uno/GameObjects/LobbyType.h>
 #include <Uno/UnoComponents/GiantCard.h>
 #include <Uno/Other/DealCardsEventAnimation.h>
+#include <Uno/Other/PlaceCardAnimation.h>
 #include "Cursen/Components/Form.h"
 #include "Cursen/Components/Label.h"
 #include "Cursen/Components/HorizontalLine.h"
@@ -46,12 +47,11 @@ public:
     void drawCardByIndex(int index);
     void drawCard(int player_id);
     void playCard(int player_id, int card_index);
+    void wildColorChange(CardColor color);
 
     void dealCards();
     void beginGame();
     void waitToBegin();
-
-    void switchPileCard();
 
     Match* getMatch();
     MatchController* getController();
@@ -65,6 +65,8 @@ public:
     void keyPress(const cursen::Event& event);
 
     int getSelectedCardIndex();
+
+    GiantCard& getFrontCard();
 
 private:
 
@@ -95,7 +97,9 @@ private:
     GiantCard front_card;
     GiantCard back_card;
 
-    DealCardsEventController dealCardsEventController;
+    DealCardsEventAnimation dealCardsEventController;
+    PlaceCardAnimation placeCardAnimation;
+    cursen::Animation wildColorAnimation;
 };
 
 

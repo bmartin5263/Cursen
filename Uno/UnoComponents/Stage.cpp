@@ -21,21 +21,21 @@ Stage::Stage(const cursen::Vect2 &pos) : AggregateComponent(pos),
 void Stage::initialize() {
     border.initialize();
     border.setSize(cursen::Vect2(34,4));
-    addRelative(&border);
+    addRelative(border);
 
     playerName.initialize();
     playerName.setText("No Player");
     playerName.setPosition(cursen::Vect2(1,1));
-    addRelative(&playerName);
+    addRelative(playerName);
 
     points.initialize();
     points.setText("Points: 0");
     points.setPosition(cursen::Vect2(1, 2));
-    addRelative(&points);
+    addRelative(points);
 
     search_progress.initialize();
     search_progress.setPosition(cursen::Vect2(11, 1));
-    addRelative(&search_progress);
+    addRelative(search_progress);
 
     textField.initialize();
     textField.setPosition(cursen::Vect2(1,1));
@@ -43,7 +43,7 @@ void Stage::initialize() {
     textField.setSize(cursen::Vect2(Constants::MAX_NAME_LEN, 1));
     textField.setHidden(true);
     //textField.setActiveBackgroundColor(cursen::Color::RED);
-    addRelative(&textField);
+    addRelative(textField);
 
     onCursor([&]() { this->hoverOn(); });
     offCursor([&]() { this->hoverOff(); });

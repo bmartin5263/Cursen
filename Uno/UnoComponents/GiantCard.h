@@ -22,13 +22,24 @@ public:
     void setSize(const cursen::Vect2& size);
     void injectCard(const Card& card);
 
+    void setValuesFrom(GiantCard& giantCard);
+
     void shrink();
+    void shrinkCompletely();
     void grow();
+
+    void setNumberHidden(bool value);
+    void setHidden(bool value) override;
+
+    bool hasCardInjected();
 
 private:
 
     cursen::Box border;
     cursen::ASCIIArt number;
+    CardColor color;
+    CardValues value;
+    bool card_injected;
 
 };
 

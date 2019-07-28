@@ -54,7 +54,8 @@ void UnoTitle::render() {
     chtype line3[] =
             {'\\','\\',' ','/','/',' ','|','|',' ','\\','|','|',' ',' ','\\','\\',' ','/','/',' '};
 
-    for (int i = 0; i < getSize().x; i++)
+    int size = getSize().x;
+    for (int i = 0; i < size; ++i)
     {
         if (i < 5)
         {

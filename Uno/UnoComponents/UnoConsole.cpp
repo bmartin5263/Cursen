@@ -23,7 +23,7 @@ void UnoConsole::initialize() {
     uno_box.setSize(cursen::Vect2(70,5));
     uno_box.setLowerLeft(ACS_LTEE);
     uno_box.setLowerRight(ACS_RTEE);
-    add(&uno_box);
+    add(uno_box);
 
     console_box.initialize();
     console_box.setPosition(cursen::Vect2(0,4));
@@ -32,16 +32,16 @@ void UnoConsole::initialize() {
     console_box.setLowerRight(ACS_RTEE);
     console_box.setUpperLeft(ACS_LTEE);
     console_box.setUpperRight(ACS_RTEE);
-    add(&console_box);
+    add(console_box);
 
     console_message.initialize();
     console_message.setPosition(cursen::Vect2(1,5));
     console_message.setForeground(cursen::Color::YELLOW);
-    add(&console_message);
+    add(console_message);
 
     title.initialize();
     title.setPosition(cursen::Vect2(25, 1));
-    add(&title);
+    add(title);
 
 }
 
