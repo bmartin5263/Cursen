@@ -145,7 +145,7 @@ namespace cursen {
         fOpen = f;
     }
 
-    void Form::onClose(Form::VoidFunction f)
+    void Form::onClosed(Form::CloseFunction f)
     {
         fClose = f;
     }
@@ -155,7 +155,7 @@ namespace cursen {
         fOpen = 0;
     }
 
-    void Form::detachOnClose()
+    void Form::detachOnClosed()
     {
         fClose = 0;
     }
@@ -165,19 +165,34 @@ namespace cursen {
         if (fOpen) fOpen();
     }
 
-    void Form::CallOnClose()
+    void Form::CallOnClosed(void* return_value)
     {
-        if (fClose) fClose();
+        if (fClose) fClose(return_value);
     }
 
-    void Form::closeForm()
+    void Form::closeForm(void* return_value)
     {
-        cursen::CursenApplication::CloseForm();
+        cursen::CursenApplication::CloseForm(return_value);
     }
 
     void Form::openForm(Form* form)
     {
         cursen::CursenApplication::OpenForm(form);
+    }
+
+    void Form::beforeClosing(Form::VoidFunction f)
+    {
+        fBeforeClose = f;
+    }
+
+    void Form::detachBeforeClosing()
+    {
+        fBeforeClose = 0;
+    }
+
+    void Form::CallBeforeClosing()
+    {
+        if (fBeforeClose) fBeforeClose();
     }
 
 }

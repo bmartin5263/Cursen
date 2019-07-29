@@ -22,7 +22,7 @@ CURSEN_CLASS_START
     CursenApplication::CursenApplication() :
             alarmManager(), eventManager(), cursesManager(), inputManager(), cursorManager(), form_stack(),
             currentForm(nullptr), nextForm(nullptr), UserUpdate([](){}), UserDraw([](){}), cursenDebugger(), palette(),
-            componentMap(), argc(0), argv(nullptr), running(false), requestFormClose(false),
+            componentMap(), argc(0), argv(nullptr), close_args(nullptr), running(false), requestFormClose(false),
             requestFormOpen(false), requestFormSet(false), total_nano(0), frames(0)
     {
         initialize();
@@ -136,9 +136,10 @@ CURSEN_CLASS_START
         requestFormSet = false;
     }
 
-    void CursenApplication::CloseForm()
+    void CursenApplication::CloseForm(void* close_args)
     {
         Instance().requestFormClose = true;
+        Instance().close_args = close_args;
     }
 
     void CursenApplication::doFormClose()
@@ -148,11 +149,20 @@ CURSEN_CLASS_START
         std::stack<Form*>& form_stack = Instance().form_stack;
         Form* current_form = form_stack.top();
 
-        current_form->CallOnClose();
+        // Do form cleanup
+        current_form->CallBeforeClosing();
+
+        // Pop the form and call the closed callback
+        form_stack.pop();
+        current_form->CallOnClosed(GetReturnArgument());
+
+        // Push the form back on temporarily to do the deletion as it is the easiest way, this is because
+        // the destruction of components deregister themselves from their form.
+        form_stack.push(current_form);
         delete current_form;
 
+        // Now pop it for good
         form_stack.pop();
-
         if (form_stack.empty())
         {
             Quit();
@@ -258,6 +268,13 @@ CURSEN_CLASS_START
     void CursenApplication::DeregisterFromCurrentForm(TextComponent* component)
     {
         Instance().GetCurrentForm()->registerComponent(component);
+    }
+
+    void* CursenApplication::GetReturnArgument()
+    {
+        void* val_to_return = Instance().close_args;
+        Instance().close_args = nullptr;
+        return val_to_return;
     }
 
 CURSEN_CLASS_END

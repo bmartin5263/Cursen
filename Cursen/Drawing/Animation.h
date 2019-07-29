@@ -146,7 +146,6 @@ namespace cursen {
         void onPause(VoidFunction f);
         void onEnd(VoidFunction f);
 
-        void detachOnStop();
         void detachOnPause();
         void detachOnEnd();
 

@@ -199,7 +199,6 @@ namespace cursen
         this->frames.clear();
         detachOnEnd();
         detachOnPause();
-        detachOnStop();
     }
 
     void Animation::onPause(Animation::VoidFunction f)

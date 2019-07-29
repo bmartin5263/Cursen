@@ -14,6 +14,7 @@
 
 namespace cursen {
 
+    class Form;
     class Component {
 
     public:
@@ -53,6 +54,9 @@ namespace cursen {
 
         virtual void setSilenced(bool value);
         virtual bool isSilenced() const;
+
+        void registerTo(Form* form);
+        Form* getRegisteredForm();
 
         // Event Functions
 
@@ -223,6 +227,7 @@ namespace cursen {
         std::function<bool()> f_enableIf;
 
         Component* parent;
+        Form* registeredForm;
 
         bool enabled;   /// True if Component is active, False if otherwise
         bool silenced;  /// True if Component should not respond to events, False if otherwise

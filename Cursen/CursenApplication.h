@@ -56,7 +56,8 @@ CURSEN_CLASS_START
         inline static void Draw();
 
         static void OpenForm(Form* form);
-        static void CloseForm();
+        static void CloseForm(void* close_args);
+        static void* GetReturnArgument();
         static Form* GetCurrentForm();
 
         /**
@@ -112,6 +113,7 @@ CURSEN_CLASS_START
         ComponentMap componentMap;
         int argc;
         char** argv;
+        void* close_args;
         bool running;
         bool requestFormClose;
         bool requestFormOpen;

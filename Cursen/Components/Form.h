@@ -35,6 +35,7 @@ namespace cursen {
         typedef std::queue<Alarm*> AlarmQueue;
         typedef std::queue<unsigned int> IntQueue;
         typedef std::function<void()> VoidFunction;
+        typedef std::function<void(void*)> CloseFunction;
 
     public:
 
@@ -52,17 +53,27 @@ namespace cursen {
         void registerForEvents(Component* component, EventType events);
         void deregisterForEvents(Component* component, EventType events);
 
-        void closeForm();
+        void closeForm(void* return_value);
         void openForm(Form* form);
 
+        // Open is called when this form returns to the top of the form stack
         virtual void onOpen(VoidFunction f);
-        virtual void onClose(VoidFunction f);
+
+        // Closed is called after this form is removed from the top of the form stack but not yet
+        // deleted. Intended to be used by the parent form to check for return codes.
+        virtual void onClosed(CloseFunction f);
+
+        // Called before the form is removed from the top of the form stack. Intended to be used
+        // to do any sort of cleanup.
+        virtual void beforeClosing(VoidFunction f);
 
         void detachOnOpen();
-        void detachOnClose();
+        void detachOnClosed();
+        void detachBeforeClosing();
 
         void CallOnOpen();
-        void CallOnClose();
+        void CallOnClosed(void* return_value);
+        void CallBeforeClosing();
 
         CursorSet& getCursors();
         ComponentMap& getComponentDrawMap();
@@ -75,7 +86,8 @@ namespace cursen {
     private:
 
         VoidFunction fOpen;
-        VoidFunction fClose;
+        VoidFunction fBeforeClose;
+        CloseFunction fClose;
 
         CursorSet cursors;
         ComponentMap componentDrawMap;

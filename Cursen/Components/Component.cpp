@@ -246,5 +246,15 @@ namespace cursen
         return silenced;
     }
 
+    void Component::registerTo(Form* form)
+    {
+        this->registeredForm = form;
+    }
+
+    Form* Component::getRegisteredForm()
+    {
+        return this->registeredForm;
+    }
+
 
 }
