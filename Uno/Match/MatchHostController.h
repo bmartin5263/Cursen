@@ -18,6 +18,14 @@ public:
     void pressEnter() override;
     void handleDealCards() override;
     void waitToBegin() override;
+    void reset() override;
+    void updateMatch(ClientMatch clientMatch) override;
+    void handleRequestMatch(int id, int sock) override;
+    void wildChoice(CardColor color) override;
+
+private:
+
+    bool players_connected[4];
 
 };
 

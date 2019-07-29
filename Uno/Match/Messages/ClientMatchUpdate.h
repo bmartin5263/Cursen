@@ -1,26 +1,26 @@
 //
-// Created by Brandon Martin on 7/19/19.
+// Created by Brandon Martin on 7/28/19.
 //
 
-#ifndef CURSEN_BEGINGAME_H
-#define CURSEN_BEGINGAME_H
+#ifndef CURSEN_MATCHUPDATE_H
+#define CURSEN_MATCHUPDATE_H
 
+#include <Uno/Messages/DataMessage.h>
+#include <Uno/GameObjects/ClientMatch.h>
 #include <Uno/Data/DataManager.h>
 #include <Uno/Forms/MatchForm.h>
-#include "Uno/Messages/DataMessage.h"
-#include "Uno/GameObjects/Match.h"
 
-class BeginGame : public DataMessage
+class ClientMatchUpdate : public DataMessage
 {
 public:
 
-    BeginGame() = default;
-    BeginGame(Card initial_card) : initial_card(initial_card)
-    {}
+    ClientMatchUpdate() = default;
+    ClientMatchUpdate(ClientMatch clientMatch) : clientMatch(clientMatch)
+    {};
 
     MessageType getType() override
     {
-        return MessageType::BeginGame;
+        return MessageType::ClientMatchUpdate;
     }
 
     Context getContext() override
@@ -33,21 +33,21 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            matchForm->beginGame(initial_card);
+            matchForm->updateMatch(clientMatch);
 
         CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override
     {
-        return nullptr;
+        return new ClientMatchUpdate(*this);
     }
 
     size_t serialize(char* const buffer) const override
     {
         size_t written = DataMessage::serialize(buffer);
 
-        written += initial_card.serialize(buffer + written);
+        written += clientMatch.serialize(buffer + written);
 
         return written;
     }
@@ -56,15 +56,15 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += initial_card.deserialize(buffer + read);
+        read += clientMatch.deserialize(buffer + read);
 
         return read;
     }
 
 private:
 
-    Card initial_card;
+    ClientMatch clientMatch;
 
 };
 
-#endif //CURSEN_BEGINGAME_H
+#endif //CURSEN_MATCHUPDATE_H

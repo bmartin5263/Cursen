@@ -42,7 +42,7 @@ public:
                 && color != CardColor::WHITE
                     )
             {
-                DataMessage* msg = new WildColorChange(id, color);
+                DataMessage* msg = new WildColorChange(color);
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);
             }

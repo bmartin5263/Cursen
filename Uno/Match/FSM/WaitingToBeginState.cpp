@@ -19,16 +19,12 @@ void WaitingToBeginState::pressEnter(MatchForm& matchForm) const
 
 void WaitingToBeginState::pressD(MatchForm& matchForm) const
 {
-    DataMessage* msg = new InputDrawCard(matchForm.getMatch()->getMyId());
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    // Do Noting
 }
 
 void WaitingToBeginState::pressSpace(MatchForm& matchForm) const
 {
-    DataMessage* msg = new InputPlayCard(matchForm.getMatch()->getMyId(), matchForm.getSelectedCardIndex());
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    // Do Nothing
 }
 
 void WaitingToBeginState::pressB(MatchForm& matchForm) const

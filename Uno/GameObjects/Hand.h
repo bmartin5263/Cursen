@@ -8,7 +8,7 @@
 #include "Card.h"
 #include <vector>
 
-class Hand {
+class Hand : public Serializable {
 
 public:
 
@@ -20,6 +20,11 @@ public:
     bool empty() const;
 
     bool hasPlayableCardFor(const Card& card);
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t safe_serialize(char* const buffer) const;
+    size_t sizeOf() const override;
+
 
 private:
 

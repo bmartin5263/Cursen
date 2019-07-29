@@ -37,6 +37,7 @@ void PlaceCardAnimation::setForm(MatchForm* matchForm)
 void PlaceCardAnimation::run()
 {
     place_card_animation.start(false);
+    matchForm->setState(&MatchFSM::animationState);
 }
 
 void PlaceCardAnimation::animationEnd()
@@ -45,5 +46,8 @@ void PlaceCardAnimation::animationEnd()
     if (matchForm->getMatch()->isWaitingForWildColor())
     {
         matchForm->setState(&MatchFSM::wildColorChoiceState);
+    }
+    else {
+        matchForm->setState(&MatchFSM::selectCardState);
     }
 }

@@ -46,7 +46,9 @@ Player& Match::getMyPlayer()
 {
     for (int i = 0; i < num_players; ++i)
     {
-        if (players->getId() == my_id) return players[i];
+        if (players[i].getId() == my_id) {
+            return players[i];
+        }
     }
     assert(false);
     return players[0];
@@ -165,4 +167,77 @@ void Match::setWildColor(CardColor color)
 int Match::currentTurnId()
 {
     return current_player_id;
+}
+
+ClientMatch Match::convertToClientMatch(int client_id)
+{
+    ClientMatch clientMatch;
+    clientMatch.pile = this->pile;
+    clientMatch.current_player_index = this->current_player_index;
+    clientMatch.waitingForWildCardColor = this->waitingForWildCardColor;
+    clientMatch.num_players = this->num_players;
+    clientMatch.my_id = client_id;
+    clientMatch.deck_size = deck.size();
+    for (int i = 0; i < num_players; i++)
+    {
+        clientMatch.players[i] = this->players[i];
+    }
+    return clientMatch;
+}
+
+void Match::readFromClientMatch(ClientMatch clientMatch)
+{
+    current_player_id = -1;
+    current_player_index = clientMatch.current_player_index;
+    pile = clientMatch.pile;
+    waitingForWildCardColor = clientMatch.waitingForWildCardColor;
+    deck.clear();
+    for (int i = 0; i < clientMatch.deck_size; ++i) deck.pushCard(Card());
+    my_id = clientMatch.my_id;
+    num_players = clientMatch.num_players;
+    int i = 0;
+    for (; i < num_players; ++i)
+    {
+        players[i] = clientMatch.players[i];
+    }
+    for (; i < Lobby::MAX_PLAYERS; ++i)
+    {
+        players[i].clear();
+    }
+
+}
+
+bool Match::hasId(int player_id)
+{
+    for (auto& player : players)
+    {
+        if (player.getId() == player_id) return true;
+    }
+    return false;
+}
+
+Card Match::peekCardFromDeck()
+{
+    return deck.peekCard();
+}
+
+void Match::popCardFromDeck()
+{
+    deck.popCard();
+}
+
+Card Match::getCardFromPlayer(int index, int card_index)
+{
+    return players[index].getHand().get(card_index);
+}
+
+void Match::removeCardFromPlayer(int index, int card_index)
+{
+    players[index].getHand().remove(card_index);
+}
+
+void Match::pushCardToPile(Card card)
+{
+    pile.pushCard(card);
+    if (card.isWild()) waitingForWildCardColor = true;
 }

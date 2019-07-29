@@ -29,11 +29,15 @@ public:
     PlayerColor getColor() const;
 
     int getId() const;
+    void clear();
 
     static const std::string GetComputerName();
     static cursen::Color ConvertColor(const PlayerColor& color);
     size_t serialize(char* const buffer) const override;
     size_t deserialize(const char* const buffer) override;
+
+    size_t safe_serialize(char* const buffer) const;
+
     size_t sizeOf() const override;
 
     size_t getHandSize() const;

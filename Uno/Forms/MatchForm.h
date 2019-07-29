@@ -11,6 +11,7 @@
 #include <Uno/UnoComponents/GiantCard.h>
 #include <Uno/Other/DealCardsEventAnimation.h>
 #include <Uno/Other/PlaceCardAnimation.h>
+#include <Uno/GameObjects/ClientMatch.h>
 #include "Cursen/Components/Form.h"
 #include "Cursen/Components/Label.h"
 #include "Cursen/Components/HorizontalLine.h"
@@ -38,24 +39,27 @@ public:
     void setDeckMeterCount(size_t size);
     void setDeckMeterSize(size_t size);
     void setHandName(std::string name);
-    void updateHand();
+    void updateHand(size_t max = 14);
 
     void setConsoleMessage(std::string msg);
     void setConsoleWarning(std::string msg);
 
     void setState(const MatchState* state);
     void drawCardByIndex(int index);
-    void drawCard(int player_id);
-    void playCard(int player_id, int card_index);
+    void effectDealCard(int index, size_t count, size_t deck_size);
+    void drawCard(int index, Card drawn_card);
+    void playCard(int index, int card_index, Card played_card);
     void wildColorChange(CardColor color);
 
+    void dealInitialCards();
     void dealCards();
-    void beginGame();
+    void beginGame(Card initial_card);
     void waitToBegin();
 
     Match* getMatch();
     MatchController* getController();
     const MatchState* getState();
+    void updateMatch(ClientMatch clientMatch);
 
     void clickCard();
     void pressDraw();
@@ -67,6 +71,7 @@ public:
     int getSelectedCardIndex();
 
     GiantCard& getFrontCard();
+    PlayerTile& getPlayerTile(int index);
 
 private:
 

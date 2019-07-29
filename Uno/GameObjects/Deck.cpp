@@ -63,3 +63,41 @@ std::vector<Card>& Deck::getDeckContainer()
 {
     return cards;
 }
+
+size_t Deck::serialize(char* const buffer) const
+{
+    size_t written = 0;
+
+    written += Serializable::Serialize(buffer + written, cards.size());
+    for (const Card& card : cards)
+    {
+        written += card.serialize(buffer + written);
+    }
+
+    return written;
+}
+
+size_t Deck::deserialize(const char* const buffer)
+{
+    size_t read = 0;
+
+    unsigned long size;
+    read += Serializable::Deserialize(buffer + read, size);
+
+    if (size > 0) {
+        cards.reserve(size);
+        for (unsigned long i = 0; i < size; ++i)
+        {
+            Card c;
+            read += c.deserialize(buffer + read);
+            cards.push_back(c);
+        }
+    }
+
+    return read;
+}
+
+size_t Deck::sizeOf() const
+{
+    return sizeof(Deck);
+}

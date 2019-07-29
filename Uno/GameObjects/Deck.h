@@ -9,11 +9,12 @@
 #include <vector>
 #include "Card.h"
 
-class Deck {
+class Deck : public Serializable {
 
 public:
 
     static const size_t SIZE = 108;
+    static const size_t INITIAL_CARDS = 7;
 
     static void InitializeDeck(Deck& deck);
 
@@ -28,6 +29,9 @@ public:
     unsigned long size();
 
     void clear();
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t sizeOf() const override;
 
 
 private:

@@ -40,7 +40,9 @@ enum class MessageType {
     InputWildColorChange,
     WildColorChange,
     InputEnterMatch,
-    EnterMatch
+    EnterMatch,
+    RequestMatchData,
+    ClientMatchUpdate
 
 };
 

@@ -16,6 +16,13 @@ Player::Player(const std::string &name, const PlayerColor& color, int id) :
 {
 }
 
+void Player::clear()
+{
+    name = "Null";
+    color = PlayerColor::GRAY;
+    points = -1;
+    id = -1;
+}
 
 void Player::setName(const std::string &name) {
     this->name = name;
@@ -74,6 +81,7 @@ size_t Player::serialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, (int)color);
     written += Serializable::Serialize(buffer + written, points);
     written += Serializable::Serialize(buffer + written, id);
+    written += hand.serialize(buffer + written);
     return written;
 }
 
@@ -91,6 +99,7 @@ size_t Player::deserialize(const char* const buffer)
     color = (PlayerColor)col;
     read += Serializable::Deserialize(buffer + read, points);
     read += Serializable::Deserialize(buffer + read, id);
+    read += hand.deserialize(buffer + read);
     return read;
 }
 
@@ -112,4 +121,16 @@ size_t Player::getHandSize() const
 Hand& Player::getHand()
 {
     return hand;
+}
+
+size_t Player::safe_serialize(char* const buffer) const
+{
+    size_t written = 0;
+    written += Serializable::Serialize(buffer, name.length());
+    written += Serializable::Serialize(buffer + written, name.c_str(), name.length());
+    written += Serializable::Serialize(buffer + written, (int)color);
+    written += Serializable::Serialize(buffer + written, points);
+    written += Serializable::Serialize(buffer + written, -1);
+    written += hand.safe_serialize(buffer + written);
+    return written;
 }

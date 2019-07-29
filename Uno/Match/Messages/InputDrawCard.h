@@ -38,9 +38,33 @@ public:
             Match* match = matchForm->getMatch();
             if (match->canDrawCard(id))
             {
-                DataMessage* msg = new DrawCard(id);
-                msg->setSendType(SendType::Both);
+                int index = match->getIndex(id);
+                Card drawn_card = match->peekCardFromDeck();
+
+                DataMessage* msg = new DrawCard(index, drawn_card);
+                msg->setSendType(SendType::Local);
                 DataManager::PushMessage(msg);
+
+                if (id == match->getMyId())
+                {
+                    msg = new DrawCard(index, Card());
+                    msg->setSendType(SendType::Network);
+                    DataManager::PushMessage(msg);
+                }
+                else
+                {
+                    msg = new DrawCard(index, drawn_card);
+                    msg->setSendType(SendType::Network);
+                    msg->setRecipient(getSender());
+                    msg->setRecipientType(RecipientType::Single);
+                    DataManager::PushMessage(msg);
+
+                    msg = new DrawCard(index, Card());
+                    msg->setSendType(SendType::Network);
+                    msg->setRecipient(getSender());
+                    msg->setRecipientType(RecipientType::Broadcast_Except_Recipient);
+                    DataManager::PushMessage(msg);
+                }
             }
 
         CONTEXT_CHECK_END

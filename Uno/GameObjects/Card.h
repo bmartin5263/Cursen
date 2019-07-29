@@ -10,11 +10,12 @@
 
 #include <Cursen/Drawing/Color.h>
 #include <unordered_map>
+#include <Uno/Messages/Serializable.h>
 #include "CardColor.h"
 #include "CardValues.h"
 #include "Cursen/Events/Event.h"
 
-class Card {
+class Card : public Serializable {
 
 private:
 
@@ -31,6 +32,7 @@ public:
     static std::string getLowerLabel(CardValues value);
     static const std::vector<std::string>& GetBigNumber(CardValues value);
 
+    Card();
     Card(CardColor color, CardValues value);
     Card(CardColor color, CardValues value, bool wildOverride);
 
@@ -41,6 +43,9 @@ public:
 
     CardColor getColor() const;
     CardValues getValue() const;
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t sizeOf() const override;
 
 private:
 

@@ -61,6 +61,13 @@ int Card::score(const Card &card) {
     }
 }
 
+Card::Card() :
+    color(CardColor::WHITE), value(CardValues::ZERO), wild(false)
+{
+
+}
+
+
 Card::Card(CardColor color, CardValues value) :
         color(color), value(value), wild(value == CardValues::PLUS_4 || value == CardValues::WILD)
 {
@@ -188,4 +195,35 @@ std::string Card::getLowerLabel(CardValues value)
 const std::vector<std::string>& Card::GetBigNumber(CardValues value)
 {
     return Card::BIG_NUMBERS.at(value);
+}
+
+size_t Card::serialize(char* const buffer) const
+{
+    size_t written = 0;
+
+    written += Serializable::Serialize(buffer + written, (int)color);
+    written += Serializable::Serialize(buffer + written, (int)value);
+    written += Serializable::Serialize(buffer + written, wild);
+
+    return written;
+}
+
+size_t Card::deserialize(const char* const buffer)
+{
+    size_t read = 0;
+
+    int raw_color;
+    read += Serializable::Deserialize(buffer + read, raw_color);
+    color = (CardColor)raw_color;
+    int raw_val;
+    read += Serializable::Deserialize(buffer + read, raw_val);
+    value = (CardValues)raw_val;
+    read += Serializable::Deserialize(buffer + read, wild);
+
+    return read;
+}
+
+size_t Card::sizeOf() const
+{
+    return sizeof(Card);
 }

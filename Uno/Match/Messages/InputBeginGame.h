@@ -38,7 +38,10 @@ public:
             MatchForm* matchForm = getCurrentForm<MatchForm>();
             if (matchForm->getMatch()->getMyId() == id)
             {
-                DataMessage* msg = new BeginGame;
+
+                const Card& initial_card = matchForm->getMatch()->getDeck().peekCard();
+
+                DataMessage* msg = new BeginGame(initial_card);
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);
             }

@@ -22,28 +22,20 @@ void WildColorChoiceState::pressSpace(MatchForm& matchForm) const
 
 void WildColorChoiceState::pressB(MatchForm& matchForm) const
 {
-    DataMessage* msg = new InputWildColorChange(matchForm.getMatch()->getMyId(), CardColor::BLUE);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    matchForm.getController()->wildChoice(CardColor::BLUE);
 }
 
 void WildColorChoiceState::pressR(MatchForm& matchForm) const
 {
-    DataMessage* msg = new InputWildColorChange(matchForm.getMatch()->getMyId(), CardColor::RED);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    matchForm.getController()->wildChoice(CardColor::RED);
 }
 
 void WildColorChoiceState::pressY(MatchForm& matchForm) const
 {
-    DataMessage* msg = new InputWildColorChange(matchForm.getMatch()->getMyId(), CardColor::YELLOW);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    matchForm.getController()->wildChoice(CardColor::YELLOW);
 }
 
 void WildColorChoiceState::pressG(MatchForm& matchForm) const
 {
-    DataMessage* msg = new InputWildColorChange(matchForm.getMatch()->getMyId(), CardColor::GREEN);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    matchForm.getController()->wildChoice(CardColor::GREEN);
 }

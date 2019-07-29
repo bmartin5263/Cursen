@@ -29,6 +29,7 @@ MatchForm::MatchForm(LobbyType type, Match* match) :
             controller = &MatchControllers::matchClientController;
             break;
     }
+    controller->reset();
     controller->setMatchForm(this);
 }
 
@@ -146,7 +147,7 @@ void MatchForm::initialize()
     wildColorAnimation.add([this]() { front_card.setForeground(Color::BLUE); });
     wildColorAnimation.onEnd([this]() {
         front_card.setForeground(Card::ConvertToColor(match->getPile().peekCard().getColor()));
-        setState(&MatchFSM::waitingToBeginState);
+        setState(&MatchFSM::selectCardState);
     });
 }
 
@@ -205,11 +206,22 @@ void MatchForm::setHandName(std::string name)
     hand_label.setText(name + "'s Hand");
 }
 
+void MatchForm::dealInitialCards()
+{
+    for (int i = 0; i < match->getNumPlayers(); ++i)
+    {
+        for (int j = 0; j < Deck::INITIAL_CARDS; ++j) {
+            const Card& card = match->getDeck().popCard();
+            match->getPlayers()[i].getHand().add(card);
+        }
+    }
+}
+
 void MatchForm::dealCards()
 {
     state = &MatchFSM::animationState;
     console.setMessage("Dealing Cards...");
-    dealCardsEventController.run(this, (size_t)match->getNumPlayers(), 7);
+    dealCardsEventController.run(this, (size_t)match->getNumPlayers(), Deck::INITIAL_CARDS, Deck::SIZE);
 }
 
 void MatchForm::setConsoleMessage(std::string msg)
@@ -247,12 +259,18 @@ void MatchForm::waitToBegin()
     controller->waitToBegin();
 }
 
-void MatchForm::beginGame()
+void MatchForm::beginGame(Card initial_card)
 {
-    closeForm();
+    match->getDeck().popCard();
+    match->getPile().pushCard(initial_card);
+    front_card.injectCard(match->getPile().peekCard());
+    front_card.shrinkCompletely();
+    front_card.setHidden(true);
+    setDeckMeterCount(match->getDeckSize());
+    placeCardAnimation.run();
 }
 
-void MatchForm::updateHand()
+void MatchForm::updateHand(size_t max)
 {
     Player& p = match->getMyPlayer();
     Hand& hand = p.getHand();
@@ -269,7 +287,7 @@ void MatchForm::updateHand()
         const Card& c = hand.get(start);
         card_array[count].setHidden(false);
         card_array[count++].injectCard(c);
-        if (count == 14) break;
+        if (count == max) break;
     }
     for (; count < 14; ++count)
     {
@@ -288,6 +306,19 @@ void MatchForm::updateHand()
     handMeter.update((int)hand_size, hand_index);
 }
 
+// Does not actually deal a card, just updates visuals
+void MatchForm::effectDealCard(int index, size_t count, size_t deck_size)
+{
+    int id = match->getId(index);
+    tile_array[index]->setCardCount(match->getPlayers()[index].getHandSize());
+    setDeckMeterCount(deck_size);
+    tile_array[index]->setCardCount(count);
+    if (id == match->getMyId())
+    {
+        updateHand(count);
+    }
+}
+
 void MatchForm::drawCardByIndex(int index)
 {
     int id = match->getId(index);
@@ -300,13 +331,15 @@ void MatchForm::drawCardByIndex(int index)
     }
 }
 
-void MatchForm::drawCard(int player_id)
+void MatchForm::drawCard(int index, Card drawn_card)
 {
-    int index = match->getIndex(player_id);
+    match->popCardFromDeck();
     int new_hand_index = (int)(match->getMyPlayer().getHand().size() / 14);
-    match->drawCard(player_id);
-    tile_array[index]->setCardCount(match->getPlayerById(player_id).getHandSize());
+    match->getPlayers()[index].getHand().add(drawn_card);
+    tile_array[index]->setCardCount(match->getPlayers()[index].getHandSize());
     setDeckMeterCount(match->getDeckSize());
+
+    int player_id = match->getId(index);
     if (player_id == match->getMyId())
     {
         card_array[card_index].hoverOff();
@@ -317,7 +350,7 @@ void MatchForm::drawCard(int player_id)
     }
 }
 
-void MatchForm::playCard(int player_id, int card_index)
+void MatchForm::playCard(int index, int card_index, Card played_card)
 {
     //int index = match->getIndex(player_id);
 
@@ -326,7 +359,8 @@ void MatchForm::playCard(int player_id, int card_index)
         back_card.setValuesFrom(front_card);
     }
 
-    match->playCard(player_id, card_index);
+    //match->removeCardFromPlayer(index, card_index);
+    match->pushCardToPile(played_card);
 
     front_card.injectCard(match->getPile().peekCard());
 
@@ -448,4 +482,14 @@ void MatchForm::wildColorChange(CardColor color)
     match->setWildColor(color);
     front_card.injectCard(match->getPile().peekCard());
     wildColorAnimation.start(false);
+}
+
+void MatchForm::updateMatch(ClientMatch clientMatch)
+{
+    controller->updateMatch(clientMatch);
+}
+
+PlayerTile& MatchForm::getPlayerTile(int index)
+{
+    return *tile_array[index];
 }

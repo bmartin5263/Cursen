@@ -14,8 +14,8 @@ class WildColorChange : public DataMessage
 public:
 
     WildColorChange() = default;
-    WildColorChange(int id, CardColor color) :
-            id(id), color(color)
+    WildColorChange(CardColor color) :
+            color(color)
     {}
 
     MessageType getType() override
@@ -47,7 +47,6 @@ public:
     {
         size_t written =  DataMessage::serialize(buffer);
 
-        written += Serializable::Serialize(buffer + written, id);
         written += Serializable::Serialize(buffer + written, (int)color);
 
         return written;
@@ -57,7 +56,6 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += Serializable::Deserialize(buffer + read, id);
         int raw_color = 0;
         read += Serializable::Deserialize(buffer + read, raw_color);
         color = (CardColor)raw_color;
@@ -67,7 +65,6 @@ public:
 
 private:
 
-    int id;
     CardColor color;
 
 };

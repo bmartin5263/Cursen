@@ -9,6 +9,7 @@
 #include <vector>
 #include "Lobby.h"
 #include "Deck.h"
+#include "ClientMatch.h"
 
 class Match
 {
@@ -41,6 +42,18 @@ public:
 
     bool isWaitingForWildColor();
     void setWildColor(CardColor color);
+
+    // New interface
+    Card peekCardFromDeck();
+    void popCardFromDeck();
+    Card getCardFromPlayer(int index, int card_index);
+    void removeCardFromPlayer(int index, int card_index);
+    void pushCardToPile(Card card);
+
+    bool hasId(int player_id);
+
+    ClientMatch convertToClientMatch(int client_id);
+    void readFromClientMatch(ClientMatch clientMatch);
 
 private:
 

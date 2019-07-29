@@ -15,8 +15,8 @@ class DrawCard : public DataMessage
 public:
 
     DrawCard() = default;
-    DrawCard(int id) :
-            id(id)
+    DrawCard(int id, Card drawn_card) :
+            index(id), drawn_card(drawn_card)
     {}
 
     MessageType getType() override
@@ -34,7 +34,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            matchForm->drawCard(id);
+            matchForm->drawCard(index, drawn_card);
 
         CONTEXT_CHECK_END
     }
@@ -48,7 +48,8 @@ public:
     {
         size_t written =  DataMessage::serialize(buffer);
 
-        written += Serializable::Serialize(buffer + written, id);
+        written += Serializable::Serialize(buffer + written, index);
+        written += drawn_card.serialize(buffer + written);
 
         return written;
     }
@@ -57,14 +58,16 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += Serializable::Deserialize(buffer + read, id);
+        read += Serializable::Deserialize(buffer + read, index);
+        read += drawn_card.deserialize(buffer + read);
 
         return read;
     }
 
 private:
 
-    int id;
+    Card drawn_card;
+    int index;
 
 };
 

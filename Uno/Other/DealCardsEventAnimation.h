@@ -16,7 +16,7 @@ public:
     DealCardsEventAnimation();
     ~DealCardsEventAnimation() = default;
 
-    void run(MatchForm* matchForm, size_t num_players, size_t cards_to_deal);
+    void run(MatchForm* matchForm, size_t num_players, size_t cards_to_deal, size_t deck_size);
 
 private:
 
@@ -24,6 +24,8 @@ private:
 
     size_t currentPlayer;
     size_t maxPlayers;
+    size_t count;
+    size_t deck_size;
     MatchForm* matchForm;
 
     cursen::Animation card_deal_animation;

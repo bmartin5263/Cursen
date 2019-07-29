@@ -38,7 +38,10 @@ public:
             Match* match = matchForm->getMatch();
             if (match->canPlayCard(id, card_index))
             {
-                DataMessage* msg = new PlayCard(id, card_index);
+                int index = match->getIndex(id);
+                Card played_card = match->getCardFromPlayer(index, card_index);
+
+                DataMessage* msg = new PlayCard(index, card_index, played_card);
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);
             }

@@ -13,8 +13,8 @@ class PlayCard : public DataMessage
 public:
 
     PlayCard() = default;
-    PlayCard(int id, int card_index) :
-            id(id), card_index(card_index)
+    PlayCard(int index, int card_index, Card played_card) :
+            index(index), card_index(card_index), played_card(played_card)
     {}
 
     MessageType getType() override
@@ -32,7 +32,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
         MatchForm* matchForm = getCurrentForm<MatchForm>();
-        matchForm->playCard(id, card_index);
+        matchForm->playCard(index, card_index, played_card);
 
         CONTEXT_CHECK_END
     }
@@ -46,8 +46,9 @@ public:
     {
         size_t written =  DataMessage::serialize(buffer);
 
-        written += Serializable::Serialize(buffer + written, id);
+        written += Serializable::Serialize(buffer + written, index);
         written += Serializable::Serialize(buffer + written, card_index);
+        written += played_card.serialize(buffer + written);
 
         return written;
     }
@@ -56,16 +57,18 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += Serializable::Deserialize(buffer + read, id);
+        read += Serializable::Deserialize(buffer + read, index);
         read += Serializable::Deserialize(buffer + read, card_index);
+        read += played_card.deserialize(buffer + read);
 
         return read;
     }
 
 private:
 
-    int id;
+    int index;
     int card_index;
+    Card played_card;
 
 };
 

@@ -9,9 +9,7 @@
 
 void WaitingToDealCardsState::pressEnter(MatchForm& form) const
 {
-    DataMessage* msg = new InputDealCards(form.getMatch()->getMyId());
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    form.getController()->handleDealCards();
 }
 
 void WaitingToDealCardsState::pressD(MatchForm& matchForm) const
