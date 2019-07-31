@@ -29,6 +29,7 @@ enum class MessageType {
     StopSearch,
     DisconnectFromHost,
     ConnectionSevered,
+    MatchConnectionSevered,
     InputDealCards,
     DealCards,
     InputBeginGame,

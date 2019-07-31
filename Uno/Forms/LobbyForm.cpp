@@ -65,7 +65,7 @@ void LobbyForm::initialize()
     close_button.initialize();
     close_button.setPosition(cursen::Vect2(1, 25));
     close_button.setLength(34);
-    close_button.setText("Close Room");
+    close_button.setText("Close Lobby");
     close_button.setEnabled(false);
     close_button.onClick([this]() { clickClose(); });
 
@@ -256,6 +256,7 @@ void LobbyForm::initializeForClient()
     lobby_cursor.moveTo(&close_button);
     lobby_cursor.setEnabled(true);
     chat_box.setEnabled(true);
+    close_button.setText("Leave Lobby");
 
     start_button.enableIf([&]() {
         return false;
@@ -313,6 +314,7 @@ void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
 
     console.setMessage("");
     chat_box.clearAllMessages();
+    close_button.setText("Close Lobby");
 
     if (was_kicked)
     {
@@ -447,7 +449,7 @@ void LobbyForm::tryJoin()
 
 void LobbyForm::clickExit()
 {
-    closeForm();
+    closeForm(nullptr);
 }
 
 void LobbyForm::enableRemovePlayerCursor()

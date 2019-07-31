@@ -26,6 +26,7 @@ struct ClientMatch : public Serializable
         written += Serializable::Serialize(buffer + written, my_id);
         written += Serializable::Serialize(buffer + written, deck_size);
         written += Serializable::Serialize(buffer + written, waitingForWildCardColor);
+        written += Serializable::Serialize(buffer + written, reversed);
 
         return written;
     }
@@ -44,6 +45,7 @@ struct ClientMatch : public Serializable
         read += Serializable::Deserialize(buffer + read, my_id);
         read += Serializable::Deserialize(buffer + read, deck_size);
         read += Serializable::Deserialize(buffer + read, waitingForWildCardColor);
+        read += Serializable::Deserialize(buffer + read, reversed);
 
         return read;
     }
@@ -60,6 +62,7 @@ struct ClientMatch : public Serializable
     int my_id;
     unsigned long deck_size;
     bool waitingForWildCardColor;
+    bool reversed;
 };
 
 #endif //CURSEN_CLIENTMATCH_H

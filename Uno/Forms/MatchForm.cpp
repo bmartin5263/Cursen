@@ -6,6 +6,7 @@
 
 #include <Uno/Match/MatchControllers.h>
 #include <Uno/Data/DataManager.h>
+#include <Uno/Match/MatchReturnData.h>
 #include "MatchForm.h"
 #include "Cursen/CursenApplication.h"
 #include "Uno/Match/FSM/MatchState.h"
@@ -38,12 +39,18 @@ MatchForm::~MatchForm()
     delete match;
 }
 
+void MatchForm::exit(std::string message, bool kicked)
+{
+    MatchReturnData* returnData = new MatchReturnData(message, kicked);
+    closeForm(returnData);
+}
+
+
 void MatchForm::initialize()
 {
     welcome.initialize();
     welcome.setPosition(Vect2(0,0));
     welcome.setText("Welcome to the Match!");
-    welcome.onEscapePress([](const Event e) { CursenApplication::CloseForm(); });
     welcome.onDeletePress([&](const Event e) {
         front_card.shrink();
     });
@@ -147,7 +154,7 @@ void MatchForm::initialize()
     wildColorAnimation.add([this]() { front_card.setForeground(Color::BLUE); });
     wildColorAnimation.onEnd([this]() {
         front_card.setForeground(Card::ConvertToColor(match->getPile().peekCard().getColor()));
-        setState(&MatchFSM::selectCardState);
+        nextTurn();
     });
 }
 
@@ -222,6 +229,21 @@ void MatchForm::dealCards()
     state = &MatchFSM::animationState;
     console.setMessage("Dealing Cards...");
     dealCardsEventController.run(this, (size_t)match->getNumPlayers(), Deck::INITIAL_CARDS, Deck::SIZE);
+}
+
+void MatchForm::nextTurn()
+{
+    if (match->currentPlayerHasEmptyHand())
+    {
+        // Game Over
+    }
+    else
+    {
+        // TODO - first turn is skipped...
+        tile_array[match->getCurrentTurn()]->unhighlight();
+        tile_array[match->advanceTurn()]->highlight();
+        setState(&MatchFSM::selectCardState);
+    }
 }
 
 void MatchForm::setConsoleMessage(std::string msg)

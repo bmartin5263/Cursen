@@ -49,7 +49,7 @@ const Card& Deck::peekCardAt(int index)
     return cards[index];
 }
 
-unsigned long Deck::size()
+unsigned long Deck::size() const
 {
     return cards.size();
 }
@@ -100,4 +100,9 @@ size_t Deck::deserialize(const char* const buffer)
 size_t Deck::sizeOf() const
 {
     return sizeof(Deck);
+}
+
+bool Deck::empty() const
+{
+    return size() == 0;
 }

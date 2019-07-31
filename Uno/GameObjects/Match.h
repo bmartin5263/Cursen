@@ -49,6 +49,10 @@ public:
     Card getCardFromPlayer(int index, int card_index);
     void removeCardFromPlayer(int index, int card_index);
     void pushCardToPile(Card card);
+    bool currentPlayerHasEmptyHand();
+    bool pileIsEmpty();
+    int getCurrentTurn();
+    int advanceTurn();
 
     bool hasId(int player_id);
 
@@ -65,6 +69,7 @@ private:
     int current_player_id;
     int my_id;
     bool waitingForWildCardColor;
+    bool reversed;
 };
 
 

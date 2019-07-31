@@ -22,6 +22,8 @@ public:
     void updateMatch(ClientMatch clientMatch) override;
     void handleRequestMatch(int id, int sock) override;
     void wildChoice(CardColor color) override;
+    void handleDisconnect(int sock) override;
+    void handleClose(std::string message, bool kicked) override;
 
 private:
 

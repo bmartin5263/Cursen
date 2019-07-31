@@ -24,17 +24,20 @@ public:
 
     void setForeground(const cursen::Color& color) override ;
 
+    void highlight();
+    void unhighlight();
+
     void setCardCount(size_t count);
     void setName(const std::string& name);
+    void setColor(PlayerColor color);
 
 private:
 
     cursen::Box border;
     cursen::Label player_name;
     cursen::Label player_cards;
-
-//    int card_count;
     std::string name;
+    PlayerColor color;
 
 };
 

@@ -24,7 +24,7 @@ PlaceCardAnimation::PlaceCardAnimation()
     place_card_animation.setFrameDuration(.05);
     place_card_animation.setContinuous(false);
     place_card_animation.onEnd(
-            [&]() {this->animationEnd();}
+            [this]() { animationEnd(); }
     );
 }
 
@@ -48,6 +48,6 @@ void PlaceCardAnimation::animationEnd()
         matchForm->setState(&MatchFSM::wildColorChoiceState);
     }
     else {
-        matchForm->setState(&MatchFSM::selectCardState);
+        matchForm->nextTurn();
     }
 }

@@ -178,6 +178,7 @@ ClientMatch Match::convertToClientMatch(int client_id)
     clientMatch.num_players = this->num_players;
     clientMatch.my_id = client_id;
     clientMatch.deck_size = deck.size();
+    clientMatch.reversed = this->reversed;
     for (int i = 0; i < num_players; i++)
     {
         clientMatch.players[i] = this->players[i];
@@ -195,6 +196,7 @@ void Match::readFromClientMatch(ClientMatch clientMatch)
     for (int i = 0; i < clientMatch.deck_size; ++i) deck.pushCard(Card());
     my_id = clientMatch.my_id;
     num_players = clientMatch.num_players;
+    reversed = clientMatch.reversed;
     int i = 0;
     for (; i < num_players; ++i)
     {
@@ -240,4 +242,33 @@ void Match::pushCardToPile(Card card)
 {
     pile.pushCard(card);
     if (card.isWild()) waitingForWildCardColor = true;
+}
+
+bool Match::currentPlayerHasEmptyHand()
+{
+    return players[current_player_index].getHand().empty();
+}
+
+bool Match::pileIsEmpty()
+{
+    return pile.empty();
+}
+
+int Match::getCurrentTurn()
+{
+    return current_player_index;
+}
+
+int Match::advanceTurn()
+{
+    if (reversed)
+    {
+        if (current_player_index == 0) current_player_index = num_players - 1;
+        else current_player_index--;
+    }
+    else
+    {
+        current_player_index = (current_player_index + 1) % num_players;
+    }
+    return current_player_index;
 }

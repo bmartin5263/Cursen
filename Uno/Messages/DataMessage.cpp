@@ -9,6 +9,7 @@
 #include <Uno/Match/Messages/InputPlayCard.h>
 #include <Uno/Match/Messages/InputWildColorChange.h>
 #include <Uno/Match/Messages/RequestMatchData.h>
+#include <Uno/Match/Messages/MatchConnectionSevered.h>
 
 #include "DataMessage.h"
 #include "AddAI.h"
@@ -141,6 +142,9 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::ClientMatchUpdate:
             msg = new ClientMatchUpdate;
+            break;
+        case MessageType::MatchConnectionSevered:
+            msg = new MatchConnectionSevered;
             break;
     }
     assert(msg != nullptr);

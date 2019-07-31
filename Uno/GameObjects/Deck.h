@@ -26,7 +26,8 @@ public:
 
     std::vector<Card>& getDeckContainer();
 
-    unsigned long size();
+    unsigned long size() const;
+    bool empty() const;
 
     void clear();
     size_t serialize(char* const buffer) const override;

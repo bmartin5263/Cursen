@@ -34,6 +34,7 @@ public:
 
     void initialize() override;
     void start();
+    void exit(std::string message, bool kicked);
 
     void updatePlayers();
     void setDeckMeterCount(size_t size);
@@ -55,6 +56,8 @@ public:
     void dealCards();
     void beginGame(Card initial_card);
     void waitToBegin();
+
+    void nextTurn();
 
     Match* getMatch();
     MatchController* getController();

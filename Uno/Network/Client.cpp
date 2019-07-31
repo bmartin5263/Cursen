@@ -5,6 +5,7 @@
 #include <Cursen/CursenApplication.h>
 #include <Uno/Forms/LobbyForm.h>
 #include <Uno/Messages/RequestJoinLobby.h>
+#include <Uno/Match/Messages/MatchConnectionSevered.h>
 #include "Uno/Messages/ConnectionSevered.h"
 #include "Client.h"
 #include "NetworkManager.h"
@@ -155,10 +156,22 @@ Client::~Client()
 
 void Client::connectionLost()
 {
-    DataMessage* msg = new ConnectionSevered(host_sock);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
-
+    DataMessage* msg;
+    switch (DataManager::GetContext())
+    {
+        case Context::None:
+            break;
+        case Context::ContextLobby:
+            msg = new ConnectionSevered(host_sock);
+            msg->setSendType(SendType::Local);
+            DataManager::PushMessage(msg);
+            break;
+        case Context::ContextMatch:
+            msg = new MatchConnectionSevered(host_sock);
+            msg->setSendType(SendType::Local);
+            DataManager::PushMessage(msg);
+            break;
+    }
     connected = false;
     host_sock = -1;
 }

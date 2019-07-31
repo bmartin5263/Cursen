@@ -97,3 +97,13 @@ void MatchClientController::wildChoice(CardColor color)
     msg->setSendType(SendType::Network);
     DataManager::PushMessage(msg);
 }
+
+void MatchClientController::handleDisconnect(int sock)
+{
+    handleClose("Lost Connection to Host :,(", true);
+}
+
+void MatchClientController::handleClose(std::string message, bool kicked)
+{
+    getMatchForm()->exit(message, kicked);
+}

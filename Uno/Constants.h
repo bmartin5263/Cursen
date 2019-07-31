@@ -30,6 +30,22 @@ public:
         return (end == std::string::npos) ? "" : s.substr(0, end + 1);
     }
 
+    static void padLeft(std::string& str, int length)
+    {
+        if ( str.size() < length )
+        {
+            str = std::string(length - str.size(), ' ') + str;
+        }
+    }
+
+    static void padRight(std::string& str, int length)
+    {
+        if ( str.size() < length )
+        {
+            str = str + std::string(length - str.size(), ' ');
+        }
+    }
+
 };
 
 #endif //CURSEN_CONSTANTS_H

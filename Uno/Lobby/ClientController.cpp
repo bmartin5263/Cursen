@@ -6,6 +6,7 @@
 #include <Uno/Network/Client.h>
 #include <Uno/GameObjects/Match.h>
 #include <Uno/Forms/MatchForm.h>
+#include <Uno/Match/MatchReturnData.h>
 #include "ClientController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Constants.h"
@@ -138,6 +139,15 @@ void ClientController::handleEnterMatch()
 
     Match* match = new Match(players, num_players, lobbyForm->getLobby().getMyId());
     MatchForm* matchForm = new MatchForm(LobbyType::JOIN, match);
+    matchForm->onClosed([this](void* return_val) {
+        assert(return_val != nullptr);
+        MatchReturnData* returnData = (MatchReturnData*) return_val;
+        if (returnData->kicked)
+        {
+            handleClose(returnData->message, returnData->kicked);
+        }
+        delete returnData;
+    });
 
     lobbyForm->openForm(matchForm);
 }

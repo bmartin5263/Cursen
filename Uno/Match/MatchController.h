@@ -30,6 +30,10 @@ public:
     virtual void pressDraw() = 0;
     virtual void wildChoice(CardColor color) = 0;
 
+    // Connection
+    virtual void handleDisconnect(int sock) = 0;
+    virtual void handleClose(std::string message, bool kicked) = 0;
+
     virtual void handleDealCards() = 0;
 
     virtual void start() = 0;

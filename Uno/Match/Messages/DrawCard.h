@@ -66,8 +66,8 @@ public:
 
 private:
 
-    Card drawn_card;
     int index;
+    Card drawn_card;
 
 };
 

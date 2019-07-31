@@ -83,3 +83,13 @@ void MatchLocalController::wildChoice(CardColor color)
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
+
+void MatchLocalController::handleDisconnect(int sock)
+{
+
+}
+
+void MatchLocalController::handleClose(std::string message, bool kicked)
+{
+
+}
