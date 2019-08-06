@@ -75,11 +75,11 @@ namespace cursen {
             return *this;
         }
 
-        bool operator == (const Vect2& other) {
+        bool operator == (const Vect2& other) const {
             return x == other.x && y == other.y;
         }
 
-        bool operator != (const Vect2& other) {
+        bool operator != (const Vect2& other) const {
             return !(*this == other);
         }
 

@@ -30,8 +30,11 @@ namespace cursen {
     }
 
     void TextComponent::setSize(const Vect2 &size) {
-        content.resize(size);
-        invalidate();
+        if (size != content.getSize())
+        {
+            content.resize(size);
+            invalidate();
+        }
     }
 
     Vect2 TextComponent::getSize() const {

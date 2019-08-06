@@ -118,7 +118,8 @@ namespace cursen {
         void setVariableTime(bool value);
 
         /* Animation Control */
-        void start(bool callFirstFrame = true);
+        //void start(bool callFirstFrame = true);
+        void start(double delay = 0.1);
         void stop();
         void pause();
         void resume();

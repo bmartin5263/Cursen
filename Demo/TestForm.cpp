@@ -115,7 +115,7 @@ void TestForm::initialize() {
     cursor.mapComponent(&pressMe, cursen::ArrowMap(nullptr, &twirlCheck, nullptr, &flashLabel));
     cursor.setEnabled(true);
 
-    onKeyPress([&](const cursen::Event& event) { this->keyPress(event); });
+//    onKeyPress([&](const cursen::Event& event) { this->keyPress(event); });
 
     rainbow.setFrameDuration(.06f);
     rainbow.add([&]() { box.setForeground(cursen::Color::RED); });
@@ -145,7 +145,7 @@ void TestForm::keyPress(const cursen::Event &event) {
 }
 
 void TestForm::quitGame() {
-    cursen::CursenApplication::CloseForm();
+    cursen::CursenApplication::CloseForm(nullptr);
 }
 
 void TestForm::flash() {

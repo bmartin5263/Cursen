@@ -54,13 +54,10 @@ namespace cursen {
 
     void Content::resize(const Vect2& dimensions) {
         assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
-        if (this->dimensions != dimensions)
-        {
-            deleteBody();
-            this->dimensions = dimensions;
-            this->empty = dimensions.x <= 0 || dimensions.y <= 0;
-            initializeBody();
-        }
+        deleteBody();
+        this->dimensions = dimensions;
+        this->empty = dimensions.x <= 0 || dimensions.y <= 0;
+        initializeBody();
     }
 
     void Content::deleteBody() {

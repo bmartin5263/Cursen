@@ -23,6 +23,6 @@ void SimpleForm::initialize()
     front.setPosition(Vect2(3,3));
     front.injectCard(Card(CardColor::BLUE, CardValues::ONE));
 
-    onEnterPress([this](const cursen::Event& event) { front.drawOnTopOf(back); });
+    back.onEnterPress([this](const cursen::Event& event) { front.drawOnTopOf(back); });
 }
 

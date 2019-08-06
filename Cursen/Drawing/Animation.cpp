@@ -61,9 +61,29 @@ namespace cursen
         return false;
     }
 
-    void Animation::start(bool callFirstFrame)
+//    void Animation::start(bool callFirstFrame)
+//    {
+//        // TODO callFirstFrame seems jank, better way?
+//        if (!running) {
+//            running = true;
+//            currentFrame = 0;
+//            loop_counter = 0;
+//
+//            if (!variable_time)
+//            {
+//                animationHandle = AlarmManager::SetInterval([&]() { this->nextFrame(); }, default_duration);
+//            }
+//            else
+//            {
+//                if (callFirstFrame) nextFrame();
+//                else animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, frames[frames.size() - 1].getDuration());
+//            }
+//
+//        }
+//    }
+
+    void Animation::start(double delay)
     {
-        // TODO callFirstFrame seems jank, better way?
         if (!running) {
             running = true;
             currentFrame = 0;
@@ -71,12 +91,11 @@ namespace cursen
 
             if (!variable_time)
             {
-                animationHandle = AlarmManager::SetInterval([&]() { this->nextFrame(); }, default_duration);
+                animationHandle = AlarmManager::SetInterval([this]() { this->nextFrame(); }, default_duration);
             }
             else
             {
-                if (callFirstFrame) nextFrame();
-                else animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, frames[frames.size() - 1].getDuration());
+                animationHandle = AlarmManager::SetTimeout([this]() { this->nextFrame(); }, delay);
             }
 
         }
