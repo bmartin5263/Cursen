@@ -31,6 +31,7 @@ public:
     void handleDisconnect(int sock) override;
     void sendCloseMessages() override;
     void handleEnterMatch() override;
+    void handleAddPlayer(Player new_player, int sock) override;
 };
 
 

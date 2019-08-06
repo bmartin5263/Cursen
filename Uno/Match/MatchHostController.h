@@ -24,8 +24,11 @@ public:
     void wildChoice(CardColor color) override;
     void handleDisconnect(int sock) override;
     void handleClose(std::string message, bool kicked) override;
+    void handleAITurn() override;
 
 private:
+
+    void checkReadyToStart();
 
     bool players_connected[4];
 

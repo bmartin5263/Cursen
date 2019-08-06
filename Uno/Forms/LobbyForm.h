@@ -90,7 +90,6 @@ public:
     void changeColor(int playerId, PlayerColor color);
     void pushChatMessage(int playerId, std::string message);
     void addPlayer(Player p, int sock);
-    void close(int playerId);
 
     void enterMatch();
 

@@ -128,3 +128,8 @@ void LocalController::handleEnterMatch()
 
     lobbyForm->openForm(matchForm);
 }
+
+void LocalController::handleAddPlayer(Player new_player, int sock)
+{
+
+}

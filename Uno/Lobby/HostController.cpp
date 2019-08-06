@@ -209,3 +209,8 @@ void HostController::handleEnterMatch()
 
     lobbyForm->openForm(matchForm);
 }
+
+void HostController::handleAddPlayer(Player new_player, int sock)
+{
+
+}

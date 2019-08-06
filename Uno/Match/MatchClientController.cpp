@@ -107,3 +107,8 @@ void MatchClientController::handleClose(std::string message, bool kicked)
 {
     getMatchForm()->exit(message, kicked);
 }
+
+void MatchClientController::handleAITurn()
+{
+
+}

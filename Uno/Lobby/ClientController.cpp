@@ -151,3 +151,8 @@ void ClientController::handleEnterMatch()
 
     lobbyForm->openForm(matchForm);
 }
+
+void ClientController::handleAddPlayer(Player new_player, int sock)
+{
+
+}

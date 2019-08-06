@@ -35,6 +35,7 @@ public:
     virtual void handleClose(std::string message, bool kicked) = 0;
 
     virtual void handleDealCards() = 0;
+    virtual void handleAITurn() = 0;
 
     virtual void start() = 0;
     virtual void waitToBegin() = 0;

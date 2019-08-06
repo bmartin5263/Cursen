@@ -11,8 +11,8 @@ Player::Player() :
 {
 }
 
-Player::Player(const std::string &name, const PlayerColor& color, int id) :
-    name(name), color(color), points(0), id(id)
+Player::Player(const std::string &name, const PlayerColor& color, int id, bool ai) :
+    name(name), color(color), points(0), id(id), ai(ai)
 {
 }
 
@@ -81,6 +81,7 @@ size_t Player::serialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, (int)color);
     written += Serializable::Serialize(buffer + written, points);
     written += Serializable::Serialize(buffer + written, id);
+    written += Serializable::Serialize(buffer + written, ai);
     written += hand.serialize(buffer + written);
     return written;
 }
@@ -99,6 +100,7 @@ size_t Player::deserialize(const char* const buffer)
     color = (PlayerColor)col;
     read += Serializable::Deserialize(buffer + read, points);
     read += Serializable::Deserialize(buffer + read, id);
+    read += Serializable::Deserialize(buffer + read, ai);
     read += hand.deserialize(buffer + read);
     return read;
 }
@@ -131,6 +133,12 @@ size_t Player::safe_serialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, (int)color);
     written += Serializable::Serialize(buffer + written, points);
     written += Serializable::Serialize(buffer + written, -1);
+    written += Serializable::Serialize(buffer + written, ai);
     written += hand.safe_serialize(buffer + written);
     return written;
+}
+
+bool Player::isAI()
+{
+    return ai;
 }

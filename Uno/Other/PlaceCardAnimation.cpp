@@ -36,18 +36,13 @@ void PlaceCardAnimation::setForm(MatchForm* matchForm)
 
 void PlaceCardAnimation::run()
 {
-    place_card_animation.start(false);
+    place_card_animation.start();
     matchForm->setState(&MatchFSM::animationState);
 }
 
 void PlaceCardAnimation::animationEnd()
 {
     matchForm->getFrontCard().setNumberHidden(false);
-    if (matchForm->getMatch()->isWaitingForWildColor())
-    {
-        matchForm->setState(&MatchFSM::wildColorChoiceState);
-    }
-    else {
-        matchForm->nextTurn();
-    }
+    matchForm->getFrontCard().setSize(cursen::Vect2(14, 12));
+    matchForm->advanceTurn();
 }

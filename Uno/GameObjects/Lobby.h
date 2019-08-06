@@ -22,6 +22,7 @@ public:
     virtual ~Lobby() = default;
 
     Player createPlayer(std::string name, PlayerColor color);
+    Player createAI(std::string name, PlayerColor color);
 
     void addPlayer(Player player);
 

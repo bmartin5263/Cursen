@@ -125,10 +125,12 @@ void LobbyForm::initialize()
     glowBorder.setDrawOrder(10);
     glowBorder.colorize();
 
-    onUpdate([&]() {
-        if (lobby != nullptr) {
+    start_button.onUpdate([&]() {
+        if (lobby != nullptr)
+        {
             playerStaging.update(*lobby);
-            if (start_button.isEnabled()) {
+            if (start_button.isEnabled())
+            {
                 start_button.emphasize();
             }
             else
@@ -138,13 +140,16 @@ void LobbyForm::initialize()
         }
     });
 
-    if (cursen::CursenApplication::GetArgc() > 1) {
+    if (cursen::CursenApplication::GetArgc() > 1)
+    {
         mode_select_box.getMainPlayerStage().setText(cursen::CursenApplication::GetArgv()[1]);
         setMainPlayerName();
     }
-    else {
+    else
+    {
         mode_select_box.getMainPlayerStage().activateTextField();
-        mode_select_box.getMainPlayerStage().getTextField().onEnterPress([&](const cursen::Event& event) { this->setMainPlayerName(); });
+        mode_select_box.getMainPlayerStage().getTextField().onEnterPress(
+                [&](const cursen::Event& event) { this->setMainPlayerName(); });
     }
 
     onOpen([this]() {
@@ -425,7 +430,7 @@ void LobbyForm::tryJoin()
     if (address == "" || address == "127.0.0.1") address = "::0";
 
     NetworkManager::CreateDevice(NetworkType::Client);
-    auto& device = (Client&)NetworkManager::GetDevice();
+    auto& device = (Client&) NetworkManager::GetDevice();
     device.initialize();
 
     if (device.openConnection(address.c_str()))
@@ -461,28 +466,34 @@ void LobbyForm::enableRemovePlayerCursor()
 
 void LobbyForm::removePlayer(const int playerNum)
 {
-    if (playerNum != 0) {
+    if (playerNum != 0)
+    {
         Player p = lobby->getPlayer(playerNum);
         lobby->removePlayer(playerNum);
         console.setWarning("Later, " + p.getName());
-    } else {
+    }
+    else
+    {
         console.setMessage("OK, Nevermind");
     }
 }
 
 void LobbyForm::setMainPlayerName()
 {
-    cursen::TextField &field = mode_select_box.getMainPlayerStage().getTextField();
-    if (!field.getText().empty()) {
+    cursen::TextField& field = mode_select_box.getMainPlayerStage().getTextField();
+    if (!field.getText().empty())
+    {
         std::string name = field.getText();
         mode_select_box.setPlayerName(name);
-        mode_select_box.getMainPlayerStage().setPlayer(Player(name, PlayerColor::BLUE, 0));
+        mode_select_box.getMainPlayerStage().setPlayer(Player(name, PlayerColor::BLUE, 0, false));
         field.setEnabled(false);
         mode_select_box.start();
 
         glowBorder.setEnabled(true);
 
-    } else {
+    }
+    else
+    {
         cursen::CursesManager::Beep();
         mode_select_box.setWarning("Name Must Have 1 Character");
     }
@@ -558,7 +569,7 @@ void LobbyForm::requestAI()
         std::string computer_name = Player::GetComputerName();
         PlayerColor computer_color = lobby->getAvailableColorRGBY();
 
-        Player new_ai = lobby->createPlayer(computer_name, computer_color);
+        Player new_ai = lobby->createAI(computer_name, computer_color);
 
         DataMessage* msg = new AddAI(new_ai);
         msg->setSendType(SendType::Both);
@@ -574,14 +585,9 @@ void LobbyForm::kickPlayer(int id)
     console.setWarning("Later, " + p.getName());
 }
 
-void LobbyForm::close(int playerId)
-{
-    controller->handleClose(std::string(), false);
-}
-
 void LobbyForm::addPlayer(Player p, int sock)
 {
-    HostController* host_controller = (HostController*)controller;
+    HostController* host_controller = (HostController*) controller;
     host_controller->putSocket(sock, p.getId());
     lobby->addPlayer(p);
     console.setMessage("Welcome, " + p.getName() + "!");
@@ -601,6 +607,7 @@ void LobbyForm::requestClient(int sock_id, std::string name)
 
     Lobby client_lobby = *this->lobby;
     client_lobby.setMyId(new_player.getId());
+
     DataMessage* join_msg = new LobbyUpdate(client_lobby);
     join_msg->setSendType(SendType::Network);
     join_msg->setRecipient(sock_id);

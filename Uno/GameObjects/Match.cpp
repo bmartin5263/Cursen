@@ -101,42 +101,39 @@ int Match::getIndex(int player_id)
     return -1;
 }
 
-bool Match::canPlayCard(int player_id, int card_index)
+bool Match::canPlayCard(int player_index, int card_index)
 {
-    if (!waitingForWildCardColor && (current_player_id == player_id || true) && (pile.size() > 0 || true))
+    // Can't play a card if a wild card needs a color or if its not your turn
+    if (!waitingForWildCardColor && current_player_index == player_index)
     {
-        Hand& hand = getPlayerById(player_id).getHand();
+        Hand& hand = players[player_index].getHand();
         size_t hand_size = hand.size();
+
+        // Ensure card index is valid
         if (card_index >= 0 && card_index < hand_size)
         {
+            // Verify the card is legal
             const Card& card = hand.get(card_index);
-            if (pile.size() > 0)
+            const Card& top_card = pile.peekCard();
+            if (card.isWild() && !hand.hasPlayableCardFor(card))
             {
-                const Card& top_card = pile.peekCard();
-                if (card.isWild() && !hand.hasPlayableCardFor(card))
-                {
-                    return true;
-                }
-                else
-                {
-                    if (card.getColor() == top_card.getColor() || card.getValue() == top_card.getValue())
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
             else
             {
-                return true;
+                if (card.getColor() == top_card.getColor() || card.getValue() == top_card.getValue())
+                {
+                    return true;
+                }
             }
         }
     }
     return false;
 }
 
-void Match::playCard(int player_id, int card_index)
+void Match::playCard(int player_index, int card_index)
 {
-    Player& p = getPlayerById(player_id);
+    Player& p = players[player_index];
     const Card& card = p.getHand().get(card_index);
     pile.pushCard(card);
     if (card.isWild())
@@ -261,6 +258,7 @@ int Match::getCurrentTurn()
 
 int Match::advanceTurn()
 {
+    if (pile.size() == 1) return current_player_index;
     if (reversed)
     {
         if (current_player_index == 0) current_player_index = num_players - 1;
@@ -271,4 +269,14 @@ int Match::advanceTurn()
         current_player_index = (current_player_index + 1) % num_players;
     }
     return current_player_index;
+}
+
+bool Match::aiTurn()
+{
+    return players[current_player_index].isAI();
+}
+
+bool Match::myTurn()
+{
+    return getIndex(my_id) == current_player_index;
 }

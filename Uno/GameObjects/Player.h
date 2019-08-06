@@ -17,7 +17,7 @@ class Player : public Serializable {
 public:
 
     Player();
-    Player(const std::string& name, const PlayerColor& color, int id);
+    Player(const std::string& name, const PlayerColor& color, int id, bool ai);
 
     void setName(const std::string& name);
     std::string getName() const;
@@ -30,6 +30,8 @@ public:
 
     int getId() const;
     void clear();
+
+    bool isAI();
 
     static const std::string GetComputerName();
     static cursen::Color ConvertColor(const PlayerColor& color);
@@ -52,6 +54,7 @@ private:
     Hand hand;
     int points;
     int id;
+    bool ai;
 
 };
 

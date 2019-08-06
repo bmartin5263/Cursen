@@ -37,11 +37,14 @@ public:
     void drawCard(int player_id);
     void drawCardByIndex(int player_index);
 
-    bool canPlayCard(int player_id, int card_index);
-    void playCard(int player_id, int card_index);
+    bool canPlayCard(int player_index, int card_index);
+    void playCard(int player_index, int card_index);
 
     bool isWaitingForWildColor();
     void setWildColor(CardColor color);
+
+    bool aiTurn();
+    bool myTurn();
 
     // New interface
     Card peekCardFromDeck();

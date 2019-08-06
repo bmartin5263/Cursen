@@ -154,7 +154,7 @@ void MatchForm::initialize()
     wildColorAnimation.add([this]() { front_card.setForeground(Color::BLUE); });
     wildColorAnimation.onEnd([this]() {
         front_card.setForeground(Card::ConvertToColor(match->getPile().peekCard().getColor()));
-        nextTurn();
+        advanceTurn();
     });
 }
 
@@ -231,18 +231,30 @@ void MatchForm::dealCards()
     dealCardsEventController.run(this, (size_t)match->getNumPlayers(), Deck::INITIAL_CARDS, Deck::SIZE);
 }
 
-void MatchForm::nextTurn()
+void MatchForm::advanceTurn()
 {
     if (match->currentPlayerHasEmptyHand())
     {
         // Game Over
     }
+    else if (match->isWaitingForWildColor())
+    {
+        setState(&MatchFSM::wildColorChoiceState);
+    }
     else
     {
-        // TODO - first turn is skipped...
         tile_array[match->getCurrentTurn()]->unhighlight();
-        tile_array[match->advanceTurn()]->highlight();
-        setState(&MatchFSM::selectCardState);
+        int next_turn = match->advanceTurn();
+        tile_array[next_turn]->highlight();
+
+        if (match->aiTurn())
+        {
+            controller->handleAITurn();
+        }
+        else if (match->myTurn())
+        {
+            setState(&MatchFSM::selectCardState);
+        }
     }
 }
 
@@ -465,9 +477,6 @@ void MatchForm::keyPress(const cursen::Event& event)
         case ' ':
             state->pressSpace(*this);
             break;
-        case 'q':
-            front_card.grow();
-            break;
         case 'B':
         case 'b':
             state->pressB(*this);
@@ -503,7 +512,7 @@ void MatchForm::wildColorChange(CardColor color)
 {
     match->setWildColor(color);
     front_card.injectCard(match->getPile().peekCard());
-    wildColorAnimation.start(false);
+    wildColorAnimation.start();
 }
 
 void MatchForm::updateMatch(ClientMatch clientMatch)

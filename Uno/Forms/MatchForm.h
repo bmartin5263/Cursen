@@ -57,7 +57,7 @@ public:
     void beginGame(Card initial_card);
     void waitToBegin();
 
-    void nextTurn();
+    void advanceTurn();
 
     Match* getMatch();
     MatchController* getController();

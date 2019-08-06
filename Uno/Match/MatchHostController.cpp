@@ -41,6 +41,15 @@ void MatchHostController::start()
     matchForm->dealInitialCards();
     getMatchForm()->setConsoleMessage("Waiting for Clients...");
     players_connected[0] = true; // host is always player 0
+    Player* players = match->getPlayers();
+    for (int i = 1; i < match->getNumPlayers(); ++i)
+    {
+        if (players[i].isAI())
+        {
+            players_connected[i] = true;
+        }
+    }
+    checkReadyToStart();
 }
 
 void MatchHostController::pressEnter()
@@ -91,16 +100,7 @@ void MatchHostController::handleRequestMatch(int id, int sock)
     int index = getMatchForm()->getMatch()->getIndex(id);
     players_connected[index] = true;
 
-    bool ready_to_start = true;
-    for (int i = 0; i < match->getNumPlayers(); ++i)
-    {
-        if (!players_connected[i]) ready_to_start = false;
-    }
-    if (ready_to_start)
-    {
-        getMatchForm()->setState(&MatchFSM::waitingToDealCardsState);
-        getMatchForm()->setConsoleMessage("Clients Connected. Press Enter to Deal Cards");
-    }
+    checkReadyToStart();
 }
 
 void MatchHostController::wildChoice(CardColor color)
@@ -116,6 +116,26 @@ void MatchHostController::handleDisconnect(int sock)
 }
 
 void MatchHostController::handleClose(std::string message, bool kicked)
+{
+
+}
+
+void MatchHostController::checkReadyToStart()
+{
+    bool ready_to_start = true;
+    for (int i = 0; i < getMatchForm()->getMatch()->getNumPlayers(); ++i)
+    {
+        if (!players_connected[i])
+            ready_to_start = false;
+    }
+    if (ready_to_start)
+    {
+        getMatchForm()->setState(&MatchFSM::waitingToDealCardsState);
+        getMatchForm()->setConsoleMessage("Clients Connected. Press Enter to Deal Cards");
+    }
+}
+
+void MatchHostController::handleAITurn()
 {
 
 }

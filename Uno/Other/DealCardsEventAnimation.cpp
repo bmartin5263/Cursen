@@ -33,7 +33,7 @@ void DealCardsEventAnimation::run(MatchForm* matchForm, size_t num_players, size
     this->deck_size = deck_size;
 
     card_deal_animation.setLoops(cards_to_deal - 1);
-    card_deal_animation.start(false);
+    card_deal_animation.start();
 }
 
 void DealCardsEventAnimation::loopEnd()
@@ -42,10 +42,11 @@ void DealCardsEventAnimation::loopEnd()
     if (this->currentPlayer < maxPlayers)
     {
         this->count = 0;
-        card_deal_animation.start(false);
+        card_deal_animation.start();
     }
     else
     {
+        matchForm->updatePlayers();
         matchForm->waitToBegin();
     }
 }

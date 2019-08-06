@@ -225,8 +225,20 @@ Player Lobby::createPlayer(std::string name, PlayerColor color)
         id = rand();
     }
     while (idTaken(id));
-    return Player(name, color, id);
+    return Player(name, color, id, false);
 }
+
+Player Lobby::createAI(std::string name, PlayerColor color)
+{
+    // Create an ai with a random id
+    int id;
+    do {
+        id = rand();
+    }
+    while (idTaken(id));
+    return Player(name, color, id, true);
+}
+
 
 bool Lobby::idTaken(int id)
 {

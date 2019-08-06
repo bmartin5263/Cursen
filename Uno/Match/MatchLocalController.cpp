@@ -93,3 +93,12 @@ void MatchLocalController::handleClose(std::string message, bool kicked)
 {
 
 }
+
+void MatchLocalController::handleAITurn()
+{
+    cursen::AlarmManager::SetTimeout([](){
+        DataMessage* msg = new PlayCard(0,0,Card(CardColor::RED, CardValues::ZERO));
+        msg->setSendType(SendType::Local);
+        DataManager::PushMessage(msg);
+    }, 2.0);
+}

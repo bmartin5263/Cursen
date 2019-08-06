@@ -36,9 +36,9 @@ public:
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
             Match* match = matchForm->getMatch();
-            if (match->canPlayCard(id, card_index))
+            int index = match->getIndex(id);
+            if (index != -1 && match->canPlayCard(index, card_index))
             {
-                int index = match->getIndex(id);
                 Card played_card = match->getCardFromPlayer(index, card_index);
 
                 DataMessage* msg = new PlayCard(index, card_index, played_card);
