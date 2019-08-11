@@ -38,7 +38,7 @@ CURSEN_CLASS_START
      */
     void CursenApplication::Run(Form* startupForm)
     {
-        CursenApplication& instance = Instance();
+        auto& instance = Instance();
         putenv(const_cast<char *>("ESCDELAY=25"));
 
         StopWatch watch;
@@ -88,10 +88,10 @@ CURSEN_CLASS_START
 
     void CursenApplication::Update()
     {
-        Form* form = GetCurrentForm();
-        AlarmManager::ProcessAlarms(form->getAlarmMap(), form->getStartRequests(), form->getStopRequests());
+        auto form = GetCurrentForm();
         InputManager::ProcessInput();
         EventManager::ProcessEvents(form->getEventDispatchMap());
+        AlarmManager::ProcessAlarms(form->getAlarmMap(), form->getStartRequests(), form->getStopRequests());
         Instance().UserUpdate();
         CursorManager::RefreshCursors(form->getCursors());
     }

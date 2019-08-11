@@ -70,7 +70,7 @@ namespace cursen {
         }
     }
 
-    void Content::clearLine(const int y) {
+    void Content::clearLine(int y) {
         if (!empty) {
             assertY(y);
             for (int i = 0; i < dimensions.x; i++) {
@@ -79,7 +79,7 @@ namespace cursen {
         }
     }
 
-    void Content::clearColumn(const int x) {
+    void Content::clearColumn(int x) {
         if (!empty) {
             assertX(x);
             for (int i = 0; i < dimensions.y; i++) {
@@ -102,12 +102,12 @@ namespace cursen {
         writeBody(body, size);
     }
 
-    void Content::replaceLine(Line line, const int y) {
+    void Content::replaceLine(Line line, int y) {
         clearLine(y);
         writeLine(line, Vect2(0, y));
     }
 
-    void Content::replaceColumn(Line line, const int x) {
+    void Content::replaceColumn(Line line, int x) {
         clearColumn(x);
         writeColumn(line, x);
     }
@@ -124,7 +124,7 @@ namespace cursen {
         writeLine(converted, pos, alignment);
     }
 
-    void Content::writeColumn(const Line column, const int x) {
+    void Content::writeColumn(const Line column, int x) {
         writeColumn(column, Vect2(x, 0));
     }
 
@@ -180,15 +180,15 @@ namespace cursen {
         }
     }
 
-    void Content::assertRange(const int x, const int y) const {
+    void Content::assertRange(int x, int y) const {
         assert(x < dimensions.x && y < dimensions.y);
     }
 
-    void Content::assertX(const int x) const {
+    void Content::assertX(int x) const {
         assert(x < dimensions.x);
     }
 
-    void Content::assertY(const int y) const {
+    void Content::assertY(int y) const {
         assert(y < dimensions.y);
     }
 

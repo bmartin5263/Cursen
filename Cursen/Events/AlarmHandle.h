@@ -16,6 +16,9 @@ namespace cursen {
 
         AlarmHandle();
         AlarmHandle(unsigned int id);
+        AlarmHandle& operator = (const AlarmHandle& other);
+        ~AlarmHandle();
+
 
         void cancel();
         void reset();

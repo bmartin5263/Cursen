@@ -24,7 +24,7 @@ namespace cursen {
         void keyPress(const Event &e);
         void deletePress(const Event &e);
         void moveCursor(const Event &event);
-        void setMaxLength(const int len);
+        void setMaxLength(int len);
         void cursorOn() override;
         void setSize(const Vect2 &size) override;
         void setText(const std::string &text) override;

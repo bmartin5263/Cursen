@@ -19,7 +19,7 @@ namespace cursen {
         Button(const Vect2 &pos);
 
         void initialize() override;
-        void setLength(const int len);
+        void setLength(int len);
 
         void cursorOn();
         void cursorOff();

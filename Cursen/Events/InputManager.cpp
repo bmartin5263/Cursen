@@ -10,21 +10,21 @@
 namespace cursen {
 
     void InputManager::privProcessInput() {
-        int key = getch();
+        auto key = getch();
         while (key != ERR) {
 
             if (key == '@') {
-                CursenDebugger &debugger = CursenApplication::GetDebugger();
+                auto& debugger = CursenApplication::GetDebugger();
                 if (debugger.getInspectionPointer() != nullptr) {
                     debugger.deactivateInspection();
                 } else {
                     debugger.activateInspection();
                 }
-                Event event;
+                auto event = Event{};
                 event.type = EventType::Null;
                 EventManager::PushEvent(event);
             } else {
-                Event event;
+                auto event = Event{};
                 if (key == CursesManager::ESCAPE) {
                     event.type = EventType::EscPressed;
                     event.key.code = key;

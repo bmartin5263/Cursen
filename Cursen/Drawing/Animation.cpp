@@ -97,7 +97,6 @@ namespace cursen
             {
                 animationHandle = AlarmManager::SetTimeout([this]() { this->nextFrame(); }, delay);
             }
-
         }
     }
 
@@ -111,6 +110,7 @@ namespace cursen
 
     void Animation::nextFrame()
     {
+        assert(running);
         callCurrentFrame();
         double time = frames[currentFrame].getDuration();
         if (time <= 0.0)
@@ -189,6 +189,7 @@ namespace cursen
 
     void Animation::setVariableTime(bool value)
     {
+        // TODO this fixes the sudden stop assertion, but why...
         assert(!running);
         this->variable_time = value;
     }

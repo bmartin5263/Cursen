@@ -16,7 +16,7 @@ namespace cursen {
         {
         }
 
-        explicit Vect2(const int x, const int y) :
+        explicit Vect2(int x, int y) :
                 x(x), y(y)
         {
         }

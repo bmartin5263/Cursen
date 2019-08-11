@@ -19,6 +19,16 @@ namespace cursen {
 
     }
 
+    AlarmHandle& AlarmHandle::operator=(const AlarmHandle& other)
+    {
+        if (&other != this)
+        {
+            AlarmManager::CancelAlarm(id);
+            this->id = other.id;
+        }
+        return *this;
+    }
+
     void AlarmHandle::cancel()
     {
         if (id != 0) AlarmManager::CancelAlarm(id);
@@ -48,5 +58,11 @@ namespace cursen {
     {
         if (id != 0) AlarmManager::ToggleAlarm(id);
     }
+
+    AlarmHandle::~AlarmHandle()
+    {
+        if (id != 0) AlarmManager::CancelAlarm(id);
+    }
+
 
 }

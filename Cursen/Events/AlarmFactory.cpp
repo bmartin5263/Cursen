@@ -14,7 +14,7 @@ namespace cursen {
 
         if (instance.recycledItems.empty())
         {
-            alarm = new Alarm();
+            alarm = new Alarm;
         }
         else
         {
@@ -43,7 +43,7 @@ namespace cursen {
     void AlarmFactory::Initialize()
     {
         // Create some memory
-        for (volatile int i = 0; i < 200; i++) {
+        for (volatile int i = 0; i < 20; i++) {
             Alarm* a = new Alarm(0,0,0,0,0);
             RecycleAlarm(a);
         }

@@ -33,20 +33,20 @@ namespace cursen
 
     void CursesManager::Draw(ComponentMap& componentMap)
     {
-        CursenDebugger& debugger = CursenApplication::GetDebugger();
-        CursesManager& instance = Instance();
-        chtype* buffer = instance.buffer;
-        Vect2 dimensions = instance.dimensions;
+        auto& debugger = CursenApplication::GetDebugger();
+        auto& instance = Instance();
+        auto buffer = instance.buffer;
+        auto dimensions = instance.dimensions;
 
         // Clear the old screen
         erase();
         instance.clearBuffer();
 
-        for (ComponentMap::const_iterator pair = componentMap.begin(); pair != componentMap.end(); ++pair)
+        for (auto& pair : componentMap)
         {
-            for (ComponentSet::const_iterator componentIter = (*pair).second.begin(); componentIter != (*pair).second.end(); ++componentIter)
+            for (auto& componentIter : pair.second)
             {
-                TextComponent& component = *(*componentIter);
+                TextComponent& component = *componentIter;
                 if (!component.isHidden())
                 {
                     instance.drawComponent(component);
@@ -56,12 +56,14 @@ namespace cursen
         move(0,0);
         for (int y = 0; y < dimensions.y; ++y)
         {
-            for (int x = 0; x < dimensions.x; ++x)
-            {
-                int index = (y * dimensions.x) + x;
-                chtype c = buffer[index];
-                addch(c);
-            }
+            mvaddchnstr(y, 0, &buffer[y*dimensions.x], dimensions.x);
+//            for (int x = 0; x < dimensions.x; ++x)
+//            {
+//                int index = (y * dimensions.x) + x;
+//                //mvaddchnstr(y, 0, &buffer[index], dimensions.x);
+//                chtype c = buffer[index];
+//                addch(c);
+//            }
         }
 
         //        if (debugger.getInspectionPointer() != nullptr)
@@ -263,7 +265,7 @@ namespace cursen
         cursor_pos = dim;
     }
 
-    void CursesManager::privSetCursor(const int level)
+    void CursesManager::privSetCursor(int level)
     {
         curs_set(level);
     }

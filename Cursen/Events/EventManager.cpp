@@ -14,7 +14,8 @@ namespace cursen {
     void EventManager::processUpdates(EventManager::EventComponentMap& dispatchMap)
     {
         ComponentList& componentList = dispatchMap[EventType::Update];
-        for (ComponentList::const_iterator listItem = componentList.begin(); listItem != componentList.end(); ++listItem) {
+        auto cend = componentList.cend();
+        for (ComponentList::const_iterator listItem = componentList.cbegin(); listItem != cend; ++listItem) {
             Component* component = (*listItem);
             const std::function<bool()>& enableFunction = component->GetEnableIf();
             const std::function<void()>& updateFunction = component->GetUpdate();
@@ -32,7 +33,7 @@ namespace cursen {
 
     void EventManager::ProcessEvents(EventManager::EventComponentMap& dispatchMap)
     {
-        EventManager& instance = Instance();
+        auto& instance = Instance();
         instance.processUpdates(dispatchMap);
         while (!instance.eventQueue.isEmpty()) {
             instance.privProcessEvent(dispatchMap, instance.eventQueue.pop());
@@ -45,36 +46,36 @@ namespace cursen {
         switch (event.type) {
             case EventType::KeyPressed:
                 componentList = dispatchMap[EventType::KeyPressed];
-                for (ComponentList::const_iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
+                for (ComponentList::const_iterator listItem = componentList.cbegin();
+                     listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallKeyPress(event);
                 }
                 break;
             case EventType::EscPressed:
                 componentList = dispatchMap[EventType::EscPressed];
-                for (ComponentList::const_iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
+                for (ComponentList::const_iterator listItem = componentList.cbegin();
+                     listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallEscapePress(event);
                 }
                 break;
             case EventType::DeletePressed:
                 componentList = dispatchMap[EventType::DeletePressed];
-                for (ComponentList::const_iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
+                for (ComponentList::const_iterator listItem = componentList.cbegin();
+                     listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallDeletePress(event);
                 }
                 break;
             case EventType::EnterPressed:
                 componentList = dispatchMap[EventType::EnterPressed];
-                for (ComponentList::const_iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
+                for (ComponentList::const_iterator listItem = componentList.cbegin();
+                     listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallEnterPress(event);
                 }
                 break;
             case EventType::ArrowPressed:
                 componentList = dispatchMap[EventType::ArrowPressed];
-                for (ComponentList::const_iterator listItem = componentList.begin();
-                     listItem != componentList.end(); ++listItem) {
+                for (ComponentList::const_iterator listItem = componentList.cbegin();
+                     listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallArrowPress(event);
                 }
                 break;

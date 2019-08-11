@@ -32,11 +32,11 @@ namespace cursen {
         Line& operator [](int);
 
         void clear();
-        void clearLine(const int y);
-        void clearColumn(const int x);
+        void clearLine(int y);
+        void clearColumn(int x);
 
-        void replaceLine(const Line line, const int y);
-        void replaceColumn(const Line line, const int x);
+        void replaceLine(const Line line, int y);
+        void replaceColumn(const Line line, int x);
         void replaceBody(const Line* const body, const Vect2 &size);
 
         /**
@@ -46,7 +46,7 @@ namespace cursen {
                        const TextAlignment& alignment = TextAlignment::LEFT, const ColorPair &color = ColorPair::NONE);
         void writeLine(const Line line, const Vect2 &loc, const TextAlignment& alignment = TextAlignment::LEFT);
 
-        void writeColumn(const Line column, const int x);
+        void writeColumn(const Line column, int x);
         void writeColumn(const Line column, const Vect2 &loc);
 
         void writeBody(const Line *const body, const Vect2 &size = Vect2(0,0), const Vect2 &loc = Vect2(0,0));
@@ -61,9 +61,9 @@ namespace cursen {
 
     private:
 
-        inline void assertRange(const int x, const int y) const;
-        inline void assertX(const int x) const;
-        inline void assertY(const int y) const;
+        inline void assertRange(int x, int y) const;
+        inline void assertX(int x) const;
+        inline void assertY(int y) const;
 
         void deleteBody();
         void initializeBody();

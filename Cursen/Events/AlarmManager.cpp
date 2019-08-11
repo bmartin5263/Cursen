@@ -23,15 +23,15 @@ namespace cursen
 
     void AlarmManager::ProcessAlarms(AlarmManager::AlarmMap& alarmMap, AlarmQueue& startRequests, IntQueue& stopRequests)
     {
-        AlarmManager& instance = Instance();
-        Event event;
+        auto& instance = Instance();
+        auto event = Event{};
         instance.handleStopRequests(alarmMap, stopRequests);
         instance.handleStartRequests(alarmMap, startRequests);
         std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - instance.lastUpdate;
         for (auto it = alarmMap.begin(); it != alarmMap.end(); it++)
         {
 
-            Alarm* entry = it->second;
+            auto entry = it->second;
             entry->updateTime(elapsed_seconds.count());
 
             if (entry->ready())
@@ -39,14 +39,16 @@ namespace cursen
                 entry->reset();
                 event.type = EventType::AlarmInterval;
                 event.alarm.alarmEntry = it->second;
-                EventManager::PushEvent(event);
+                it->second->callInterval();
+                //EventManager::PushEvent(event);
             }
             if (entry->expired())
             {
                 stopRequests.push(entry->getId());
                 event.type = EventType::AlarmExpire;
                 event.alarm.alarmEntry = it->second;
-                EventManager::PushEvent(event);
+                it->second->callExpire();
+                //EventManager::PushEvent(event);
             }
 
         }
@@ -55,18 +57,16 @@ namespace cursen
 
     void AlarmManager::handleStopRequests(AlarmManager::AlarmMap& alarmMap, IntQueue& stopRequests) const
     {
-        unsigned int id;
-        std::unordered_map<unsigned int, Alarm*>::iterator it;
         while (!stopRequests.empty())
         {
-            id = stopRequests.front();
+            auto id = stopRequests.front();
 
-            it = alarmMap.find(id);
+            auto it = alarmMap.find(id);
             if (it != alarmMap.end())
             {
                 Alarm* entry = it->second;
                 AlarmFactory::RecycleAlarm(entry);
-                alarmMap.erase(id);
+                alarmMap.erase(it);
             }
 
             stopRequests.pop();

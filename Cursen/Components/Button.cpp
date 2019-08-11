@@ -17,7 +17,7 @@ namespace cursen {
     {
     }
 
-    void Button::setLength(const int len) {
+    void Button::setLength(int len) {
         if (len < 2) {
             length = 3;
         } else{
@@ -47,7 +47,7 @@ namespace cursen {
 
     void Button::setText(const std::string &text) {
         button_text.emplaceText(text);
-        size_t textLen = text.length();
+        auto textLen = text.length();
         if (length < textLen) {
             setLength((int)textLen);
         }
@@ -69,7 +69,7 @@ namespace cursen {
         button_text.setPosition(pos + Vect2(1,1));
     }
 
-//TODO this should be standard in components
+    //TODO this should be standard in components
     void Button::emphasize() {
         border.startGlow();
         button_text.startGlow();
