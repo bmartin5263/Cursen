@@ -8,12 +8,12 @@
 const std::string Player::COMP_NAMES[] = { "Watson", "SkyNet", "Hal 9000", "Metal Gear" };
 
 Player::Player() :
-    name("Null"), color(PlayerColor::GRAY), points(-1), id(-1)
+    name("Null"), color(PlayerColor::GRAY), points(-1), id(-1), force_draws(0), ai(false)
 {
 }
 
 Player::Player(const std::string &name, const PlayerColor& color, int id, bool ai) :
-    name(name), color(color), points(0), id(id), ai(ai)
+    name(name), color(color), points(0), id(id), force_draws(0), ai(ai)
 {
 }
 
@@ -171,8 +171,9 @@ bool Player::hasPlayableCard(const Card& card)
     return hand.hasPlayableCardFor(card);
 }
 
-int Player::getPlayableCard(const Card& card)
+int Player::getPlayableCardIndex(const Card& card)
 {
+    if (force_draws > 0) return -1;
     bool hasWild = false;
     int wild_index = -1;
     int index = -1;

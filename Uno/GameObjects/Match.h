@@ -58,6 +58,7 @@ public:
     int advanceTurn();
     int getMyIndex();
     Player& getCurrentPlayer();
+    int getForceDrawAmount();
 
     bool hasId(int player_id);
 

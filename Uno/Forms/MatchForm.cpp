@@ -256,6 +256,9 @@ void MatchForm::advanceTurn()
         int next_turn = match.advanceTurn();
         tile_array[next_turn]->highlight();
 
+        Player& current_player = match.getCurrentPlayer();
+        current_player.addForceDraws(match.getForceDrawAmount());
+
         if (match.aiTurn())
         {
             console.setMessage(match.getCurrentPlayerName() + "'s Turn");
@@ -265,7 +268,15 @@ void MatchForm::advanceTurn()
         }
         else if (match.myTurn())
         {
-            console.setMessage("Your Turn. Select a Card or (D)raw");
+            int force_draws = current_player.getForceDraws();
+            if (force_draws > 0)
+            {
+                displayDrawMessage(force_draws);
+            }
+            else
+            {
+                displayTurnMessage();
+            }
             setState(&MatchFSM::selectCardState);
         }
         else
@@ -400,6 +411,8 @@ void MatchForm::drawCard(int index, Card drawn_card)
         card_array[card_index].hoverOn();
         hand_index = new_hand_index;
         updateHand();
+        if (player.getForceDraws() > 0) displayDrawMessage(player.getForceDraws());
+        else displayTurnMessage();
     }
     if (match.aiTurn())
     {
@@ -547,4 +560,14 @@ void MatchForm::updateMatch(ClientMatch clientMatch)
 PlayerTile& MatchForm::getPlayerTile(int index)
 {
     return *tile_array[index];
+}
+
+void MatchForm::displayDrawMessage(int force_draws)
+{
+    console.setWarning("Draw Card Played! (D)raw " + std::to_string(force_draws) + " Cards");
+}
+
+void MatchForm::displayTurnMessage()
+{
+    console.setMessage("Your Turn. Select a Card or (D)raw");
 }

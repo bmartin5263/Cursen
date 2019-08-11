@@ -73,6 +73,9 @@ public:
 
     int getSelectedCardIndex();
 
+    void displayDrawMessage(int force_draws);
+    void displayTurnMessage();
+
     GiantCard& getFrontCard();
     PlayerTile& getPlayerTile(int index);
 

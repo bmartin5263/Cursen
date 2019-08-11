@@ -107,7 +107,7 @@ void MatchLocalController::handleAITurn()
     }
     else
     {
-        int card_index = ai_player.getPlayableCard(match.getPile().peekCard());
+        int card_index = ai_player.getPlayableCardIndex(match.getPile().peekCard());
         if (card_index != -1)
         {
             DataMessage* msg = new InputPlayCard(matchForm->getMatch().getCurrentTurnId(), card_index);

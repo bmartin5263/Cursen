@@ -33,7 +33,7 @@ public:
 
     bool isAI();
     bool hasPlayableCard(const Card& card);
-    int getPlayableCard(const Card& card);
+    int getPlayableCardIndex(const Card& card);
 
     CardColor getWildColor();
 

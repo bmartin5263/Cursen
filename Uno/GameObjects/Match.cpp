@@ -96,8 +96,8 @@ int Match::getIndex(int player_id)
 
 bool Match::canPlayCard(int player_index, int card_index)
 {
-    // Can't play a card if a wild card needs a color or if its not your turn
-    if (!waitingForWildCardColor && current_player_index == player_index)
+    // Can't play a card if a wild card needs a color or if its not your turn or if you need to draw
+    if (!waitingForWildCardColor && current_player_index == player_index && players[player_index].getForceDraws() == 0)
     {
         Hand& hand = players[player_index].getHand();
         size_t hand_size = hand.size();
@@ -108,9 +108,9 @@ bool Match::canPlayCard(int player_index, int card_index)
             // Verify the card is legal
             const Card& card = hand.get(card_index);
             const Card& top_card = pile.peekCard();
-            if (card.isWild() && !hand.hasPlayableCardFor(card))
+            if (card.isWild())
             {
-                return true;
+                if (!hand.hasPlayableCardFor(top_card)) return true;
             }
             else
             {
@@ -298,4 +298,13 @@ Player& Match::getCurrentPlayer()
 Player& Match::getPlayer(int player_index)
 {
     return players[player_index];
+}
+
+int Match::getForceDrawAmount()
+{
+    // TODO: peek next player then add the amount, instead of checking every time
+    const Card& top_card = pile.peekCard();
+    if (top_card.getValue() == CardValue::PLUS_2) return 2;
+    else if (top_card.getValue() == CardValue::PLUS_4) return 4;
+    return 0;
 }
