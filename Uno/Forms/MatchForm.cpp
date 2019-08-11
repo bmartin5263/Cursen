@@ -139,8 +139,10 @@ void MatchForm::initialize()
     onOpen([]() { DataManager::SetContext(Context::ContextMatch); });
 
     placeCardAnimation.setForm(this);
+    skip_animation.setForm(this);
+    reverse_animation.setForm(this);
 
-    wildColorAnimation.setContinuous(false);
+    wildColorAnimation.setInifinite(false);
     wildColorAnimation.setLoops(2);
     wildColorAnimation.setVariableTime(false);
     wildColorAnimation.setFrameDuration(.06);
@@ -228,13 +230,23 @@ void MatchForm::dealCards()
     dealCardsEventController.run(this, (size_t)match.getNumPlayers(), Deck::INITIAL_CARDS, Deck::SIZE);
 }
 
-void MatchForm::advanceTurn()
+void MatchForm::interpretCard()
 {
-//    if (match.currentPlayerHasEmptyHand())
-//    {
-//        // Game Over
-//    }
-    if (match.isWaitingForWildColor())
+    if (match.isSkipCard())
+    {
+        int skipped_turn;
+        if (match.getPile().size() == 1) skipped_turn = match.getCurrentTurn();
+        else skipped_turn = match.peekNextTurn();
+        console.setWarning("Skip Card Played! Skipping " + match.getPlayer(skipped_turn).getName() + "'s Turn");
+        AlarmManager::SetTimeout([this, skipped_turn]() { skip_animation.run(skipped_turn); }, 1.5);
+    }
+    else if (match.isReverseCard())
+    {
+        console.setWarning("Reverse Card Played! Reversing Turn Order");
+        match.reverseTurnOrder();
+        AlarmManager::SetTimeout([this]() { reverse_animation.run(match.isTurnOrderReversed() ? -1 : 1, match.getPile().size() == 1); }, 1.5);
+    }
+    else if (match.isWaitingForWildColor())
     {
         if (match.myTurn())
         {
@@ -250,39 +262,49 @@ void MatchForm::advanceTurn()
             }
         }
     }
-    else
+    else {
+        advanceTurn();
+    }
+}
+
+
+void MatchForm::advanceTurn(int amount)
+{
+//    if (match.currentPlayerHasEmptyHand())
+//    {
+//        // Game Over
+//    }
+    tile_array[match.getCurrentTurn()]->unhighlight();
+    int next_turn = match.getCurrentTurn();
+    for (int i = 0; i < amount; ++i) next_turn = match.advanceTurn();
+    tile_array[next_turn]->highlight();
+
+    Player& current_player = match.getCurrentPlayer();
+    current_player.addForceDraws(match.getForceDrawAmount());
+
+    if (match.aiTurn())
     {
-        tile_array[match.getCurrentTurn()]->unhighlight();
-        int next_turn = match.advanceTurn();
-        tile_array[next_turn]->highlight();
-
-        Player& current_player = match.getCurrentPlayer();
-        current_player.addForceDraws(match.getForceDrawAmount());
-
-        if (match.aiTurn())
+        console.setMessage(match.getCurrentPlayerName() + "'s Turn");
+        AlarmManager::SetTimeout([this]() {
+            controller->handleAITurn();
+        }, 1.5);
+    }
+    else if (match.myTurn())
+    {
+        int force_draws = current_player.getForceDraws();
+        if (force_draws > 0)
         {
-            console.setMessage(match.getCurrentPlayerName() + "'s Turn");
-            AlarmManager::SetTimeout([this]() {
-                controller->handleAITurn();
-            }, 1.5);
-        }
-        else if (match.myTurn())
-        {
-            int force_draws = current_player.getForceDraws();
-            if (force_draws > 0)
-            {
-                displayDrawMessage(force_draws);
-            }
-            else
-            {
-                displayTurnMessage();
-            }
-            setState(&MatchFSM::selectCardState);
+            displayDrawMessage(force_draws);
         }
         else
         {
-            console.setMessage(match.getCurrentPlayerName() + "'s Turn");
+            displayTurnMessage();
         }
+        setState(&MatchFSM::selectCardState);
+    }
+    else
+    {
+        console.setMessage(match.getCurrentPlayerName() + "'s Turn");
     }
 }
 
@@ -324,8 +346,9 @@ void MatchForm::waitToBegin()
 void MatchForm::beginGame(Card initial_card)
 {
     match.getDeck().popCard();
-    match.pushCardToPile(Card(CardColor::WHITE, CardValue::WILD));
-    front_card.injectCard(match.getPile().peekCard());
+    //match.pushCardToPile(Card(CardColor::GREEN, CardValue::REVERSE));
+    match.pushCardToPile(initial_card);
+    front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
     setDeckMeterCount(match.getDeckSize());
     placeCardAnimation.run();
 }
@@ -432,9 +455,9 @@ void MatchForm::playCard(int index, int card_index, Card played_card)
     // Update User Interface
     if (front_card.hasCardInjected())
     {
-        back_card.setValuesFrom(front_card);
+        back_card.setValuesFrom(front_card, match.isTurnOrderReversed());
     }
-    front_card.injectCard(match.getPile().peekCard());
+    front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
     tile_array[index]->setCardCount(match.getPlayers()[index].getHandSize());
     if (index == match.getMyIndex())
     {
@@ -547,8 +570,8 @@ GiantCard& MatchForm::getFrontCard()
 void MatchForm::wildColorChange(CardColor color)
 {
     match.setWildColor(color);
-    front_card.injectCard(match.getPile().peekCard());
-    console.setMessage("WILD WILD WILD WILD");
+    front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
+    console.setMessage("WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD");
     wildColorAnimation.start();
 }
 

@@ -24,6 +24,7 @@ public:
     void injectPlayer(const Player& player);
 
     void setForeground(const cursen::Color& color) override ;
+    void colorize();
 
     void highlight();
     void unhighlight();

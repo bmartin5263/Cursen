@@ -32,7 +32,7 @@ void MatchHostController::start()
     Match& match = getMatchForm()->getMatch();
     MatchForm* matchForm = getMatchForm();
     Deck& deck = match.getDeck();
-    Deck::InitializeDeck(deck);
+    Deck::InitializeDeck(deck, (size_t)match.getNumPlayers());
     matchForm->updatePlayers();
     matchForm->setDeckMeterSize(Deck::SIZE);
     matchForm->setDeckMeterCount(deck.size());

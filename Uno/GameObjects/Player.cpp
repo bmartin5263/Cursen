@@ -85,7 +85,7 @@ cursen::Color Player::ConvertColorLight(const PlayerColor &color) {
         case PlayerColor::YELLOW:
             return cursen::Color(231);
         case PlayerColor::PURPLE:
-            return cursen::Color(141);
+            return cursen::Color(177);
         case PlayerColor::ORANGE:
             return cursen::Color(220);
         case PlayerColor::GRAY:

@@ -16,7 +16,7 @@ public:
     static const size_t SIZE = 108;
     static const size_t INITIAL_CARDS = 7;
 
-    static void InitializeDeck(Deck& deck);
+    static void InitializeDeck(Deck& deck, size_t num_players);
 
     void pushCard(const Card& card);
     Card popCard();

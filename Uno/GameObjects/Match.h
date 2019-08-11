@@ -16,6 +16,8 @@ class Match
 
 public:
 
+    static int CalculateNextTurn(int current_turn, int num_players, bool reversed);
+
     Match(Player* players, int num_players, int my_id);
 
     Deck& getDeck();
@@ -56,9 +58,14 @@ public:
     int getCurrentTurn();
     int getCurrentTurnId();
     int advanceTurn();
+    int peekNextTurn();
     int getMyIndex();
     Player& getCurrentPlayer();
     int getForceDrawAmount();
+    bool isSkipCard();
+    bool isReverseCard();
+    bool isTurnOrderReversed();
+    void reverseTurnOrder();
 
     bool hasId(int player_id);
 

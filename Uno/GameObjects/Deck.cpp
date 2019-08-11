@@ -5,18 +5,27 @@
 #include <cassert>
 #include "Deck.h"
 
-void Deck::InitializeDeck(Deck& deck)
+void Deck::InitializeDeck(Deck& deck, size_t num_players)
 {
     deck.clear();
+    CardValue reverse_val = num_players > 2 ? CardValue::REVERSE : CardValue::SKIP;
     for (CardColor color : Card::COLORS)
     {
         for (CardValue value : Card::VALUES_NO_WILD)
         {
-            deck.pushCard(Card(color, value));
-            if (value != CardValue::ZERO)
+            if (value == CardValue::REVERSE)
             {
-                // Zeros only get one card
+                deck.pushCard(Card(color, reverse_val));
+                deck.pushCard(Card(color, reverse_val));
+            }
+            else
+            {
                 deck.pushCard(Card(color, value));
+                if (value != CardValue::ZERO)
+                {
+                    // Zeros only get one card
+                    deck.pushCard(Card(color, value));
+                }
             }
         }
     }

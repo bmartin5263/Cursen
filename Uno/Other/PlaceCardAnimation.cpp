@@ -22,7 +22,7 @@ PlaceCardAnimation::PlaceCardAnimation()
     place_card_animation.add([=]() { matchForm->getFrontCard().grow(); });
     place_card_animation.setVariableTime(false);
     place_card_animation.setFrameDuration(.04);
-    place_card_animation.setContinuous(false);
+    place_card_animation.setInifinite(false);
     place_card_animation.onEnd(
             [this]() { animationEnd(); }
     );
@@ -46,5 +46,5 @@ void PlaceCardAnimation::animationEnd()
 {
     matchForm->getFrontCard().setNumberHidden(false);
     matchForm->getFrontCard().setSize(cursen::Vect2(14, 12));
-    matchForm->advanceTurn();
+    matchForm->interpretCard();
 }

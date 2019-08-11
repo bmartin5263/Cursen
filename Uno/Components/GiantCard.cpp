@@ -44,10 +44,18 @@ void GiantCard::grow()
     border.setSize(border.getSize() + Vect2(1,1));
 }
 
-void GiantCard::injectCard(const Card& card)
+void GiantCard::injectCard(const Card& card, bool reversed)
 {
     value = card.getValue();
-    number.loadFromVector(Card::GetBigNumber(card.getValue()));
+    if (value == CardValue::REVERSE)
+    {
+        if (reversed) number.loadFromVector(Card::GetReverse(0));
+        else number.loadFromVector(Card::GetReverse(9));
+    }
+    else
+    {
+        number.loadFromVector(Card::GetBigNumber(value));
+    }
     if (card.isWild()) {
         setForeground(Color::WHITE);
         color = CardColor::WHITE;
@@ -59,11 +67,24 @@ void GiantCard::injectCard(const Card& card)
     card_injected = true;
 }
 
-void GiantCard::setValuesFrom(GiantCard& giantCard)
+void GiantCard::setReverseFace(int index)
+{
+    number.loadFromVector(Card::GetReverse(index));
+}
+
+void GiantCard::setValuesFrom(GiantCard& giantCard, bool reversed)
 {
     this->color = giantCard.color;
     this->value = giantCard.value;
-    number.loadFromVector(Card::GetBigNumber(this->value));
+    if (this->value == CardValue::REVERSE)
+    {
+        if (reversed) number.loadFromVector(Card::GetReverse(0));
+        else number.loadFromVector(Card::GetReverse(9));
+    }
+    else
+    {
+        number.loadFromVector(Card::GetBigNumber(this->value));
+    }
     setForeground(Card::ConvertToColor(color));
     border.setHidden(false);
     number.setHidden(false);

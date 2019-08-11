@@ -20,6 +20,7 @@ class Card : public Serializable {
 private:
 
     static const std::unordered_map<CardValue, std::vector<std::string>, cursen::EnumClassHash> BIG_NUMBERS;
+    static const std::vector<std::vector<std::string>> BIG_REVERSE;
 
 public:
 
@@ -31,6 +32,7 @@ public:
     static std::string getUpperLabel(CardValue value);
     static std::string getLowerLabel(CardValue value);
     static const std::vector<std::string>& GetBigNumber(CardValue value);
+    static const std::vector<std::string>& GetReverse(int index);
 
     Card();
     Card(CardColor color, CardValue value);

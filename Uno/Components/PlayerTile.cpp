@@ -98,12 +98,12 @@ void PlayerTile::highlight()
             player_cards.setBackground(Color(22));
             break;
         case PlayerColor::YELLOW:
-            player_name.setBackground(Color(136));
-            player_cards.setBackground(Color(136));
+            player_name.setBackground(Color(94));
+            player_cards.setBackground(Color(94));
             break;
         case PlayerColor::PURPLE:
-            player_name.setBackground(Color(53));
-            player_cards.setBackground(Color(53));
+            player_name.setBackground(Color(17));
+            player_cards.setBackground(Color(17));
             break;
         case PlayerColor::ORANGE:
             player_name.setBackground(Color(58));
@@ -139,4 +139,9 @@ void PlayerTile::flash()
     flash_handle = AlarmManager::SetTimeout([this] {
         setForeground(Player::ConvertColor(color));
     }, 0.15);
+}
+
+void PlayerTile::colorize()
+{
+    setForeground(Player::ConvertColor(color));
 }

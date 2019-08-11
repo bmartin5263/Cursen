@@ -20,9 +20,11 @@ public:
 
     void initialize() override;
     void setSize(const cursen::Vect2& size);
-    void injectCard(const Card& card);
 
-    void setValuesFrom(GiantCard& giantCard);
+    void injectCard(const Card& card, bool reversed);
+    void setReverseFace(int index);
+
+    void setValuesFrom(GiantCard& giantCard, bool reversed);
 
     void shrink();
     void shrinkCompletely();

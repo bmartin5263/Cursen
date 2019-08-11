@@ -13,6 +13,8 @@
 #include <Uno/Other/PlaceCardAnimation.h>
 #include <Uno/GameObjects/ClientMatch.h>
 #include <Uno/GameObjects/Match.h>
+#include <Uno/Other/SkipAnimation.h>
+#include <Uno/Other/ReverseAnimation.h>
 #include "Cursen/Components/Form.h"
 #include "Cursen/Components/Label.h"
 #include "Cursen/Components/HorizontalLine.h"
@@ -57,7 +59,8 @@ public:
     void beginGame(Card initial_card);
     void waitToBegin();
 
-    void advanceTurn();
+    void advanceTurn(int amount = 1);
+    void interpretCard();
 
     Match& getMatch();
     MatchController* getController();
@@ -110,6 +113,8 @@ private:
 
     DealCardsEventAnimation dealCardsEventController;
     PlaceCardAnimation placeCardAnimation;
+    SkipAnimation skip_animation;
+    ReverseAnimation reverse_animation;
     cursen::Animation wildColorAnimation;
 };
 

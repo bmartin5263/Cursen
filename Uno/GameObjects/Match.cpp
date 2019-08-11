@@ -7,7 +7,7 @@
 
 Match::Match(Player* players, int numPlayers, int my_id) :
     num_players(numPlayers), current_player_index(0), current_player_id(players[0].getId()), my_id(my_id),
-    waitingForWildCardColor(false)
+    waitingForWildCardColor(false), reversed(false)
 {
     for (int i = 0; i < num_players; ++i)
     {
@@ -16,6 +16,21 @@ Match::Match(Player* players, int numPlayers, int my_id) :
     current_player_index = rand() % num_players;
     current_player_id = players[current_player_index].getId();
 }
+
+int Match::CalculateNextTurn(int current_turn, int num_players, bool reversed)
+{
+    if (reversed)
+    {
+        if (current_turn == 0) current_turn = num_players - 1;
+        else current_turn--;
+    }
+    else
+    {
+        current_turn = (current_turn + 1) % num_players;
+    }
+    return current_turn;
+}
+
 
 Deck& Match::getDeck()
 {
@@ -108,6 +123,8 @@ bool Match::canPlayCard(int player_index, int card_index)
             // Verify the card is legal
             const Card& card = hand.get(card_index);
             const Card& top_card = pile.peekCard();
+
+            // Wild cards can only be played if the player has no other legal cards
             if (card.isWild())
             {
                 if (!hand.hasPlayableCardFor(top_card)) return true;
@@ -254,16 +271,8 @@ int Match::getCurrentTurn()
 
 int Match::advanceTurn()
 {
-    if (pile.size() == 1) return current_player_index;
-    if (reversed)
-    {
-        if (current_player_index == 0) current_player_index = num_players - 1;
-        else current_player_index--;
-    }
-    else
-    {
-        current_player_index = (current_player_index + 1) % num_players;
-    }
+    //if (pile.size() == 1) return current_player_index;
+    current_player_index = Match::CalculateNextTurn(current_player_index, num_players, reversed);
     current_player_id = players[current_player_index].getId();
     return current_player_index;
 }
@@ -307,4 +316,29 @@ int Match::getForceDrawAmount()
     if (top_card.getValue() == CardValue::PLUS_2) return 2;
     else if (top_card.getValue() == CardValue::PLUS_4) return 4;
     return 0;
+}
+
+int Match::peekNextTurn()
+{
+    return Match::CalculateNextTurn(current_player_index, num_players, reversed);
+}
+
+bool Match::isSkipCard()
+{
+    return pile.peekCard().getValue() == CardValue::SKIP;
+}
+
+bool Match::isReverseCard()
+{
+    return pile.peekCard().getValue() == CardValue::REVERSE;
+}
+
+void Match::reverseTurnOrder()
+{
+    this->reversed = !this->reversed;
+}
+
+bool Match::isTurnOrderReversed()
+{
+    return this->reversed;
 }

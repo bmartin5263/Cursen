@@ -31,6 +31,20 @@ const std::unordered_map<CardValue, std::vector<std::string>, cursen::EnumClassH
 
 };
 
+const std::vector<std::vector<std::string>> Card::BIG_REVERSE =
+{
+        {"     d88P   ", "    d88P    ", "   d88P     ", "  d88P      ", "  Y88b      ", "   Y88b     ", "    Y88b    ", "     Y88b   "},
+        {"    d88P   Y", "   d88P     ", "  d88P      ", " d88P       ", " Y88b       ", "  Y88b      ", "   Y88b     ", "    Y88b   d"},
+        {"   d88P   Y8", "  d88P     Y", " d88P       ", "d88P        ", "Y88b        ", " Y88b       ", "  Y88b     d", "   Y88b   d8"},
+        {"  d88P   Y88", " d88P     Y8", "d88P       Y", "88P         ", "88b         ", "Y88b       d", " Y88b     d8", "  Y88b   d88"},
+        {" d88P   Y88b", "d88P     Y88", "88P       Y8", "8P         Y", "8b         d", "88b       d8", "Y88b     d88", " Y88b   d88P"},
+        {"d88P   Y88b ", "88P     Y88b", "8P       Y88", "P         Y8", "b         d8", "8b       d88", "88b     d88P", "Y88b   d88P "},
+        {"88P   Y88b  ", "8P     Y88b ", "P       Y88b", "         Y88", "         d88", "b       d88P", "8b     d88P ", "88b   d88P  "},
+        {"8P   Y88b   ", "P     Y88b  ", "       Y88b ", "        Y88b", "        d88P", "       d88P ", "b     d88P  ", "8b   d88P   "},
+        {"P   Y88b    ", "     Y88b   ", "      Y88b  ", "       Y88b ", "       d88P ", "      d88P  ", "     d88P   ", "b   d88P    "},
+        {"   Y88b     ", "    Y88b    ", "     Y88b   ", "      Y88b  ", "      d88P  ", "     d88P   ", "    d88P    ", "   d88P     "}
+};
+
 int Card::score(const Card &card) {
     switch (card.getValue()) {
         case CardValue::ZERO:
@@ -202,6 +216,12 @@ const std::vector<std::string>& Card::GetBigNumber(CardValue value)
 {
     return Card::BIG_NUMBERS.at(value);
 }
+
+const std::vector<std::string>& Card::GetReverse(int index)
+{
+    return Card::BIG_REVERSE[index];
+}
+
 
 size_t Card::serialize(char* const buffer) const
 {
