@@ -35,6 +35,8 @@ public:
     bool hasPlayableCard(const Card& card);
     int getPlayableCard(const Card& card);
 
+    CardColor getWildColor();
+
     void addForceDraws(int count);
     void decrementForceDraws();
     int getForceDraws();

@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 4/11/19.
 //
 
+#include <Uno/Constants.h>
 #include "Player.h"
 
 const std::string Player::COMP_NAMES[] = { "Watson", "SkyNet", "Hal 9000", "Metal Gear" };
@@ -208,4 +209,20 @@ void Player::decrementForceDraws()
 int Player::getForceDraws()
 {
     return force_draws;
+}
+
+CardColor Player::getWildColor()
+{
+    std::unordered_map<CardColor, int, EnumHash> color_map;
+    for (int i = 0; i < hand.size(); ++i)
+    {
+        const Card& card = hand.get(i);
+        if (!card.isWild()) color_map[card.getColor()] += 1;
+    }
+    auto x = std::max_element(color_map.begin(), color_map.end(),
+                              [](const std::pair<CardColor, int>& p1, const std::pair<CardColor, int>& p2)
+                              {
+                                  return p1.second < p2.second;
+                              });
+    return x->first;
 }

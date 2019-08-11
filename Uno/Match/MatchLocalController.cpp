@@ -101,7 +101,7 @@ void MatchLocalController::handleAITurn()
     Player& ai_player = match.getCurrentPlayer();
     if (match.isWaitingForWildColor())
     {
-        DataMessage* msg = new InputWildColorChange(matchForm->getMatch().getCurrentTurnId(), CardColor::BLUE);
+        DataMessage* msg = new InputWildColorChange(matchForm->getMatch().getCurrentTurnId(), ai_player.getWildColor());
         msg->setSendType(SendType::Local);
         DataManager::PushMessage(msg);
     }
