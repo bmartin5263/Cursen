@@ -38,8 +38,8 @@ public:
             Match& match = matchForm->getMatch();
             if (
                     match.isWaitingForWildColor()
-                && match.getCurrentTurnId() == id
-                && color != CardColor::WHITE
+                 && match.getCurrentTurnId() == id
+                 && color != CardColor::WHITE
                     )
             {
                 DataMessage* msg = new WildColorChange(color);

@@ -43,7 +43,7 @@ private:
 
 struct RNG {
     int operator() (int n) {
-        return std::rand() / (int)(1.0 + RAND_MAX) * n;
+        return (int)(std::rand() / (1.0 + RAND_MAX) * n);
     }
 };
 
