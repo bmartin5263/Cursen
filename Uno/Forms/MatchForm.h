@@ -25,7 +25,7 @@
 #include "Cursen/Cursor/Cursor.h"
 
 class MatchController;
-class MatchState;
+class MatchInputState;
 class MatchForm : public cursen::Form
 {
 
@@ -47,11 +47,12 @@ public:
     void setConsoleMessage(std::string msg);
     void setConsoleWarning(std::string msg);
 
-    void setState(const MatchState* state);
+    void setState(const MatchInputState* state);
     void drawCardByIndex(int index);
     void effectDealCard(int index, size_t count, size_t deck_size);
     void drawCard(int index, Card drawn_card);
     void playCard(int index, int card_index, Card played_card);
+    void passTurn();
     void wildColorChange(CardColor color);
 
     void dealInitialCards();
@@ -64,7 +65,7 @@ public:
 
     Match& getMatch();
     MatchController* getController();
-    const MatchState* getState();
+    const MatchInputState* getState();
     void updateMatch(ClientMatch clientMatch);
 
     void clickCard();
@@ -85,7 +86,7 @@ public:
 private:
 
     MatchController* controller;
-    const MatchState* state;
+    const MatchInputState* state;
     Match match;
 
     int card_index;
@@ -116,6 +117,8 @@ private:
     SkipAnimation skip_animation;
     ReverseAnimation reverse_animation;
     cursen::Animation wildColorAnimation;
+
+    cursen::AlarmHandle ai_handle;
 };
 
 

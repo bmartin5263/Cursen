@@ -39,6 +39,7 @@ public:
 
     void addForceDraws(int count);
     void decrementForceDraws();
+    void clearForceDraws();
     int getForceDraws();
 
     static const std::string GetComputerName();

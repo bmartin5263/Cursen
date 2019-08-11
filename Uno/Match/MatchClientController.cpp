@@ -9,6 +9,7 @@
 #include <Uno/Match/Messages/InputDrawCard.h>
 #include <Uno/Match/Messages/InputPlayCard.h>
 #include <Uno/Match/Messages/InputWildColorChange.h>
+#include <Uno/Match/Messages/InputPass.h>
 #include "MatchClientController.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/GameObjects/Deck.h"
@@ -113,7 +114,9 @@ void MatchClientController::handleAITurn()
 
 }
 
-void MatchClientController::sendIllegalAction(const std::string& msg)
+void MatchClientController::passTurn()
 {
-    assert(false);  // you have no authority!
+    DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
+    msg->setSendType(SendType::Network);
+    DataManager::PushMessage(msg);
 }

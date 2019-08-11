@@ -10,6 +10,7 @@
 #include <Uno/Match/Messages/InputWildColorChange.h>
 #include <Uno/Match/Messages/RequestMatchData.h>
 #include <Uno/Match/Messages/MatchConnectionSevered.h>
+#include <Uno/Match/Messages/InputPass.h>
 
 #include "DataMessage.h"
 #include "AddAI.h"
@@ -36,12 +37,6 @@ DataMessage* DataMessage::Parse(MessageType type)
     switch (type)
     {
         case MessageType::Uninitialized:
-            assert(false);
-            break;
-        case MessageType::ChangeContextLobby:
-            assert(false);
-            break;
-        case MessageType::ChangeContextMatch:
             assert(false);
             break;
         case MessageType::InputChangeColor:
@@ -148,6 +143,12 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::IllegalAction:
             msg = new IllegalAction;
+            break;
+        case MessageType::InputPass:
+            msg = new InputPass;
+            break;
+        case MessageType::PassTurn:
+            msg = new PassTurn;
             break;
     }
     assert(msg != nullptr);

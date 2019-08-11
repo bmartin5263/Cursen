@@ -57,7 +57,10 @@ void DataManager::processOut()
                 ForwardToInput(entry);
                 break;
             case SendType::Network:
-                if (entry->getRecipient() == DataManager::LOOP_BACK) ForwardToInput(entry);
+                if (entry->getRecipient() == DataManager::LOOP_BACK && entry->getMessage()->canLoopback())
+                {
+                    ForwardToInput(entry);
+                }
                 else NetworkManager::WriteMessage(entry);
                 break;
             case SendType::Both:

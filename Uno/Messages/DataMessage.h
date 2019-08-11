@@ -26,7 +26,8 @@ public:
     size_t deserialize(const char* const buffer) override;
 
     DataMessage() :
-            sendType(SendType::Uninitialized), recipientType(RecipientType::Broadcast), senderId(-1), recipientId(-1)
+            sendType(SendType::Uninitialized), recipientType(RecipientType::Broadcast), senderId(-1), recipientId(-1),
+            allow_loopback(true)
     {}
 
     virtual ~DataMessage() = default;
@@ -48,6 +49,9 @@ public:
     void setSender(int id) { this->senderId = id; };
     int getSender() { return senderId; }
 
+    void noLoopback() { allow_loopback = false; };
+    bool canLoopback() { return allow_loopback; };
+
     size_t sizeOf() const override;
 
     template<typename T>
@@ -63,6 +67,7 @@ private:
 
     int senderId;           // For host incoming messages
     int recipientId;        // For host outgoing messages
+    bool allow_loopback;    // TODO poor design
 
 };
 

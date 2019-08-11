@@ -5,6 +5,7 @@
 #include <Uno/Match/Messages/InputDrawCard.h>
 #include <Uno/Match/Messages/InputPlayCard.h>
 #include <Uno/Match/Messages/InputWildColorChange.h>
+#include <Uno/Match/Messages/InputPass.h>
 #include "Uno/GameObjects/Match.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/Match/FSM/MatchFSM.h"
@@ -123,9 +124,9 @@ void MatchLocalController::handleAITurn()
     }
 }
 
-void MatchLocalController::sendIllegalAction(const std::string& msg)
+void MatchLocalController::passTurn()
 {
-    DataMessage* data_msg = new IllegalAction(msg);
-    data_msg->setSendType(SendType::Both);
-    DataManager::PushMessage(data_msg);
+    DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }

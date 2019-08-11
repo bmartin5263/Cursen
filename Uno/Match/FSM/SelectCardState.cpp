@@ -41,3 +41,8 @@ void SelectCardState::pressG(MatchForm& matchForm) const
 {
 
 }
+
+void SelectCardState::pressP(MatchForm& matchForm) const
+{
+    matchForm.getController()->passTurn();
+}

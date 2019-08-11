@@ -39,3 +39,8 @@ void WildColorChoiceState::pressG(MatchForm& matchForm) const
 {
     matchForm.getController()->wildChoice(CardColor::GREEN);
 }
+
+void WildColorChoiceState::pressP(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}

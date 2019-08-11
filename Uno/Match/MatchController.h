@@ -24,12 +24,11 @@ public:
     // Inputs
     virtual void pressEnter() = 0;
 
-    virtual void sendIllegalAction(const std::string& msg) = 0;
-
     // Concrete Actions
     virtual void clickCard() = 0;
     virtual void pressDraw() = 0;
     virtual void wildChoice(CardColor color) = 0;
+    virtual void passTurn() = 0;
 
     // Connection
     virtual void handleDisconnect(int sock) = 0;

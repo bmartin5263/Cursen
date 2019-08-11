@@ -31,6 +31,8 @@ public:
     static cursen::Color ConvertToColor(CardColor color);
     static std::string getUpperLabel(CardValue value);
     static std::string getLowerLabel(CardValue value);
+    static std::string ToString(CardColor color);
+    static std::string ToString(CardValue value);
     static const std::vector<std::string>& GetBigNumber(CardValue value);
     static const std::vector<std::string>& GetReverse(int index);
 

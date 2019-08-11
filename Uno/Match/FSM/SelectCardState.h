@@ -6,9 +6,9 @@
 #define CURSEN_SELECTCARDSTATE_H
 
 
-#include "MatchState.h"
+#include "MatchInputState.h"
 
-class SelectCardState : public MatchState
+class SelectCardState : public MatchInputState
 {
 public:
     void pressEnter(MatchForm& matchForm) const override;
@@ -18,6 +18,7 @@ public:
     void pressR(MatchForm& matchForm) const override;
     void pressY(MatchForm& matchForm) const override;
     void pressG(MatchForm& matchForm) const override;
+    void pressP(MatchForm& matchForm) const override;
 
 };
 

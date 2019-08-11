@@ -41,6 +41,8 @@ public:
     bool canPlayCard(int player_index, int card_index);
     void playCard(int player_index, int card_index);
 
+    bool canPass(int player_index);
+
     bool isWaitingForWildColor();
     void setWildColor(CardColor color);
 

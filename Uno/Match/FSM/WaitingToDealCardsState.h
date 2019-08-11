@@ -6,9 +6,9 @@
 #define CURSEN_WAITINGTOBEGIN_H
 
 
-#include "MatchState.h"
+#include "MatchInputState.h"
 
-class WaitingToDealCardsState : public MatchState
+class WaitingToDealCardsState : public MatchInputState
 {
 public:
 
@@ -19,6 +19,7 @@ public:
     void pressR(MatchForm& matchForm) const override;
     void pressY(MatchForm& matchForm) const override;
     void pressG(MatchForm& matchForm) const override;
+    void pressP(MatchForm& matchForm) const override;
 
 };
 

@@ -10,6 +10,7 @@
 #include <Uno/Match/Messages/InputDrawCard.h>
 #include <Uno/Match/Messages/InputPlayCard.h>
 #include <Uno/Match/Messages/InputWildColorChange.h>
+#include <Uno/Match/Messages/InputPass.h>
 #include "Uno/Forms/MatchForm.h"
 #include "MatchHostController.h"
 
@@ -164,7 +165,9 @@ void MatchHostController::handleAITurn()
     }
 }
 
-void MatchHostController::sendIllegalAction(const std::string& msg)
+void MatchHostController::passTurn()
 {
-
+    DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }

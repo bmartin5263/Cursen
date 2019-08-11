@@ -10,6 +10,7 @@
 #include "Uno/Messages/DataMessage.h"
 #include "Uno/GameObjects/Match.h"
 #include "DrawCard.h"
+#include "IllegalAction.h"
 
 class InputDrawCard : public DataMessage
 {
@@ -57,14 +58,24 @@ public:
                     msg->setSendType(SendType::Network);
                     msg->setRecipient(getSender());
                     msg->setRecipientType(RecipientType::Single);
+                    msg->noLoopback();
                     DataManager::PushMessage(msg);
 
                     msg = new DrawCard(index, Card());
                     msg->setSendType(SendType::Network);
                     msg->setRecipient(getSender());
                     msg->setRecipientType(RecipientType::Broadcast_Except_Recipient);
+                    msg->noLoopback();
                     DataManager::PushMessage(msg);
                 }
+            }
+            else
+            {
+                DataMessage* data_msg = new IllegalAction("Can't Draw From an Empty Deck");
+                data_msg->setSendType(SendType::Network);
+                data_msg->setRecipient(getSender());
+                data_msg->setRecipientType(RecipientType::Single);
+                DataManager::PushMessage(data_msg);
             }
 
         CONTEXT_CHECK_END

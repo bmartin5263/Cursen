@@ -26,7 +26,7 @@ public:
     void handleDisconnect(int sock) override;
     void handleClose(std::string message, bool kicked) override;
     void handleAITurn() override;
-    void sendIllegalAction(const std::string& msg) override;
+    void passTurn() override;
 
 private:
 

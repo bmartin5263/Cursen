@@ -1,25 +1,24 @@
 //
-// Created by Brandon Martin on 7/14/19.
+// Created by Brandon Martin on 8/11/19.
 //
 
-#ifndef CURSEN_DEALCARDS_H
-#define CURSEN_DEALCARDS_H
+#ifndef CURSEN_PASSTURN_H
+#define CURSEN_PASSTURN_H
 
 #include "Uno/Data/DataManager.h"
-#include "Uno/Messages/DataMessage.h"
-#include "Uno/Match/FSM/MatchInputState.h"
 #include "Uno/Forms/MatchForm.h"
-#include "Uno/GameObjects/Match.h"
+#include "Uno/Match/MatchController.h"
 
-class DealCards : public DataMessage
+class PassTurn : public DataMessage
 {
+
 public:
 
-    DealCards() = default;
+    PassTurn() = default;
 
     MessageType getType() override
     {
-        return MessageType::DealCards;
+        return MessageType::PassTurn;
     }
 
     Context getContext() override
@@ -32,28 +31,26 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            matchForm->dealCards();
+            matchForm->passTurn();
 
         CONTEXT_CHECK_END
     }
 
     DataMessage* clone() override
     {
-        return new DealCards(*this);
+        return new PassTurn(*this);
     }
 
     size_t serialize(char* const buffer) const override
     {
-        return 0;
+        return DataMessage::serialize(buffer);
     }
 
     size_t deserialize(const char* const buffer) override
     {
-        return 0;
+        return DataMessage::deserialize(buffer);
     }
-
-private:
 
 };
 
-#endif //CURSEN_DEALCARDS_H
+#endif //CURSEN_PASSTURN_H

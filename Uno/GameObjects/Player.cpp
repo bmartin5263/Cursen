@@ -225,5 +225,14 @@ CardColor Player::getWildColor()
                               {
                                   return p1.second < p2.second;
                               });
+    if (x == color_map.end())
+    {
+        return CardColor::BLUE;
+    }
     return x->first;
+}
+
+void Player::clearForceDraws()
+{
+    force_draws = 0;
 }

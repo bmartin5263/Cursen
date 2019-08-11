@@ -7,13 +7,13 @@
 
 #include "Uno/Match/MatchController.h"
 
-class MatchState
+class MatchInputState
 {
 
 public:
 
-    MatchState() = default;
-    virtual ~MatchState() = default;
+    MatchInputState() = default;
+    virtual ~MatchInputState() = default;
 
     virtual void pressEnter(MatchForm& matchForm) const = 0;
     virtual void pressD(MatchForm& matchForm) const = 0;
@@ -22,6 +22,7 @@ public:
     virtual void pressR(MatchForm& matchForm) const = 0;
     virtual void pressY(MatchForm& matchForm) const = 0;
     virtual void pressG(MatchForm& matchForm) const = 0;
+    virtual void pressP(MatchForm& matchForm) const = 0;
 
 };
 

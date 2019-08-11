@@ -233,6 +233,10 @@ Card Match::peekCardFromDeck()
 void Match::popCardFromDeck()
 {
     deck.popCard();
+    if (deck.size() == 0)
+    {
+        for (auto& player : players) player.clearForceDraws();
+    }
 }
 
 Card Match::getCardFromPlayer(int index, int card_index)
@@ -341,4 +345,9 @@ void Match::reverseTurnOrder()
 bool Match::isTurnOrderReversed()
 {
     return this->reversed;
+}
+
+bool Match::canPass(int player_index)
+{
+    return (deck.size() == 0 && !players[player_index].hasPlayableCard(pile.peekCard()));
 }

@@ -6,9 +6,9 @@
 #define CURSEN_WILDCOLORCHOICESTATE_H
 
 
-#include "MatchState.h"
+#include "MatchInputState.h"
 
-class WildColorChoiceState : public MatchState
+class WildColorChoiceState : public MatchInputState
 {
 public:
 
@@ -19,6 +19,7 @@ public:
     void pressR(MatchForm& matchForm) const override;
     void pressY(MatchForm& matchForm) const override;
     void pressG(MatchForm& matchForm) const override;
+    void pressP(MatchForm& matchForm) const override;
 };
 
 

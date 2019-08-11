@@ -46,3 +46,8 @@ void WaitingToBeginState::pressG(MatchForm& matchForm) const
 {
     // Do Nothing Intentionally
 }
+
+void WaitingToBeginState::pressP(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}

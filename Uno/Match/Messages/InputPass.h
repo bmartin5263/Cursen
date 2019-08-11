@@ -1,30 +1,30 @@
 //
-// Created by Brandon Martin on 7/21/19.
+// Created by Brandon Martin on 8/11/19.
 //
 
-#ifndef CURSEN_INPUTPLAYCARD_H
-#define CURSEN_INPUTPLAYCARD_H
+#ifndef CURSEN_INPUTPASS_H
+#define CURSEN_INPUTPASS_H
 
-#include "Uno/Messages/DataMessage.h"
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/Match/MatchController.h"
 #include "Uno/GameObjects/Match.h"
-#include "PlayCard.h"
 #include "IllegalAction.h"
+#include "PassTurn.h"
 
-class InputPlayCard : public DataMessage
+class InputPass : public DataMessage
 {
+
 public:
 
-    InputPlayCard() = default;
-    InputPlayCard(int id, int card_index) :
-        id(id), card_index(card_index)
+    InputPass() = default;
+    InputPass(int id) :
+            id(id)
     {}
 
     MessageType getType() override
     {
-        return MessageType::InputPlayCard;
+        return MessageType::InputPass;
     }
 
     Context getContext() override
@@ -39,20 +39,24 @@ public:
             MatchForm* matchForm = getCurrentForm<MatchForm>();
             Match& match = matchForm->getMatch();
             int index = match.getIndex(id);
-            if (index != -1 && match.canPlayCard(index, card_index))
+            if (match.canPass(index))
             {
-                Card played_card = match.getCardFromPlayer(index, card_index);
-                DataMessage* msg = new PlayCard(index, card_index, played_card);
+                DataMessage* msg = new PassTurn;
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);
             }
             else
             {
-                const Card& top_card = match.getPile().peekCard();
-                std::string color_str = Card::ToString(top_card.getColor());
-                std::string value_str = Card::ToString(top_card.getValue());
-                DataMessage* data_msg = new IllegalAction(
-                        "Card does not have the color " + color_str + " or the value " + value_str + "!");
+                std::string msg;
+                if (match.getDeck().size() > 0)
+                {
+                    msg = "Can't pass while the deck has cards";
+                }
+                else
+                {
+                    msg = "Can't pass with playable cards";
+                }
+                DataMessage* data_msg = new IllegalAction(msg);
                 data_msg->setSendType(SendType::Network);
                 data_msg->setRecipient(getSender());
                 data_msg->setRecipientType(RecipientType::Single);
@@ -64,7 +68,7 @@ public:
 
     DataMessage* clone() override
     {
-        return new InputPlayCard(*this);
+        return new InputPass(*this);
     }
 
     size_t serialize(char* const buffer) const override
@@ -72,7 +76,6 @@ public:
         size_t written =  DataMessage::serialize(buffer);
 
         written += Serializable::Serialize(buffer + written, id);
-        written += Serializable::Serialize(buffer + written, card_index);
 
         return written;
     }
@@ -82,7 +85,6 @@ public:
         size_t read = DataMessage::deserialize(buffer);
 
         read += Serializable::Deserialize(buffer + read, id);
-        read += Serializable::Deserialize(buffer + read, card_index);
 
         return read;
     }
@@ -90,8 +92,8 @@ public:
 private:
 
     int id;
-    int card_index;
 
 };
 
-#endif //CURSEN_INPUTPLAYCARD_H
+
+#endif //CURSEN_INPUTPASS_H

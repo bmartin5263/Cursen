@@ -41,3 +41,8 @@ void WaitingToDealCardsState::pressG(MatchForm& matchForm) const
 {
     // Do Nothing Intentionally
 }
+
+void WaitingToDealCardsState::pressP(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}

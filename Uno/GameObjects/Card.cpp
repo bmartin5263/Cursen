@@ -45,6 +45,61 @@ const std::vector<std::vector<std::string>> Card::BIG_REVERSE =
         {"   Y88b     ", "    Y88b    ", "     Y88b   ", "      Y88b  ", "      d88P  ", "     d88P   ", "    d88P    ", "   d88P     "}
 };
 
+std::string Card::ToString(CardColor color)
+{
+    switch (color)
+    {
+        case CardColor::BLUE:
+            return "Blue";
+        case CardColor::RED:
+            return "Red";
+        case CardColor::GREEN:
+            return "Green";
+        case CardColor::YELLOW:
+            return "Yellow";
+        case CardColor::WHITE:
+            return "White";
+    }
+}
+
+std::string Card::ToString(CardValue value)
+{
+    switch (value)
+    {
+        case CardValue::ZERO:
+            return "Zero";
+        case CardValue::ONE:
+            return "One";
+        case CardValue::TWO:
+            return "Two";
+        case CardValue::THREE:
+            return "Three";
+        case CardValue::FOUR:
+            return "Four";
+        case CardValue::FIVE:
+            return "Five";
+        case CardValue::SIX:
+            return "Six";
+        case CardValue::SEVEN:
+            return "Seven";
+        case CardValue::EIGHT:
+            return "Eight";
+        case CardValue::NINE:
+            return "Nine";
+        case CardValue::PLUS_2:
+            return "Draw 2";
+        case CardValue::PLUS_4:
+            return "Draw 4";
+        case CardValue::WILD:
+            return "Wild";
+        case CardValue::SKIP:
+            return "Skip";
+        case CardValue::REVERSE:
+            return "Reverse";
+    }
+}
+
+
 int Card::score(const Card &card) {
     switch (card.getValue()) {
         case CardValue::ZERO:

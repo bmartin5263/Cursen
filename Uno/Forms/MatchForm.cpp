@@ -9,7 +9,7 @@
 #include <Uno/Match/MatchReturnData.h>
 #include "MatchForm.h"
 #include "Cursen/CursenApplication.h"
-#include "Uno/Match/FSM/MatchState.h"
+#include "Uno/Match/FSM/MatchInputState.h"
 #include "Uno/Match/FSM/MatchFSM.h"
 #include "Uno/GameObjects/Match.h"
 
@@ -285,7 +285,7 @@ void MatchForm::advanceTurn(int amount)
     if (match.aiTurn())
     {
         console.setMessage(match.getCurrentPlayerName() + "'s Turn");
-        AlarmManager::SetTimeout([this]() {
+        ai_handle = AlarmManager::SetTimeout([this]() {
             controller->handleAITurn();
         }, 1.5);
     }
@@ -323,7 +323,7 @@ void MatchForm::enterPress(const cursen::Event& event)
     state->pressEnter(*this);
 }
 
-void MatchForm::setState(const MatchState* state)
+void MatchForm::setState(const MatchInputState* state)
 {
     this->state = state;
 }
@@ -333,7 +333,7 @@ MatchController* MatchForm::getController()
     return controller;
 }
 
-const MatchState* MatchForm::getState()
+const MatchInputState* MatchForm::getState()
 {
     return state;
 }
@@ -439,7 +439,7 @@ void MatchForm::drawCard(int index, Card drawn_card)
     }
     if (match.aiTurn())
     {
-        AlarmManager::SetTimeout([this]() {
+        ai_handle = AlarmManager::SetTimeout([this]() {
             controller->handleAITurn();
         }, .5);
     }
@@ -552,6 +552,10 @@ void MatchForm::keyPress(const cursen::Event& event)
         case 'g':
             state->pressG(*this);
             break;
+        case 'P':
+        case 'p':
+            state->pressP(*this);
+            break;
         default:
             break;
     }
@@ -587,10 +591,16 @@ PlayerTile& MatchForm::getPlayerTile(int index)
 
 void MatchForm::displayDrawMessage(int force_draws)
 {
-    console.setWarning("Draw Card Played! (D)raw " + std::to_string(force_draws) + " Cards");
+    console.setWarning("Draw Card Played! (D)raw " + std::to_string(std::min(force_draws, (int)match.getDeckSize())) + " Cards");
 }
 
 void MatchForm::displayTurnMessage()
 {
     console.setMessage("Your Turn. Select a Card or (D)raw");
+}
+
+void MatchForm::passTurn()
+{
+    // TODO animation
+    advanceTurn();
 }

@@ -38,3 +38,8 @@ void AnimationState::pressG(MatchForm& matchForm) const
 {
     // Do Nothing Intentionally
 }
+
+void AnimationState::pressP(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}
