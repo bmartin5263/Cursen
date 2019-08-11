@@ -17,11 +17,11 @@ void SimpleForm::initialize()
 {
     back.initialize();
     back.setPosition(Vect2(0,0));
-    back.injectCard(Card(CardColor::RED, CardValue::TWO));
+    back.injectCard(Card(CardColor::RED, CardValue::TWO), false);
 
     front.initialize();
     front.setPosition(Vect2(3,3));
-    front.injectCard(Card(CardColor::BLUE, CardValue::ONE));
+    front.injectCard(Card(CardColor::BLUE, CardValue::ONE), false);
 
     back.onEnterPress([this](const cursen::Event& event) { front.drawOnTopOf(back); });
 }

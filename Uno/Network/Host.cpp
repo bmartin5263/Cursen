@@ -141,44 +141,50 @@ void Host::processNetworkMessages()
 
 void Host::writeMessage(QueueEntry* entry)
 {
-    char buffer[1024];
-    char size_buffer[sizeof(size_t)];
-
-    int recipient = entry->getRecipient();
-    RecipientType type = entry->getRecipientType();
-
-    size_t bytes = entry->serialize(buffer);
-    Serializable::Serialize(size_buffer, bytes);
-
-    switch (type)
+    if (num_connections > 0)
     {
-        case RecipientType::Uninitialized:
-            assert(false);
-            break;
-        case RecipientType::Broadcast:
-            for (auto sock : connections)
-            {
-                if (sock != -1)
+        int recipient = entry->getRecipient();
+        char buffer[1024];
+        char size_buffer[sizeof(size_t)];
+
+        RecipientType type = entry->getRecipientType();
+
+        size_t bytes = entry->serialize(buffer);
+        Serializable::Serialize(size_buffer, bytes);
+
+        switch (type)
+        {
+            case RecipientType::Uninitialized:
+                assert(false);
+                break;
+            case RecipientType::Broadcast:
+                for (auto sock : connections)
                 {
-                    write(sock, size_buffer, sizeof(size_t));
-                    write(sock, buffer, bytes);
+                    if (sock != -1)
+                    {
+                        write(sock, size_buffer, sizeof(size_t));
+                        write(sock, buffer, bytes);
+                    }
                 }
-            }
-            break;
-        case RecipientType::Broadcast_Except_Recipient:
-            for (auto sock : connections)
-            {
-                if (sock != -1 && sock != recipient)
+                break;
+            case RecipientType::Broadcast_Except_Recipient:
+                for (auto sock : connections)
                 {
-                    write(sock, size_buffer, sizeof(size_t));
-                    write(sock, buffer, bytes);
+                    if (sock != -1 && sock != recipient)
+                    {
+                        write(sock, size_buffer, sizeof(size_t));
+                        write(sock, buffer, bytes);
+                    }
                 }
-            }
-            break;
-        case RecipientType::Single:
-            write(recipient, size_buffer, sizeof(size_t));
-            write(recipient, buffer, bytes);
-            break;
+                break;
+            case RecipientType::Single:
+                if (recipient != -1)
+                {
+                    write(recipient, size_buffer, sizeof(size_t));
+                    write(recipient, buffer, bytes);
+                    break;
+                }
+        }
     }
 }
 

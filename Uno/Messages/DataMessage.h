@@ -26,7 +26,7 @@ public:
     size_t deserialize(const char* const buffer) override;
 
     DataMessage() :
-            sendType(SendType::Uninitialized), recipientType(RecipientType::Broadcast)
+            sendType(SendType::Uninitialized), recipientType(RecipientType::Broadcast), senderId(-1), recipientId(-1)
     {}
 
     virtual ~DataMessage() = default;
