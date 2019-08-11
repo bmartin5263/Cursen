@@ -37,7 +37,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            if (matchForm->getMatch()->getMyId() == id)
+            if (matchForm->getMatch().getMyId() == id)
             {
                 DataMessage* msg = new DealCards;
                 msg->setSendType(SendType::Both);

@@ -22,7 +22,7 @@ public:
     void setName(const std::string& name);
     std::string getName() const;
 
-    void addPoints(const int points);
+    void addPoints(int points);
     int getPoints() const;
 
     void setColor(const PlayerColor& color);
@@ -32,13 +32,20 @@ public:
     void clear();
 
     bool isAI();
+    bool hasPlayableCard(const Card& card);
+    int getPlayableCard(const Card& card);
+
+    void addForceDraws(int count);
+    void decrementForceDraws();
+    int getForceDraws();
 
     static const std::string GetComputerName();
     static cursen::Color ConvertColor(const PlayerColor& color);
+    static cursen::Color ConvertColorLight(const PlayerColor& color);
+
     size_t serialize(char* const buffer) const override;
     size_t deserialize(const char* const buffer) override;
-
-    size_t safe_serialize(char* const buffer) const;
+    size_t safeSerialize(char* const buffer) const;
 
     size_t sizeOf() const override;
 
@@ -54,6 +61,7 @@ private:
     Hand hand;
     int points;
     int id;
+    int force_draws;
     bool ai;
 
 };

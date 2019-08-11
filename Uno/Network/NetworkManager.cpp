@@ -9,30 +9,31 @@
 #include "Client.h"
 
 NetworkManager::NetworkManager() :
-    device(&Local::local_device), type(NetworkType::Uninitialized)
+    device(&Local::local_device), mode(NetworkMode::Uninitialized)
 {
 
 }
 
 NetworkManager::~NetworkManager()
 {
+    device->destroy();
 }
 
 
-void NetworkManager::CreateDevice(NetworkType type)
+void NetworkManager::SetMode(NetworkMode mode)
 {
-    Instance().type = type;
-    switch (type) {
-        case NetworkType::Local:
+    Instance().mode = mode;
+    switch (mode) {
+        case NetworkMode::Local:
             Instance().device = &Local::local_device;
             break;
-        case NetworkType::Host:
+        case NetworkMode::Host:
             Instance().device = &Host::host_device;
             break;
-        case NetworkType::Client:
+        case NetworkMode::Client:
             Instance().device = &Client::client_device;
             break;
-        case NetworkType::Uninitialized:
+        case NetworkMode::Uninitialized:
             assert(false);
             break;
     }
@@ -48,9 +49,10 @@ void NetworkManager::WriteMessage(QueueEntry* entry)
     Instance().device->writeMessage(entry);
 }
 
-void NetworkManager::DestroyDevice()
+void NetworkManager::Destroy()
 {
     Instance().device->destroy();
+    Instance().device = &Local::local_device;
 }
 
 

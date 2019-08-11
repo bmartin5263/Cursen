@@ -35,10 +35,10 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            Match* match = matchForm->getMatch();
+            Match& match = matchForm->getMatch();
             if (
-                    match->isWaitingForWildColor()
-                //&& match->currentTurnId() == id
+                    match.isWaitingForWildColor()
+                && match.getCurrentTurnId() == id
                 && color != CardColor::WHITE
                     )
             {

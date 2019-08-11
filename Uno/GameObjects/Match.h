@@ -24,6 +24,7 @@ public:
     Player* getPlayers();
     Player& getMyPlayer();
     Player& getPlayerById(int player_id);
+    Player& getPlayer(int player_index);
 
     std::string getCurrentPlayerName();
 
@@ -31,10 +32,8 @@ public:
     int getMyId();
     int getId(int player_index);
     int getIndex(int player_id);
-    int currentTurnId();
 
     bool canDrawCard(int player_id);
-    void drawCard(int player_id);
     void drawCardByIndex(int player_index);
 
     bool canPlayCard(int player_index, int card_index);
@@ -55,7 +54,10 @@ public:
     bool currentPlayerHasEmptyHand();
     bool pileIsEmpty();
     int getCurrentTurn();
+    int getCurrentTurnId();
     int advanceTurn();
+    int getMyIndex();
+    Player& getCurrentPlayer();
 
     bool hasId(int player_id);
 

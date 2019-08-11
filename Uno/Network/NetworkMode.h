@@ -5,7 +5,7 @@
 #ifndef CURSEN_NETWORKTYPE_H
 #define CURSEN_NETWORKTYPE_H
 
-enum class NetworkType {
+enum class NetworkMode {
 
     Uninitialized, Local, Host, Client
 

@@ -10,10 +10,10 @@ void Deck::InitializeDeck(Deck& deck)
     deck.clear();
     for (CardColor color : Card::COLORS)
     {
-        for (CardValues value : Card::VALUES_NO_WILD)
+        for (CardValue value : Card::VALUES_NO_WILD)
         {
             deck.pushCard(Card(color, value));
-            if (value != CardValues::ZERO)
+            if (value != CardValue::ZERO)
             {
                 // Zeros only get one card
                 deck.pushCard(Card(color, value));
@@ -22,8 +22,8 @@ void Deck::InitializeDeck(Deck& deck)
     }
     for (int i = 0; i < 4; ++i)
     {
-        deck.pushCard(Card(CardColor::WHITE, CardValues::WILD));
-        deck.pushCard(Card(CardColor::WHITE, CardValues::PLUS_4));
+        deck.pushCard(Card(CardColor::WHITE, CardValue::WILD));
+        deck.pushCard(Card(CardColor::WHITE, CardValue::PLUS_4));
     }
     std::random_shuffle(deck.getDeckContainer().begin(), deck.getDeckContainer().end(), RNG());
 }

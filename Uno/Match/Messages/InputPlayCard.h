@@ -35,12 +35,11 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            Match* match = matchForm->getMatch();
-            int index = match->getIndex(id);
-            if (index != -1 && match->canPlayCard(index, card_index))
+            Match& match = matchForm->getMatch();
+            int index = match.getIndex(id);
+            if (index != -1 && match.canPlayCard(index, card_index))
             {
-                Card played_card = match->getCardFromPlayer(index, card_index);
-
+                Card played_card = match.getCardFromPlayer(index, card_index);
                 DataMessage* msg = new PlayCard(index, card_index, played_card);
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);

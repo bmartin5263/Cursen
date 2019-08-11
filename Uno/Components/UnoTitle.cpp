@@ -37,7 +37,7 @@ void UnoTitle::initialize() {
     neonFlash.add([&]() { redLit = false; invalidate(); }).setDuration(.07);
     neonFlash.add([&]() { blueLit = true; redLit = true; greenLit = true; invalidate(); }).setDuration(.5);
 
-    neonFlash.start();
+    //neonFlash.start();
 
     setSize(cursen::Vect2(20, 3));
 }

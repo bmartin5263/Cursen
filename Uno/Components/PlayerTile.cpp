@@ -15,7 +15,6 @@ using namespace cursen;
 PlayerTile::PlayerTile() :
     AggregateComponent()
 {
-
 }
 
 PlayerTile::PlayerTile(cursen::Vect2 pos) :
@@ -126,4 +125,18 @@ void PlayerTile::unhighlight()
 void PlayerTile::setColor(PlayerColor color)
 {
     this->color = color;
+}
+
+PlayerTile::~PlayerTile()
+{
+    flash_handle.cancel();
+}
+
+void PlayerTile::flash()
+{
+    Color light_color = Player::ConvertColorLight(color);
+    setForeground(light_color);
+    flash_handle = AlarmManager::SetTimeout([this] {
+        setForeground(Player::ConvertColor(color));
+    }, 0.15);
 }

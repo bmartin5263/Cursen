@@ -16,28 +16,28 @@
 
 void MatchLocalController::clickCard()
 {
-    DataMessage* msg = new InputPlayCard(getMatchForm()->getMatch()->getMyId(), getMatchForm()->getSelectedCardIndex());
+    DataMessage* msg = new InputPlayCard(getMatchForm()->getMatch().getMyId(), getMatchForm()->getSelectedCardIndex());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
 
 void MatchLocalController::pressDraw()
 {
-    DataMessage* msg = new InputDrawCard(getMatchForm()->getMatch()->getMyId());
+    DataMessage* msg = new InputDrawCard(getMatchForm()->getMatch().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
 
 void MatchLocalController::start()
 {
-    Match* match = getMatchForm()->getMatch();
+    Match& match = getMatchForm()->getMatch();
     MatchForm* matchForm = getMatchForm();
-    Deck& deck = match->getDeck();
+    Deck& deck = match.getDeck();
     Deck::InitializeDeck(deck);
     matchForm->updatePlayers();
     matchForm->setDeckMeterSize(Deck::SIZE);
     matchForm->setDeckMeterCount(deck.size());
-    matchForm->setHandName(match->getMyPlayer().getName());
+    matchForm->setHandName(match.getMyPlayer().getName());
     matchForm->dealInitialCards();
     matchForm->setConsoleMessage("Press Enter to Deal Cards");
     matchForm->setState(&MatchFSM::waitingToDealCardsState);
@@ -49,7 +49,7 @@ void MatchLocalController::pressEnter()
 
 void MatchLocalController::handleDealCards()
 {
-    DataMessage* msg = new InputDealCards(getMatchForm()->getMatch()->getMyId());
+    DataMessage* msg = new InputDealCards(getMatchForm()->getMatch().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
@@ -57,7 +57,7 @@ void MatchLocalController::handleDealCards()
 void MatchLocalController::waitToBegin()
 {
     MatchForm* matchForm = getMatchForm();
-    std::string name = matchForm->getMatch()->getCurrentPlayerName();
+    std::string name = matchForm->getMatch().getCurrentPlayerName();
     matchForm->setConsoleMessage("First Turn will be " + name + ". Press Enter To Begin.");
     matchForm->setState(&MatchFSM::waitingToBeginState);
 }
@@ -79,7 +79,7 @@ void MatchLocalController::handleRequestMatch(int id, int sock)
 
 void MatchLocalController::wildChoice(CardColor color)
 {
-    DataMessage* msg = new InputWildColorChange(getMatchForm()->getMatch()->getMyId(), color);
+    DataMessage* msg = new InputWildColorChange(getMatchForm()->getMatch().getMyId(), color);
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
@@ -96,9 +96,29 @@ void MatchLocalController::handleClose(std::string message, bool kicked)
 
 void MatchLocalController::handleAITurn()
 {
-    cursen::AlarmManager::SetTimeout([](){
-        DataMessage* msg = new PlayCard(0,0,Card(CardColor::RED, CardValues::ZERO));
+    MatchForm* matchForm = getMatchForm();
+    Match& match = matchForm->getMatch();
+    Player& ai_player = match.getCurrentPlayer();
+    if (match.isWaitingForWildColor())
+    {
+        DataMessage* msg = new InputWildColorChange(matchForm->getMatch().getCurrentTurnId(), CardColor::BLUE);
         msg->setSendType(SendType::Local);
         DataManager::PushMessage(msg);
-    }, 2.0);
+    }
+    else
+    {
+        int card_index = ai_player.getPlayableCard(match.getPile().peekCard());
+        if (card_index != -1)
+        {
+            DataMessage* msg = new InputPlayCard(matchForm->getMatch().getCurrentTurnId(), card_index);
+            msg->setSendType(SendType::Local);
+            DataManager::PushMessage(msg);
+        }
+        else
+        {
+            DataMessage* msg = new InputDrawCard(matchForm->getMatch().getCurrentTurnId());
+            msg->setSendType(SendType::Local);
+            DataManager::PushMessage(msg);
+        }
+    }
 }

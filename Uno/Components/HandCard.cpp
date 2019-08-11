@@ -43,6 +43,7 @@ void HandCard::initialize()
     this->color = Color::WHITE;
 
     animation.setFrameDuration(.06);
+    animation.setVariableTime(false);
     animation.add([&]() { setForeground(cursen::Color::RED); });
     animation.add([&]() { setForeground(cursen::Color::ORANGE); });
     animation.add([&]() { setForeground(cursen::Color::YELLOW); });
@@ -83,38 +84,32 @@ void HandCard::hoverOff()
     if (hovered)
     {
         move(Vect2(0, 1));
-        if (wild) animation.start();
-        else setForeground(this->color);
+        if (!wild) setForeground(this->color);
         hovered = false;
     }
 }
 
 void HandCard::injectCard(const Card& card)
 {
-    bool activate_animation = false;
+    lowerLabel.setText(Card::getLowerLabel(card.getValue()));
+    upperLabel.setText(Card::getUpperLabel(card.getValue()));
     if (card.isWild())
     {
-        this->color = Color::WHITE;
-        if (!wild)
+        wild = true;
+        if (!animation.isRunning())
         {
-            activate_animation = true;
-            wild = true;
+            color = Color::RED;
+            setForeground(color);
+            animation.start();
         }
     }
     else
     {
-        this->color = Card::ConvertToColor(card.getColor());
-        if (wild) animation.stop();
         wild = false;
-        setForeground(this->color);
+        color = Card::ConvertToColor(card.getColor());
+        animation.stop();
+        setForeground(color);
     }
-    lowerLabel.setText(Card::getLowerLabel(card.getValue()));
-    upperLabel.setText(Card::getUpperLabel(card.getValue()));
-
-    if (wild) {
-        if (activate_animation) animation.start();
-    }
-    else setForeground(this->color);
 }
 
 void HandCard::setHidden(bool value)

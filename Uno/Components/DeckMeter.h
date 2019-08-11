@@ -8,7 +8,7 @@
 
 #include "Cursen/Components/AggregateComponent.h"
 #include "Cursen/Components/Box.h"
-#include "Uno/UnoComponents/DeckMeterContent.h"
+#include "Uno/Components/DeckMeterContent.h"
 
 class DeckMeter : public cursen::AggregateComponent
 {

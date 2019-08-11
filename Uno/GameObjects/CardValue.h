@@ -5,7 +5,7 @@
 #ifndef CURSEN_CARDVALUES_H
 #define CURSEN_CARDVALUES_H
 
-enum class CardValues {
+enum class CardValue {
 
     ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, PLUS_2, PLUS_4, WILD, SKIP, REVERSE
 

@@ -26,7 +26,7 @@ enum class Direction
 
 struct Runner
 {
-    typedef cursen::Vect2 pair;
+    typedef cursen::Vect2 Pair;
 
     static Direction getOp(Direction d)
     {
@@ -48,7 +48,7 @@ struct Runner
 
     int color;
     int next_to_go;
-    pair coordinates[20];
+    Pair coordinates[20];
     Direction last;
     std::unordered_set<Direction, cursen::EnumClassHash> canMove;
 
@@ -63,13 +63,14 @@ struct Runner
     {
         for (int i = 0; i < 20; i++)
         {
-            coordinates[i] = pair(x,y);
+            coordinates[i] = Pair(x,y);
         }
         this->last = Direction::UNINITIALIZED;
         this->next_to_go = 0;
+        this->canMove.reserve(4);
     }
 
-    const pair& get(int i)
+    const Pair& get(int i)
     {
         return coordinates[i];
     };
@@ -88,18 +89,18 @@ struct Runner
         //}
 
         canMove.clear();
-        canMove.reserve(4);
+        //canMove.reserve(4);
 
         //int x = coordinates[19].x;
         //int y = coordinates[19].y;
-        pair prev = next_to_go > 0 ? coordinates[next_to_go-1] : coordinates[19];
-        int x = prev.x;
-        int y = prev.y;
-        char current_space = maze[y][x];
+        auto prev = next_to_go > 0 ? coordinates[next_to_go-1] : coordinates[19];
+        auto x = prev.x;
+        auto y = prev.y;
+        auto current_space = maze[y][x];
 
         if (x < 69 && Direction::EAST != last)
         {
-            char next = maze[y][x + 1];
+            auto next = maze[y][x + 1];
             if (next == '1' || next == '2')
             {
                 canMove.insert(Direction::EAST);
@@ -108,7 +109,7 @@ struct Runner
 
         if (x > 0 && Direction::WEST != last)
         {
-            char next = maze[y][x - 1];
+            auto next = maze[y][x - 1];
             if (next == '1' || next == '2')
             {
                 canMove.insert(Direction::WEST);
@@ -128,9 +129,9 @@ struct Runner
         }
 
         auto it = canMove.begin();
-        int val = rand() % (int) canMove.size();
+        auto val = rand() % (int) canMove.size();
         std::advance(it, val);
-        Direction next = *it;
+        auto next = *it;
 
         switch (next)
         {
@@ -150,7 +151,7 @@ struct Runner
                 break;
         }
 
-        coordinates[next_to_go++] = pair(x, y);
+        coordinates[next_to_go++] = Pair(x, y);
         if (next_to_go >= 20) next_to_go = 0;
 
         switch (next)

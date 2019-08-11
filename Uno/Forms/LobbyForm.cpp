@@ -165,7 +165,7 @@ void LobbyForm::initializeForLocal()
     lobby->setMyId(my_player.getId());
     lobby->addPlayer(my_player);
 
-    NetworkManager::CreateDevice(NetworkType::Local);
+    NetworkManager::SetMode(NetworkMode::Local);
 
     console.setMessage("Welcome To Uno!");
     mode_select_box.setHidden(true);
@@ -212,7 +212,7 @@ void LobbyForm::initializeForHost()
     lobby->addPlayer(host_player);
     lobby->setMyId(host_player.getId());
 
-    NetworkManager::CreateDevice(NetworkType::Host);
+    NetworkManager::SetMode(NetworkMode::Host);
 
     console.setMessage("Welcome To Uno!");
     mode_select_box.setHidden(true);
@@ -340,21 +340,19 @@ void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
 
 void LobbyForm::leaveLocal()
 {
-    NetworkManager::DestroyDevice();
+    NetworkManager::Destroy();
     cleanLobby("Welcome to Uno!", false);
 }
 
 void LobbyForm::leaveHost()
 {
-    NetworkManager::DestroyDevice();
-    NetworkManager::CreateDevice(NetworkType::Local);
+    NetworkManager::Destroy();
     cleanLobby("Welcome to Uno!", false);
 }
 
 void LobbyForm::leaveClient(std::string msg, bool kicked)
 {
-    NetworkManager::DestroyDevice();
-    NetworkManager::CreateDevice(NetworkType::Local);
+    NetworkManager::Destroy();
     cleanLobby(msg, kicked);
 }
 
@@ -429,7 +427,7 @@ void LobbyForm::tryJoin()
     std::string address = mode_select_box.getIpAddress();
     if (address == "" || address == "127.0.0.1") address = "::0";
 
-    NetworkManager::CreateDevice(NetworkType::Client);
+    NetworkManager::SetMode(NetworkMode::Client);
     auto& device = (Client&) NetworkManager::GetDevice();
     device.initialize();
 
@@ -464,7 +462,7 @@ void LobbyForm::enableRemovePlayerCursor()
     console.setMessage("Select Player to Kick");
 }
 
-void LobbyForm::removePlayer(const int playerNum)
+void LobbyForm::removePlayer(int playerNum)
 {
     if (playerNum != 0)
     {
@@ -509,7 +507,7 @@ void LobbyForm::clickChangeColor()
     controller->clickChangeColor();
 }
 
-void LobbyForm::selectPlayerToRemove(const int playerNum)
+void LobbyForm::selectPlayerToRemove(int playerNum)
 {
     lobby_cursor.setEnabled(true);
     playerStaging.disableCursor();

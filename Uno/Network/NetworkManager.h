@@ -6,7 +6,7 @@
 #define CURSEN_NETWORKMANAGER_H
 
 
-#include "NetworkType.h"
+#include "NetworkMode.h"
 #include "NetworkDevice.h"
 
 class NetworkManager
@@ -16,12 +16,11 @@ public:
 
     static const int PORT = 58000;
 
-    static void CreateDevice(NetworkType type);
-    static void DestroyDevice();
+    static void SetMode(NetworkMode mode);
+    static void Destroy();
 
     static void ProcessNetworkMessages();
     static void WriteMessage(QueueEntry* entry);
-
     static NetworkDevice& GetDevice();
 
 private:
@@ -40,7 +39,7 @@ private:
     ~NetworkManager();
 
     NetworkDevice* device;
-    NetworkType type;
+    NetworkMode mode;
 
 };
 

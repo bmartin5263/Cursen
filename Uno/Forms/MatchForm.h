@@ -5,31 +5,31 @@
 #ifndef CURSEN_MATCHFORM_H
 #define CURSEN_MATCHFORM_H
 
-#include <Uno/UnoComponents/HandCard.h>
-#include <Uno/UnoComponents/PlayerTile.h>
+#include <Uno/Components/HandCard.h>
+#include <Uno/Components/PlayerTile.h>
 #include <Uno/GameObjects/LobbyType.h>
-#include <Uno/UnoComponents/GiantCard.h>
+#include <Uno/Components/GiantCard.h>
 #include <Uno/Other/DealCardsEventAnimation.h>
 #include <Uno/Other/PlaceCardAnimation.h>
 #include <Uno/GameObjects/ClientMatch.h>
+#include <Uno/GameObjects/Match.h>
 #include "Cursen/Components/Form.h"
 #include "Cursen/Components/Label.h"
 #include "Cursen/Components/HorizontalLine.h"
-#include "Uno/UnoComponents/UnoConsole.h"
-#include "Uno/UnoComponents/LowerBorder.h"
-#include "Uno/UnoComponents/DeckMeter.h"
-#include "Uno/UnoComponents/HandMeter.h"
+#include "Uno/Components/UnoConsole.h"
+#include "Uno/Components/LowerBorder.h"
+#include "Uno/Components/DeckMeter.h"
+#include "Uno/Components/HandMeter.h"
 #include "Cursen/Cursor/Cursor.h"
 
 class MatchController;
-class Match;
 class MatchState;
 class MatchForm : public cursen::Form
 {
 
 public:
 
-    MatchForm(LobbyType type, Match* match);
+    MatchForm(LobbyType type, Match match);
     ~MatchForm();
 
     void initialize() override;
@@ -59,7 +59,7 @@ public:
 
     void advanceTurn();
 
-    Match* getMatch();
+    Match& getMatch();
     MatchController* getController();
     const MatchState* getState();
     void updateMatch(ClientMatch clientMatch);
@@ -79,8 +79,8 @@ public:
 private:
 
     MatchController* controller;
-    Match* match;
     const MatchState* state;
+    Match match;
 
     int card_index;
     int hand_index;

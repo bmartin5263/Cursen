@@ -32,7 +32,7 @@ std::string Player::getName() const {
     return name;
 }
 
-void Player::addPoints(const int points) {
+void Player::addPoints(int points) {
     this->points += points;
 }
 
@@ -73,6 +73,25 @@ cursen::Color Player::ConvertColor(const PlayerColor &color) {
     }
 }
 
+cursen::Color Player::ConvertColorLight(const PlayerColor &color) {
+    switch (color) {
+        case PlayerColor::BLUE:
+            return cursen::Color(87);
+        case PlayerColor::RED:
+            return cursen::Color(213);
+        case PlayerColor::GREEN:
+            return cursen::Color(159);
+        case PlayerColor::YELLOW:
+            return cursen::Color(231);
+        case PlayerColor::PURPLE:
+            return cursen::Color(141);
+        case PlayerColor::ORANGE:
+            return cursen::Color(220);
+        case PlayerColor::GRAY:
+            return cursen::Color::GRAY;
+    }
+}
+
 size_t Player::serialize(char* const buffer) const
 {
     size_t written = 0;
@@ -82,6 +101,7 @@ size_t Player::serialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, points);
     written += Serializable::Serialize(buffer + written, id);
     written += Serializable::Serialize(buffer + written, ai);
+    written += Serializable::Serialize(buffer + written, force_draws);
     written += hand.serialize(buffer + written);
     return written;
 }
@@ -101,6 +121,7 @@ size_t Player::deserialize(const char* const buffer)
     read += Serializable::Deserialize(buffer + read, points);
     read += Serializable::Deserialize(buffer + read, id);
     read += Serializable::Deserialize(buffer + read, ai);
+    read += Serializable::Deserialize(buffer + read, force_draws);
     read += hand.deserialize(buffer + read);
     return read;
 }
@@ -125,7 +146,7 @@ Hand& Player::getHand()
     return hand;
 }
 
-size_t Player::safe_serialize(char* const buffer) const
+size_t Player::safeSerialize(char* const buffer) const
 {
     size_t written = 0;
     written += Serializable::Serialize(buffer, name.length());
@@ -134,6 +155,7 @@ size_t Player::safe_serialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, points);
     written += Serializable::Serialize(buffer + written, -1);
     written += Serializable::Serialize(buffer + written, ai);
+    written += Serializable::Serialize(buffer + written, force_draws);
     written += hand.safe_serialize(buffer + written);
     return written;
 }
@@ -141,4 +163,49 @@ size_t Player::safe_serialize(char* const buffer) const
 bool Player::isAI()
 {
     return ai;
+}
+
+bool Player::hasPlayableCard(const Card& card)
+{
+    return hand.hasPlayableCardFor(card);
+}
+
+int Player::getPlayableCard(const Card& card)
+{
+    bool hasWild = false;
+    int wild_index = -1;
+    int index = -1;
+    CardValue value = card.getValue();
+    CardColor color = card.getColor();
+    for (int i = 0; i < hand.size(); ++i)
+    {
+        const Card& hand_card = hand.get(i);
+        if (hand_card.getColor() == color || hand_card.getValue() == value)
+        {
+            index = i;
+            break;
+        }
+        else if (hand_card.isWild())
+        {
+            hasWild = true;
+            wild_index = i;
+        }
+    }
+    if (index == -1 && hasWild) index = wild_index;
+    return index;
+}
+
+void Player::addForceDraws(int count)
+{
+    this->force_draws += count;
+}
+
+void Player::decrementForceDraws()
+{
+    if (force_draws > 0) force_draws--;
+}
+
+int Player::getForceDraws()
+{
+    return force_draws;
 }

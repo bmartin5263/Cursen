@@ -5,56 +5,56 @@
 #include "Card.h"
 
 const CardColor Card::COLORS[4] = {CardColor::BLUE, CardColor::RED, CardColor::GREEN, CardColor::YELLOW};
-const CardValues Card::VALUES_NO_WILD[13] = {
-        CardValues::ZERO, CardValues::ONE, CardValues::TWO, CardValues::THREE, CardValues::FOUR,
-        CardValues::FIVE, CardValues::SIX, CardValues::SEVEN, CardValues::EIGHT, CardValues::NINE,
-        CardValues::SKIP, CardValues::REVERSE, CardValues::PLUS_2
+const CardValue Card::VALUES_NO_WILD[13] = {
+        CardValue::ZERO, CardValue::ONE, CardValue::TWO, CardValue::THREE, CardValue::FOUR,
+        CardValue::FIVE, CardValue::SIX, CardValue::SEVEN, CardValue::EIGHT, CardValue::NINE,
+        CardValue::SKIP, CardValue::REVERSE, CardValue::PLUS_2
 };
 
-const std::unordered_map<CardValues, std::vector<std::string>, cursen::EnumClassHash> Card::BIG_NUMBERS = {
+const std::unordered_map<CardValue, std::vector<std::string>, cursen::EnumClassHash> Card::BIG_NUMBERS = {
 
-        {CardValues::ZERO, {"  .d8888b.  ", " d88P  Y88b ", " 888    888 ", " 888    888 ", " 888    888 ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
-        {CardValues::ONE, {"   .d888    ", "  d88888    ", "    8888    ", "    8888    ", "    8888    ", "    8888    ","    8888    ", "  88888888  "}},
-        {CardValues::TWO, {"  .d8888b.  ", " d88P  Y88b ", "        888 ", "      .d88P ", "  .od888P\"  ", " d88P\"      "," 888\"       ", " 8888888888 "}},
-        {CardValues::THREE, {"  .d8888b.  ", " d88P  Y88b ", "      .d88P ", "     8888\"  ", "      \"Y8b. ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
-        {CardValues::FOUR, {"     d8888  ", "    d8P888  ", "   d8P 888  ", "  d8P  888  ", " d88   888  ", " 8888888888 ","       888  ", "       888  "}},
-        {CardValues::FIVE, {" 8888888888 ", " 888        ", " 888        ", " 8888888b.  ", "      \"Y88b ", "        888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
-        {CardValues::SIX, {"  .d8888b.  ", " d88P  Y88b ", " 888        ", " 888d888b.  ", " 888P \"Y88b ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
-        {CardValues::SEVEN, {" 8888888888 ", "       d88P ", "      d88P  ", "     d88P   ", "  88888888  ", "   d88P     ","  d88P      ", " d88P       "}},
-        {CardValues::EIGHT, {"  .d8888b.  ", " d88P  Y88b ", " Y88b. d88P ", "  \"Y88888\"  ", " .d8P\"\"Y8b. ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
-        {CardValues::NINE, {"  .d8888b.  ", " d88P  Y88b ", " 888    888 ", " Y88b. d888 ", "  \"Y888P888 ", "        888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
-        {CardValues::SKIP, {" Y8b    d8P ", "  Y8b  d8P  ", "   Y8888P   ", "    Y88P    ", "    d88b    ", "   d8888b   ","  d8P  Y8b  ", " d8P    Y8b "}},
-        {CardValues::REVERSE, {"   Y88b     ", "    Y88b    ", "     Y88b   ", "      Y88b  ", "      d88P  ", "     d88P   ","    d88P    ", "   d88P     "}},
-        {CardValues::PLUS_2, {"   db       ", "   88       ", " C8888D     ", "   88  8888 ", "   VP     8 ", "       8888 ","       8    ", "       8888 "}},
-        {CardValues::PLUS_4, {"   db       ", "   88       ", " C8888D     ", "   88    d  ", "   VP   d8  ", "       d 8  ","      d8888 ", "         8  "}},
-        {CardValues::WILD, {" 88      88 ", " 88      88 ", " 88  db  88 ", " 88 d88b 88 ", " 88d8888b88 ", " 88P    Y88 "," 8P      Y8 ", " P        Y "}},
+        {CardValue::ZERO, {"  .d8888b.  ", " d88P  Y88b ", " 888    888 ", " 888    888 ", " 888    888 ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValue::ONE, {"   .d888    ", "  d88888    ", "    8888    ", "    8888    ", "    8888    ", "    8888    ","    8888    ", "  88888888  "}},
+        {CardValue::TWO, {"  .d8888b.  ", " d88P  Y88b ", "        888 ", "      .d88P ", "  .od888P\"  ", " d88P\"      "," 888\"       ", " 8888888888 "}},
+        {CardValue::THREE, {"  .d8888b.  ", " d88P  Y88b ", "      .d88P ", "     8888\"  ", "      \"Y8b. ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValue::FOUR, {"     d8888  ", "    d8P888  ", "   d8P 888  ", "  d8P  888  ", " d88   888  ", " 8888888888 ","       888  ", "       888  "}},
+        {CardValue::FIVE, {" 8888888888 ", " 888        ", " 888        ", " 8888888b.  ", "      \"Y88b ", "        888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValue::SIX, {"  .d8888b.  ", " d88P  Y88b ", " 888        ", " 888d888b.  ", " 888P \"Y88b ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValue::SEVEN, {" 8888888888 ", "       d88P ", "      d88P  ", "     d88P   ", "  88888888  ", "   d88P     ","  d88P      ", " d88P       "}},
+        {CardValue::EIGHT, {"  .d8888b.  ", " d88P  Y88b ", " Y88b. d88P ", "  \"Y88888\"  ", " .d8P\"\"Y8b. ", " 888    888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValue::NINE, {"  .d8888b.  ", " d88P  Y88b ", " 888    888 ", " Y88b. d888 ", "  \"Y888P888 ", "        888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
+        {CardValue::SKIP, {" Y8b    d8P ", "  Y8b  d8P  ", "   Y8888P   ", "    Y88P    ", "    d88b    ", "   d8888b   ","  d8P  Y8b  ", " d8P    Y8b "}},
+        {CardValue::REVERSE, {"   Y88b     ", "    Y88b    ", "     Y88b   ", "      Y88b  ", "      d88P  ", "     d88P   ","    d88P    ", "   d88P     "}},
+        {CardValue::PLUS_2, {"   db       ", "   88       ", " C8888D     ", "   88  8888 ", "   VP     8 ", "       8888 ","       8    ", "       8888 "}},
+        {CardValue::PLUS_4, {"   db       ", "   88       ", " C8888D     ", "   88    d  ", "   VP   d8  ", "       d 8  ","      d8888 ", "         8  "}},
+        {CardValue::WILD, {" 88      88 ", " 88      88 ", " 88  db  88 ", " 88 d88b 88 ", " 88d8888b88 ", " 88P    Y88 "," 8P      Y8 ", " P        Y "}},
 
 };
 
 int Card::score(const Card &card) {
     switch (card.getValue()) {
-        case CardValues::ZERO:
+        case CardValue::ZERO:
             return 0;
-        case CardValues::ONE:
+        case CardValue::ONE:
             return 1;
-        case CardValues::TWO:
+        case CardValue::TWO:
             return 2;
-        case CardValues::THREE:
+        case CardValue::THREE:
             return 3;
-        case CardValues::FOUR:
+        case CardValue::FOUR:
             return 4;
-        case CardValues::FIVE:
+        case CardValue::FIVE:
             return 5;
-        case CardValues::SIX:
+        case CardValue::SIX:
             return 6;
-        case CardValues::SEVEN:
+        case CardValue::SEVEN:
             return 7;
-        case CardValues::EIGHT:
+        case CardValue::EIGHT:
             return 8;
-        case CardValues::NINE:
+        case CardValue::NINE:
             return 9;
-        case CardValues::WILD:
-        case CardValues::PLUS_4:
+        case CardValue::WILD:
+        case CardValue::PLUS_4:
             return 50;
         default:                    // skip, reverse, plus2
             return 20;
@@ -62,18 +62,18 @@ int Card::score(const Card &card) {
 }
 
 Card::Card() :
-    color(CardColor::WHITE), value(CardValues::ZERO), wild(false)
+    color(CardColor::WHITE), value(CardValue::ZERO), wild(false)
 {
 
 }
 
 
-Card::Card(CardColor color, CardValues value) :
-        color(color), value(value), wild(value == CardValues::PLUS_4 || value == CardValues::WILD)
+Card::Card(CardColor color, CardValue value) :
+        color(color), value(value), wild(value == CardValue::PLUS_4 || value == CardValue::WILD)
 {
 }
 
-Card::Card(CardColor color, CardValues value, bool wildOverride) :
+Card::Card(CardColor color, CardValue value, bool wildOverride) :
         color(color), value(value), wild(wildOverride)
 {
 }
@@ -82,7 +82,13 @@ bool Card::operator == (const Card &other) const {
     return color == other.color && value == other.value && wild == other.wild;
 }
 
-CardValues Card::getValue() const {
+bool Card::operator!=(const Card& other) const
+{
+    return !(*this == other);
+}
+
+
+CardValue Card::getValue() const {
     return value;
 }
 
@@ -118,81 +124,81 @@ cursen::Color Card::ConvertToColor(CardColor color)
     }
 }
 
-std::string Card::getUpperLabel(CardValues value)
+std::string Card::getUpperLabel(CardValue value)
 {
     switch (value)
     {
-        case CardValues::ZERO:
+        case CardValue::ZERO:
             return " 0";
-        case CardValues::ONE:
+        case CardValue::ONE:
             return " 1";
-        case CardValues::TWO:
+        case CardValue::TWO:
             return " 2";
-        case CardValues::THREE:
+        case CardValue::THREE:
             return " 3";
-        case CardValues::FOUR:
+        case CardValue::FOUR:
             return " 4";
-        case CardValues::FIVE:
+        case CardValue::FIVE:
             return " 5";
-        case CardValues::SIX:
+        case CardValue::SIX:
             return " 6";
-        case CardValues::SEVEN:
+        case CardValue::SEVEN:
             return " 7";
-        case CardValues::EIGHT:
+        case CardValue::EIGHT:
             return " 8";
-        case CardValues::NINE:
+        case CardValue::NINE:
             return " 9";
-        case CardValues::PLUS_2:
+        case CardValue::PLUS_2:
             return "+2";
-        case CardValues::PLUS_4:
+        case CardValue::PLUS_4:
             return "+4";
-        case CardValues::WILD:
+        case CardValue::WILD:
             return " W";
-        case CardValues::SKIP:
+        case CardValue::SKIP:
             return " X";
-        case CardValues::REVERSE:
+        case CardValue::REVERSE:
             return " R";
     }
 }
 
-std::string Card::getLowerLabel(CardValues value)
+std::string Card::getLowerLabel(CardValue value)
 {
     switch (value)
     {
-        case CardValues::ZERO:
+        case CardValue::ZERO:
             return "0 ";
-        case CardValues::ONE:
+        case CardValue::ONE:
             return "1 ";
-        case CardValues::TWO:
+        case CardValue::TWO:
             return "2 ";
-        case CardValues::THREE:
+        case CardValue::THREE:
             return "3 ";
-        case CardValues::FOUR:
+        case CardValue::FOUR:
             return "4 ";
-        case CardValues::FIVE:
+        case CardValue::FIVE:
             return "5 ";
-        case CardValues::SIX:
+        case CardValue::SIX:
             return "6 ";
-        case CardValues::SEVEN:
+        case CardValue::SEVEN:
             return "7 ";
-        case CardValues::EIGHT:
+        case CardValue::EIGHT:
             return "8 ";
-        case CardValues::NINE:
+        case CardValue::NINE:
             return "9 ";
-        case CardValues::PLUS_2:
+        case CardValue::PLUS_2:
             return "+2";
-        case CardValues::PLUS_4:
+        case CardValue::PLUS_4:
             return "+4";
-        case CardValues::WILD:
+        case CardValue::WILD:
             return "W ";
-        case CardValues::SKIP:
+        case CardValue::SKIP:
             return "X ";
-        case CardValues::REVERSE:
+        case CardValue::REVERSE:
             return "R ";
     }
 }
 
-const std::vector<std::string>& Card::GetBigNumber(CardValues value)
+const std::vector<std::string>& Card::GetBigNumber(CardValue value)
 {
     return Card::BIG_NUMBERS.at(value);
 }
@@ -217,7 +223,7 @@ size_t Card::deserialize(const char* const buffer)
     color = (CardColor)raw_color;
     int raw_val;
     read += Serializable::Deserialize(buffer + read, raw_val);
-    value = (CardValues)raw_val;
+    value = (CardValue)raw_val;
     read += Serializable::Deserialize(buffer + read, wild);
 
     return read;

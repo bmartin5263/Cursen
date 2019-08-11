@@ -15,34 +15,34 @@
 
 void MatchHostController::clickCard()
 {
-    DataMessage* msg = new InputPlayCard(getMatchForm()->getMatch()->getMyId(), getMatchForm()->getSelectedCardIndex());
+    DataMessage* msg = new InputPlayCard(getMatchForm()->getMatch().getMyId(), getMatchForm()->getSelectedCardIndex());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
 
 void MatchHostController::pressDraw()
 {
-    DataMessage* msg = new InputDrawCard(getMatchForm()->getMatch()->getMyId());
+    DataMessage* msg = new InputDrawCard(getMatchForm()->getMatch().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
 
 void MatchHostController::start()
 {
-    Match* match = getMatchForm()->getMatch();
+    Match& match = getMatchForm()->getMatch();
     MatchForm* matchForm = getMatchForm();
-    Deck& deck = match->getDeck();
+    Deck& deck = match.getDeck();
     Deck::InitializeDeck(deck);
     matchForm->updatePlayers();
     matchForm->setDeckMeterSize(Deck::SIZE);
     matchForm->setDeckMeterCount(deck.size());
-    matchForm->setHandName(match->getMyPlayer().getName());
+    matchForm->setHandName(match.getMyPlayer().getName());
     matchForm->setState(&MatchFSM::animationState);
     matchForm->dealInitialCards();
     getMatchForm()->setConsoleMessage("Waiting for Clients...");
     players_connected[0] = true; // host is always player 0
-    Player* players = match->getPlayers();
-    for (int i = 1; i < match->getNumPlayers(); ++i)
+    Player* players = match.getPlayers();
+    for (int i = 1; i < match.getNumPlayers(); ++i)
     {
         if (players[i].isAI())
         {
@@ -59,7 +59,7 @@ void MatchHostController::pressEnter()
 
 void MatchHostController::handleDealCards()
 {
-    DataMessage* msg = new InputDealCards(getMatchForm()->getMatch()->getMyId());
+    DataMessage* msg = new InputDealCards(getMatchForm()->getMatch().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
@@ -67,7 +67,7 @@ void MatchHostController::handleDealCards()
 void MatchHostController::waitToBegin()
 {
     MatchForm* matchForm = getMatchForm();
-    std::string name = matchForm->getMatch()->getCurrentPlayerName();
+    std::string name = matchForm->getMatch().getCurrentPlayerName();
     matchForm->setConsoleMessage("First Turn will be " + name + ". Press Enter To Begin.");
     matchForm->setState(&MatchFSM::waitingToBeginState);
 }
@@ -88,16 +88,16 @@ void MatchHostController::updateMatch(ClientMatch clientMatch)
 
 void MatchHostController::handleRequestMatch(int id, int sock)
 {
-    Match* match = getMatchForm()->getMatch();
+    Match& match = getMatchForm()->getMatch();
 
-    ClientMatch clientMatch = match->convertToClientMatch(id);
+    ClientMatch clientMatch = match.convertToClientMatch(id);
     DataMessage* msg = new ClientMatchUpdate(clientMatch);
     msg->setSendType(SendType::Network);
     msg->setRecipient(sock);
     msg->setRecipientType(RecipientType::Single);
     DataManager::PushMessage(msg);
 
-    int index = getMatchForm()->getMatch()->getIndex(id);
+    int index = getMatchForm()->getMatch().getIndex(id);
     players_connected[index] = true;
 
     checkReadyToStart();
@@ -105,7 +105,7 @@ void MatchHostController::handleRequestMatch(int id, int sock)
 
 void MatchHostController::wildChoice(CardColor color)
 {
-    DataMessage* msg = new InputWildColorChange(getMatchForm()->getMatch()->getMyId(), color);
+    DataMessage* msg = new InputWildColorChange(getMatchForm()->getMatch().getMyId(), color);
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
@@ -123,7 +123,7 @@ void MatchHostController::handleClose(std::string message, bool kicked)
 void MatchHostController::checkReadyToStart()
 {
     bool ready_to_start = true;
-    for (int i = 0; i < getMatchForm()->getMatch()->getNumPlayers(); ++i)
+    for (int i = 0; i < getMatchForm()->getMatch().getNumPlayers(); ++i)
     {
         if (!players_connected[i])
             ready_to_start = false;

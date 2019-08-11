@@ -12,7 +12,7 @@
 
 void WaitingToBeginState::pressEnter(MatchForm& matchForm) const
 {
-    DataMessage* msg = new InputBeginGame(matchForm.getMatch()->getMyId());
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }

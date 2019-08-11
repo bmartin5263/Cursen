@@ -36,10 +36,10 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            if (matchForm->getMatch()->getMyId() == id)
+            if (matchForm->getMatch().getMyId() == id)
             {
 
-                const Card& initial_card = matchForm->getMatch()->getDeck().peekCard();
+                const Card& initial_card = matchForm->getMatch().getDeck().peekCard();
 
                 DataMessage* msg = new BeginGame(initial_card);
                 msg->setSendType(SendType::Both);

@@ -38,7 +38,7 @@ private:
     cursen::Box border;
     cursen::ASCIIArt number;
     CardColor color;
-    CardValues value;
+    CardValue value;
     bool card_injected;
 
 };

@@ -34,8 +34,8 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            Match* match = matchForm->getMatch();
-            if (match->hasId(id))
+            Match& match = matchForm->getMatch();
+            if (match.hasId(id))
             {
                 matchForm->getController()->handleRequestMatch(id, getSender());
             }

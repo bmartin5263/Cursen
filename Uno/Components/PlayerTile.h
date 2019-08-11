@@ -17,6 +17,7 @@ public:
 
     PlayerTile();
     PlayerTile(cursen::Vect2 pos);
+    ~PlayerTile();
 
     void initialize() override;
     void clear();
@@ -26,6 +27,7 @@ public:
 
     void highlight();
     void unhighlight();
+    void flash();
 
     void setCardCount(size_t count);
     void setName(const std::string& name);
@@ -33,6 +35,7 @@ public:
 
 private:
 
+    cursen::AlarmHandle flash_handle;
     cursen::Box border;
     cursen::Label player_name;
     cursen::Label player_cards;

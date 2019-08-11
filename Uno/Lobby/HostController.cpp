@@ -204,8 +204,7 @@ void HostController::handleEnterMatch()
     Player* players = lobbyForm->getLobby().getPlayers();
     int num_players = lobbyForm->getLobby().getNumPlayers();
 
-    Match* match = new Match(players, num_players, lobbyForm->getLobby().getMyId());
-    MatchForm* matchForm = new MatchForm(LobbyType::HOST, match);
+    MatchForm* matchForm = new MatchForm(LobbyType::HOST, Match(players, num_players, lobbyForm->getLobby().getMyId()));
 
     lobbyForm->openForm(matchForm);
 }

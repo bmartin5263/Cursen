@@ -35,17 +35,17 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            Match* match = matchForm->getMatch();
-            if (match->canDrawCard(id))
+            Match& match = matchForm->getMatch();
+            if (match.canDrawCard(id))
             {
-                int index = match->getIndex(id);
-                Card drawn_card = match->peekCardFromDeck();
+                int index = match.getIndex(id);
+                Card drawn_card = match.peekCardFromDeck();
 
                 DataMessage* msg = new DrawCard(index, drawn_card);
                 msg->setSendType(SendType::Local);
                 DataManager::PushMessage(msg);
 
-                if (id == match->getMyId())
+                if (id == match.getMyId())
                 {
                     msg = new DrawCard(index, Card());
                     msg->setSendType(SendType::Network);

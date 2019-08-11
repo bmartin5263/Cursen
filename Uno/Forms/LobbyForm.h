@@ -10,12 +10,12 @@
 #include "Cursen/Components/Button.h"
 #include "Cursen/Components/ASCIIArt.h"
 #include "Cursen/Cursor/Cursor.h"
-#include "Uno/UnoComponents/LobbyGlowBorder.h"
-#include "Uno/UnoComponents/UnoConsole.h"
-#include "Uno/UnoComponents/PlayerStaging.h"
-#include "Uno/UnoComponents/ModeSelectBox.h"
+#include "Uno/Components/LobbyGlowBorder.h"
+#include "Uno/Components/UnoConsole.h"
+#include "Uno/Components/PlayerStaging.h"
+#include "Uno/Components/ModeSelectBox.h"
 #include "Uno/GameObjects/Lobby.h"
-#include "Uno/UnoComponents/ChatBox.h"
+#include "Uno/Components/ChatBox.h"
 
 class Lobby;
 class LobbyController;
@@ -40,8 +40,8 @@ public:
     void stopSearch();
 
     void enableRemovePlayerCursor();
-    void selectPlayerToRemove(const int index);
-    void removePlayer(const int index);
+    void selectPlayerToRemove(int index);
+    void removePlayer(int index);
 
     void setMainPlayerName();
 

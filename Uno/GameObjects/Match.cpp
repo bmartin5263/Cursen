@@ -59,13 +59,6 @@ bool Match::canDrawCard(int player_id)
     return (deck.size() > 0);
 }
 
-void Match::drawCard(int player_id)
-{
-    assert(canDrawCard(player_id));
-    Card c = deck.popCard();
-    getPlayerById(player_id).getHand().add(c);
-}
-
 Player& Match::getPlayerById(int player_id)
 {
     for (auto& player : players)
@@ -161,7 +154,7 @@ void Match::setWildColor(CardColor color)
     waitingForWildCardColor = false;
 }
 
-int Match::currentTurnId()
+int Match::getCurrentTurnId()
 {
     return current_player_id;
 }
@@ -238,7 +231,10 @@ void Match::removeCardFromPlayer(int index, int card_index)
 void Match::pushCardToPile(Card card)
 {
     pile.pushCard(card);
-    if (card.isWild()) waitingForWildCardColor = true;
+    if (card.isWild())
+    {
+        waitingForWildCardColor = true;
+    }
 }
 
 bool Match::currentPlayerHasEmptyHand()
@@ -268,6 +264,7 @@ int Match::advanceTurn()
     {
         current_player_index = (current_player_index + 1) % num_players;
     }
+    current_player_id = players[current_player_index].getId();
     return current_player_index;
 }
 
@@ -279,4 +276,26 @@ bool Match::aiTurn()
 bool Match::myTurn()
 {
     return getIndex(my_id) == current_player_index;
+}
+
+int Match::getMyIndex()
+{
+    int i = 0;
+    for (auto& player : players)
+    {
+        if (player.getId() == my_id) return i;
+        i++;
+    }
+    assert(false);
+    return -1;
+}
+
+Player& Match::getCurrentPlayer()
+{
+    return players[current_player_index];
+}
+
+Player& Match::getPlayer(int player_index)
+{
+    return players[player_index];
 }
