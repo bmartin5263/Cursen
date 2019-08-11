@@ -43,7 +43,8 @@ enum class MessageType {
     InputEnterMatch,
     EnterMatch,
     RequestMatchData,
-    ClientMatchUpdate
+    ClientMatchUpdate,
+    IllegalAction
 
 };
 

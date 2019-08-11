@@ -8,8 +8,10 @@
 #include "Uno/Messages/DataMessage.h"
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/MatchForm.h"
+#include "Uno/Match/MatchController.h"
 #include "Uno/GameObjects/Match.h"
 #include "PlayCard.h"
+#include "IllegalAction.h"
 
 class InputPlayCard : public DataMessage
 {
@@ -43,6 +45,13 @@ public:
                 DataMessage* msg = new PlayCard(index, card_index, played_card);
                 msg->setSendType(SendType::Both);
                 DataManager::PushMessage(msg);
+            }
+            else
+            {
+                DataMessage* data_msg = new IllegalAction("Can't play card...");
+                data_msg->setSendType(SendType::Network);
+                data_msg->setRecipient(getSender());
+                DataManager::PushMessage(data_msg);
             }
 
         CONTEXT_CHECK_END

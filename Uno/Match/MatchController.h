@@ -24,6 +24,7 @@ public:
     // Inputs
     virtual void pressEnter() = 0;
 
+    virtual void sendIllegalAction(const std::string& msg) = 0;
 
     // Concrete Actions
     virtual void clickCard() = 0;

@@ -112,3 +112,8 @@ void MatchClientController::handleAITurn()
 {
 
 }
+
+void MatchClientController::sendIllegalAction(const std::string& msg)
+{
+    assert(false);  // you have no authority!
+}

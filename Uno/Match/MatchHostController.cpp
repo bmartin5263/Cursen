@@ -163,3 +163,8 @@ void MatchHostController::handleAITurn()
         }
     }
 }
+
+void MatchHostController::sendIllegalAction(const std::string& msg)
+{
+
+}

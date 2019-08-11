@@ -15,6 +15,8 @@ class DataManager
 {
 public:
 
+    static const int LOOP_BACK = 0;
+
     static void PushMessage(DataMessage* message) { Instance().privPushMessage(message); };
     static void ProcessDataMessages();
     static void ForwardToInput(QueueEntry* entry);

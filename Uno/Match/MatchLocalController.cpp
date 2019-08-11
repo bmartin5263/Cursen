@@ -122,3 +122,10 @@ void MatchLocalController::handleAITurn()
         }
     }
 }
+
+void MatchLocalController::sendIllegalAction(const std::string& msg)
+{
+    DataMessage* data_msg = new IllegalAction(msg);
+    data_msg->setSendType(SendType::Both);
+    DataManager::PushMessage(data_msg);
+}

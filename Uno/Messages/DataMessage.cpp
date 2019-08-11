@@ -146,6 +146,9 @@ DataMessage* DataMessage::Parse(MessageType type)
         case MessageType::MatchConnectionSevered:
             msg = new MatchConnectionSevered;
             break;
+        case MessageType::IllegalAction:
+            msg = new IllegalAction;
+            break;
     }
     assert(msg != nullptr);
     return msg;

@@ -19,7 +19,6 @@ PlayerStaging::PlayerStaging(const cursen::Vect2& loc) :
 
 void PlayerStaging::initialize()
 {
-
     border.initialize();
     border.setPosition(cursen::Vect2(0, 0));
     border.setSize(cursen::Vect2(70, 10));

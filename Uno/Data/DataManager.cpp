@@ -27,6 +27,7 @@ void DataManager::ProcessDataMessages()
 
 void DataManager::privPushMessage(DataMessage* message)
 {
+    message->setSender(DataManager::LOOP_BACK);  // sent locally
     out.enqueue(message);
 }
 
@@ -56,8 +57,8 @@ void DataManager::processOut()
                 ForwardToInput(entry);
                 break;
             case SendType::Network:
-                NetworkManager::WriteMessage(entry);
-                delete entry;
+                if (entry->getRecipient() == DataManager::LOOP_BACK) ForwardToInput(entry);
+                else NetworkManager::WriteMessage(entry);
                 break;
             case SendType::Both:
                 ForwardToInput(entry);
