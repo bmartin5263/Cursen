@@ -90,8 +90,8 @@ PlayerColor Lobby::getAvailableColor() const {
 
     int start = i;
     while (true) {
-        PlayerColor color = Constants::COLORS[i];
-        i = (i + 1) % Constants::NUM_COLORS;
+        PlayerColor color = Constants::PLAYER_COLORS[i];
+        i = (i + 1) % Constants::NUM_PLAYER_COLORS;
         bool ok = true;
         for (int j = 0; j < numPlayers; j++) {
             if (players[j].getColor() == color) {
@@ -107,10 +107,10 @@ PlayerColor Lobby::getAvailableColor() const {
 PlayerColor Lobby::getAvailableColorRGBY() const {
     static int i = 0;
 
-    int num_colors_rgb = Constants::NUM_COLORS - 2;
+    int num_colors_rgb = Constants::NUM_PLAYER_COLORS - 2;
     int start = i;
     while (true) {
-        PlayerColor color = Constants::COLORS[i];
+        PlayerColor color = Constants::PLAYER_COLORS[i];
         if (!colorTaken(color)) return color;
         i = (i + 1) % num_colors_rgb;
         if (i == start) assert(false);

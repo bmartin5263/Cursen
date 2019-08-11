@@ -7,7 +7,7 @@
 
 Match::Match(Player* players, int numPlayers, int my_id) :
     num_players(numPlayers), current_player_index(0), current_player_id(players[0].getId()), my_id(my_id),
-    waitingForWildCardColor(false), reversed(false)
+    consecutive_passes(0), waitingForWildCardColor(false), reversed(false)
 {
     for (int i = 0; i < num_players; ++i)
     {
@@ -141,17 +141,6 @@ bool Match::canPlayCard(int player_index, int card_index)
     return false;
 }
 
-void Match::playCard(int player_index, int card_index)
-{
-    Player& p = players[player_index];
-    const Card& card = p.getHand().get(card_index);
-    pile.pushCard(card);
-    if (card.isWild())
-    {
-        waitingForWildCardColor = true;
-    }
-}
-
 Deck& Match::getPile()
 {
     return pile;
@@ -186,6 +175,7 @@ ClientMatch Match::convertToClientMatch(int client_id)
     clientMatch.my_id = client_id;
     clientMatch.deck_size = deck.size();
     clientMatch.reversed = this->reversed;
+    clientMatch.consecutive_passes = this->consecutive_passes;
     for (int i = 0; i < num_players; i++)
     {
         clientMatch.players[i] = this->players[i];
@@ -204,6 +194,7 @@ void Match::readFromClientMatch(ClientMatch clientMatch)
     my_id = clientMatch.my_id;
     num_players = clientMatch.num_players;
     reversed = clientMatch.reversed;
+    consecutive_passes = clientMatch.consecutive_passes;
     int i = 0;
     for (; i < num_players; ++i)
     {
@@ -256,6 +247,7 @@ void Match::pushCardToPile(Card card)
     {
         waitingForWildCardColor = true;
     }
+    consecutive_passes = 0;
 }
 
 bool Match::currentPlayerHasEmptyHand()
@@ -350,4 +342,14 @@ bool Match::isTurnOrderReversed()
 bool Match::canPass(int player_index)
 {
     return (deck.size() == 0 && !players[player_index].hasPlayableCard(pile.peekCard()));
+}
+
+void Match::pass()
+{
+    consecutive_passes++;
+}
+
+int Match::getConsecutivePasses()
+{
+    return consecutive_passes;
 }

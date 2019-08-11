@@ -280,7 +280,7 @@ void MatchForm::advanceTurn(int amount)
     tile_array[next_turn]->highlight();
 
     Player& current_player = match.getCurrentPlayer();
-    current_player.addForceDraws(match.getForceDrawAmount());
+    current_player.addForceDraws(std::min(match.getForceDrawAmount(), (int)match.getDeckSize()));
 
     if (match.aiTurn())
     {
@@ -575,7 +575,7 @@ void MatchForm::wildColorChange(CardColor color)
 {
     match.setWildColor(color);
     front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
-    console.setMessage("WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD");
+    console.setMessage("WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WIL");
     wildColorAnimation.start();
 }
 
@@ -591,7 +591,7 @@ PlayerTile& MatchForm::getPlayerTile(int index)
 
 void MatchForm::displayDrawMessage(int force_draws)
 {
-    console.setWarning("Draw Card Played! (D)raw " + std::to_string(std::min(force_draws, (int)match.getDeckSize())) + " Cards");
+    console.setWarning("Draw Card Played! (D)raw " + std::to_string(force_draws) + " Cards");
 }
 
 void MatchForm::displayTurnMessage()
@@ -599,8 +599,15 @@ void MatchForm::displayTurnMessage()
     console.setMessage("Your Turn. Select a Card or (D)raw");
 }
 
-void MatchForm::passTurn()
+void MatchForm::passTurn(CardColor new_color)
 {
-    // TODO animation
-    advanceTurn();
+    match.pass();
+    if (new_color != CardColor::WHITE)
+    {
+        wildColorChange(new_color);
+    }
+    else
+    {
+        advanceTurn();
+    }
 }

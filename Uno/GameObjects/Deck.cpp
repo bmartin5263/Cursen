@@ -3,6 +3,7 @@
 //
 
 #include <cassert>
+#include <Uno/Constants.h>
 #include "Deck.h"
 
 void Deck::InitializeDeck(Deck& deck, size_t num_players)

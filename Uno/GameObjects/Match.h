@@ -39,9 +39,10 @@ public:
     void drawCardByIndex(int player_index);
 
     bool canPlayCard(int player_index, int card_index);
-    void playCard(int player_index, int card_index);
 
     bool canPass(int player_index);
+    void pass();
+    int getConsecutivePasses();
 
     bool isWaitingForWildColor();
     void setWildColor(CardColor color);
@@ -83,6 +84,7 @@ private:
     int current_player_index;
     int current_player_id;
     int my_id;
+    int consecutive_passes;
     bool waitingForWildCardColor;
     bool reversed;
 };

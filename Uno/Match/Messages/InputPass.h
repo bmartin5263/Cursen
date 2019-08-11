@@ -5,6 +5,7 @@
 #ifndef CURSEN_INPUTPASS_H
 #define CURSEN_INPUTPASS_H
 
+#include <Uno/Constants.h>
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/Match/MatchController.h"
@@ -41,9 +42,18 @@ public:
             int index = match.getIndex(id);
             if (match.canPass(index))
             {
-                DataMessage* msg = new PassTurn;
-                msg->setSendType(SendType::Both);
-                DataManager::PushMessage(msg);
+                if (match.getConsecutivePasses() + 1 >= match.getNumPlayers())
+                {
+                    DataMessage* msg = new PassTurn(Constants::getRandomCardColor(match.getPile().peekCard().getColor()));
+                    msg->setSendType(SendType::Both);
+                    DataManager::PushMessage(msg);
+                }
+                else
+                {
+                    DataMessage* msg = new PassTurn(CardColor::WHITE);
+                    msg->setSendType(SendType::Both);
+                    DataManager::PushMessage(msg);
+                }
             }
             else
             {

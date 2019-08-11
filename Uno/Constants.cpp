@@ -4,7 +4,7 @@
 
 #include "Constants.h"
 
-const PlayerColor Constants::COLORS[NUM_COLORS] = {
+const PlayerColor Constants::PLAYER_COLORS[NUM_PLAYER_COLORS] = {
         PlayerColor::BLUE,
         PlayerColor::RED,
         PlayerColor::GREEN,
@@ -12,5 +12,13 @@ const PlayerColor Constants::COLORS[NUM_COLORS] = {
         PlayerColor::PURPLE,
         PlayerColor::ORANGE
 };
+
+const CardColor Constants::CARD_COLORS[NUM_CARD_COLORS] = {
+        CardColor::BLUE,
+        CardColor::RED,
+        CardColor::GREEN,
+        CardColor::YELLOW,
+};
+
 
 const char* Constants::WHITESPACE = " \n\r\t\f\v";

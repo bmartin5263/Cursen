@@ -9,7 +9,7 @@ ReverseAnimation::ReverseAnimation()
 {
     reverse_animation.setInifinite(false);
     reverse_animation.setVariableTime(false);
-    reverse_animation.setFrameDuration(.07);
+    reverse_animation.setFrameDuration(.04);
     reverse_animation.setLoops(9);
     reverse_animation.add([this]() {
         matchForm->getFrontCard().setReverseFace(current_index);

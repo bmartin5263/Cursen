@@ -15,6 +15,9 @@ class PassTurn : public DataMessage
 public:
 
     PassTurn() = default;
+    PassTurn(CardColor new_color) :
+        new_color(new_color)
+    {};
 
     MessageType getType() override
     {
@@ -31,7 +34,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = getCurrentForm<MatchForm>();
-            matchForm->passTurn();
+            matchForm->passTurn(new_color);
 
         CONTEXT_CHECK_END
     }
@@ -50,6 +53,10 @@ public:
     {
         return DataMessage::deserialize(buffer);
     }
+
+private:
+
+    CardColor new_color;
 
 };
 

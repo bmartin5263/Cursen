@@ -143,7 +143,7 @@ void MatchHostController::handleAITurn()
     Player& ai_player = match.getCurrentPlayer();
     if (match.isWaitingForWildColor())
     {
-        DataMessage* msg = new InputWildColorChange(matchForm->getMatch().getCurrentTurnId(), ai_player.getWildColor());
+        DataMessage* msg = new InputWildColorChange(match.getCurrentTurnId(), ai_player.getWildColor());
         msg->setSendType(SendType::Local);
         DataManager::PushMessage(msg);
     }
@@ -152,15 +152,24 @@ void MatchHostController::handleAITurn()
         int card_index = ai_player.getPlayableCardIndex(match.getPile().peekCard());
         if (card_index != -1)
         {
-            DataMessage* msg = new InputPlayCard(matchForm->getMatch().getCurrentTurnId(), card_index);
+            DataMessage* msg = new InputPlayCard(match.getCurrentTurnId(), card_index);
             msg->setSendType(SendType::Local);
             DataManager::PushMessage(msg);
         }
         else
         {
-            DataMessage* msg = new InputDrawCard(matchForm->getMatch().getCurrentTurnId());
-            msg->setSendType(SendType::Local);
-            DataManager::PushMessage(msg);
+            if (match.getDeckSize() > 0)
+            {
+                DataMessage* msg = new InputDrawCard(match.getCurrentTurnId());
+                msg->setSendType(SendType::Local);
+                DataManager::PushMessage(msg);
+            }
+            else
+            {
+                DataMessage* msg = new InputPass(match.getCurrentTurnId());
+                msg->setSendType(SendType::Local);
+                DataManager::PushMessage(msg);
+            }
         }
     }
 }

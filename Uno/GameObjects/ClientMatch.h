@@ -24,6 +24,7 @@ struct ClientMatch : public Serializable
         written += pile.serialize(buffer + written);
         written += Serializable::Serialize(buffer + written, current_player_index);
         written += Serializable::Serialize(buffer + written, my_id);
+        written += Serializable::Serialize(buffer + written, consecutive_passes);
         written += Serializable::Serialize(buffer + written, deck_size);
         written += Serializable::Serialize(buffer + written, waitingForWildCardColor);
         written += Serializable::Serialize(buffer + written, reversed);
@@ -43,6 +44,7 @@ struct ClientMatch : public Serializable
         read += pile.deserialize(buffer + read);
         read += Serializable::Deserialize(buffer + read, current_player_index);
         read += Serializable::Deserialize(buffer + read, my_id);
+        read += Serializable::Deserialize(buffer + read, consecutive_passes);
         read += Serializable::Deserialize(buffer + read, deck_size);
         read += Serializable::Deserialize(buffer + read, waitingForWildCardColor);
         read += Serializable::Deserialize(buffer + read, reversed);
@@ -60,6 +62,7 @@ struct ClientMatch : public Serializable
     int num_players;
     int current_player_index;
     int my_id;
+    int consecutive_passes;
     unsigned long deck_size;
     bool waitingForWildCardColor;
     bool reversed;

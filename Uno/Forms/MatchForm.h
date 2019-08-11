@@ -52,7 +52,7 @@ public:
     void effectDealCard(int index, size_t count, size_t deck_size);
     void drawCard(int index, Card drawn_card);
     void playCard(int index, int card_index, Card played_card);
-    void passTurn();
+    void passTurn(CardColor new_color);
     void wildColorChange(CardColor color);
 
     void dealInitialCards();
