@@ -263,7 +263,7 @@ void MatchForm::interpretCard()
         }
     }
     else {
-        advanceTurn();
+        advanceTurn(match.getPile().size() == 1 ? 0 : 1);
     }
 }
 

@@ -137,5 +137,29 @@ void MatchHostController::checkReadyToStart()
 
 void MatchHostController::handleAITurn()
 {
-
+    MatchForm* matchForm = getMatchForm();
+    Match& match = matchForm->getMatch();
+    Player& ai_player = match.getCurrentPlayer();
+    if (match.isWaitingForWildColor())
+    {
+        DataMessage* msg = new InputWildColorChange(matchForm->getMatch().getCurrentTurnId(), ai_player.getWildColor());
+        msg->setSendType(SendType::Local);
+        DataManager::PushMessage(msg);
+    }
+    else
+    {
+        int card_index = ai_player.getPlayableCardIndex(match.getPile().peekCard());
+        if (card_index != -1)
+        {
+            DataMessage* msg = new InputPlayCard(matchForm->getMatch().getCurrentTurnId(), card_index);
+            msg->setSendType(SendType::Local);
+            DataManager::PushMessage(msg);
+        }
+        else
+        {
+            DataMessage* msg = new InputDrawCard(matchForm->getMatch().getCurrentTurnId());
+            msg->setSendType(SendType::Local);
+            DataManager::PushMessage(msg);
+        }
+    }
 }
