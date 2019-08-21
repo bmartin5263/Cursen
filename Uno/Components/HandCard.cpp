@@ -41,15 +41,6 @@ void HandCard::initialize()
     offCursor([&]() { this->hoverOff(); });
 
     this->color = Color::WHITE;
-
-    animation.setFrameDuration(.06);
-    animation.setVariableTime(false);
-    animation.add([&]() { setForeground(cursen::Color::RED); });
-    animation.add([&]() { setForeground(cursen::Color::ORANGE); });
-    animation.add([&]() { setForeground(cursen::Color::YELLOW); });
-    animation.add([&]() { setForeground(cursen::Color::GREEN); });
-    animation.add([&]() { setForeground(cursen::Color::BLUE); });
-    animation.add([&]() { setForeground(cursen::Color::LAVENDER); });
 }
 
 void HandCard::setLeft()
@@ -96,18 +87,11 @@ void HandCard::injectCard(const Card& card)
     if (card.isWild())
     {
         wild = true;
-        if (!animation.isRunning())
-        {
-            color = Color::RED;
-            setForeground(color);
-            animation.start();
-        }
     }
     else
     {
         wild = false;
         color = Card::ConvertToColor(card.getColor());
-        animation.stop();
         setForeground(color);
     }
 }
@@ -127,7 +111,6 @@ void HandCard::setForeground(const cursen::Color& color)
 
 void HandCard::clear()
 {
-    if (wild) animation.stop();
     this->wild = false;
     setHidden(true);
 }

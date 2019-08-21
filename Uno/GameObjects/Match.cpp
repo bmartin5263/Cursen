@@ -17,6 +17,24 @@ Match::Match(Player* players, int numPlayers, int my_id) :
     current_player_id = players[current_player_index].getId();
 }
 
+Match& Match::operator=(const Match& other)
+{
+    if (&other != this)
+    {
+        for (int i = 0; i < 4; ++i) players[i] = other.players[i];
+        this->deck = other.deck;
+        this->pile = other.pile;
+        this->num_players = other.num_players;
+        this->current_player_index = other.current_player_index;
+        this->current_player_id = other.current_player_id;
+        this->consecutive_passes = other.consecutive_passes;
+        this->waitingForWildCardColor = other.waitingForWildCardColor;
+        this->reversed = other.reversed;
+    }
+    return *this;
+}
+
+
 int Match::CalculateNextTurn(int current_turn, int num_players, bool reversed)
 {
     if (reversed)
@@ -352,4 +370,57 @@ void Match::pass()
 int Match::getConsecutivePasses()
 {
     return consecutive_passes;
+}
+
+/*
+ * Player players[Lobby::MAX_PLAYERS];
+    Deck deck;
+    Deck pile;
+    int num_players;
+    int current_player_index;
+    int current_player_id;
+    int my_id;
+    int consecutive_passes;
+    bool waitingForWildCardColor;
+    bool reversed;
+ */
+size_t Match::serialize(char* const buffer) const
+{
+    size_t written = 0;
+    written += deck.serialize(buffer + written);
+    written += pile.serialize(buffer + written);
+    written += Serializable::Serialize(buffer + written, num_players);
+    for (int i = 0; i < num_players; ++i)
+    {
+        written += players[i].safeSerialize(buffer + written, false);
+    }
+    written += Serializable::Serialize(buffer + written, current_player_index);
+    written += Serializable::Serialize(buffer + written, current_player_id);
+    written += Serializable::Serialize(buffer + written, consecutive_passes);
+    written += Serializable::Serialize(buffer + written, waitingForWildCardColor);
+    written += Serializable::Serialize(buffer + written, reversed);
+    return written;
+}
+
+size_t Match::deserialize(const char* const buffer)
+{
+    size_t read = 0;
+    read += deck.deserialize(buffer + read);
+    read += pile.deserialize(buffer + read);
+    read += Serializable::Deserialize(buffer + read, num_players);
+    for (int i = 0; i < num_players; ++i)
+    {
+        read += players[i].deserialize(buffer + read);
+    }
+    read += Serializable::Deserialize(buffer + read, current_player_index);
+    read += Serializable::Deserialize(buffer + read, current_player_id);
+    read += Serializable::Deserialize(buffer + read, consecutive_passes);
+    read += Serializable::Deserialize(buffer + read, waitingForWildCardColor);
+    read += Serializable::Deserialize(buffer + read, reversed);
+    return read;
+}
+
+size_t Match::sizeOf() const
+{
+    return sizeof(Match);
 }

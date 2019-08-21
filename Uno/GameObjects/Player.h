@@ -48,7 +48,7 @@ public:
 
     size_t serialize(char* const buffer) const override;
     size_t deserialize(const char* const buffer) override;
-    size_t safeSerialize(char* const buffer) const;
+    size_t safeSerialize(char* const buffer, bool safe_serialize_hand) const;
 
     size_t sizeOf() const override;
 

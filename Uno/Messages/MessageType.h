@@ -44,7 +44,9 @@ enum class MessageType {
     ClientMatchUpdate,
     IllegalAction,
     InputPass,
-    PassTurn
+    PassTurn,
+    InputGameOver,
+    GameOver,
 
 };
 

@@ -8,7 +8,7 @@
 
 SkipAnimation::SkipAnimation()
 {
-    skip_animation.setInifinite(false);
+    skip_animation.setInfinite(false);
     skip_animation.setVariableTime(false);
     skip_animation.setFrameDuration(.3);
     skip_animation.add([this]() { matchForm->getPlayerTile(player_index).setForeground(cursen::Color::GRAY); });

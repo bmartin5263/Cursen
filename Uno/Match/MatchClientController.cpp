@@ -47,11 +47,6 @@ void MatchClientController::start()
     DataManager::PushMessage(msg);
 }
 
-void MatchClientController::pressEnter()
-{
-
-}
-
 void MatchClientController::handleDealCards()
 {
     assert(false);
@@ -119,4 +114,14 @@ void MatchClientController::passTurn()
     DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
     msg->setSendType(SendType::Network);
     DataManager::PushMessage(msg);
+}
+
+void MatchClientController::gameover(int winner)
+{
+    // Do Nothing
+}
+
+void MatchClientController::handleGameOver(const Match& final_match_state)
+{
+    getMatchForm()->getMatch() = final_match_state;
 }

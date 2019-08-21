@@ -142,7 +142,7 @@ void MatchForm::initialize()
     skip_animation.setForm(this);
     reverse_animation.setForm(this);
 
-    wildColorAnimation.setInifinite(false);
+    wildColorAnimation.setInfinite(false);
     wildColorAnimation.setLoops(2);
     wildColorAnimation.setVariableTime(false);
     wildColorAnimation.setFrameDuration(.06);
@@ -155,6 +155,29 @@ void MatchForm::initialize()
         front_card.setForeground(Card::ConvertToColor(match.getPile().peekCard().getColor()));
         advanceTurn();
     });
+
+    wild_cards.reserve(14);
+    wild_hand_cards_animation.setFrameDuration(.06);
+    wild_hand_cards_animation.setVariableTime(false);
+    wild_hand_cards_animation.add([this]() {
+        for (auto card : wild_cards) card->setForeground(cursen::Color::RED);
+    });
+    wild_hand_cards_animation.add([this]() {
+        for (auto card : wild_cards) card->setForeground(cursen::Color::ORANGE);
+    });
+    wild_hand_cards_animation.add([this]() {
+        for (auto card : wild_cards) card->setForeground(cursen::Color::YELLOW);
+    });
+    wild_hand_cards_animation.add([this]() {
+        for (auto card : wild_cards) card->setForeground(cursen::Color::GREEN);
+    });
+    wild_hand_cards_animation.add([this]() {
+        for (auto card : wild_cards) card->setForeground(cursen::Color::BLUE);
+    });
+    wild_hand_cards_animation.add([this]() {
+        for (auto card : wild_cards) card->setForeground(cursen::Color::LAVENDER);
+    });
+    wild_hand_cards_animation.start();
 
     start();
 }
@@ -270,41 +293,44 @@ void MatchForm::interpretCard()
 
 void MatchForm::advanceTurn(int amount)
 {
-//    if (match.currentPlayerHasEmptyHand())
-//    {
-//        // Game Over
-//    }
-    tile_array[match.getCurrentTurn()]->unhighlight();
-    int next_turn = match.getCurrentTurn();
-    for (int i = 0; i < amount; ++i) next_turn = match.advanceTurn();
-    tile_array[next_turn]->highlight();
-
-    Player& current_player = match.getCurrentPlayer();
-    current_player.addForceDraws(std::min(match.getForceDrawAmount(), (int)match.getDeckSize()));
-
-    if (match.aiTurn())
+    if (match.currentPlayerHasEmptyHand())
     {
-        console.setMessage(match.getCurrentPlayerName() + "'s Turn");
-        ai_handle = AlarmManager::SetTimeout([this]() {
-            controller->handleAITurn();
-        }, 1.5);
-    }
-    else if (match.myTurn())
-    {
-        int force_draws = current_player.getForceDraws();
-        if (force_draws > 0)
-        {
-            displayDrawMessage(force_draws);
-        }
-        else
-        {
-            displayTurnMessage();
-        }
-        setState(&MatchFSM::selectCardState);
+        controller->gameover(match.getCurrentTurn());
     }
     else
     {
-        console.setMessage(match.getCurrentPlayerName() + "'s Turn");
+        tile_array[match.getCurrentTurn()]->unhighlight();
+        int next_turn = match.getCurrentTurn();
+        for (int i = 0; i < amount; ++i) next_turn = match.advanceTurn();
+        tile_array[next_turn]->highlight();
+
+        Player& current_player = match.getCurrentPlayer();
+        current_player.addForceDraws(std::min(match.getForceDrawAmount(), (int)match.getDeckSize()));
+
+        if (match.aiTurn())
+        {
+            console.setMessage(match.getCurrentPlayerName() + "'s Turn");
+            ai_handle = AlarmManager::SetTimeout([this]() {
+                controller->handleAITurn();
+            }, 1.5);
+        }
+        else if (match.myTurn())
+        {
+            int force_draws = current_player.getForceDraws();
+            if (force_draws > 0)
+            {
+                displayDrawMessage(force_draws);
+            }
+            else
+            {
+                displayTurnMessage();
+            }
+            setState(&MatchFSM::selectCardState);
+        }
+        else
+        {
+            console.setMessage(match.getCurrentPlayerName() + "'s Turn");
+        }
     }
 }
 
@@ -355,6 +381,7 @@ void MatchForm::beginGame(Card initial_card)
 
 void MatchForm::updateHand(size_t max)
 {
+    wild_cards.clear();
     Player& p = match.getMyPlayer();
     Hand& hand = p.getHand();
     int start = 14 * hand_index;
@@ -368,6 +395,7 @@ void MatchForm::updateHand(size_t max)
     for (; start < hand_size; ++start)
     {
         const Card& c = hand.get(start);
+        if (c.isWild()) wild_cards.push_back(&card_array[count]);
         card_array[count].setHidden(false);
         card_array[count++].injectCard(c);
         if (count == max) break;
@@ -428,7 +456,7 @@ void MatchForm::drawCard(int index, Card drawn_card)
 
     if (index == match.getMyIndex())
     {
-        int new_hand_index = (int)(match.getMyPlayer().getHand().size() / 14);
+        int new_hand_index = (int)((match.getMyPlayer().getHand().size() - 1) / 14);
         card_array[card_index].hoverOff();
         card_index = ((int)match.getMyPlayer().getHandSize() - 1) % 14;
         card_array[card_index].hoverOn();
@@ -445,11 +473,10 @@ void MatchForm::drawCard(int index, Card drawn_card)
     }
 }
 
-void MatchForm::playCard(int index, int card_index, Card played_card)
+void MatchForm::playCard(int index, int played_card_index, Card played_card)
 {
-
     // Update Match State
-    match.removeCardFromPlayer(index, card_index);
+    match.removeCardFromPlayer(index, played_card_index);
     match.pushCardToPile(played_card);
 
     // Update User Interface
@@ -458,13 +485,19 @@ void MatchForm::playCard(int index, int card_index, Card played_card)
         back_card.setValuesFrom(front_card, match.isTurnOrderReversed());
     }
     front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
-    tile_array[index]->setCardCount(match.getPlayers()[index].getHandSize());
+    size_t hand_size = match.getPlayers()[index].getHandSize();
+    tile_array[index]->setCardCount(hand_size);
     if (index == match.getMyIndex())
     {
         updateHand();
-//        card_array[card_index].hoverOff();
-//        card_index = (int)(match.getMyPlayer().getHandSize() % 14) - 1;
-//        card_array[card_index].hoverOn();
+        if (played_card_index == hand_size)
+        {
+            card_array[card_index].hoverOff();
+            if (hand_size > 0)
+            {
+                card_array[--card_index].hoverOn();
+            }
+        }
     }
     placeCardAnimation.run();
 
@@ -492,8 +525,9 @@ void MatchForm::arrowPress(const cursen::Event& event)
         }
         else if (event.arrowPress.right)
         {
-            int max_hand_index = (int)(match.getMyPlayer().getHand().size() / 14);
-            int upper_limit = (int)(match.getMyPlayer().getHandSize() % 14) - 1;
+            size_t hand_size = match.getMyPlayer().getHand().size();
+            int max_hand_index = (int)(ceil(hand_size / 14.0) - 1);
+            int upper_limit = (int)((hand_size - 1) % 14);
             if (card_index < 13)
             {
                 if (hand_index == max_hand_index)

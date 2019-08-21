@@ -41,7 +41,6 @@ private:
     cursen::Color color;
     bool hovered;
     bool wild;
-    cursen::Animation animation;
 };
 
 

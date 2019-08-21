@@ -44,10 +44,6 @@ void MatchLocalController::start()
     matchForm->setState(&MatchFSM::waitingToDealCardsState);
 }
 
-void MatchLocalController::pressEnter()
-{
-}
-
 void MatchLocalController::handleDealCards()
 {
     DataMessage* msg = new InputDealCards(getMatchForm()->getMatch().getMyId());
@@ -138,4 +134,17 @@ void MatchLocalController::passTurn()
     DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
+}
+
+void MatchLocalController::gameover(int winner)
+{
+    DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
+}
+
+void MatchLocalController::handleGameOver(const Match& final_match_state)
+{
+    Match& match = getMatchForm()->getMatch();
+    getMatchForm()->getMatch() = final_match_state;
 }

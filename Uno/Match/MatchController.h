@@ -6,6 +6,7 @@
 #define CURSEN_MATCHCONTROLLER_H
 
 #include <Uno/GameObjects/ClientMatch.h>
+#include <Uno/GameObjects/Match.h>
 
 class MatchForm;
 class MatchController
@@ -21,14 +22,12 @@ public:
 
     virtual void reset() = 0;
 
-    // Inputs
-    virtual void pressEnter() = 0;
-
     // Concrete Actions
     virtual void clickCard() = 0;
     virtual void pressDraw() = 0;
     virtual void wildChoice(CardColor color) = 0;
     virtual void passTurn() = 0;
+    virtual void gameover(int winner) = 0;
 
     // Connection
     virtual void handleDisconnect(int sock) = 0;
@@ -36,10 +35,12 @@ public:
 
     virtual void handleDealCards() = 0;
     virtual void handleAITurn() = 0;
+    virtual void handleGameOver(const Match& final_match_state) = 0;
 
     virtual void start() = 0;
     virtual void waitToBegin() = 0;
 
+    // Match Updates
     virtual void updateMatch(ClientMatch clientMatch) = 0;
     virtual void handleRequestMatch(int id, int sock) = 0;
 

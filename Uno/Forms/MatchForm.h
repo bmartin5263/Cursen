@@ -24,6 +24,8 @@
 #include "Uno/Components/HandMeter.h"
 #include "Cursen/Cursor/Cursor.h"
 
+#include <array>
+
 class MatchController;
 class MatchInputState;
 class MatchForm : public cursen::Form
@@ -111,12 +113,14 @@ private:
     PlayerTile* tile_array[4];
     GiantCard front_card;
     GiantCard back_card;
+    std::vector<HandCard*> wild_cards;
 
     DealCardsEventAnimation dealCardsEventController;
     PlaceCardAnimation placeCardAnimation;
     SkipAnimation skip_animation;
     ReverseAnimation reverse_animation;
     cursen::Animation wildColorAnimation;
+    cursen::Animation wild_hand_cards_animation;
 
     cursen::AlarmHandle ai_handle;
 };

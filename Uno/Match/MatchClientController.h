@@ -16,7 +16,6 @@ public:
     void clickCard() override;
     void pressDraw() override;
     void start() override;
-    void pressEnter() override;
     void handleDealCards() override;
     void waitToBegin() override;
     void reset() override;
@@ -27,6 +26,8 @@ public:
     void handleClose(std::string message, bool kicked) override;
     void handleAITurn() override;
     void passTurn() override;
+    void gameover(int winner) override;
+    void handleGameOver(const Match& final_match_state) override;
 
 private:
 

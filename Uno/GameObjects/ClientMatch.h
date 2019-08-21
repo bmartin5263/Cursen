@@ -19,7 +19,7 @@ struct ClientMatch : public Serializable
         for (int i = 0; i < num_players; ++i)
         {
             if (players[i].getId() == my_id) written += players[i].serialize(buffer + written);
-            else written += players[i].safeSerialize(buffer + written);
+            else written += players[i].safeSerialize(buffer + written, true);
         }
         written += pile.serialize(buffer + written);
         written += Serializable::Serialize(buffer + written, current_player_index);

@@ -33,7 +33,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
-            lobbyForm->getController().handleDisconnect(getSender());
+            lobbyForm->getController().handleDisconnect(sock);
 
         CONTEXT_CHECK_END
     }

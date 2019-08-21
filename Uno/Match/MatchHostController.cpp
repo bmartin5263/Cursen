@@ -53,11 +53,6 @@ void MatchHostController::start()
     checkReadyToStart();
 }
 
-void MatchHostController::pressEnter()
-{
-
-}
-
 void MatchHostController::handleDealCards()
 {
     DataMessage* msg = new InputDealCards(getMatchForm()->getMatch().getMyId());
@@ -179,4 +174,14 @@ void MatchHostController::passTurn()
     DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
+}
+
+void MatchHostController::gameover(int winner)
+{
+
+}
+
+void MatchHostController::handleGameOver(const Match& final_match_state)
+{
+    //getMatchForm()->getMatch() = final_match_state;
 }

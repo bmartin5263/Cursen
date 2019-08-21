@@ -32,6 +32,10 @@ void DeckMeterContent::render()
     size_t num_equals = (size_t)ceil((double)current_len / 12.0);
 
     chtype line[dimensions.y];
+//
+//    short red_pair = Color::RED.getColorPair();
+//    short green_pair = Color::GREEN.getColorPair();
+//    short yellow_pair = Color::YELLOW.getColorPair();
 
     int index = 8;
     for (int i = 0; i < num_equals; ++i)

@@ -11,14 +11,16 @@
 #include "Deck.h"
 #include "ClientMatch.h"
 
-class Match
+class Match : public Serializable
 {
 
 public:
 
     static int CalculateNextTurn(int current_turn, int num_players, bool reversed);
 
+    Match() = default;
     Match(Player* players, int num_players, int my_id);
+    Match& operator=(const Match& other);
 
     Deck& getDeck();
     Deck& getPile();
@@ -74,6 +76,9 @@ public:
 
     ClientMatch convertToClientMatch(int client_id);
     void readFromClientMatch(ClientMatch clientMatch);
+    size_t serialize(char* const buffer) const override;
+    size_t deserialize(const char* const buffer) override;
+    size_t sizeOf() const override;
 
 private:
 

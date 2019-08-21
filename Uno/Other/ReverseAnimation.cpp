@@ -7,7 +7,7 @@
 
 ReverseAnimation::ReverseAnimation()
 {
-    reverse_animation.setInifinite(false);
+    reverse_animation.setInfinite(false);
     reverse_animation.setVariableTime(false);
     reverse_animation.setFrameDuration(.04);
     reverse_animation.setLoops(9);

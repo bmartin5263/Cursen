@@ -147,7 +147,7 @@ Hand& Player::getHand()
     return hand;
 }
 
-size_t Player::safeSerialize(char* const buffer) const
+size_t Player::safeSerialize(char* const buffer, bool safe_serialize_hand) const
 {
     size_t written = 0;
     written += Serializable::Serialize(buffer, name.length());
@@ -157,7 +157,8 @@ size_t Player::safeSerialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, -1);
     written += Serializable::Serialize(buffer + written, ai);
     written += Serializable::Serialize(buffer + written, force_draws);
-    written += hand.safe_serialize(buffer + written);
+    if (safe_serialize_hand) written += hand.safe_serialize(buffer + written);
+    else written += hand.serialize(buffer + written);
     return written;
 }
 
