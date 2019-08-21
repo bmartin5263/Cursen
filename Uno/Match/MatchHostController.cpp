@@ -181,7 +181,7 @@ void MatchHostController::gameover(int winner)
 
 }
 
-void MatchHostController::handleGameOver(const Match& final_match_state)
+void MatchHostController::handleGameOver(const Match& final_match_state, int winner)
 {
     //getMatchForm()->getMatch() = final_match_state;
 }

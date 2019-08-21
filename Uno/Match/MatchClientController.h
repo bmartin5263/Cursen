@@ -27,7 +27,7 @@ public:
     void handleAITurn() override;
     void passTurn() override;
     void gameover(int winner) override;
-    void handleGameOver(const Match& final_match_state) override;
+    void handleGameOver(const Match& final_match_state, int winner) override;
 
 private:
 

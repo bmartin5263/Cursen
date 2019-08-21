@@ -6,6 +6,7 @@
 #include <Uno/Match/Messages/InputPlayCard.h>
 #include <Uno/Match/Messages/InputWildColorChange.h>
 #include <Uno/Match/Messages/InputPass.h>
+#include <Uno/Match/Messages/InputGameOver.h>
 #include "Uno/GameObjects/Match.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/Match/FSM/MatchFSM.h"
@@ -138,13 +139,13 @@ void MatchLocalController::passTurn()
 
 void MatchLocalController::gameover(int winner)
 {
-    DataMessage* msg = new InputPass(getMatchForm()->getMatch().getMyId());
+    DataMessage* msg = new InputGameOver(winner);
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
 
-void MatchLocalController::handleGameOver(const Match& final_match_state)
+void MatchLocalController::handleGameOver(const Match& final_match_state, int winner)
 {
-    Match& match = getMatchForm()->getMatch();
     getMatchForm()->getMatch() = final_match_state;
+    getMatchForm()->runWinnerAnimation(winner);
 }

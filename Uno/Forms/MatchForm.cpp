@@ -141,6 +141,7 @@ void MatchForm::initialize()
     placeCardAnimation.setForm(this);
     skip_animation.setForm(this);
     reverse_animation.setForm(this);
+    winner_animation.setForm(this);
 
     wildColorAnimation.setInfinite(false);
     wildColorAnimation.setLoops(2);
@@ -293,7 +294,9 @@ void MatchForm::interpretCard()
 
 void MatchForm::advanceTurn(int amount)
 {
-    if (match.currentPlayerHasEmptyHand())
+    static int count = 0;
+    count++;
+    if (match.currentPlayerHasEmptyHand() || count == 2)
     {
         controller->gameover(match.getCurrentTurn());
     }
@@ -644,4 +647,14 @@ void MatchForm::passTurn(CardColor new_color)
     {
         advanceTurn();
     }
+}
+
+void MatchForm::runWinnerAnimation(int winner)
+{
+    winner_animation.run(winner);
+}
+
+UnoConsole& MatchForm::getConsole()
+{
+    return console;
 }

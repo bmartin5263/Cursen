@@ -121,7 +121,7 @@ void MatchClientController::gameover(int winner)
     // Do Nothing
 }
 
-void MatchClientController::handleGameOver(const Match& final_match_state)
+void MatchClientController::handleGameOver(const Match& final_match_state, int winner)
 {
     getMatchForm()->getMatch() = final_match_state;
 }

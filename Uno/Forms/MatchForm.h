@@ -25,6 +25,7 @@
 #include "Cursen/Cursor/Cursor.h"
 
 #include <array>
+#include <Uno/Other/WinnerAnimation.h>
 
 class MatchController;
 class MatchInputState;
@@ -61,6 +62,7 @@ public:
     void dealCards();
     void beginGame(Card initial_card);
     void waitToBegin();
+    void runWinnerAnimation(int winner);
 
     void advanceTurn(int amount = 1);
     void interpretCard();
@@ -84,6 +86,7 @@ public:
 
     GiantCard& getFrontCard();
     PlayerTile& getPlayerTile(int index);
+    UnoConsole& getConsole();
 
 private:
 
@@ -119,6 +122,7 @@ private:
     PlaceCardAnimation placeCardAnimation;
     SkipAnimation skip_animation;
     ReverseAnimation reverse_animation;
+    WinnerAnimation winner_animation;
     cursen::Animation wildColorAnimation;
     cursen::Animation wild_hand_cards_animation;
 
