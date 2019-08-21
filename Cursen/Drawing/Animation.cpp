@@ -91,11 +91,13 @@ namespace cursen
 
             if (!variable_time)
             {
+                if (delay == 0.0) this->nextFrame();
                 animationHandle = AlarmManager::SetInterval([this]() { this->nextFrame(); }, default_duration);
             }
             else
             {
-                animationHandle = AlarmManager::SetTimeout([this]() { this->nextFrame(); }, delay);
+                if (delay == 0.0) this->nextFrame();
+                else animationHandle = AlarmManager::SetTimeout([this]() { this->nextFrame(); }, delay);
             }
         }
     }

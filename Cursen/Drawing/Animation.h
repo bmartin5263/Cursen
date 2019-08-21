@@ -119,7 +119,7 @@ namespace cursen {
 
         /* Animation Control */
         //void start(bool callFirstFrame = true);
-        void start(double delay = 0.1);
+        void start(double delay = 0.0);
         void stop();
         void pause();
         void resume();
