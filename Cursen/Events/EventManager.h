@@ -45,6 +45,7 @@ namespace cursen {
         void privProcessEvent(EventComponentMap& dispatchMap, const Event &event);
         void registerComponent(Component& component, EventType eventFlag);
         void deregisterComponent(Component& component, EventType events);
+        void processEvents(EventComponentMap& dispatchMap);
 
         // Instance Data
         EventQueue eventQueue;

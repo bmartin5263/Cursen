@@ -104,5 +104,14 @@ namespace cursen {
         return CursenApplication::GetEventManager();
     }
 
+    void EventManager::processEvents(EventManager::EventComponentMap& dispatchMap)
+    {
+        processUpdates(dispatchMap);
+        while (!eventQueue.isEmpty())
+        {
+            privProcessEvent(dispatchMap, eventQueue.pop());
+        }
+    }
+
 
 }

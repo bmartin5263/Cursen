@@ -8,6 +8,8 @@
       <w>deregister</w>
       <w>deregisters</w>
       <w>emplace</w>
+      <w>gameover</w>
+      <w>loopback</w>
       <w>offscreen</w>
       <w>priv</w>
       <w>sigil</w>

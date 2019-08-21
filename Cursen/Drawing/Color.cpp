@@ -29,15 +29,18 @@ namespace cursen {
 
 
     Color::Color() :
-            val(CursenApplication::GetColorPalette().getForeground().val) {
+            val(CursenApplication::GetColorPalette().getForeground().val)
+    {
     }
 
     Color::Color(short value) :
-            val(value) {
+            val(value)
+    {
     }
 
-    Color::Color(const Color &other) {
-        this->val = other.val;
+    Color::Color(const Color &other) :
+            val(other.val)
+    {
     }
 
     Color Color::RandomColor() {

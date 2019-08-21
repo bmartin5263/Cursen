@@ -28,6 +28,7 @@ namespace cursen {
         add(twirl_label);
 
         animation.setFrameDuration(.1);
+        animation.setVariableTime(false);
         animation.add([&]() { twirl_label.setText("/"); });
         animation.add([&]() { twirl_label.setText("-"); });
         animation.add([&]() { twirl_label.setText("\\"); });

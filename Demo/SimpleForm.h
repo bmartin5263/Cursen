@@ -20,8 +20,7 @@ public:
 
 private:
 
-    GiantCard front;
-    GiantCard back;
+    cursen::Button hello;
 
 };
 

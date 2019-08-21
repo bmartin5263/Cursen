@@ -27,9 +27,17 @@ namespace cursen {
     }
 
     ColorPair &ColorPair::operator=(const ColorPair &other) {
-        this->fg = other.fg;
-        this->bg = other.bg;
+        if (this != &other)
+        {
+            this->fg = other.fg;
+            this->bg = other.bg;
+        }
         return *this;
+    }
+
+    bool ColorPair::operator!=(const ColorPair& other) const
+    {
+        return !(*this == other);
     }
 
     bool ColorPair::operator==(const ColorPair &other) const {
@@ -62,7 +70,7 @@ namespace cursen {
 
     chtype& operator |= (chtype& c, const cursen::ColorPair &n) {
         if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
-        c |= cursen::CursesManager::GetColorPair(n);
+        c |= CursesManager::GetColorPair(n);
         return c;
     }
 }

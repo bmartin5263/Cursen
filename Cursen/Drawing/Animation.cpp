@@ -112,16 +112,15 @@ namespace cursen
     {
         assert(running);
         callCurrentFrame();
-        double time = frames[currentFrame].getDuration();
-        if (time <= 0.0)
-        {
-            time = default_duration;
-        }
-
         currentFrame = (currentFrame + 1) % numFrames;
 
         if (running && !paused)
         {
+            double time = frames[currentFrame].getDuration();
+            if (time <= 0.0)
+            {
+                time = default_duration;
+            }
             if (currentFrame == 0)
             {
                 if (continuous)
@@ -263,7 +262,7 @@ namespace cursen
         frames[currentFrame]();
     }
 
-    void Animation::setContinuous(bool value)
+    void Animation::setInfinite(bool value)
     {
         this->continuous = value;
         if (continuous) {

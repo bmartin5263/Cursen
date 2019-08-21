@@ -141,7 +141,7 @@ namespace cursen {
 
         void clear();
 
-        void setContinuous(bool value);
+        void setInfinite(bool value);
         bool isContinuous();
 
         void onPause(VoidFunction f);

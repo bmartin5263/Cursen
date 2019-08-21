@@ -29,6 +29,8 @@ namespace cursen {
         Vect2 dimensions = content.getSize();
         content.clear();
 
+        //short draw_color = draw_color.getColorPair();
+
         // Render Top and Bottom Line
         chtype top[dimensions.x];
         chtype bottom[dimensions.x];

@@ -154,9 +154,9 @@ namespace cursen
 
     short CursesManager::privGetColorPair(const ColorPair& colorPair)
     {
-        ColorPairMap::iterator it;
+        ColorPairMap::const_iterator it;
         it = colorPairMap.find(colorPair);
-        if (it != colorPairMap.end())
+        if (it != colorPairMap.cend())
         {
             return COLOR_PAIR(colorPairMap[colorPair]);
         }
