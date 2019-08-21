@@ -33,7 +33,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->requestClient(getSender(), name);
 
         CONTEXT_CHECK_END

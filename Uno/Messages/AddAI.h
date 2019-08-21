@@ -35,7 +35,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->getController().handleAddAi(new_ai);
 
         CONTEXT_CHECK_END

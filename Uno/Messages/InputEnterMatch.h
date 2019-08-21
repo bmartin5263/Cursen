@@ -33,7 +33,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             if (id == lobbyForm->getLobby().getMyId() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START)
             {
                 DataMessage* msg = new EnterMatch;

@@ -32,7 +32,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->pushChatMessage(id, message);
 
         CONTEXT_CHECK_END

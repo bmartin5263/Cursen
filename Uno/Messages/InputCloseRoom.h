@@ -36,7 +36,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             if (id == lobbyForm->getLobby().getMyId())
             {
                 // Security - the host should reject messages without the host's id

@@ -33,7 +33,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->addPlayer(new_player, sock);
 
         CONTEXT_CHECK_END

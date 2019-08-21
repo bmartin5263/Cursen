@@ -30,7 +30,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             if (lobbyForm->getLobby().isSearching())
             {
                 DataMessage* msg = new StopSearch;

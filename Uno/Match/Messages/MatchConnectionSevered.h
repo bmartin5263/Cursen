@@ -34,7 +34,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            MatchForm* matchForm = getCurrentForm<MatchForm>();
+            MatchForm* matchForm = GetCurrentForm<MatchForm>();
             matchForm->getController()->handleDisconnect(getSender());
 
         CONTEXT_CHECK_END

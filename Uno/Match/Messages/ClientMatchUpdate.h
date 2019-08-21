@@ -32,7 +32,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            MatchForm* matchForm = getCurrentForm<MatchForm>();
+            MatchForm* matchForm = GetCurrentForm<MatchForm>();
             matchForm->updateMatch(clientMatch);
 
         CONTEXT_CHECK_END

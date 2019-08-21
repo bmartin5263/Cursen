@@ -35,7 +35,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            MatchForm* matchForm = getCurrentForm<MatchForm>();
+            MatchForm* matchForm = GetCurrentForm<MatchForm>();
             if (matchForm->getMatch().getMyId() == id)
             {
 

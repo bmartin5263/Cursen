@@ -34,7 +34,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobby = getCurrentForm<LobbyForm>();
+            LobbyForm* lobby = GetCurrentForm<LobbyForm>();
             lobby->changeColor(id, new_color);
 
         CONTEXT_CHECK_END

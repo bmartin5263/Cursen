@@ -55,7 +55,7 @@ public:
     size_t sizeOf() const override;
 
     template<typename T>
-    T* getCurrentForm()
+    static T* GetCurrentForm()
     {
         return (T*)cursen::CursenApplication::GetCurrentForm();
     }

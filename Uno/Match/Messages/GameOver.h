@@ -33,7 +33,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            MatchForm* matchForm = getCurrentForm<MatchForm>();
+            MatchForm* matchForm = GetCurrentForm<MatchForm>();
             matchForm->getController()->handleGameOver(match_state, winner_index);
 
         CONTEXT_CHECK_END

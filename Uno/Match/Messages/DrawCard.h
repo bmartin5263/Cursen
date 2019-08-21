@@ -33,7 +33,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            MatchForm* matchForm = getCurrentForm<MatchForm>();
+            MatchForm* matchForm = GetCurrentForm<MatchForm>();
             matchForm->drawCard(index, drawn_card);
 
         CONTEXT_CHECK_END

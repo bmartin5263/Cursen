@@ -35,7 +35,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             if (lobbyForm->getLobby().hasId(id_to_kick))
             {
                 lobbyForm->getController().sendKickMessages(id_to_kick);

@@ -33,7 +33,7 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = getCurrentForm<LobbyForm>();
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             PlayerColor new_color = lobbyForm->getLobby().getAvailableColor();
 
             DataMessage* msg = new ChangeColor(id, new_color);
