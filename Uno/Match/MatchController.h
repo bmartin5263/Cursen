@@ -36,6 +36,7 @@ public:
     virtual void handleDealCards() = 0;
     virtual void handleAITurn() = 0;
     virtual void handleGameOver(const Match& final_match_state, int winner) = 0;
+    virtual void handlePostPointTally(int winner, int points_won) = 0;
 
     virtual void start() = 0;
     virtual void waitToBegin() = 0;

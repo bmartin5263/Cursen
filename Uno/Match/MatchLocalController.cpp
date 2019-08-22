@@ -146,6 +146,17 @@ void MatchLocalController::gameover(int winner)
 
 void MatchLocalController::handleGameOver(const Match& final_match_state, int winner)
 {
-    getMatchForm()->getMatch() = final_match_state;
-    getMatchForm()->runWinnerAnimation(winner);
+    auto matchForm = getMatchForm();
+    matchForm->setState(&MatchFSM::animationState);
+    matchForm->getMatch() = final_match_state;
+    matchForm->runWinnerAnimation(winner);
+}
+
+void MatchLocalController::handlePostPointTally(int winner, int points_won)
+{
+    auto matchForm = getMatchForm();
+    auto& winning_player = matchForm->getMatch().getPlayer(winner);
+    std::string winner_name = winning_player.getName();
+    matchForm->setConsoleMessage(winner_name + " won " + std::to_string(points_won) + " points! Press Enter to End Game");
+    matchForm->setState(&MatchFSM::gameoverState);
 }

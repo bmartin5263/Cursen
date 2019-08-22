@@ -11,6 +11,7 @@
 #include <Uno/Match/Messages/InputPlayCard.h>
 #include <Uno/Match/Messages/InputWildColorChange.h>
 #include <Uno/Match/Messages/InputPass.h>
+#include <Uno/Match/Messages/InputGameOver.h>
 #include "Uno/Forms/MatchForm.h"
 #include "MatchHostController.h"
 
@@ -178,10 +179,24 @@ void MatchHostController::passTurn()
 
 void MatchHostController::gameover(int winner)
 {
-
+    DataMessage* msg = new InputGameOver(winner);
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void MatchHostController::handleGameOver(const Match& final_match_state, int winner)
 {
-    //getMatchForm()->getMatch() = final_match_state;
+    auto matchForm = getMatchForm();
+    matchForm->setState(&MatchFSM::animationState);
+    //matchForm->getMatch() = final_match_state;
+    matchForm->runWinnerAnimation(winner);
+}
+
+void MatchHostController::handlePostPointTally(int winner, int points_won)
+{
+    auto matchForm = getMatchForm();
+    auto& winning_player = matchForm->getMatch().getPlayer(winner);
+    std::string winner_name = winning_player.getName();
+    matchForm->setConsoleMessage(winner_name + " won " + std::to_string(points_won) + " points! Press Enter to End Game");
+    matchForm->setState(&MatchFSM::gameoverState);
 }

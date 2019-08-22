@@ -13,6 +13,7 @@ class MatchClientController : public MatchController
 public:
 
     MatchClientController() = default;
+    void handlePostPointTally(int winner, int points_won) override;
     void clickCard() override;
     void pressDraw() override;
     void start() override;

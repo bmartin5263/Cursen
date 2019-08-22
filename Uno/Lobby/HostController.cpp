@@ -203,8 +203,17 @@ void HostController::handleEnterMatch()
 {
     Player* players = lobbyForm->getLobby().getPlayers();
     int num_players = lobbyForm->getLobby().getNumPlayers();
+    int my_id = lobbyForm->getLobby().getMyId();
+    int my_index = -1;
+    for (int i = 0; i < num_players; ++i)
+    {
+        if (players[i].getId() == my_id)
+        {
+            my_index = i;
+        }
+    }
 
-    MatchForm* matchForm = new MatchForm(LobbyType::HOST, Match(players, num_players, lobbyForm->getLobby().getMyId()));
+    MatchForm* matchForm = new MatchForm(LobbyType::HOST, Match(players, num_players, my_id, my_index));
 
     lobbyForm->openForm(matchForm);
 }

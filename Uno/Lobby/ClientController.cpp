@@ -137,7 +137,17 @@ void ClientController::handleEnterMatch()
     Player* players = lobbyForm->getLobby().getPlayers();
     int num_players = lobbyForm->getLobby().getNumPlayers();
 
-    MatchForm* matchForm = new MatchForm(LobbyType::JOIN, Match(players, num_players, lobbyForm->getLobby().getMyId()));
+    int my_id = lobbyForm->getLobby().getMyId();
+    int my_index = -1;
+    for (int i = 0; i < num_players; ++i)
+    {
+        if (players[i].getId() == my_id)
+        {
+            my_index = i;
+        }
+    }
+
+    MatchForm* matchForm = new MatchForm(LobbyType::JOIN, Match(players, num_players, my_id, my_index));
     matchForm->onClosed([this](void* return_val) {
         assert(return_val != nullptr);
         MatchReturnData* returnData = (MatchReturnData*) return_val;

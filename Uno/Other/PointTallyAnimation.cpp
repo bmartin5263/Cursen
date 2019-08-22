@@ -4,6 +4,7 @@
 
 #include "PointTallyAnimation.h"
 #include "Uno/Forms/MatchForm.h"
+#include "Uno/Match/MatchController.h"
 
 using namespace cursen;
 
@@ -12,7 +13,7 @@ PointTallyAnimation::PointTallyAnimation() :
 {
     point_animation.setInfinite(true);
     point_animation.setVariableTime(false);
-    point_animation.setFrameDuration(.1);
+    point_animation.setFrameDuration(2.1);
     point_animation.add([this]() {
         Player& player = matchForm->getMatch().getPlayer(current_player);
         if (player.getHandSize() > 0)
@@ -41,7 +42,7 @@ PointTallyAnimation::PointTallyAnimation() :
         }
     });
     point_animation.onEnd([this]() {
-        matchForm->getConsole().setMessage(winner_name + " won " + std::to_string(points_won) + " points!");
+        matchForm->getController()->handlePostPointTally(winner, points_won);
     });
 }
 
@@ -58,6 +59,7 @@ void PointTallyAnimation::run(int winner, int points_won)
     this->points_won = points_won;
     this->winner_name = matchForm->getMatch().getPlayer(winner).getName();
     if (winner == current_player) current_player = 1;
+    matchForm->updateHand(current_player);
     matchForm->getPlayerTile(current_player).highlight();
     point_animation.start();
 }

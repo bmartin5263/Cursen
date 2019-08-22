@@ -5,9 +5,9 @@
 #include <cassert>
 #include "Match.h"
 
-Match::Match(Player* players, int numPlayers, int my_id) :
+Match::Match(Player* players, int numPlayers, int my_id, int my_index) :
     num_players(numPlayers), current_player_index(0), current_player_id(players[0].getId()), my_id(my_id),
-    consecutive_passes(0), waitingForWildCardColor(false), reversed(false)
+    my_index(my_index), consecutive_passes(0), waitingForWildCardColor(false), reversed(false)
 {
     for (int i = 0; i < num_players; ++i)
     {
@@ -77,14 +77,7 @@ int Match::getMyId()
 
 Player& Match::getMyPlayer()
 {
-    for (int i = 0; i < num_players; ++i)
-    {
-        if (players[i].getId() == my_id) {
-            return players[i];
-        }
-    }
-    assert(false);
-    return players[0];
+    return players[getMyIndex()];
 }
 
 bool Match::canDrawCard(int player_id)
@@ -298,19 +291,12 @@ bool Match::aiTurn()
 
 bool Match::myTurn()
 {
-    return getIndex(my_id) == current_player_index;
+    return my_index == current_player_index;
 }
 
 int Match::getMyIndex()
 {
-    int i = 0;
-    for (auto& player : players)
-    {
-        if (player.getId() == my_id) return i;
-        i++;
-    }
-    assert(false);
-    return -1;
+    return my_index;
 }
 
 Player& Match::getCurrentPlayer()

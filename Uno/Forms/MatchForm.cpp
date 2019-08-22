@@ -419,6 +419,7 @@ void MatchForm::updateHand(int player_index, size_t max)
         card_array[card_index].hoverOn();
     }
     handMeter.update((int)hand_size, hand_index);
+    setHandName(p.getName());
 }
 
 // Does not actually deal a card, just updates visuals

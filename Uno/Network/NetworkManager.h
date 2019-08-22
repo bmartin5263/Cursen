@@ -15,6 +15,7 @@ class NetworkManager
 public:
 
     static const int PORT = 58000;
+    static const int MSG_SIZE = 2048;
 
     static void SetMode(NetworkMode mode);
     static void Destroy();

@@ -9,3 +9,4 @@ const AnimationState MatchFSM::animationState = AnimationState();
 const WaitingToBeginState MatchFSM::waitingToBeginState = WaitingToBeginState();
 const WildColorChoiceState MatchFSM::wildColorChoiceState = WildColorChoiceState();
 const SelectCardState MatchFSM::selectCardState = SelectCardState();
+const GameoverState MatchFSM::gameoverState = GameoverState();

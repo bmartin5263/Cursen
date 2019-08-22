@@ -123,5 +123,17 @@ void MatchClientController::gameover(int winner)
 
 void MatchClientController::handleGameOver(const Match& final_match_state, int winner)
 {
-    getMatchForm()->getMatch() = final_match_state;
+    auto matchForm = getMatchForm();
+    matchForm->setState(&MatchFSM::animationState);
+    matchForm->getMatch() = final_match_state;
+    matchForm->runWinnerAnimation(winner);
+}
+
+void MatchClientController::handlePostPointTally(int winner, int points_won)
+{
+    auto matchForm = getMatchForm();
+    auto& winning_player = matchForm->getMatch().getPlayer(winner);
+    std::string winner_name = winning_player.getName();
+    matchForm->setConsoleMessage(winner_name + " won " + std::to_string(points_won) + " points! Waiting for Host to End Game");
+    matchForm->setState(&MatchFSM::animationState);
 }

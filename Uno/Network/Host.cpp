@@ -88,7 +88,7 @@ void Host::processNetworkMessages()
 
     for (int i = 0; i < MAX_CONNECTIONS; ++i)
     {
-        char buffer[1024];
+        char buffer[NetworkManager::MSG_SIZE];
         char size_buffer[sizeof(size_t)];
         ssize_t readVal;
         int sock = connections[i];
@@ -119,7 +119,7 @@ void Host::processNetworkMessages()
                 Serializable::Deserialize(size_buffer, msg_size);
 
                 assert(msg_size > 0);
-                assert(msg_size <= 1024);
+                assert(msg_size <= NetworkManager::MSG_SIZE);
 
                 readVal = 0;
                 while (readVal < msg_size)
@@ -144,7 +144,7 @@ void Host::writeMessage(QueueEntry* entry)
     if (num_connections > 0)
     {
         int recipient = entry->getRecipient();
-        char buffer[1024];
+        char buffer[NetworkManager::MSG_SIZE];
         char size_buffer[sizeof(size_t)];
 
         RecipientType type = entry->getRecipientType();

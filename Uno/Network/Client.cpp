@@ -41,7 +41,7 @@ void Client::processNetworkMessages()
             assert(false);
         }
 
-        char buffer[1024] = {};
+        char buffer[NetworkManager::MSG_SIZE] = {};
         char size_buffer[sizeof(size_t)] = {};
         ssize_t readVal;
         if (host_sock != -1 && FD_ISSET(host_sock, &read_fds))
@@ -61,7 +61,7 @@ void Client::processNetworkMessages()
                 Serializable::Deserialize(size_buffer, msg_size);
 
                 assert(msg_size > 0);
-                assert(msg_size <= 1024);
+                assert(msg_size <= NetworkManager::MSG_SIZE);
 
                 readVal = 0;
                 while (readVal < msg_size)
@@ -81,7 +81,7 @@ void Client::processNetworkMessages()
 
 void Client::writeMessage(QueueEntry* entry)
 {
-    char buffer[1024];
+    char buffer[NetworkManager::MSG_SIZE];
     char size_buffer[sizeof(size_t)];
     if (connected)
     {

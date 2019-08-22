@@ -11,6 +11,7 @@
 #include "WaitingToBeginState.h"
 #include "WildColorChoiceState.h"
 #include "SelectCardState.h"
+#include "GameoverState.h"
 
 class MatchFSM
 {
@@ -22,6 +23,7 @@ public:
     static const AnimationState animationState;
     static const WildColorChoiceState wildColorChoiceState;
     static const SelectCardState selectCardState;
+    static const GameoverState gameoverState;
 
 };
 

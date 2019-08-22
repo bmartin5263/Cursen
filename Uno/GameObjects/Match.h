@@ -19,7 +19,7 @@ public:
     static int CalculateNextTurn(int current_turn, int num_players, bool reversed);
 
     Match() = default;
-    Match(Player* players, int num_players, int my_id);
+    Match(Player* players, int num_players, int my_id, int my_index);
     Match& operator=(const Match& other);
 
     Deck& getDeck();
@@ -89,6 +89,7 @@ private:
     int current_player_index;
     int current_player_id;
     int my_id;
+    int my_index;
     int consecutive_passes;
     bool waitingForWildCardColor;
     bool reversed;
