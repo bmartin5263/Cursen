@@ -25,12 +25,14 @@ namespace cursen {
         void pause();
         void resume();
         void toggle();
+        void release();
 
         void getId(unsigned int& id);
 
     private:
 
         unsigned int id;
+        bool released;
         //HANDLE_VARIABLE
 
     };
