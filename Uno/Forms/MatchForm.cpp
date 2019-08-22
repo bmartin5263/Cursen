@@ -297,7 +297,7 @@ void MatchForm::advanceTurn(int amount)
 {
     static int count = 0;
     count++;
-    if (match.currentPlayerHasEmptyHand() || count == 2)
+    if (match.currentPlayerHasEmptyHand() || count == 5)
     {
         controller->gameover(match.getCurrentTurn());
     }
@@ -380,6 +380,8 @@ void MatchForm::beginGame(Card initial_card)
     match.pushCardToPile(initial_card);
     front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
     setDeckMeterCount(match.getDeckSize());
+    card_index = 0;
+    card_array[card_index].hoverOn();
     placeCardAnimation.run();
 }
 
@@ -415,8 +417,8 @@ void MatchForm::updateHand(int player_index, size_t max)
     }
     else if (card_index == -1)
     {
-        card_index = 0;
-        card_array[card_index].hoverOn();
+//        card_index = 0;
+//        card_array[card_index].hoverOn();
     }
     handMeter.update((int)hand_size, hand_index);
     setHandName(p.getName());
@@ -653,6 +655,11 @@ void MatchForm::passTurn(CardColor new_color)
 
 void MatchForm::runWinnerAnimation(int winner)
 {
+    if (card_index != -1)
+    {
+        card_array[card_index].hoverOff();
+        card_index = -1;
+    }
     winner_animation.run(winner);
 }
 

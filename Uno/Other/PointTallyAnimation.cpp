@@ -61,5 +61,5 @@ void PointTallyAnimation::run(int winner, int points_won)
     if (winner == current_player) current_player = 1;
     matchForm->updateHand(current_player);
     matchForm->getPlayerTile(current_player).highlight();
-    point_animation.start();
+    point_animation.start(2.1);
 }

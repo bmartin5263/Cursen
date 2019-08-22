@@ -41,7 +41,7 @@ WinnerAnimation::WinnerAnimation()
     winner_animation.onEnd([this]() {
         matchForm->getPlayerTile(winner).colorize();
         matchForm->getConsole().setMessage("Tallying Points");
-        AlarmManager::SetTimeout([this]() { matchForm->tallyPoints(winner); }, 2.0).release();
+        AlarmManager::SetTimeout([this]() { matchForm->tallyPoints(winner); }, 2.0);
     });
 }
 

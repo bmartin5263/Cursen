@@ -71,7 +71,15 @@ public:
             }
             else
             {
-                DataMessage* data_msg = new IllegalAction("Can't Draw From an Empty Deck");
+                DataMessage* data_msg;
+                if (match.getCurrentTurnId() != id)
+                {
+                    data_msg = new IllegalAction("Can't Draw When It Isn't Your Turn");
+                }
+                else
+                {
+                    data_msg = new IllegalAction("Can't Draw From an Empty Deck");
+                }
                 data_msg->setSendType(SendType::Network);
                 data_msg->setRecipient(getSender());
                 data_msg->setRecipientType(RecipientType::Single);

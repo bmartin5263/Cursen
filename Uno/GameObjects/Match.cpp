@@ -82,7 +82,7 @@ Player& Match::getMyPlayer()
 
 bool Match::canDrawCard(int player_id)
 {
-    return (deck.size() > 0);
+    return deck.size() > 0 && player_id == current_player_id;
 }
 
 Player& Match::getPlayerById(int player_id)
