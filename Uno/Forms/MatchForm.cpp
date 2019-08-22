@@ -142,6 +142,7 @@ void MatchForm::initialize()
     skip_animation.setForm(this);
     reverse_animation.setForm(this);
     winner_animation.setForm(this);
+    point_tally_animation.setForm(this);
 
     wildColorAnimation.setInfinite(false);
     wildColorAnimation.setLoops(2);
@@ -382,10 +383,10 @@ void MatchForm::beginGame(Card initial_card)
     placeCardAnimation.run();
 }
 
-void MatchForm::updateHand(size_t max)
+void MatchForm::updateHand(int player_index, size_t max)
 {
     wild_cards.clear();
-    Player& p = match.getMyPlayer();
+    Player& p = match.getPlayer(player_index);
     Hand& hand = p.getHand();
     int start = 14 * hand_index;
     size_t hand_size = hand.size();
@@ -429,7 +430,7 @@ void MatchForm::effectDealCard(int index, size_t count, size_t deck_size)
     tile_array[index]->setCardCount(count);
     if (id == match.getMyId())
     {
-        updateHand(count);
+        updateHand(match.getMyIndex(), count);
     }
 }
 
@@ -441,7 +442,7 @@ void MatchForm::drawCardByIndex(int index)
     setDeckMeterCount(match.getDeckSize());
     if (id == match.getMyId())
     {
-        updateHand();
+        updateHand(match.getMyIndex());
     }
 }
 
@@ -464,7 +465,7 @@ void MatchForm::drawCard(int index, Card drawn_card)
         card_index = ((int)match.getMyPlayer().getHandSize() - 1) % 14;
         card_array[card_index].hoverOn();
         hand_index = new_hand_index;
-        updateHand();
+        updateHand(index);
         if (player.getForceDraws() > 0) displayDrawMessage(player.getForceDraws());
         else displayTurnMessage();
     }
@@ -492,7 +493,7 @@ void MatchForm::playCard(int index, int played_card_index, Card played_card)
     tile_array[index]->setCardCount(hand_size);
     if (index == match.getMyIndex())
     {
-        updateHand();
+        updateHand(index);
         if (played_card_index == hand_size)
         {
             card_array[card_index].hoverOff();
@@ -523,7 +524,7 @@ void MatchForm::arrowPress(const cursen::Event& event)
                 card_index = 13;
                 card_array[card_index].hoverOn();
                 hand_index--;
-                updateHand();
+                updateHand(match.getMyIndex());
             }
         }
         else if (event.arrowPress.right)
@@ -555,7 +556,7 @@ void MatchForm::arrowPress(const cursen::Event& event)
                     card_index = 0;
                     card_array[card_index].hoverOn();
                     hand_index++;
-                    updateHand();
+                    updateHand(match.getMyIndex());
                 }
             }
         }
@@ -657,4 +658,15 @@ void MatchForm::runWinnerAnimation(int winner)
 UnoConsole& MatchForm::getConsole()
 {
     return console;
+}
+
+void MatchForm::tallyPoints(int winner)
+{
+    int points_won = 0;
+    for (int i = 0; i < match.getNumPlayers(); ++i)
+    {
+        if (i != winner) points_won += match.getPlayer(i).getHand().getPointValue();
+    }
+    console.setMessage("Tallying Points");
+    point_tally_animation.run(winner, points_won);
 }

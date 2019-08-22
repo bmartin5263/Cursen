@@ -18,6 +18,7 @@ public:
 
     unsigned long size() const;
     bool empty() const;
+    int getPointValue();
 
     bool hasPlayableCardFor(const Card& card);
     size_t serialize(char* const buffer) const override;

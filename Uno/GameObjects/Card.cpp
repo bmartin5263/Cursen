@@ -100,7 +100,7 @@ std::string Card::ToString(CardValue value)
 }
 
 
-int Card::score(const Card &card) {
+int Card::Score(const Card& card) {
     switch (card.getValue()) {
         case CardValue::ZERO:
             return 0;

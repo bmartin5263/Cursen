@@ -92,3 +92,13 @@ size_t Hand::safe_serialize(char* const buffer) const
 
     return written;
 }
+
+int Hand::getPointValue()
+{
+    int points = 0;
+    for (auto& card : cards)
+    {
+        points += Card::Score(card);
+    }
+    return points;
+}

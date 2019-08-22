@@ -27,7 +27,7 @@ public:
     static const CardColor COLORS[4];
     static const CardValue VALUES_NO_WILD[13];
 
-    static int score(const Card& card);
+    static int Score(const Card& card);
     static cursen::Color ConvertToColor(CardColor color);
     static std::string getUpperLabel(CardValue value);
     static std::string getLowerLabel(CardValue value);

@@ -26,6 +26,7 @@
 
 #include <array>
 #include <Uno/Other/WinnerAnimation.h>
+#include <Uno/Other/PointTallyAnimation.h>
 
 class MatchController;
 class MatchInputState;
@@ -45,7 +46,7 @@ public:
     void setDeckMeterCount(size_t size);
     void setDeckMeterSize(size_t size);
     void setHandName(std::string name);
-    void updateHand(size_t max = 14);
+    void updateHand(int player_index, size_t max = 14);
 
     void setConsoleMessage(std::string msg);
     void setConsoleWarning(std::string msg);
@@ -63,6 +64,7 @@ public:
     void beginGame(Card initial_card);
     void waitToBegin();
     void runWinnerAnimation(int winner);
+    void tallyPoints(int winner);
 
     void advanceTurn(int amount = 1);
     void interpretCard();
@@ -123,6 +125,7 @@ private:
     SkipAnimation skip_animation;
     ReverseAnimation reverse_animation;
     WinnerAnimation winner_animation;
+    PointTallyAnimation point_tally_animation;
     cursen::Animation wildColorAnimation;
     cursen::Animation wild_hand_cards_animation;
 
