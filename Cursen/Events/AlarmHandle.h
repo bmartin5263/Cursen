@@ -17,22 +17,19 @@ namespace cursen {
         AlarmHandle();
         AlarmHandle(unsigned int id);
         AlarmHandle& operator = (const AlarmHandle& other);
-        ~AlarmHandle();
-
+        ~AlarmHandle() = default;
 
         void cancel();
         void reset();
         void pause();
         void resume();
         void toggle();
-        void release();
 
         void getId(unsigned int& id);
 
     private:
 
         unsigned int id;
-        bool released;
         //HANDLE_VARIABLE
 
     };

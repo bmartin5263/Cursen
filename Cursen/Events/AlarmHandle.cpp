@@ -8,13 +8,13 @@
 namespace cursen {
 
     AlarmHandle::AlarmHandle() :
-        id(0), released(false)
+        id(0)
     {
 
     }
 
     AlarmHandle::AlarmHandle(unsigned int id) :
-        id(id), released(false)
+        id(id)
     {
 
     }
@@ -59,15 +59,6 @@ namespace cursen {
         if (id != 0) AlarmManager::ToggleAlarm(id);
     }
 
-    AlarmHandle::~AlarmHandle()
-    {
-        if (id != 0 && !released) AlarmManager::CancelAlarm(id);
-    }
-
-    void AlarmHandle::release()
-    {
-        this->released = true;
-    }
 
 
 }
