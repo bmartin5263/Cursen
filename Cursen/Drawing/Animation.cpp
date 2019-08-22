@@ -23,6 +23,11 @@ namespace cursen
         this->frames.reserve(num_frames);
     }
 
+    Animation::~Animation()
+    {
+        animationHandle.cancel();
+    }
+
     Frame& Animation::operator[](size_t i)
     {
         return frames[i];

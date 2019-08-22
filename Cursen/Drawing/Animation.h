@@ -32,6 +32,8 @@ namespace cursen {
          */
         explicit Animation(size_t num_frames);
 
+        ~Animation();
+
         /**
          * @brief Get the frame at the specified position. Does not perform bounds checking.
          *
