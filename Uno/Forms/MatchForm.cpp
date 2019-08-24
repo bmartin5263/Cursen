@@ -298,9 +298,7 @@ void MatchForm::interpretCard()
 
 void MatchForm::advanceTurn(int amount)
 {
-    static int count = 0;
-    count++;
-    if (match.currentPlayerHasEmptyHand() || count == 5)
+    if (match.currentPlayerHasEmptyHand())
     {
         controller->startGameoverEvent(match.getCurrentTurn());
     }

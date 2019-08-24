@@ -42,7 +42,7 @@ void DealCardsEventAnimation::loopEnd()
     if (this->currentPlayer < maxPlayers)
     {
         this->count = 0;
-        card_deal_animation.start();
+        card_deal_animation.start(.1);
     }
     else
     {

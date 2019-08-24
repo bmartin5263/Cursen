@@ -183,6 +183,7 @@ size_t DataMessage::serialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, (int)recipientType);
     written += Serializable::Serialize(buffer + written, senderId);
     written += Serializable::Serialize(buffer + written, recipientId);
+    written += Serializable::Serialize(buffer + written, allow_loopback);
 
     return written;
 }
@@ -198,6 +199,7 @@ size_t DataMessage::deserialize(const char* const buffer)
     read += Serializable::Deserialize(buffer + read, raw_recipientType);
     read += Serializable::Deserialize(buffer + read, senderId);
     read += Serializable::Deserialize(buffer + read, recipientId);
+    read += Serializable::Deserialize(buffer + read, allow_loopback);
 
     sendType = (SendType)raw_sendType;
     recipientType = (RecipientType)raw_recipientType;

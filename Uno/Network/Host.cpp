@@ -178,7 +178,7 @@ void Host::writeMessage(QueueEntry* entry)
                 }
                 break;
             case RecipientType::Single:
-                if (recipient != -1)
+                if (recipient != -1 && recipient != DataManager::LOOP_BACK)
                 {
                     write(recipient, size_buffer, sizeof(size_t));
                     write(recipient, buffer, bytes);
@@ -286,7 +286,7 @@ void Host::addSock(int new_sock)
         if (sock == -1)
         {
             sock = new_sock;
-            num_connections++;
+            ++num_connections;
             if (num_connections == MAX_CONNECTIONS)
             {
                 stopListening();
