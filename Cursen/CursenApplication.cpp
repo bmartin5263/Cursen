@@ -89,9 +89,9 @@ CURSEN_CLASS_START
     void CursenApplication::Update()
     {
         auto form = GetCurrentForm();
+        AlarmManager::ProcessAlarms(form->getAlarmMap(), form->getStartRequests(), form->getStopRequests());
         InputManager::ProcessInput();
         EventManager::ProcessEvents(form->getEventDispatchMap());
-        AlarmManager::ProcessAlarms(form->getAlarmMap(), form->getStartRequests(), form->getStopRequests());
         Instance().UserUpdate();
         CursorManager::RefreshCursors(form->getCursors());
     }

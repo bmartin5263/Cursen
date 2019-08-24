@@ -119,11 +119,11 @@ namespace cursen
     {
         assert(running);
         callCurrentFrame();
+        double time = frames[currentFrame].getDuration();   // get the time before we change the frame
         currentFrame = (currentFrame + 1) % numFrames;
 
         if (running && !paused)
         {
-            double time = frames[currentFrame].getDuration();
             if (time <= 0.0)
             {
                 time = default_duration;

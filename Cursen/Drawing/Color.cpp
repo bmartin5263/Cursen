@@ -17,7 +17,7 @@ namespace cursen {
     const Color Color::GRAY = Color(241);
     const Color Color::DARK_GRAY = Color(16);
     const Color Color::RED = Color(199);
-    const Color Color::BLUE = Color(39);
+    const Color Color::BLUE = Color(45);
     const Color Color::DARK_BLUE = Color(21);
     const Color Color::PURPLE = Color(57);
     const Color Color::VIOLET = Color(93);
