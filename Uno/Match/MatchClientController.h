@@ -27,8 +27,9 @@ public:
     void handleClose(std::string message, bool kicked) override;
     void handleAITurn() override;
     void passTurn() override;
-    void gameover(int winner) override;
+    void startGameoverEvent(int winner) override;
     void handleGameOver(const Match& final_match_state, int winner) override;
+    void endGame() override;
 
 private:
 

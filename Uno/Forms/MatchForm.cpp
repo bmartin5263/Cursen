@@ -41,9 +41,12 @@ MatchForm::~MatchForm()
 void MatchForm::exit(std::string message, bool kicked)
 {
     MatchReturnData* returnData = new MatchReturnData(message, kicked);
+    for (int i = 0; i < match.getNumPlayers(); ++i) {
+        match.getPlayer(i).getHand().clear();
+        returnData->setPlayer(i, match.getPlayer(i));
+    }
     closeForm(returnData);
 }
-
 
 void MatchForm::initialize()
 {
@@ -299,7 +302,7 @@ void MatchForm::advanceTurn(int amount)
     count++;
     if (match.currentPlayerHasEmptyHand() || count == 5)
     {
-        controller->gameover(match.getCurrentTurn());
+        controller->startGameoverEvent(match.getCurrentTurn());
     }
     else
     {
@@ -616,7 +619,7 @@ void MatchForm::wildColorChange(CardColor color)
 {
     match.setWildColor(color);
     front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
-    console.setMessage("WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WIL");
+    console.setMessage("  WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD  ");
     wildColorAnimation.start();
 }
 

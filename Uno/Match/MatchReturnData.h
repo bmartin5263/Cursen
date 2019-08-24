@@ -16,6 +16,11 @@ public:
         message(message), kicked(kicked)
     {}
 
+    void setPlayer(int index, const Player& player) {
+        players[index] = player;
+    };
+
+    Player players[4];
     std::string message;
     bool kicked;
 

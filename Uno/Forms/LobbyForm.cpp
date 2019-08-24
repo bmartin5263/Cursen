@@ -125,7 +125,7 @@ void LobbyForm::initialize()
     glowBorder.setDrawOrder(10);
     glowBorder.colorize();
 
-    start_button.onUpdate([&]() {
+    onUpdate([&]() {
         if (lobby != nullptr)
         {
             playerStaging.update(*lobby);

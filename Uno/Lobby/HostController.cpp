@@ -6,6 +6,7 @@
 #include <Uno/GameObjects/Match.h>
 #include <Uno/Forms/MatchForm.h>
 #include <Uno/Messages/InputEnterMatch.h>
+#include <Uno/Match/MatchReturnData.h>
 #include "Uno/Network/Host.h"
 #include "Uno/Network/NetworkManager.h"
 #include "HostController.h"
@@ -214,6 +215,19 @@ void HostController::handleEnterMatch()
     }
 
     MatchForm* matchForm = new MatchForm(LobbyType::HOST, Match(players, num_players, my_id, my_index));
+    matchForm->onClosed([this](void* return_val) {
+        assert(return_val != nullptr);
+        MatchReturnData* returnData = (MatchReturnData*) return_val;
+        if (returnData->kicked)
+        {
+            handleClose(returnData->message, returnData->kicked);
+        }
+        else
+        {
+            lobbyForm->getConsole().setMessage(returnData->message);
+        }
+        delete returnData;
+    });
 
     lobbyForm->openForm(matchForm);
 }

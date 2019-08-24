@@ -102,3 +102,8 @@ int Hand::getPointValue()
     }
     return points;
 }
+
+void Hand::clear()
+{
+    cards.clear();
+}

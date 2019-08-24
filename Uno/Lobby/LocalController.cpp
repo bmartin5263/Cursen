@@ -3,6 +3,7 @@
 //
 
 #include <Uno/Messages/InputEnterMatch.h>
+#include <Uno/Match/MatchReturnData.h>
 #include "LocalController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Messages/InputAddAi.h"
@@ -128,7 +129,20 @@ void LocalController::handleEnterMatch()
         if (players[i].getId() == my_id) my_index = i;
 
     MatchForm* matchForm = new MatchForm(LobbyType::LOCAL, Match(players, num_players, my_id, my_index));
-
+    matchForm->onClosed([this](void* return_val) {
+        assert(return_val != nullptr);
+        MatchReturnData* returnData = (MatchReturnData*) return_val;
+        if (returnData->kicked)
+        {
+            handleClose(returnData->message, returnData->kicked);
+        }
+        else
+        {
+            lobbyForm->getConsole().setMessage(returnData->message);
+            for (int i = 0; i < lobbyForm->getLobby().getNumPlayers(); ++i) lobbyForm->getLobby().getPlayerByIndex(i) = returnData->players[i];
+        }
+        delete returnData;
+    });
     lobbyForm->openForm(matchForm);
 }
 

@@ -27,7 +27,8 @@ public:
     virtual void pressDraw() = 0;
     virtual void wildChoice(CardColor color) = 0;
     virtual void passTurn() = 0;
-    virtual void gameover(int winner) = 0;
+    virtual void startGameoverEvent(int winner) = 0;
+    virtual void endGame() = 0;
 
     // Connection
     virtual void handleDisconnect(int sock) = 0;

@@ -3,10 +3,11 @@
 //
 
 #include "GameoverState.h"
+#include "Uno/Forms/MatchForm.h"
 
 void GameoverState::pressEnter(MatchForm& matchForm) const
 {
-
+    matchForm.getController()->endGame();
 }
 
 void GameoverState::pressD(MatchForm& matchForm) const

@@ -12,6 +12,8 @@
 #include <Uno/Match/Messages/MatchConnectionSevered.h>
 #include <Uno/Match/Messages/InputPass.h>
 #include <Uno/Match/Messages/InputGameOver.h>
+#include <Uno/Match/Messages/EndGame.h>
+#include <Uno/Match/Messages/InputEndGame.h>
 
 #include "DataMessage.h"
 #include "AddAI.h"
@@ -156,6 +158,12 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::GameOver:
             msg = new GameOver;
+            break;
+        case MessageType::InputEndGame:
+            msg = new InputEndGame;
+            break;
+        case MessageType::EndGame:
+            msg = new EndGame;
             break;
     }
     assert(msg != nullptr);

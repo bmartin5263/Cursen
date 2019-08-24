@@ -11,7 +11,7 @@ using namespace cursen;
 WinnerAnimation::WinnerAnimation()
 {
     winner_animation.setInfinite(false);
-    winner_animation.setLoops(10);
+    winner_animation.setLoops(5);
     winner_animation.setVariableTime(false);
     winner_animation.setFrameDuration(.06);
     winner_animation.add([this]() {

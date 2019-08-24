@@ -106,7 +106,6 @@ void MatchClientController::handleClose(std::string message, bool kicked)
 
 void MatchClientController::handleAITurn()
 {
-
 }
 
 void MatchClientController::passTurn()
@@ -116,7 +115,7 @@ void MatchClientController::passTurn()
     DataManager::PushMessage(msg);
 }
 
-void MatchClientController::gameover(int winner)
+void MatchClientController::startGameoverEvent(int winner)
 {
     // Do Nothing
 }
@@ -133,7 +132,13 @@ void MatchClientController::handlePostPointTally(int winner, int points_won)
 {
     auto matchForm = getMatchForm();
     auto& winning_player = matchForm->getMatch().getPlayer(winner);
+    winning_player.addPoints(points_won);
     std::string winner_name = winning_player.getName();
     matchForm->setConsoleMessage(winner_name + " won " + std::to_string(points_won) + " points! Waiting for Host to End Game");
     matchForm->setState(&MatchFSM::animationState);
+}
+
+void MatchClientController::endGame()
+{
+    // Client can't end game
 }

@@ -155,6 +155,10 @@ void ClientController::handleEnterMatch()
         {
             handleClose(returnData->message, returnData->kicked);
         }
+        else
+        {
+            lobbyForm->getConsole().setMessage(returnData->message);
+        }
         delete returnData;
     });
 

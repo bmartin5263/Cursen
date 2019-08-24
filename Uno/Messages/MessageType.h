@@ -47,7 +47,8 @@ enum class MessageType {
     PassTurn,
     InputGameOver,
     GameOver,
-
+    InputEndGame,
+    EndGame,
 };
 
 #endif //CURSEN_MESSAGETYPES_H
