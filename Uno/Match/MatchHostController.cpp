@@ -115,7 +115,7 @@ void MatchHostController::handleDisconnect(int sock)
 
 void MatchHostController::handleClose(std::string message, bool kicked)
 {
-
+    getMatchForm()->exit(message, kicked);
 }
 
 void MatchHostController::checkReadyToStart()

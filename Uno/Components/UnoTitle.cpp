@@ -117,3 +117,10 @@ void UnoTitle::render() {
 
 }
 
+void UnoTitle::setEnabled(bool value)
+{
+    StandardComponent::setEnabled(value);
+    if (value) neonFlash.start();
+    else neonFlash.stop();
+}
+

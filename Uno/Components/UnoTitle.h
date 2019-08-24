@@ -18,6 +18,7 @@ public:
 
     void initialize() override;
     void render() override;
+    void setEnabled(bool value) override;
 
 private:
 

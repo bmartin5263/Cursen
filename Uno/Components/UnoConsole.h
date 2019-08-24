@@ -26,6 +26,8 @@ public:
     void setMessage(const std::string &text);
     void setWarning(const std::string &text);
     void setForeground(const cursen::Color& color) override;
+    void setEnabled(bool value) override;
+
 
 private:
 

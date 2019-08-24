@@ -225,6 +225,7 @@ void HostController::handleEnterMatch()
         else
         {
             lobbyForm->getConsole().setMessage(returnData->message);
+            for (int i = 0; i < lobbyForm->getLobby().getNumPlayers(); ++i) lobbyForm->getLobby().getPlayerByIndex(i) = returnData->players[i];
         }
         delete returnData;
     });

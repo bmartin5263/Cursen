@@ -22,8 +22,10 @@
 #include "Uno/Messages/RequestJoinLobby.h"
 #include "Uno/Network/Client.h"
 
+using namespace cursen;
+
 LobbyForm::LobbyForm() :
-        Form(cursen::Vect2(70, 33)), lobby(nullptr)
+        Form(Vect2(70, 33)), lobby(nullptr)
 {
 
 }
@@ -32,52 +34,52 @@ void LobbyForm::initialize()
 {
 
     border.initialize();
-    border.setSize(getSize() - cursen::Vect2(0, 1));
+    border.setSize(getSize() - Vect2(0, 1));
 
     start_button.initialize();
-    start_button.setPosition(cursen::Vect2(1, 16));
+    start_button.setPosition(Vect2(1, 16));
     start_button.setLength(34);
     start_button.setText("Start Game");
     start_button.setEnabled(false);
     start_button.onClick([this]() { clickStart(); });
 
     add_ai_button.initialize();
-    add_ai_button.setPosition(cursen::Vect2(1, 19));
+    add_ai_button.setPosition(Vect2(1, 19));
     add_ai_button.setLength(17);
     add_ai_button.setText("Add AI");
     add_ai_button.setEnabled(false);
     add_ai_button.onClick([this]() { clickAddAI(); });
 
     search_button.initialize();
-    search_button.setPosition(cursen::Vect2(18, 19));
+    search_button.setPosition(Vect2(18, 19));
     search_button.setLength(17);
     search_button.setText("Search");
     search_button.setEnabled(false);
     search_button.onClick([this]() { clickSearch(); });
 
     kick_button.initialize();
-    kick_button.setPosition(cursen::Vect2(1, 22));
+    kick_button.setPosition(Vect2(1, 22));
     kick_button.setLength(34);
     kick_button.setText("Kick Player");
     kick_button.setEnabled(false);
     kick_button.onClick([this]() { clickKick(); });
 
     close_button.initialize();
-    close_button.setPosition(cursen::Vect2(1, 25));
+    close_button.setPosition(Vect2(1, 25));
     close_button.setLength(34);
     close_button.setText("Close Lobby");
     close_button.setEnabled(false);
     close_button.onClick([this]() { clickClose(); });
 
     change_color_button.initialize();
-    change_color_button.setPosition(cursen::Vect2(1, 28));
+    change_color_button.setPosition(Vect2(1, 28));
     change_color_button.setLength(17);
     change_color_button.setText("Change Color");
     change_color_button.setEnabled(false);
     change_color_button.onClick([this]() { clickChangeColor(); });
 
     chat_button.initialize();
-    chat_button.setPosition(cursen::Vect2(18, 28));
+    chat_button.setPosition(Vect2(18, 28));
     chat_button.setLength(17);
     chat_button.setText("Chat");
     chat_button.setEnabled(false);
@@ -87,15 +89,15 @@ void LobbyForm::initialize()
 
     playerStaging.initialize();
     playerStaging.setCallBacks(this);
-    playerStaging.setPosition(cursen::Vect2(0, 6));
+    playerStaging.setPosition(Vect2(0, 6));
 
     art.initialize();
     art.loadFromFile("../test.txt");
-    art.setPosition(cursen::Vect2(0, 0));
+    art.setPosition(Vect2(0, 0));
     art.setHidden(true);
 
     mode_select_box.initialize();
-    mode_select_box.setPosition(cursen::Vect2(17, 7));
+    mode_select_box.setPosition(Vect2(17, 7));
     mode_select_box.onLocalClick([this]() { clickLocal(); });
     mode_select_box.onHostClick([this]() { clickHost(); });
     mode_select_box.onJoinClick([this]() { clickJoin(); });
@@ -103,27 +105,29 @@ void LobbyForm::initialize()
     mode_select_box.setLobby(this);
 
     chat_box.initialize();
-    chat_box.setPosition(cursen::Vect2(35, 16));
-    chat_box.onEscapePress([this](const cursen::Event& event) { stopChat(); });
+    chat_box.setPosition(Vect2(35, 16));
+    chat_box.onEscapePress([this](const Event& event) { stopChat(); });
     chat_box.setActive(false);
     chat_box.setEnabled(false);
 
     lobby_cursor.initialize();
     lobby_cursor.moveTo(&start_button);
-    lobby_cursor.mapComponent(&start_button, cursen::ArrowMap(nullptr, &change_color_button, nullptr, &add_ai_button));
+    lobby_cursor.mapComponent(&start_button, ArrowMap(nullptr, &change_color_button, nullptr, &add_ai_button));
     lobby_cursor.mapComponent(&add_ai_button,
-                              cursen::ArrowMap(&search_button, &start_button, &search_button, &kick_button));
+                              ArrowMap(&search_button, &start_button, &search_button, &kick_button));
     lobby_cursor.mapComponent(&search_button,
-                              cursen::ArrowMap(&add_ai_button, &start_button, &add_ai_button, &kick_button));
-    lobby_cursor.mapComponent(&kick_button, cursen::ArrowMap(nullptr, &add_ai_button, nullptr, &close_button));
-    lobby_cursor.mapComponent(&close_button, cursen::ArrowMap(nullptr, &kick_button, nullptr, &change_color_button));
+                              ArrowMap(&add_ai_button, &start_button, &add_ai_button, &kick_button));
+    lobby_cursor.mapComponent(&kick_button, ArrowMap(nullptr, &add_ai_button, nullptr, &close_button));
+    lobby_cursor.mapComponent(&close_button, ArrowMap(nullptr, &kick_button, nullptr, &change_color_button));
     lobby_cursor.mapComponent(&change_color_button,
-                              cursen::ArrowMap(&chat_button, &close_button, &chat_button, &start_button));
-    lobby_cursor.mapComponent(&chat_button, cursen::ArrowMap(&change_color_button, &close_button, &change_color_button,
+                              ArrowMap(&chat_button, &close_button, &chat_button, &start_button));
+    lobby_cursor.mapComponent(&chat_button, ArrowMap(&change_color_button, &close_button, &change_color_button,
                                                              &start_button));
     glowBorder.initialize();
     glowBorder.setDrawOrder(10);
     glowBorder.colorize();
+
+    console.setEnabled(true);
 
     onUpdate([&]() {
         if (lobby != nullptr)
@@ -140,16 +144,16 @@ void LobbyForm::initialize()
         }
     });
 
-    if (cursen::CursenApplication::GetArgc() > 1)
+    if (CursenApplication::GetArgc() > 1)
     {
-        mode_select_box.getMainPlayerStage().setText(cursen::CursenApplication::GetArgv()[1]);
+        mode_select_box.getMainPlayerStage().setText(CursenApplication::GetArgv()[1]);
         setMainPlayerName();
     }
     else
     {
         mode_select_box.getMainPlayerStage().activateTextField();
         mode_select_box.getMainPlayerStage().getTextField().onEnterPress(
-                [&](const cursen::Event& event) { this->setMainPlayerName(); });
+                [&](const Event& event) { this->setMainPlayerName(); });
     }
 
     onOpen([this]() {
@@ -417,7 +421,7 @@ void LobbyForm::clickHost()
 
 void LobbyForm::clickJoin()
 {
-    mode_select_box.startIpEntry([&](const cursen::Event& e) { this->tryJoin(); });
+    mode_select_box.startIpEntry([&](const Event& e) { this->tryJoin(); });
 }
 
 void LobbyForm::tryJoin()
@@ -478,7 +482,7 @@ void LobbyForm::removePlayer(int playerNum)
 
 void LobbyForm::setMainPlayerName()
 {
-    cursen::TextField& field = mode_select_box.getMainPlayerStage().getTextField();
+    TextField& field = mode_select_box.getMainPlayerStage().getTextField();
     if (!field.getText().empty())
     {
         std::string name = field.getText();
@@ -492,7 +496,7 @@ void LobbyForm::setMainPlayerName()
     }
     else
     {
-        cursen::CursesManager::Beep();
+        CursesManager::Beep();
         mode_select_box.setWarning("Name Must Have 1 Character");
     }
 }
@@ -527,9 +531,9 @@ void LobbyForm::startChat()
 {
     chat_box.setActive(true);
     lobby_cursor.setEnabled(false);
-    chat_button.setForeground(cursen::Color::GREEN);
+    chat_button.setForeground(Color::GREEN);
     console.setMessage("Press Escape to Finish Chatting");
-    chat_box.onEnterPress([&](const cursen::Event& e) { this->sendChatMessage(); });
+    chat_box.onEnterPress([&](const Event& e) { this->sendChatMessage(); });
 }
 
 void LobbyForm::stopChat()
@@ -537,7 +541,7 @@ void LobbyForm::stopChat()
     chat_box.detachEnterPress();
     chat_box.setActive(false);
     lobby_cursor.setEnabled(true);
-    chat_button.setForeground(cursen::Color::WHITE);
+    chat_button.setForeground(Color::WHITE);
 }
 
 void LobbyForm::sendChatMessage()

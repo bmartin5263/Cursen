@@ -68,3 +68,8 @@ void UnoConsole::setForeground(const cursen::Color& color)
     console_message.setForeground(color);
 }
 
+void UnoConsole::setEnabled(bool value)
+{
+    title.setEnabled(value);
+}
+
