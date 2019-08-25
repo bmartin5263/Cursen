@@ -118,7 +118,7 @@ void TestForm::initialize() {
 //    onKeyPress([&](const cursen::Event& event) { this->keyPress(event); });
 
     rainbow.setFrameDuration(.06f);
-    rainbow.add([&]() { box.setForeground(cursen::Color::RED); });
+    rainbow.add([&]() { box.setForeground(cursen::Color::MAGENTA); });
     rainbow.add([&]() { box.setForeground(cursen::Color::ORANGE); });
     rainbow.add([&]() { box.setForeground(cursen::Color::YELLOW); });
     rainbow.add([&]() { box.setForeground(cursen::Color::GREEN); });

@@ -17,7 +17,7 @@ void SimpleForm::initialize()
 {
     hello.initialize();
     hello.setPosition(Vect2(0,0));
-    hello.setForeground(Color::RED);
+    hello.setForeground(Color::MAGENTA);
     hello.setText("Hello!");
     hello.setLength(30);
 

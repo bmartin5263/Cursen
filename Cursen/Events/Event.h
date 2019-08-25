@@ -5,6 +5,8 @@
 #ifndef CURSEN_EVENT_H
 #define CURSEN_EVENT_H
 
+#define EVENT_ARG const cursen::Event& event
+
 #include <cstdio>
 
 #include "EventType.h"

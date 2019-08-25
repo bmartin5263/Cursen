@@ -23,8 +23,8 @@ public:
     TestForm();
 
     void initialize() override;
-    void keyPress(const cursen::Event& event);
-    void moveComponent(const cursen::Event& event);
+    void keyPress(EVENT_ARG);
+    void moveComponent(EVENT_ARG);
     void disable();
     void activateTwirl();
 
