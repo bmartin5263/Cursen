@@ -183,7 +183,7 @@ int Player::getPlayableCardIndex(const Card& card)
     for (int i = 0; i < hand.size(); ++i)
     {
         const Card& hand_card = hand.get(i);
-        if (hand_card.getColor() == color || hand_card.getValue() == value)
+        if ((hand_card.getColor() == color || hand_card.getValue() == value) && !hand_card.isWild())
         {
             index = i;
             break;
