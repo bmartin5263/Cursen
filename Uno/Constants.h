@@ -65,7 +65,8 @@ public:
 
     static CardColor getRandomCardColor(CardColor exclude = CardColor::WHITE)
     {
-        std::default_random_engine generator;
+        std::random_device rd;
+        std::default_random_engine generator(rd());
         std::uniform_int_distribution<int> distribution(0,4);
         CardColor color = CARD_COLORS[distribution(generator)];
         while (exclude != CardColor::WHITE && color == exclude)
