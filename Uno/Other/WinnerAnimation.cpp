@@ -15,8 +15,8 @@ WinnerAnimation::WinnerAnimation()
     winner_animation.setVariableTime(false);
     winner_animation.setFrameDuration(.06);
     winner_animation.add([this]() {
-        matchForm->getPlayerTile(winner).setForeground(Color::RED);
-        matchForm->getConsole().setForeground(Color::RED);
+        matchForm->getPlayerTile(winner).setForeground(Color::MAGENTA);
+        matchForm->getConsole().setForeground(Color::MAGENTA);
     });
     winner_animation.add([this]() {
         matchForm->getPlayerTile(winner).setForeground(Color::ORANGE);

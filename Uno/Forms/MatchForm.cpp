@@ -151,7 +151,7 @@ void MatchForm::initialize()
     wildColorAnimation.setLoops(2);
     wildColorAnimation.setVariableTime(false);
     wildColorAnimation.setFrameDuration(.06);
-    wildColorAnimation.add([this]() { front_card.setForeground(Color::RED); });
+    wildColorAnimation.add([this]() { front_card.setForeground(Color::MAGENTA); });
     wildColorAnimation.add([this]() { front_card.setForeground(Color::ORANGE); });
     wildColorAnimation.add([this]() { front_card.setForeground(Color::YELLOW); });
     wildColorAnimation.add([this]() { front_card.setForeground(Color::GREEN); });
@@ -165,7 +165,7 @@ void MatchForm::initialize()
     wild_hand_cards_animation.setFrameDuration(.06);
     wild_hand_cards_animation.setVariableTime(false);
     wild_hand_cards_animation.add([this]() {
-        for (auto card : wild_cards) card->setForeground(cursen::Color::RED);
+        for (auto card : wild_cards) card->setForeground(cursen::Color::MAGENTA);
     });
     wild_hand_cards_animation.add([this]() {
         for (auto card : wild_cards) card->setForeground(cursen::Color::ORANGE);

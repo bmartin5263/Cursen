@@ -60,7 +60,7 @@ cursen::Color Player::ConvertColor(const PlayerColor &color) {
         case PlayerColor::BLUE:
             return cursen::Color::BLUE;
         case PlayerColor::RED:
-            return cursen::Color::RED;
+            return cursen::Color::MAGENTA;
         case PlayerColor::GREEN:
             return cursen::Color::GREEN;
         case PlayerColor::YELLOW:

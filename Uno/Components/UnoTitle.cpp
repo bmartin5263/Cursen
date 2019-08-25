@@ -22,7 +22,7 @@ void UnoTitle::initialize() {
 
     blue_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(cursen::Color::BLUE));
     green_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(cursen::Color::GREEN));
-    red_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(cursen::Color::RED));
+    red_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(cursen::Color::MAGENTA));
     lit_blue_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(159, cursen::Color(19)));
     lit_green_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(121, cursen::Color(28)));
     lit_red_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(219, cursen::Color(88)));

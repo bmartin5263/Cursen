@@ -59,7 +59,7 @@ void UnoConsole::setMessage(const std::string &text) {
 }
 
 void UnoConsole::setWarning(const std::string &text) {
-    console_message.setForeground(cursen::Color::RED);
+    console_message.setForeground(cursen::Color::MAGENTA);
     console_message.setText(text);
 }
 

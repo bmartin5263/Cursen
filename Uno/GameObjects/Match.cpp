@@ -136,13 +136,13 @@ bool Match::canPlayCard(int player_index, int card_index)
             const Card& top_card = pile.peekCard();
 
             // Wild cards can only be played if the player has no other legal cards
-            if (card.isWild())
+            if (card.getValue() == CardValue::PLUS_4)
             {
                 if (!hand.hasPlayableCardFor(top_card)) return true;
             }
             else
             {
-                if (card.getColor() == top_card.getColor() || card.getValue() == top_card.getValue())
+                if (card.getColor() == top_card.getColor() || card.getValue() == top_card.getValue() || card.isWild())
                 {
                     return true;
                 }

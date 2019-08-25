@@ -40,7 +40,7 @@ void DeckMeterContent::render()
     int index = 8;
     for (int i = 0; i < num_equals; ++i)
     {
-        if (index > 5) line[index] = '=' | Color::RED;
+        if (index > 5) line[index] = '=' | Color::MAGENTA;
         else if (index > 2) line[index] = '=' | Color::YELLOW;
         else line[index] = '=' | Color::GREEN;
         index--;

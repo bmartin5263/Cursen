@@ -103,7 +103,7 @@ std::string Card::ToString(CardValue value)
 int Card::Score(const Card& card) {
     switch (card.getValue()) {
         case CardValue::ZERO:
-            return 0;
+            return 10;
         case CardValue::ONE:
             return 1;
         case CardValue::TWO:
@@ -183,7 +183,7 @@ cursen::Color Card::ConvertToColor(CardColor color)
         case CardColor::BLUE:
             return cursen::Color::BLUE;
         case CardColor::RED:
-            return cursen::Color::RED;
+            return cursen::Color::MAGENTA;
         case CardColor::GREEN:
             return cursen::Color::GREEN;
         case CardColor::YELLOW:

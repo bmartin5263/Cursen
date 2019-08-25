@@ -80,7 +80,7 @@ void ModeSelectBox::initialize() {
     addRelative(ip_entry);
 
     join_progress.initialize();
-    join_progress.setForeground(cursen::Color::RED);
+    join_progress.setForeground(cursen::Color::MAGENTA);
     join_progress.setPosition(cursen::Vect2(22,15));
     addRelative(join_progress);
 
@@ -141,13 +141,13 @@ void ModeSelectBox::setMessage(const std::string &text) {
 }
 
 void ModeSelectBox::setWarning(const std::string &text) {
-    console_message.setForeground(cursen::Color::RED);
+    console_message.setForeground(cursen::Color::MAGENTA);
     console_message.setText(text);
 }
 
 void ModeSelectBox::startIpEntry(std::function<void(const cursen::Event &)> callback)
 {
-    join_button.setForeground(cursen::Color::RED);
+    join_button.setForeground(cursen::Color::MAGENTA);
     ip_entry.setEnabled(true);
     mode_cursor.setEnabled(false);
     console_message.setText("Please Enter Host IP");

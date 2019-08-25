@@ -32,7 +32,7 @@ void LobbyGlowBorder::initialize()
 
     /* Cache the pair values */
     blue_pair = CursesManager::GetColorPair(ColorPair(Color::BLUE));
-    red_pair = CursesManager::GetColorPair(ColorPair(Color::RED));
+    red_pair = CursesManager::GetColorPair(ColorPair(Color::MAGENTA));
     green_pair = CursesManager::GetColorPair(ColorPair(Color::GREEN));
     yellow_pair = CursesManager::GetColorPair(ColorPair(Color::YELLOW));
     white_pair = CursesManager::GetColorPair(ColorPair(Color::WHITE));
