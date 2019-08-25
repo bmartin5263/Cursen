@@ -22,7 +22,7 @@ namespace cursen {
     }
 
     void InspectionPointer::render() {
-        getContent().writeLine("@", Vect2(0, 0), TextAlignment::LEFT, Color::RED);
+        getContent().writeLine("@", Vect2(0, 0), TextAlignment::LEFT, Color::MAGENTA);
     }
 
     void InspectionPointer::movePointer(const Event &event) {

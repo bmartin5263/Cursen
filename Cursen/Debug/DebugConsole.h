@@ -40,9 +40,8 @@ private:
     static DebugConsole* instance;
 
     static DebugConsole& Instance() {
-        if (instance == nullptr)
-            instance = new DebugConsole;
-        return *instance;
+        static DebugConsole instance;
+        return instance;
     }
 
     DebugConsole();

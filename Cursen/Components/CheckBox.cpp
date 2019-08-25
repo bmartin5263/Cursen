@@ -49,7 +49,7 @@ namespace cursen {
                 box.setText("[X]");
                 break;
             case CheckState::UNCHECKED:
-                box.setForeground(Color::RED);
+                box.setForeground(Color::MAGENTA);
                 box.setText("[ ]");
                 break;
             case CheckState::INDETERMINATE:
