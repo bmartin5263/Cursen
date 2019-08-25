@@ -8,6 +8,7 @@
 
 #include <Uno/Serverus/Socket.h>
 #include "NetworkDevice.h"
+#include "NetworkManager.h"
 
 class Client : public NetworkDevice
 {
@@ -33,6 +34,8 @@ private:
 
     Socket host_sock;
     bool connected;
+    char buffer[NetworkManager::MSG_SIZE] = {0};
+    char size_buffer[sizeof(size_t)] = {0};
 
 
 };

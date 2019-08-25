@@ -77,8 +77,8 @@ LobbyEffectGenerator::LobbyEffectGenerator()
 
     for (int i = 0; i < 70; i++) maze[31][i] = '1';
 
-    runners = new Runner[4];
-    for (int i = 0; i < 4; i++)
+    runners = new Runner[6];
+    for (int i = 0; i < 6; i++)
     {
         runners[i].setColor(i);
     }
@@ -96,6 +96,8 @@ void LobbyEffectGenerator::update()
     runners[1].update(maze);
     runners[2].update(maze);
     runners[3].update(maze);
+    runners[4].update(maze);
+    runners[5].update(maze);
 }
 
 Runner*& LobbyEffectGenerator::getRunners()
@@ -118,4 +120,6 @@ void LobbyEffectGenerator::reset()
     runners[1].reset(69,0);
     runners[2].reset(0,31);
     runners[3].reset(69,31);
+    runners[4].reset(0,20);
+    runners[5].reset(69,20);
 }

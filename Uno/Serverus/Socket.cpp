@@ -4,6 +4,7 @@
 
 #include "Socket.h"
 #include <unistd.h>
+#include <arpa/inet.h>
 
 Socket::Socket() :
     sock_fd(-1)
@@ -12,9 +13,19 @@ Socket::Socket() :
 
 Socket::ErrorCd Socket::CreateSocket(Socket& sock, AddrFamily domain, Type type, int protocol)
 {
-    sock.sock_fd = socket(static_cast<int>(domain), static_cast<int>(type), protocol);
+    sock.sock_fd = ::socket(static_cast<int>(domain), static_cast<int>(type), protocol);
     if (sock.sock_fd == -1) return ErrorCd::ERROR;
     return ErrorCd::SUCCESS;
+}
+
+Socket::Socket(Socket::AddrFamily domain, Socket::Type type, int protocol) :
+    sock_fd(::socket(static_cast<int>(domain), static_cast<int>(type), protocol))
+{
+}
+
+in_port_t Socket::Htons(int port)
+{
+    return htons(port);
 }
 
 
@@ -142,4 +153,10 @@ Socket& Socket::operator=(const Socket& other)
 {
     this->sock_fd = other.sock_fd;
     return *this;
+}
+
+Socket::ErrorCd Socket::Inet_pton(Socket::AddrFamily af, const char* src, void* dst)
+{
+    int cd = ::inet_pton(static_cast<int>(af), src, dst);
+    return cd == 1 ? ErrorCd::SUCCESS : ErrorCd::ERROR;
 }

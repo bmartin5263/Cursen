@@ -8,7 +8,6 @@
 #include <Uno/Match/Messages/MatchConnectionSevered.h>
 #include "Uno/Messages/ConnectionSevered.h"
 #include "Client.h"
-#include "NetworkManager.h"
 
 Client Client::client_device;
 
@@ -42,8 +41,6 @@ void Client::processNetworkMessages()
             assert(false);
         }
 
-        char buffer[NetworkManager::MSG_SIZE] = {};
-        char size_buffer[sizeof(size_t)] = {};
         ssize_t readVal;
         if (host_fd != -1 && FD_ISSET(host_fd, &read_fds))
         {
@@ -109,10 +106,7 @@ void Client::destroy()
 
 bool Client::openConnection(const char* addr)
 {
-    sockaddr_in6 serv_addr;
-    bzero(&serv_addr, sizeof(sockaddr_in6));
-
-    int result;
+    sockaddr_in6 serv_addr = {0};
 
     if (Socket::CreateSocket(host_sock, Socket::AddrFamily::INET6, Socket::Type::STREAM, 0) == Socket::ErrorCd::ERROR)
     {
@@ -120,11 +114,10 @@ bool Client::openConnection(const char* addr)
         return false;
     }
 
-    serv_addr.sin6_family = AF_INET6;
-    serv_addr.sin6_port = htons(NetworkManager::PORT);
+    serv_addr.sin6_family = static_cast<int>(Socket::AddrFamily::INET6);
+    serv_addr.sin6_port = Socket::Htons(NetworkManager::PORT);
 
-    result = inet_pton(AF_INET6, addr, &serv_addr.sin6_addr.s6_addr);
-    if (result <= 0)
+    if (Socket::Inet_pton(Socket::AddrFamily::INET6, addr, &serv_addr.sin6_addr.s6_addr) == Socket::ErrorCd::ERROR)
     {
         assert(false);
         return false;

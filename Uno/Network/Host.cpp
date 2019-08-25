@@ -7,7 +7,6 @@
 #include "Uno/Messages/RequestJoinLobby.h"
 #include "Uno/Messages/ConnectionSevered.h"
 #include "Host.h"
-#include "NetworkManager.h"
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/LobbyForm.h"
 #include "Cursen/CursenApplication.h"
@@ -90,8 +89,6 @@ void Host::processNetworkMessages()
 
     for (int i = 0; i < MAX_CONNECTIONS; ++i)
     {
-        char buffer[NetworkManager::MSG_SIZE];
-        char size_buffer[sizeof(size_t)];
         ssize_t readVal;
         Socket sock = connections[i];
         int sock_fd = sock.fd();
@@ -133,6 +130,7 @@ void Host::processNetworkMessages()
                 QueueEntry* entry = new QueueEntry;
 
                 size_t deserialized_bytes = entry->deserialize(buffer);
+                static_cast<void>(deserialized_bytes);
                 entry->setSender(sock_fd);
 
                 assert(deserialized_bytes == msg_size);

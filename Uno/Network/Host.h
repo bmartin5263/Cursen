@@ -7,6 +7,7 @@
 
 #include "NetworkDevice.h"
 #include "Uno/Serverus/Socket.h"
+#include "NetworkManager.h"
 
 class Host : public NetworkDevice
 {
@@ -39,6 +40,8 @@ private:
     int num_connections;
     Socket connections[MAX_CONNECTIONS];
     bool listening;
+    char buffer[NetworkManager::MSG_SIZE] = {0};
+    char size_buffer[sizeof(size_t)] = {0};
 
 };
 

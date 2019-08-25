@@ -9,7 +9,7 @@
 using namespace cursen;
 
 PointTallyAnimation::PointTallyAnimation() :
-    winner(-1), current_player(0), points_won(0)
+    winner(-1), current_player(0), points_won(0), point_accumulator(0)
 {
     point_animation.setInfinite(true);
     point_animation.setVariableTime(false);
@@ -56,6 +56,7 @@ void PointTallyAnimation::run(int winner, int points_won)
 {
     this->winner = winner;
     this->current_player = 0;
+    this->point_accumulator = 0;
     this->points_won = points_won;
     this->winner_name = matchForm->getMatch().getPlayer(winner).getName();
     if (winner == current_player) current_player = 1;

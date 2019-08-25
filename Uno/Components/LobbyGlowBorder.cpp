@@ -42,7 +42,7 @@ void LobbyGlowBorder::initialize()
     COLOR_LUT[1] = red_pair;
     COLOR_LUT[2] = green_pair;
     COLOR_LUT[3] = yellow_pair;
-    COLOR_LUT[4] = CursesManager::GetColorPair(ColorPair(Color::PURPLE));
+    COLOR_LUT[4] = CursesManager::GetColorPair(ColorPair(Color::VIOLET));
     COLOR_LUT[5] = CursesManager::GetColorPair(ColorPair(Color::ORANGE));
 
     Content& content = getContent();
@@ -492,7 +492,7 @@ void LobbyGlowBorder::render()
     Content& content = getContent();
 
     // Erase lines
-    for (int j = 0; j < 4; ++j) {
+    for (int j = 0; j < 6; ++j) {
         Runner& runner = runners[j];
         for (int i = 0; i < 20; ++i) {
             const Vect2 p = runner.coordinates[i];
@@ -503,7 +503,7 @@ void LobbyGlowBorder::render()
     generator.update();
 
     // Redraw
-    for (int j = 0; j < 4; ++j) {
+    for (int j = 0; j < 6; ++j) {
         Runner& runner = runners[j];
         const short pair = COLOR_LUT[runner.color];
         for (int i = 0; i < 20; ++i) {
@@ -528,7 +528,7 @@ void LobbyGlowBorder::setEnabled(bool value)
         animation.stop();
         Runner*& runners = generator.getRunners();
         Content& content = getContent();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 6; i++)
         {
             Runner& runner = runners[i];
             for (int j = 0; j < 20; ++j)

@@ -21,7 +21,7 @@ PlaceCardAnimation::PlaceCardAnimation()
     place_card_animation.add([=]() { matchForm->getFrontCard().grow(); });
     place_card_animation.add([=]() { matchForm->getFrontCard().grow(); });
     place_card_animation.setVariableTime(false);
-    place_card_animation.setFrameDuration(.04);
+    place_card_animation.setFrameDuration(.03);
     place_card_animation.setInfinite(false);
     place_card_animation.onEnd(
             [this]() { animationEnd(); }

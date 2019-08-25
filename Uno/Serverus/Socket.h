@@ -7,6 +7,7 @@
 
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <netinet/in.h>
 
 class Socket
 {
@@ -67,6 +68,7 @@ public:
     };
 
     Socket();
+    Socket(AddrFamily domain, Type type, int protocol);
     Socket(const Socket& other) = default;
     Socket& operator = (const Socket& other);
     ~Socket() = default;
@@ -75,6 +77,8 @@ public:
     bool operator != (const Socket & other) const;
 
     static ErrorCd CreateSocket(Socket& sock, AddrFamily domain, Type type, int protocol);
+    static ErrorCd Inet_pton(AddrFamily af, const char* src, void* dst);
+    static in_port_t Htons(int port);
 
     bool isValid();
     int fd();
