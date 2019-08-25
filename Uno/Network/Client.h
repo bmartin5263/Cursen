@@ -6,6 +6,7 @@
 #define CURSEN_CLIENT_H
 
 
+#include <Uno/Serverus/Socket.h>
 #include "NetworkDevice.h"
 
 class Client : public NetworkDevice
@@ -30,7 +31,7 @@ private:
     Client& operator = (const Client& other) = delete;
     ~Client();
 
-    int host_sock;
+    Socket host_sock;
     bool connected;
 
 

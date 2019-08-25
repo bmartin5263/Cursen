@@ -6,6 +6,7 @@
 #define CURSEN_HOST_H
 
 #include "NetworkDevice.h"
+#include "Uno/Serverus/Socket.h"
 
 class Host : public NetworkDevice
 {
@@ -24,8 +25,8 @@ public:
     bool isListening();
     void killAllConnections();
 
-    void addSock(int sock);
-    void removeSock(int index);
+    void addSock(Socket sock);
+    void removeSock(Socket sock);
 
 private:
 
@@ -34,9 +35,9 @@ private:
     Host& operator = (const Host& other) = delete;
     ~Host();
 
-    int listening_sock;
+    Socket listening_sock;
     int num_connections;
-    int connections[MAX_CONNECTIONS];
+    Socket connections[MAX_CONNECTIONS];
     bool listening;
 
 };

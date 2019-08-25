@@ -13,7 +13,7 @@
 Client Client::client_device;
 
 Client::Client() :
-    host_sock(-1), connected(false)
+    host_sock(), connected(false)
 {
     initialize();
 }
@@ -23,12 +23,13 @@ void Client::processNetworkMessages()
 {
     if (connected)
     {
+        int host_fd = host_sock.fd();
         fd_set read_fds;
         timeval tv;
         FD_ZERO(&read_fds);
-        FD_SET(host_sock, &read_fds);
+        FD_SET(host_fd, &read_fds);
 
-        int max_fd = host_sock;
+        int max_fd = host_fd;
 
         tv.tv_sec = 0;
         tv.tv_usec = 0;
@@ -44,9 +45,9 @@ void Client::processNetworkMessages()
         char buffer[NetworkManager::MSG_SIZE] = {};
         char size_buffer[sizeof(size_t)] = {};
         ssize_t readVal;
-        if (host_sock != -1 && FD_ISSET(host_sock, &read_fds))
+        if (host_fd != -1 && FD_ISSET(host_fd, &read_fds))
         {
-            if ((readVal = read(host_sock, size_buffer, sizeof(size_t))) == 0)
+            if ((readVal = read(host_fd, size_buffer, sizeof(size_t))) == 0)
             {
                 connectionLost();
             }
@@ -54,7 +55,7 @@ void Client::processNetworkMessages()
             {
                 while (readVal < sizeof(size_t))
                 {
-                    readVal += read(host_sock, size_buffer + readVal, (size_t)sizeof(size_t) - readVal);
+                    readVal += read(host_fd, size_buffer + readVal, (size_t)sizeof(size_t) - readVal);
                 }
 
                 size_t msg_size = 0;
@@ -66,7 +67,7 @@ void Client::processNetworkMessages()
                 readVal = 0;
                 while (readVal < msg_size)
                 {
-                    readVal += read(host_sock, buffer + readVal, msg_size - readVal);
+                    readVal += read(host_fd, buffer + readVal, msg_size - readVal);
                 }
 
                 QueueEntry* entry = new QueueEntry;
@@ -87,14 +88,14 @@ void Client::writeMessage(QueueEntry* entry)
     {
         size_t bytes = entry->serialize(buffer);
         Serializable::Serialize(size_buffer, bytes);
-        write(host_sock, size_buffer, sizeof(size_t));
-        write(host_sock, buffer, bytes);
+        write(host_sock.fd(), size_buffer, sizeof(size_t));
+        write(host_sock.fd(), buffer, bytes);
     }
 }
 
 void Client::initialize()
 {
-    host_sock = 0;
+    host_sock = Socket();
     connected = false;
 }
 
@@ -113,8 +114,7 @@ bool Client::openConnection(const char* addr)
 
     int result;
 
-    host_sock = socket(AF_INET6, SOCK_STREAM, 0);
-    if (host_sock < 0)
+    if (Socket::CreateSocket(host_sock, Socket::AddrFamily::INET6, Socket::Type::STREAM, 0) == Socket::ErrorCd::ERROR)
     {
         assert(false);
         return false;
@@ -130,8 +130,7 @@ bool Client::openConnection(const char* addr)
         return false;
     }
 
-    result = connect(host_sock, (sockaddr *)&serv_addr, sizeof(serv_addr));
-    if (result < 0)
+    if (host_sock.connect((sockaddr *)&serv_addr, sizeof(serv_addr)) == Socket::ErrorCd::ERROR)
     {
         assert(false);
         return false;
@@ -144,8 +143,8 @@ bool Client::openConnection(const char* addr)
 
 void Client::closeConnection()
 {
-    assert(close(host_sock) == 0);
-    host_sock = -1;
+    host_sock.shutdown(Socket::Shutdown::READ_WRITE);
+    host_sock.close();
     connected = false;
 }
 
@@ -162,16 +161,16 @@ void Client::connectionLost()
         case Context::None:
             break;
         case Context::ContextLobby:
-            msg = new ConnectionSevered(host_sock);
+            msg = new ConnectionSevered(host_sock.fd());
             msg->setSendType(SendType::Local);
             DataManager::PushMessage(msg);
             break;
         case Context::ContextMatch:
-            msg = new MatchConnectionSevered(host_sock);
+            msg = new MatchConnectionSevered(host_sock.fd());
             msg->setSendType(SendType::Local);
             DataManager::PushMessage(msg);
             break;
     }
     connected = false;
-    host_sock = -1;
+    host_sock = Socket();
 }

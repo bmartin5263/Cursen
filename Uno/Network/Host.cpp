@@ -15,7 +15,7 @@
 Host Host::host_device;
 
 Host::Host() :
-    listening_sock(-1), num_connections(0), listening(false)
+    num_connections(0), listening(false)
 {
     initialize();
 }
@@ -30,7 +30,7 @@ void Host::initialize()
 {
     for (int i = 0; i < MAX_CONNECTIONS; ++i)
     {
-        connections[i] = -1;
+        connections[i] = Socket();
     }
 }
 
@@ -42,25 +42,27 @@ void Host::processNetworkMessages()
     FD_ZERO(&read_fds);
 
     int max_fd = 0;
+    int listening_fd = listening_sock.fd();
 
     if (listening)
     {
-        FD_SET(listening_sock, &read_fds);
-        max_fd = listening_sock;
+        FD_SET(listening_fd, &read_fds);
+        max_fd = listening_fd;
     }
 
     for (int i = 0; i < MAX_CONNECTIONS; ++i)
     {
-        int socket = connections[i];
+        Socket socket = connections[i];
+        int socket_fd = socket.fd();
 
-        if (socket > 0)
+        if (socket_fd > 0)
         {
-            FD_SET(socket , &read_fds);
+            FD_SET(socket_fd, &read_fds);
         }
 
-        if(socket > max_fd)
+        if(socket_fd > max_fd)
         {
-            max_fd = socket;
+            max_fd = socket_fd;
         }
     }
 
@@ -75,10 +77,10 @@ void Host::processNetworkMessages()
         assert(false);
     }
 
-    if (listening && FD_ISSET(listening_sock, &read_fds))
+    if (listening && FD_ISSET(listening_fd, &read_fds))
     {
-        int new_socket;
-        if ((new_socket = accept(listening_sock, (sockaddr*)NULL, (socklen_t*)NULL)) < 0)
+        Socket new_socket;
+        if (listening_sock.accept(new_socket, nullptr, nullptr) == Socket::ErrorCd::ERROR)
         {
             assert(false);
         }
@@ -91,18 +93,19 @@ void Host::processNetworkMessages()
         char buffer[NetworkManager::MSG_SIZE];
         char size_buffer[sizeof(size_t)];
         ssize_t readVal;
-        int sock = connections[i];
+        Socket sock = connections[i];
+        int sock_fd = sock.fd();
 
-        if (sock != -1 && FD_ISSET(sock, &read_fds))
+        if (sock.isValid() && FD_ISSET(sock_fd, &read_fds))
         {
-            if ((readVal = read(sock, size_buffer, 4)) == 0)
+            if ((readVal = read(sock_fd, size_buffer, 4)) == 0)
             {
                 /* Send a message that the socket disconnected */
                 removeSock(sock);
                 if (DataManager::GetContext() == Context::ContextLobby) {
                     ((LobbyForm*)cursen::CursenApplication::GetCurrentForm())->getConsole().setWarning("Buh Bye");
-                    DataMessage* msg = new ConnectionSevered(sock);
-                    msg->setSender(sock);
+                    DataMessage* msg = new ConnectionSevered(sock_fd);
+                    msg->setSender(sock_fd);
                     msg->setSendType(SendType::Local);
                     DataManager::PushMessage(msg);
                 }
@@ -112,7 +115,7 @@ void Host::processNetworkMessages()
             {
                 while (readVal < sizeof(size_t))
                 {
-                    readVal += read(sock, size_buffer + readVal, sizeof(size_t) - readVal);
+                    readVal += read(sock_fd, size_buffer + readVal, sizeof(size_t) - readVal);
                 }
 
                 size_t msg_size = 0;
@@ -124,13 +127,13 @@ void Host::processNetworkMessages()
                 readVal = 0;
                 while (readVal < msg_size)
                 {
-                    readVal += read(sock, buffer + readVal, msg_size - readVal);
+                    readVal += read(sock_fd, buffer + readVal, msg_size - readVal);
                 }
 
                 QueueEntry* entry = new QueueEntry;
 
                 size_t deserialized_bytes = entry->deserialize(buffer);
-                entry->setSender(sock);
+                entry->setSender(sock_fd);
 
                 assert(deserialized_bytes == msg_size);
                 DataManager::ForwardToInput(entry);
@@ -160,20 +163,20 @@ void Host::writeMessage(QueueEntry* entry)
             case RecipientType::Broadcast:
                 for (auto sock : connections)
                 {
-                    if (sock != -1)
+                    if (sock.fd() != -1)
                     {
-                        write(sock, size_buffer, sizeof(size_t));
-                        write(sock, buffer, bytes);
+                        write(sock.fd(), size_buffer, sizeof(size_t));
+                        write(sock.fd(), buffer, bytes);
                     }
                 }
                 break;
             case RecipientType::Broadcast_Except_Recipient:
                 for (auto sock : connections)
                 {
-                    if (sock != -1 && sock != recipient)
+                    if (sock.fd() != -1 && sock.fd() != recipient)
                     {
-                        write(sock, size_buffer, sizeof(size_t));
-                        write(sock, buffer, bytes);
+                        write(sock.fd(), size_buffer, sizeof(size_t));
+                        write(sock.fd(), buffer, bytes);
                     }
                 }
                 break;
@@ -191,39 +194,28 @@ void Host::writeMessage(QueueEntry* entry)
 bool Host::startListening()
 {
     sockaddr_in6 server_address;
-    bzero( &server_address, sizeof(sockaddr_in6));
+    bzero(&server_address, sizeof(sockaddr_in6));
 
     int opt = 1;
-    int result;
-
-    listening_sock = socket(AF_INET6, SOCK_STREAM, 0);
-    if (listening_sock < 0) return false;
-
-    result = setsockopt(listening_sock, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(int));
-
-    if (result < 0)
+    if (Socket::CreateSocket(listening_sock, Socket::AddrFamily::INET6, Socket::Type::STREAM, 0) == Socket::ErrorCd::ERROR)
     {
         return false;
     }
-
+    if (listening_sock.setSockOpt(Socket::Option::REUSEPORT, &opt, sizeof(int)) == Socket::ErrorCd::ERROR)
+    {
+        return false;
+    }
     server_address.sin6_family = AF_INET6;
     server_address.sin6_addr = in6addr_any;
     server_address.sin6_port = htons(NetworkManager::PORT);
-
-    result = bind(listening_sock, (sockaddr *)&server_address, sizeof(server_address));
-
-    if (result < 0)
+    if (listening_sock.bind((sockaddr *)&server_address, sizeof(server_address)) == Socket::ErrorCd::ERROR)
     {
         return false;
     }
-
-    result = listen(listening_sock, 3);
-
-    if (result < 0)
+    if (listening_sock.listen(3) == Socket::ErrorCd::ERROR)
     {
         return false;
     }
-
     listening = true;
     return true;
 
@@ -231,11 +223,11 @@ bool Host::startListening()
 
 void Host::stopListening()
 {
-    if (listening_sock != -1)
+    if (listening_sock.isValid())
     {
-        close(listening_sock);
+        listening_sock.shutdown(Socket::Shutdown::READ_WRITE);
+        listening_sock.close();
         listening = false;
-        listening_sock = -1;
     }
 }
 
@@ -257,33 +249,33 @@ void Host::killAllConnections()
 {
     for (int i = 0; i < MAX_CONNECTIONS; ++i)
     {
-        if (connections[i] != -1)
+        if (connections[i].isValid())
         {
-            assert(close(connections[i]) == 0);
-            connections[i] = -1;
+            connections[i].shutdown(Socket::Shutdown::READ_WRITE);
+            connections[i].close();
         }
     }
     num_connections = 0;
 }
 
-void Host::removeSock(int id)
+void Host::removeSock(Socket socket)
 {
     for (auto& sock : connections)
     {
-        if (sock == id)
+        if (sock == socket)
         {
-            assert(close(sock) == 0);
-            sock = -1;
+            sock.shutdown(Socket::Shutdown::READ_WRITE);
+            sock.close();
             num_connections--;
         }
     }
 }
 
-void Host::addSock(int new_sock)
+void Host::addSock(Socket new_sock)
 {
-    for (int& sock : connections)
+    for (auto& sock : connections)
     {
-        if (sock == -1)
+        if (!sock.isValid())
         {
             sock = new_sock;
             ++num_connections;
