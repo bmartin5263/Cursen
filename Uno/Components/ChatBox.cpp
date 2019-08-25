@@ -7,12 +7,14 @@
 
 using namespace cursen;
 
-ChatBox::ChatBox() : AggregateComponent()
+ChatBox::ChatBox() : AggregateComponent(),
+    active(false)
 {
 
 }
 
-ChatBox::ChatBox(const cursen::Vect2& pos) : AggregateComponent(pos)
+ChatBox::ChatBox(const cursen::Vect2& pos) : AggregateComponent(pos),
+     active(false)
 {
 
 }
@@ -68,6 +70,7 @@ void ChatBox::setEnabled(bool value)
 
 void ChatBox::setActive(bool value)
 {
+    this->active = value;
     setSilenced(!value);
     chat_entry.setEnabled(value);
     chat_entry.setHidden(!value);
@@ -95,4 +98,9 @@ void ChatBox::clearAllMessages()
 {
     clearMessage();
     log.clear();
+}
+
+bool ChatBox::isActive()
+{
+    return active;
 }

@@ -325,6 +325,11 @@ void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
     chat_box.clearAllMessages();
     close_button.setText("Close Lobby");
 
+    if (chat_box.isActive())
+    {
+        chat_box.setActive(false);
+    }
+
     if (was_kicked)
     {
         mode_select_box.setWarning(exit_message);

@@ -21,6 +21,7 @@ public:
 
     void setEnabled(bool value) override;
     void setActive(bool value);
+    bool isActive();
 
     std::string getMessage();
     void clearMessage();
@@ -36,6 +37,7 @@ private:
     cursen::Label title;
     cursen::TextField chat_entry;
     ChatLog log;
+    bool active;
 
 };
 

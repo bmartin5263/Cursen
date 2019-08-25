@@ -77,9 +77,9 @@ public:
     void clickCard();
     void pressDraw();
 
-    void enterPress(const cursen::Event& event);
-    void arrowPress(const cursen::Event& event);
-    void keyPress(const cursen::Event& event);
+    void enterPress(EVENT_ARG);
+    void arrowPress(EVENT_ARG);
+    void keyPress(EVENT_ARG);
 
     int getSelectedCardIndex();
 

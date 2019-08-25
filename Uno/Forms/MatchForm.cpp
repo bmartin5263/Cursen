@@ -135,9 +135,9 @@ void MatchForm::initialize()
     tile_array[2] = &p2Tile;
     tile_array[3] = &p3Tile;
 
-    onEnterPress([&](const Event& event) { this->enterPress(event); });
-    onArrowPress([&](const Event& event) { this->arrowPress(event); });
-    onKeyPress([&](const Event& event) { this->keyPress(event); });
+    onEnterPress([&](EVENT_ARG) { this->enterPress(event); });
+    onArrowPress([&](EVENT_ARG) { this->arrowPress(event); });
+    onKeyPress([&](EVENT_ARG) { this->keyPress(event); });
 
     onOpen([]() { DataManager::SetContext(Context::ContextMatch); });
 
@@ -349,7 +349,7 @@ void MatchForm::setConsoleWarning(std::string  msg)
     this->console.setWarning(msg);
 }
 
-void MatchForm::enterPress(const cursen::Event& event)
+void MatchForm::enterPress(EVENT_ARG)
 {
     state->pressEnter(*this);
 }
@@ -511,7 +511,7 @@ void MatchForm::playCard(int index, int played_card_index, Card played_card)
 
 }
 
-void MatchForm::arrowPress(const cursen::Event& event)
+void MatchForm::arrowPress(EVENT_ARG)
 {
     if (card_index > -1)
     {
@@ -567,7 +567,7 @@ void MatchForm::arrowPress(const cursen::Event& event)
     }
 }
 
-void MatchForm::keyPress(const cursen::Event& event)
+void MatchForm::keyPress(EVENT_ARG)
 {
     switch (event.key.code)
     {
