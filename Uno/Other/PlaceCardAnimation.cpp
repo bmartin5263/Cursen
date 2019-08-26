@@ -48,3 +48,8 @@ void PlaceCardAnimation::animationEnd()
     matchForm->getFrontCard().setSize(cursen::Vect2(14, 12));
     matchForm->interpretCard();
 }
+
+bool PlaceCardAnimation::isRunning()
+{
+    return place_card_animation.isRunning();
+}

@@ -69,6 +69,7 @@ public:
     int getForceDrawAmount();
     bool isSkipCard();
     bool isReverseCard();
+    bool isWildCard();
     bool isTurnOrderReversed();
     void reverseTurnOrder();
 

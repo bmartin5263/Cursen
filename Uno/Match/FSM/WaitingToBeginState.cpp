@@ -19,35 +19,56 @@ void WaitingToBeginState::pressEnter(MatchForm& matchForm) const
 
 void WaitingToBeginState::pressD(MatchForm& matchForm) const
 {
-    // Do Noting
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void WaitingToBeginState::pressSpace(MatchForm& matchForm) const
 {
-    // Do Nothing
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void WaitingToBeginState::pressB(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void WaitingToBeginState::pressR(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void WaitingToBeginState::pressY(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void WaitingToBeginState::pressG(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }
 
 void WaitingToBeginState::pressP(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
+}
+
+void WaitingToBeginState::pressAnyOtherButton(MatchForm& matchForm) const
+{
+    DataMessage* msg = new InputBeginGame(matchForm.getMatch().getMyId());
+    msg->setSendType(SendType::Local);
+    DataManager::PushMessage(msg);
 }

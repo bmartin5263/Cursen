@@ -5,6 +5,7 @@
 #ifndef CURSEN_WILDCOLORCHANGE_H
 #define CURSEN_WILDCOLORCHANGE_H
 
+#include <Uno/Match/Events/WildColorChangeEvent.h>
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/MatchForm.h"
 #include "Uno/GameObjects/Match.h"
@@ -33,7 +34,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
         MatchForm* matchForm = GetCurrentForm<MatchForm>();
-        matchForm->wildColorChange(color);
+        matchForm->getMatchEventQueue().pushEvent(new WildColorChangeEvent(color));
 
         CONTEXT_CHECK_END
     }

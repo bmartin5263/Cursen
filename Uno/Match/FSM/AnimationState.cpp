@@ -43,3 +43,8 @@ void AnimationState::pressP(MatchForm& matchForm) const
 {
     // Do Nothing Intentionally
 }
+
+void AnimationState::pressAnyOtherButton(MatchForm& matchForm) const
+{
+    // Do Nothing Intentionally
+}

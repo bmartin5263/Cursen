@@ -42,7 +42,7 @@ void MatchLocalController::start()
     matchForm->setDeckMeterCount(deck.size());
     matchForm->setHandName(match.getMyPlayer().getName());
     matchForm->dealInitialCards();
-    matchForm->setConsoleMessage("Press Enter to Deal Cards");
+    matchForm->setConsoleMessage("Press Any Key to Deal Cards");
     matchForm->setState(&MatchFSM::waitingToDealCardsState);
 }
 
@@ -57,7 +57,7 @@ void MatchLocalController::waitToBegin()
 {
     MatchForm* matchForm = getMatchForm();
     std::string name = matchForm->getMatch().getCurrentPlayerName();
-    matchForm->setConsoleMessage("First Turn will be " + name + ". Press Enter To Begin.");
+    matchForm->setConsoleMessage("First Turn will be " + name + ". Press Any Key To Begin.");
     matchForm->setState(&MatchFSM::waitingToBeginState);
 }
 
@@ -98,7 +98,7 @@ void MatchLocalController::handleAITurn()
     MatchForm* matchForm = getMatchForm();
     Match& match = matchForm->getMatch();
     Player& ai_player = match.getCurrentPlayer();
-    if (match.isWaitingForWildColor())
+    if (match.isWildCard())
     {
         DataMessage* msg = new InputWildColorChange(match.getCurrentTurnId(), ai_player.getWildColor());
         msg->setSendType(SendType::Local);
@@ -159,7 +159,7 @@ void MatchLocalController::handlePostPointTally(int winner, int points_won)
     auto& winning_player = matchForm->getMatch().getPlayer(winner);
     winning_player.addPoints(points_won);
     std::string winner_name = winning_player.getName();
-    matchForm->setConsoleMessage(winner_name + " won " + std::to_string(points_won) + " points! Press Enter to End Game");
+    matchForm->setConsoleMessage(winner_name + " won " + std::to_string(points_won) + " points! Press Any Key to End Game");
     matchForm->setState(&MatchFSM::gameoverState);
 }
 

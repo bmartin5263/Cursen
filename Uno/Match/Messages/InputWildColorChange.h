@@ -37,7 +37,7 @@ public:
             MatchForm* matchForm = GetCurrentForm<MatchForm>();
             Match& match = matchForm->getMatch();
             if (
-                    match.isWaitingForWildColor()
+                    match.isWildCard()
                  && match.getCurrentTurnId() == id
                  && color != CardColor::WHITE
                     )

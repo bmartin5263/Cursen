@@ -33,7 +33,7 @@ void Deck::InitializeDeck(Deck& deck, size_t num_players)
     for (int i = 0; i < 4; ++i)
     {
         deck.pushCard(Card(CardColor::WHITE, CardValue::WILD));
-        deck.pushCard(Card(CardColor::WHITE, CardValue::PLUS_4));
+        deck.pushCard(Card(CardColor::WHITE, CardValue::DRAW_4));
     }
     std::random_shuffle(deck.getDeckContainer().begin(), deck.getDeckContainer().end(), RNG());
 }

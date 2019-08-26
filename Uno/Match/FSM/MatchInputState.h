@@ -23,6 +23,7 @@ public:
     virtual void pressY(MatchForm& matchForm) const = 0;
     virtual void pressG(MatchForm& matchForm) const = 0;
     virtual void pressP(MatchForm& matchForm) const = 0;
+    virtual void pressAnyOtherButton(MatchForm& matchForm) const = 0;
 
 };
 

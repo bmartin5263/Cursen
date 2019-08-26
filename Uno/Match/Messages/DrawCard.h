@@ -7,6 +7,7 @@
 
 #include <Uno/Data/DataManager.h>
 #include <Uno/Forms/MatchForm.h>
+#include <Uno/Match/Events/DrawCardEvent.h>
 #include "Uno/Messages/DataMessage.h"
 #include "Uno/GameObjects/Match.h"
 
@@ -34,7 +35,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             MatchForm* matchForm = GetCurrentForm<MatchForm>();
-            matchForm->drawCard(index, drawn_card);
+            matchForm->getMatchEventQueue().pushEvent(new DrawCardEvent(index, drawn_card));
 
         CONTEXT_CHECK_END
     }

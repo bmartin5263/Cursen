@@ -14,35 +14,40 @@ void WaitingToDealCardsState::pressEnter(MatchForm& form) const
 
 void WaitingToDealCardsState::pressD(MatchForm& matchForm) const
 {
-    // Cannot Draw Cards Before Game Starts
+    matchForm.getController()->handleDealCards();
 }
 
 void WaitingToDealCardsState::pressSpace(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    matchForm.getController()->handleDealCards();
 }
 
 void WaitingToDealCardsState::pressB(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    matchForm.getController()->handleDealCards();
 }
 
 void WaitingToDealCardsState::pressR(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    matchForm.getController()->handleDealCards();
 }
 
 void WaitingToDealCardsState::pressY(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    matchForm.getController()->handleDealCards();
 }
 
 void WaitingToDealCardsState::pressG(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    matchForm.getController()->handleDealCards();
 }
 
 void WaitingToDealCardsState::pressP(MatchForm& matchForm) const
 {
-    // Do Nothing Intentionally
+    matchForm.getController()->handleDealCards();
+}
+
+void WaitingToDealCardsState::pressAnyOtherButton(MatchForm& matchForm) const
+{
+    matchForm.getController()->handleDealCards();
 }

@@ -27,6 +27,7 @@
 #include <array>
 #include <Uno/Other/WinnerAnimation.h>
 #include <Uno/Other/PointTallyAnimation.h>
+#include <Uno/Match/Events/MatchEventQueue.h>
 
 class MatchController;
 class MatchInputState;
@@ -89,6 +90,7 @@ public:
     GiantCard& getFrontCard();
     PlayerTile& getPlayerTile(int index);
     UnoConsole& getConsole();
+    MatchEventQueue& getMatchEventQueue();
 
 private:
 
@@ -98,6 +100,8 @@ private:
 
     int card_index;
     int hand_index;
+
+    MatchEventQueue event_queue;
 
     cursen::Label welcome;
     cursen::Label deck_size;
@@ -128,8 +132,9 @@ private:
     PointTallyAnimation point_tally_animation;
     cursen::Animation wildColorAnimation;
     cursen::Animation wild_hand_cards_animation;
-
     cursen::AlarmHandle ai_handle;
+
+    cursen::Color wild_color;
 };
 
 

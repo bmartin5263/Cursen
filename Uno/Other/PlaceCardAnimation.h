@@ -19,6 +19,8 @@ public:
     void run();
     void animationEnd();
 
+    bool isRunning();
+
 private:
 
     MatchForm* matchForm;

@@ -7,6 +7,7 @@
 #include <Uno/Match/MatchControllers.h>
 #include <Uno/Data/DataManager.h>
 #include <Uno/Match/MatchReturnData.h>
+#include <Uno/Match/Events/PlaceCardEvent.h>
 #include "MatchForm.h"
 #include "Cursen/CursenApplication.h"
 #include "Uno/Match/FSM/MatchInputState.h"
@@ -16,7 +17,7 @@
 using namespace cursen;
 
 MatchForm::MatchForm(LobbyType type, Match match) :
-        Form(cursen::Vect2(70, 33)), match(match), card_index(-1), hand_index(0)
+        Form(cursen::Vect2(70, 33)), match(match), card_index(-1), hand_index(0), event_queue(this)
 {
     switch (type)
     {
@@ -158,29 +159,55 @@ void MatchForm::initialize()
     wildColorAnimation.add([this]() { front_card.setForeground(Color::BLUE); });
     wildColorAnimation.onEnd([this]() {
         front_card.setForeground(Card::ConvertToColor(match.getPile().peekCard().getColor()));
-        advanceTurn();
+        advanceTurn(match.getPile().size() == 1 ? 0 : 1);
     });
+
+    wild_color = Color::LAVENDER;
 
     wild_cards.reserve(14);
     wild_hand_cards_animation.setFrameDuration(.06);
     wild_hand_cards_animation.setVariableTime(false);
     wild_hand_cards_animation.add([this]() {
-        for (auto card : wild_cards) card->setForeground(cursen::Color::MAGENTA);
+        for (auto card : wild_cards)
+        {
+            wild_color = Color::MAGENTA;
+            card->setForeground(wild_color);
+        }
     });
     wild_hand_cards_animation.add([this]() {
-        for (auto card : wild_cards) card->setForeground(cursen::Color::ORANGE);
+        for (auto card : wild_cards)
+        {
+            wild_color = Color::ORANGE;
+            card->setForeground(wild_color);
+        }
     });
     wild_hand_cards_animation.add([this]() {
-        for (auto card : wild_cards) card->setForeground(cursen::Color::YELLOW);
+        for (auto card : wild_cards)
+        {
+            wild_color = Color::YELLOW;
+            card->setForeground(wild_color);
+        }
     });
     wild_hand_cards_animation.add([this]() {
-        for (auto card : wild_cards) card->setForeground(cursen::Color::GREEN);
+        for (auto card : wild_cards)
+        {
+            wild_color = Color::GREEN;
+            card->setForeground(wild_color);
+        }
     });
     wild_hand_cards_animation.add([this]() {
-        for (auto card : wild_cards) card->setForeground(cursen::Color::BLUE);
+        for (auto card : wild_cards)
+        {
+            wild_color = Color::BLUE;
+            card->setForeground(wild_color);
+        }
     });
     wild_hand_cards_animation.add([this]() {
-        for (auto card : wild_cards) card->setForeground(cursen::Color::LAVENDER);
+        for (auto card : wild_cards)
+        {
+            wild_color = Color::LAVENDER;
+            card->setForeground(wild_color);
+        }
     });
     wild_hand_cards_animation.start();
 
@@ -274,7 +301,7 @@ void MatchForm::interpretCard()
         match.reverseTurnOrder();
         AlarmManager::SetTimeout([this]() { reverse_animation.run(match.isTurnOrderReversed() ? -1 : 1, match.getPile().size() == 1); }, 1.5);
     }
-    else if (match.isWaitingForWildColor())
+    else if (match.isWildCard())
     {
         if (match.myTurn())
         {
@@ -289,6 +316,7 @@ void MatchForm::interpretCard()
                 controller->handleAITurn();
             }
         }
+        event_queue.popEvent();
     }
     else {
         advanceTurn(match.getPile().size() == 1 ? 0 : 1);
@@ -317,7 +345,7 @@ void MatchForm::advanceTurn(int amount)
             console.setMessage(match.getCurrentPlayerName() + "'s Turn");
             ai_handle = AlarmManager::SetTimeout([this]() {
                 controller->handleAITurn();
-            }, 1.5);
+            }, 1.0);
         }
         else if (match.myTurn())
         {
@@ -337,6 +365,7 @@ void MatchForm::advanceTurn(int amount)
             console.setMessage(match.getCurrentPlayerName() + "'s Turn");
         }
     }
+    event_queue.popEvent();
 }
 
 void MatchForm::setConsoleMessage(std::string msg)
@@ -347,11 +376,6 @@ void MatchForm::setConsoleMessage(std::string msg)
 void MatchForm::setConsoleWarning(std::string  msg)
 {
     this->console.setWarning(msg);
-}
-
-void MatchForm::enterPress(EVENT_ARG)
-{
-    state->pressEnter(*this);
 }
 
 void MatchForm::setState(const MatchInputState* state)
@@ -377,13 +401,11 @@ void MatchForm::waitToBegin()
 void MatchForm::beginGame(Card initial_card)
 {
     match.getDeck().popCard();
-    //match.pushCardToPile(Card(CardColor::GREEN, CardValue::REVERSE));
-    match.pushCardToPile(initial_card);
-    front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
+    initial_card = Card(CardColor::BLUE, CardValue::DRAW_2);
     setDeckMeterCount(match.getDeckSize());
     card_index = 0;
     card_array[card_index].hoverOn();
-    placeCardAnimation.run();
+    event_queue.pushEvent(new PlaceCardEvent(-1, -1, initial_card));
 }
 
 void MatchForm::updateHand(int player_index, size_t max)
@@ -402,7 +424,11 @@ void MatchForm::updateHand(int player_index, size_t max)
     for (; start < hand_size; ++start)
     {
         const Card& c = hand.get(start);
-        if (c.isWild()) wild_cards.push_back(&card_array[count]);
+        if (c.isWild())
+        {
+            card_array[count].setForeground(wild_color);
+            wild_cards.push_back(&card_array[count]);
+        }
         card_array[count].setHidden(false);
         card_array[count++].injectCard(c);
         if (count == max) break;
@@ -477,14 +503,15 @@ void MatchForm::drawCard(int index, Card drawn_card)
     {
         ai_handle = AlarmManager::SetTimeout([this]() {
             controller->handleAITurn();
-        }, .5);
+        }, .3);
     }
+    event_queue.popEvent();
 }
 
 void MatchForm::playCard(int index, int played_card_index, Card played_card)
 {
     // Update Match State
-    match.removeCardFromPlayer(index, played_card_index);
+    if (played_card_index != -1) match.removeCardFromPlayer(index, played_card_index);
     match.pushCardToPile(played_card);
 
     // Update User Interface
@@ -493,17 +520,20 @@ void MatchForm::playCard(int index, int played_card_index, Card played_card)
         back_card.setValuesFrom(front_card, match.isTurnOrderReversed());
     }
     front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
-    size_t hand_size = match.getPlayers()[index].getHandSize();
-    tile_array[index]->setCardCount(hand_size);
-    if (index == match.getMyIndex())
+    if (index != -1)
     {
-        updateHand(index);
-        if (played_card_index == hand_size)
+        size_t hand_size = match.getPlayers()[index].getHandSize();
+        tile_array[index]->setCardCount(hand_size);
+        if (index == match.getMyIndex())
         {
-            card_array[card_index].hoverOff();
-            if (hand_size > 0)
+            updateHand(index);
+            if (played_card_index == hand_size)
             {
-                card_array[--card_index].hoverOn();
+                card_array[card_index].hoverOff();
+                if (hand_size > 0)
+                {
+                    card_array[--card_index].hoverOn();
+                }
             }
         }
     }
@@ -599,8 +629,14 @@ void MatchForm::keyPress(EVENT_ARG)
             state->pressP(*this);
             break;
         default:
+            state->pressAnyOtherButton(*this);
             break;
     }
+}
+
+void MatchForm::enterPress(EVENT_ARG)
+{
+    state->pressEnter(*this);
 }
 
 int MatchForm::getSelectedCardIndex()
@@ -618,6 +654,7 @@ void MatchForm::wildColorChange(CardColor color)
     match.setWildColor(color);
     front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
     console.setMessage("  WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD WILD  ");
+    //assert(!placeCardAnimation.isRunning());
     wildColorAnimation.start();
 }
 
@@ -638,7 +675,8 @@ void MatchForm::displayDrawMessage(int force_draws)
 
 void MatchForm::displayTurnMessage()
 {
-    console.setMessage("Your Turn. Select a Card or (D)raw");
+    if (match.getDeckSize() > 0) console.setMessage("Your Turn. Select a Card or (D)raw");
+    else console.setMessage("Your Turn. Select a Card or (P)ass");
 }
 
 void MatchForm::passTurn(CardColor new_color)
@@ -678,4 +716,9 @@ void MatchForm::tallyPoints(int winner)
     }
     console.setMessage("Tallying Points");
     point_tally_animation.run(winner, points_won);
+}
+
+MatchEventQueue& MatchForm::getMatchEventQueue()
+{
+    return event_queue;
 }

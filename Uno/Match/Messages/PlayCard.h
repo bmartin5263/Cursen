@@ -5,6 +5,7 @@
 #ifndef CURSEN_PLAYCARD_H
 #define CURSEN_PLAYCARD_H
 
+#include <Uno/Match/Events/PlaceCardEvent.h>
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/MatchForm.h"
 
@@ -32,7 +33,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
         MatchForm* matchForm = GetCurrentForm<MatchForm>();
-        matchForm->playCard(index, card_index, played_card);
+        matchForm->getMatchEventQueue().pushEvent(new PlaceCardEvent(index, card_index, played_card));
 
         CONTEXT_CHECK_END
     }

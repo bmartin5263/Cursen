@@ -28,7 +28,7 @@ Match& Match::operator=(const Match& other)
         this->current_player_index = other.current_player_index;
         this->current_player_id = other.current_player_id;
         this->consecutive_passes = other.consecutive_passes;
-        this->waitingForWildCardColor = other.waitingForWildCardColor;
+        //this->waitingForWildCardColor = other.waitingForWildCardColor;
         this->reversed = other.reversed;
     }
     return *this;
@@ -123,7 +123,7 @@ int Match::getIndex(int player_id)
 bool Match::canPlayCard(int player_index, int card_index)
 {
     // Can't play a card if a wild card needs a color or if its not your turn or if you need to draw
-    if (!waitingForWildCardColor && current_player_index == player_index && players[player_index].getForceDraws() == 0)
+    if (!isWildCard() && current_player_index == player_index && players[player_index].getForceDraws() == 0)
     {
         Hand& hand = players[player_index].getHand();
         size_t hand_size = hand.size();
@@ -136,7 +136,7 @@ bool Match::canPlayCard(int player_index, int card_index)
             const Card& top_card = pile.peekCard();
 
             // Wild cards can only be played if the player has no other legal cards
-            if (card.getValue() == CardValue::PLUS_4)
+            if (card.getValue() == CardValue::DRAW_4)
             {
                 if (!hand.hasPlayableCardFor(top_card)) return true;
             }
@@ -168,7 +168,7 @@ void Match::setWildColor(CardColor color)
     Card new_card = top.changeColor(color);
     pile.popCard();
     pile.pushCard(new_card);
-    waitingForWildCardColor = false;
+    //waitingForWildCardColor = false;
 }
 
 int Match::getCurrentTurnId()
@@ -181,7 +181,7 @@ ClientMatch Match::convertToClientMatch(int client_id)
     ClientMatch clientMatch;
     clientMatch.pile = this->pile;
     clientMatch.current_player_index = this->current_player_index;
-    clientMatch.waitingForWildCardColor = this->waitingForWildCardColor;
+    //clientMatch.waitingForWildCardColor = this->waitingForWildCardColor;
     clientMatch.num_players = this->num_players;
     clientMatch.my_id = client_id;
     clientMatch.deck_size = deck.size();
@@ -199,7 +199,7 @@ void Match::readFromClientMatch(ClientMatch clientMatch)
     current_player_id = -1;
     current_player_index = clientMatch.current_player_index;
     pile = clientMatch.pile;
-    waitingForWildCardColor = clientMatch.waitingForWildCardColor;
+    //waitingForWildCardColor = clientMatch.waitingForWildCardColor;
     deck.clear();
     for (int i = 0; i < clientMatch.deck_size; ++i) deck.pushCard(Card());
     my_id = clientMatch.my_id;
@@ -254,10 +254,6 @@ void Match::removeCardFromPlayer(int index, int card_index)
 void Match::pushCardToPile(Card card)
 {
     pile.pushCard(card);
-    if (card.isWild())
-    {
-        waitingForWildCardColor = true;
-    }
     consecutive_passes = 0;
 }
 
@@ -313,8 +309,8 @@ int Match::getForceDrawAmount()
 {
     // TODO: peek next player then add the amount, instead of checking every time
     const Card& top_card = pile.peekCard();
-    if (top_card.getValue() == CardValue::PLUS_2) return 2;
-    else if (top_card.getValue() == CardValue::PLUS_4) return 4;
+    if (top_card.getValue() == CardValue::DRAW_2) return 2;
+    else if (top_card.getValue() == CardValue::DRAW_4) return 4;
     return 0;
 }
 
@@ -358,18 +354,6 @@ int Match::getConsecutivePasses()
     return consecutive_passes;
 }
 
-/*
- * Player players[Lobby::MAX_PLAYERS];
-    Deck deck;
-    Deck pile;
-    int num_players;
-    int current_player_index;
-    int current_player_id;
-    int my_id;
-    int consecutive_passes;
-    bool waitingForWildCardColor;
-    bool reversed;
- */
 size_t Match::serialize(char* const buffer) const
 {
     size_t written = 0;
@@ -383,7 +367,7 @@ size_t Match::serialize(char* const buffer) const
     written += Serializable::Serialize(buffer + written, current_player_index);
     written += Serializable::Serialize(buffer + written, current_player_id);
     written += Serializable::Serialize(buffer + written, consecutive_passes);
-    written += Serializable::Serialize(buffer + written, waitingForWildCardColor);
+    //written += Serializable::Serialize(buffer + written, waitingForWildCardColor);
     written += Serializable::Serialize(buffer + written, reversed);
     return written;
 }
@@ -401,7 +385,7 @@ size_t Match::deserialize(const char* const buffer)
     read += Serializable::Deserialize(buffer + read, current_player_index);
     read += Serializable::Deserialize(buffer + read, current_player_id);
     read += Serializable::Deserialize(buffer + read, consecutive_passes);
-    read += Serializable::Deserialize(buffer + read, waitingForWildCardColor);
+    //read += Serializable::Deserialize(buffer + read, waitingForWildCardColor);
     read += Serializable::Deserialize(buffer + read, reversed);
     return read;
 }
@@ -409,4 +393,9 @@ size_t Match::deserialize(const char* const buffer)
 size_t Match::sizeOf() const
 {
     return sizeof(Match);
+}
+
+bool Match::isWildCard()
+{
+    return pile.peekCard().isWild();
 }

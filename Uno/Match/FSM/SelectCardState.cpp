@@ -9,7 +9,7 @@
 
 void SelectCardState::pressEnter(MatchForm& matchForm) const
 {
-
+    matchForm.getController()->clickCard();
 }
 
 void SelectCardState::pressD(MatchForm& matchForm) const
@@ -45,4 +45,9 @@ void SelectCardState::pressG(MatchForm& matchForm) const
 void SelectCardState::pressP(MatchForm& matchForm) const
 {
     matchForm.getController()->passTurn();
+}
+
+void SelectCardState::pressAnyOtherButton(MatchForm& matchForm) const
+{
+
 }

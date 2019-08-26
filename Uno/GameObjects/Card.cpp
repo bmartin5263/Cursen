@@ -8,7 +8,7 @@ const CardColor Card::COLORS[4] = {CardColor::BLUE, CardColor::RED, CardColor::G
 const CardValue Card::VALUES_NO_WILD[13] = {
         CardValue::ZERO, CardValue::ONE, CardValue::TWO, CardValue::THREE, CardValue::FOUR,
         CardValue::FIVE, CardValue::SIX, CardValue::SEVEN, CardValue::EIGHT, CardValue::NINE,
-        CardValue::SKIP, CardValue::REVERSE, CardValue::PLUS_2
+        CardValue::SKIP, CardValue::REVERSE, CardValue::DRAW_2
 };
 
 const std::unordered_map<CardValue, std::vector<std::string>, cursen::EnumClassHash> Card::BIG_NUMBERS = {
@@ -25,8 +25,8 @@ const std::unordered_map<CardValue, std::vector<std::string>, cursen::EnumClassH
         {CardValue::NINE, {"  .d8888b.  ", " d88P  Y88b ", " 888    888 ", " Y88b. d888 ", "  \"Y888P888 ", "        888 "," Y88b  d88P ", "  \"Y8888P\"  "}},
         {CardValue::SKIP, {" Y8b    d8P ", "  Y8b  d8P  ", "   Y8888P   ", "    Y88P    ", "    d88b    ", "   d8888b   ","  d8P  Y8b  ", " d8P    Y8b "}},
         {CardValue::REVERSE, {"   Y88b     ", "    Y88b    ", "     Y88b   ", "      Y88b  ", "      d88P  ", "     d88P   ","    d88P    ", "   d88P     "}},
-        {CardValue::PLUS_2, {"   db       ", "   88       ", " C8888D     ", "   88  8888 ", "   VP     8 ", "       8888 ","       8    ", "       8888 "}},
-        {CardValue::PLUS_4, {"   db       ", "   88       ", " C8888D     ", "   88    d  ", "   VP   d8  ", "       d 8  ","      d8888 ", "         8  "}},
+        {CardValue::DRAW_2, {"   db       ", "   88       ", " C8888D     ", "   88  8888 ", "   VP     8 ", "       8888 ","       8    ", "       8888 "}},
+        {CardValue::DRAW_4, {"   db       ", "   88       ", " C8888D     ", "   88    d  ", "   VP   d8  ", "       d 8  ","      d8888 ", "         8  "}},
         {CardValue::WILD, {" 88      88 ", " 88      88 ", " 88  db  88 ", " 88 d88b 88 ", " 88d8888b88 ", " 88P    Y88 "," 8P      Y8 ", " P        Y "}},
 
 };
@@ -86,9 +86,9 @@ std::string Card::ToString(CardValue value)
             return "Eight";
         case CardValue::NINE:
             return "Nine";
-        case CardValue::PLUS_2:
+        case CardValue::DRAW_2:
             return "Draw 2";
-        case CardValue::PLUS_4:
+        case CardValue::DRAW_4:
             return "Draw 4";
         case CardValue::WILD:
             return "Wild";
@@ -123,7 +123,7 @@ int Card::Score(const Card& card) {
         case CardValue::NINE:
             return 9;
         case CardValue::WILD:
-        case CardValue::PLUS_4:
+        case CardValue::DRAW_4:
             return 50;
         default:                    // skip, reverse, plus2
             return 20;
@@ -138,7 +138,7 @@ Card::Card() :
 
 
 Card::Card(CardColor color, CardValue value) :
-        color(color), value(value), wild(value == CardValue::PLUS_4 || value == CardValue::WILD)
+        color(color), value(value), wild(value == CardValue::DRAW_4 || value == CardValue::WILD)
 {
 }
 
@@ -214,9 +214,9 @@ std::string Card::getUpperLabel(CardValue value)
             return " 8";
         case CardValue::NINE:
             return " 9";
-        case CardValue::PLUS_2:
+        case CardValue::DRAW_2:
             return "+2";
-        case CardValue::PLUS_4:
+        case CardValue::DRAW_4:
             return "+4";
         case CardValue::WILD:
             return " W";
@@ -251,9 +251,9 @@ std::string Card::getLowerLabel(CardValue value)
             return "8 ";
         case CardValue::NINE:
             return "9 ";
-        case CardValue::PLUS_2:
+        case CardValue::DRAW_2:
             return "+2";
-        case CardValue::PLUS_4:
+        case CardValue::DRAW_4:
             return "+4";
         case CardValue::WILD:
             return "W ";

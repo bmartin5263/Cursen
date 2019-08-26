@@ -44,3 +44,8 @@ void WildColorChoiceState::pressP(MatchForm& matchForm) const
 {
     // Do Nothing Intentionally
 }
+
+void WildColorChoiceState::pressAnyOtherButton(MatchForm& matchForm) const
+{
+
+}

@@ -21,6 +21,7 @@ public:
     void pressY(MatchForm& matchForm) const override;
     void pressG(MatchForm& matchForm) const override;
     void pressP(MatchForm& matchForm) const override;
+    void pressAnyOtherButton(MatchForm& matchForm) const override;
 
 };
 
