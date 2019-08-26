@@ -134,10 +134,12 @@ void ClientController::sendCloseMessages()
 
 void ClientController::handleEnterMatch()
 {
-    Player* players = lobbyForm->getLobby().getPlayers();
-    int num_players = lobbyForm->getLobby().getNumPlayers();
+    lobbyForm->stopChat();
+    Lobby& lobby = lobbyForm->getLobby();
+    Player* players = lobby.getPlayers();
+    int num_players = lobby.getNumPlayers();
 
-    int my_id = lobbyForm->getLobby().getMyId();
+    int my_id = lobby.getMyId();
     int my_index = -1;
     for (int i = 0; i < num_players; ++i)
     {

@@ -28,12 +28,24 @@ class Constants {
 
 public:
 
+    Constants();
+    int getRandomNumber();
+
+    static Constants& Instance() {
+        static Constants instance;
+        return instance;
+    }
+
     const static int NUM_PLAYER_COLORS = 6;
     const static int NUM_CARD_COLORS = 4;
     const static PlayerColor PLAYER_COLORS[NUM_PLAYER_COLORS];
     const static CardColor CARD_COLORS[NUM_CARD_COLORS];
     const static int MAX_NAME_LEN = 12;
     const static char* WHITESPACE;
+
+    std::random_device rd;
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution;
 
     int turnOffK(int n, int k)
     {
@@ -65,15 +77,12 @@ public:
 
     static CardColor getRandomCardColor(CardColor exclude = CardColor::WHITE)
     {
-        std::random_device rd;
-        std::default_random_engine generator(rd());
-        std::uniform_int_distribution<int> distribution(0,4);
-        CardColor color = CARD_COLORS[distribution(generator)];
+        int index = Instance().getRandomNumber();
+        CardColor color = CARD_COLORS[index];
         while (exclude != CardColor::WHITE && color == exclude)
         {
-            std::default_random_engine generator;
-            std::uniform_int_distribution<int> distribution(0,4);
-            color = CARD_COLORS[distribution(generator)];
+            index = Instance().getRandomNumber();
+            color = CARD_COLORS[index];
         }
         return color;
     }

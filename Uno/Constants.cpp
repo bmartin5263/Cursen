@@ -22,3 +22,13 @@ const CardColor Constants::CARD_COLORS[NUM_CARD_COLORS] = {
 
 
 const char* Constants::WHITESPACE = " \n\r\t\f\v";
+
+Constants::Constants() :
+        generator(rd()), distribution(0,3)
+{
+}
+
+int Constants::getRandomNumber()
+{
+    return distribution(generator);
+}

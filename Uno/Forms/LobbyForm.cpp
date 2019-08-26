@@ -321,14 +321,11 @@ void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
     playerStaging.stopSearching();
     playerStaging.clear();
 
+    stopChat();
+
     console.setMessage("");
     chat_box.clearAllMessages();
     close_button.setText("Close Lobby");
-
-    if (chat_box.isActive())
-    {
-        chat_box.setActive(false);
-    }
 
     if (was_kicked)
     {
@@ -534,19 +531,25 @@ void LobbyForm::selectPlayerToRemove(int playerNum)
 
 void LobbyForm::startChat()
 {
-    chat_box.setActive(true);
-    lobby_cursor.setEnabled(false);
-    chat_button.setForeground(Color::GREEN);
-    console.setMessage("Press Escape to Finish Chatting");
-    chat_box.onEnterPress([&](const Event& e) { this->sendChatMessage(); });
+    if (!chat_box.isActive())
+    {
+        chat_box.setActive(true);
+        lobby_cursor.setEnabled(false);
+        chat_button.setForeground(Color::GREEN);
+        console.setMessage("Press Escape to Finish Chatting");
+        chat_box.onEnterPress([&](const Event& e) { this->sendChatMessage(); });
+    }
 }
 
 void LobbyForm::stopChat()
 {
-    chat_box.detachEnterPress();
-    chat_box.setActive(false);
-    lobby_cursor.setEnabled(true);
-    chat_button.setForeground(Color::WHITE);
+    if (chat_box.isActive())
+    {
+        chat_box.detachEnterPress();
+        chat_box.setActive(false);
+        lobby_cursor.setEnabled(true);
+        chat_button.setForeground(Color::WHITE);
+    }
 }
 
 void LobbyForm::sendChatMessage()

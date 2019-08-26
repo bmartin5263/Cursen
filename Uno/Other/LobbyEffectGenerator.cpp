@@ -120,6 +120,6 @@ void LobbyEffectGenerator::reset()
     runners[1].reset(69,0);
     runners[2].reset(0,31);
     runners[3].reset(69,31);
-    runners[4].reset(0,20);
-    runners[5].reset(69,20);
+    runners[4].reset(0,15);
+    runners[5].reset(69,15);
 }

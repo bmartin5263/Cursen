@@ -345,7 +345,7 @@ bool Match::isTurnOrderReversed()
 
 bool Match::canPass(int player_index)
 {
-    return (deck.size() == 0 && !players[player_index].hasPlayableCard(pile.peekCard()));
+    return current_player_index == player_index && deck.size() == 0 && !players[player_index].hasPlayableCard(pile.peekCard());
 }
 
 void Match::pass()

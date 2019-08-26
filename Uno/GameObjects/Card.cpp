@@ -170,10 +170,7 @@ bool Card::isWild() const {
 }
 
 Card Card::changeColor(CardColor new_color) const {
-    if (wild) {
-        return Card(new_color, this->value, false);
-    }
-    return *this;
+    return Card(new_color, this->value, false);
 }
 
 cursen::Color Card::ConvertToColor(CardColor color)

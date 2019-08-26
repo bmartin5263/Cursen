@@ -40,11 +40,12 @@ public:
             MatchForm* matchForm = GetCurrentForm<MatchForm>();
             Match& match = matchForm->getMatch();
             int index = match.getIndex(id);
-            if (match.canPass(index))
+            if (match.canPass(index) || true)
             {
                 if (match.getConsecutivePasses() + 1 >= match.getNumPlayers())
                 {
-                    DataMessage* msg = new PassTurn(Constants::getRandomCardColor(match.getPile().peekCard().getColor()));
+                    CardColor new_color = Constants::getRandomCardColor(match.getPile().peekCard().getColor());
+                    DataMessage* msg = new PassTurn(new_color);
                     msg->setSendType(SendType::Both);
                     DataManager::PushMessage(msg);
                 }

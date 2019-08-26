@@ -46,12 +46,22 @@ public:
 
     size_t serialize(char* const buffer) const override
     {
-        return DataMessage::serialize(buffer);
+        size_t written = DataMessage::serialize(buffer);
+
+        written += DataMessage::Serialize(buffer + written, (int)new_color);
+
+        return written;
     }
 
     size_t deserialize(const char* const buffer) override
     {
-        return DataMessage::deserialize(buffer);
+        size_t read = DataMessage::deserialize(buffer);
+        int raw_color;
+
+        read += DataMessage::Deserialize(buffer + read, raw_color);
+        new_color = static_cast<CardColor>(raw_color);
+
+        return read;
     }
 
 private:

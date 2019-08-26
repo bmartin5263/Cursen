@@ -121,9 +121,11 @@ void LocalController::sendCloseMessages()
 
 void LocalController::handleEnterMatch()
 {
-    Player* players = lobbyForm->getLobby().getPlayers();
-    int num_players = lobbyForm->getLobby().getNumPlayers();
-    int my_id = lobbyForm->getLobby().getMyId();
+    Lobby& lobby = lobbyForm->getLobby();
+    lobbyForm->stopChat();
+    Player* players = lobby.getPlayers();
+    int num_players = lobby.getNumPlayers();
+    int my_id = lobby.getMyId();
     int my_index = -1;
     for (int i = 0; i < num_players; ++i)
         if (players[i].getId() == my_id) my_index = i;
