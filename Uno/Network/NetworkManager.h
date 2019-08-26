@@ -24,6 +24,11 @@ public:
     static void WriteMessage(QueueEntry* entry);
     static NetworkDevice& GetDevice();
 
+    static void OnConnect(const NetworkDevice::SockFunction& callback);
+    static void OnDisconnect(const NetworkDevice::SockFunction& callback);
+    static void DetachOnConnect();
+    static void DetachOnDisconnect();
+
 private:
 
 

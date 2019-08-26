@@ -23,7 +23,7 @@ public:
 
 private:
 
-    size_t max_len;
+    size_t tick_val;
     size_t current_len;
 
 };

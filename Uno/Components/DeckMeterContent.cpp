@@ -8,13 +8,13 @@
 using namespace cursen;
 
 DeckMeterContent::DeckMeterContent() :
-    TextComponent(Vect2(0,0), Vect2(1,9)), max_len(0), current_len(0)
+    TextComponent(Vect2(0,0), Vect2(1,9)), tick_val(0), current_len(0)
 {
 
 }
 
 DeckMeterContent::DeckMeterContent(cursen::Vect2 pos) :
-    TextComponent(pos, Vect2(1, 9)), max_len(0), current_len(0)
+    TextComponent(pos, Vect2(1, 9)), tick_val(0), current_len(0)
 {
 
 }
@@ -29,7 +29,7 @@ void DeckMeterContent::render()
     Content& content = getContent();
     Vect2 dimensions = getSize();
 
-    size_t num_equals = (size_t)ceil((double)current_len / 12.0);
+    size_t num_equals = (size_t)ceil((double)current_len / tick_val);
 
     chtype line[dimensions.y];
 //
@@ -55,7 +55,7 @@ void DeckMeterContent::render()
 
 void DeckMeterContent::setDeckSize(size_t size)
 {
-    max_len = size;
+    tick_val = size / 9;
     invalidate();
 }
 

@@ -61,3 +61,23 @@ NetworkDevice& NetworkManager::GetDevice()
     return *Instance().device;
 }
 
+void NetworkManager::OnConnect(const NetworkDevice::SockFunction& callback)
+{
+    Instance().device->onConnect(callback);
+}
+
+void NetworkManager::OnDisconnect(const NetworkDevice::SockFunction& callback)
+{
+    Instance().device->onDisconnect(callback);
+}
+
+void NetworkManager::DetachOnConnect()
+{
+    Instance().device->detachOnConnect();
+}
+
+void NetworkManager::DetachOnDisconnect()
+{
+    Instance().device->detachOnDisconnect();
+}
+

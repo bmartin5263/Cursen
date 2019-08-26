@@ -17,6 +17,8 @@ class NetworkDevice {
 
 public:
 
+    typedef std::function<void(int)> SockFunction;
+
     NetworkDevice() = default;
     virtual ~NetworkDevice() = default;
 
@@ -25,7 +27,44 @@ public:
     virtual void writeMessage(QueueEntry* entry) = 0;
     virtual void destroy() = 0;
 
+    void onConnect(const SockFunction& callback)
+    {
+        f_onConnect = callback;
+    }
+
+    void onDisconnect(const SockFunction& callback)
+    {
+        f_onDisconnect = callback;
+    }
+
+    void detachOnConnect()
+    {
+        f_onConnect = 0;
+    }
+
+    void detachOnDisconnect()
+    {
+        f_onDisconnect = 0;
+    }
+
+    void callOnConnect(int sock)
+    {
+        if (f_onConnect) f_onConnect(sock);
+    }
+
+    void callOnDisconnect(int sock)
+    {
+        if (f_onDisconnect) f_onDisconnect(sock);
+    }
+
+protected:
+
+    SockFunction f_onConnect;
+    SockFunction f_onDisconnect;
+
 private:
+
+
 
 };
 

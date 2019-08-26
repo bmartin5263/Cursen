@@ -85,6 +85,7 @@ void Host::processNetworkMessages()
         }
         ((LobbyForm*)cursen::CursenApplication::GetCurrentForm())->getConsole().setText("Received Connection");
         addSock(new_socket);
+        //callOnConnect(new_socket.fd());
     }
 
     for (int i = 0; i < MAX_CONNECTIONS; ++i)
@@ -106,6 +107,7 @@ void Host::processNetworkMessages()
                     msg->setSendType(SendType::Local);
                     DataManager::PushMessage(msg);
                 }
+                //callOnDisconnect(sock.fd());
 
             }
             else

@@ -5,7 +5,7 @@
 #include <Uno/Constants.h>
 #include "Player.h"
 
-const std::string Player::COMP_NAMES[] = { "Watson", "SkyNet", "Hal 9000", "Metal Gear" };
+const std::string Player::COMP_NAMES[] = { "SkyNet", "Hal 9000", "Metal Gear", "Watson" };
 
 Player::Player() :
     name("Null"), color(PlayerColor::GRAY), points(-1), id(-1), force_draws(0), ai(false)

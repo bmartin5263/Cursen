@@ -164,6 +164,7 @@ void Client::connectionLost()
             DataManager::PushMessage(msg);
             break;
     }
+    //callOnDisconnect(host_sock.fd());
     connected = false;
     host_sock = Socket();
 }

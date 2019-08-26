@@ -1,8 +1,35 @@
     bd
   db``db
  b`/  \`d
-d`/  O \`d
+d`/    \`d
 b`\    /`b
  b`\  /`d
+  db``db
+    bd
+
+    bd
+  db``db
+ b`/  \`d
+d`|    |`d
+b`|    |`b
+ b`\  /`d
+  db``db
+    bd
+
+    bd
+  db``db
+ b`/  \`d
+d` |  | `d
+b` |  | `b
+ b`\  /`d
+  db``db
+    bd
+
+    bd
+  db``db
+ b` || `d
+d`  ||  `d
+b`  ||  `b
+ b` || `d
   db``db
     bd
