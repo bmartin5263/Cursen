@@ -126,6 +126,7 @@ void Host::processNetworkMessages()
                 readVal = 0;
                 while (readVal < msg_size)
                 {
+                    // TODO what if read returns 0?
                     readVal += read(sock_fd, buffer + readVal, msg_size - readVal);
                 }
 

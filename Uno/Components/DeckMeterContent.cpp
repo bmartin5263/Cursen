@@ -8,13 +8,13 @@
 using namespace cursen;
 
 DeckMeterContent::DeckMeterContent() :
-    TextComponent(Vect2(0,0), Vect2(1,9)), tick_val(0), current_len(0)
+    TextComponent(Vect2(0,0), Vect2(1,9)), tick_val(1), current_len(0)
 {
 
 }
 
 DeckMeterContent::DeckMeterContent(cursen::Vect2 pos) :
-    TextComponent(pos, Vect2(1, 9)), tick_val(0), current_len(0)
+    TextComponent(pos, Vect2(1, 9)), tick_val(1), current_len(0)
 {
 
 }
