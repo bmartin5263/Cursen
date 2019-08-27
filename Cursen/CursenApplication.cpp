@@ -30,7 +30,7 @@ CURSEN_CLASS_START
 
     void CursenApplication::initialize()
     {
-        srand((unsigned) time(nullptr));
+        //srand((unsigned) time(nullptr));
     }
 
     /*

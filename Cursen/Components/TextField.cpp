@@ -21,6 +21,10 @@ namespace cursen {
         Component::setEnabled(false);
         VisualComponent::setHidden(true);
 
+        onKeyPress([&](const Event& event) { this->keyPress(event); });
+        onDeletePress([&](const Event& event) { this->deletePress(event); });
+        onArrowPress([&](const Event& event) { this->moveCursor(event); });
+
         text = "";
         stretch = false;
         cursor_x = 0;
@@ -118,22 +122,18 @@ namespace cursen {
             Component::setEnabled(value);
             if (isEnabled()) {
                 setHidden(false);
+                setSilenced(false);
                 CursesManager::SetCursor(1);
                 CursesManager::MoveCursor(getPosition() + Vect2((int) text.length(), 0));
-                onKeyPress([&](const Event& event) { this->keyPress(event); });
-                onDeletePress([&](const Event& event) { this->deletePress(event); });
-                onArrowPress([&](const Event& event) { this->moveCursor(event); });
             } else {
                 setHidden(true);
+                setSilenced(true);
                 CursesManager::SetCursor(0);
-                detachKeyPress();
-                detachDeletePress();
-                detachArrowPress();
             }
         }
     }
 
-    void TextField::setActiveBackgroundColor(Color color)
+    void TextField::setActiveBackgroundColor(const Color& color)
     {
         active_bg_color = color;
     }

@@ -31,7 +31,7 @@ namespace cursen {
         std::string getText() override;
         void setEnabled(bool value) override;
 
-        void setActiveBackgroundColor(Color color);
+        void setActiveBackgroundColor(const Color& color);
 
 
     private:
