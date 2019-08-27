@@ -48,11 +48,23 @@ public:
             }
             else
             {
-                const Card& top_card = match.getPile().peekCard();
-                std::string color_str = Card::ToString(top_card.getColor());
-                std::string value_str = Card::ToString(top_card.getValue());
-                DataMessage* data_msg = new IllegalAction(
-                        "Card does not have the color " + color_str + " or the value " + value_str + "!");
+                std::string reason;
+                if (match.getCurrentTurn() != index)
+                {
+                    reason = "Can't play a card when it isn't your turn!";
+                }
+                else if (match.getCardFromPlayer(index, card_index).getValue() == CardValue::DRAW_4)
+                {
+                    reason = "Can't play +4 card unless it is the only playable card in your hand!";
+                }
+                else
+                {
+                    const Card& top_card = match.getPile().peekCard();
+                    std::string color_str = Card::ToString(top_card.getColor());
+                    std::string value_str = Card::ToString(top_card.getValue());
+                    reason =  "Card does not have the color " + color_str + " or the value " + value_str + "!";
+                }
+                DataMessage* data_msg = new IllegalAction(reason);
                 data_msg->setSendType(SendType::Network);
                 data_msg->setRecipient(getSender());
                 data_msg->setRecipientType(RecipientType::Single);

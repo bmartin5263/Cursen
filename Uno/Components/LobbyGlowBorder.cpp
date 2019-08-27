@@ -482,7 +482,6 @@ void LobbyGlowBorder::initialize()
     });
     animation.setFrameDuration(.01);
     animation.setVariableTime(false);
-    setDrawOrder(100);
     validate();
 }
 

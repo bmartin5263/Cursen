@@ -40,7 +40,7 @@ public:
             MatchForm* matchForm = GetCurrentForm<MatchForm>();
             Match& match = matchForm->getMatch();
             int index = match.getIndex(id);
-            if (match.canPass(index) || true)
+            if (match.canPass(index))
             {
                 if (match.getConsecutivePasses() + 1 >= match.getNumPlayers())
                 {

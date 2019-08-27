@@ -293,13 +293,13 @@ void MatchForm::interpretCard()
         if (match.getPile().size() == 1) skipped_turn = match.getCurrentTurn();
         else skipped_turn = match.peekNextTurn();
         console.setWarning("Skip Card Played! Skipping " + match.getPlayer(skipped_turn).getName() + "'s Turn");
-        AlarmManager::SetTimeout([this, skipped_turn]() { skip_animation.run(skipped_turn); }, 1.5);
+        AlarmManager::SetTimeout([this, skipped_turn]() { skip_animation.run(skipped_turn); }, 1.0);
     }
     else if (match.isReverseCard())
     {
         console.setWarning("Reverse Card Played! Reversing Turn Order");
         match.reverseTurnOrder();
-        AlarmManager::SetTimeout([this]() { reverse_animation.run(match.isTurnOrderReversed() ? -1 : 1, match.getPile().size() == 1); }, 1.5);
+        AlarmManager::SetTimeout([this]() { reverse_animation.run(match.isTurnOrderReversed() ? -1 : 1, match.getPile().size() == 1); }, 1.0);
     }
     else if (match.isWildCard())
     {
@@ -326,6 +326,7 @@ void MatchForm::interpretCard()
 
 void MatchForm::advanceTurn(int amount)
 {
+    setState(&MatchFSM::selectCardState);
     if (match.currentPlayerHasEmptyHand())
     {
         controller->startGameoverEvent(match.getCurrentTurn());
@@ -358,7 +359,6 @@ void MatchForm::advanceTurn(int amount)
             {
                 displayTurnMessage();
             }
-            setState(&MatchFSM::selectCardState);
         }
         else
         {
@@ -401,7 +401,7 @@ void MatchForm::waitToBegin()
 void MatchForm::beginGame(Card initial_card)
 {
     match.getDeck().popCard();
-    initial_card = Card(CardColor::BLUE, CardValue::DRAW_2);
+    //initial_card = Card(CardColor::BLUE, CardValue::DRAW_2);
     setDeckMeterCount(match.getDeckSize());
     card_index = 0;
     card_array[card_index].hoverOn();

@@ -8,6 +8,7 @@
 #include <functional>
 
 #include "Cursen/Components/AggregateComponent.h"
+#include <Uno/Components/IPEntryBox.h>
 #include "Cursen/Components/Label.h"
 #include "Cursen/Components/Box.h"
 #include "Cursen/Components/Button.h"
@@ -64,6 +65,7 @@ private:
     cursen::TextField ip_entry;
     cursen::TwirlProgress join_progress;
     std::string player_name;
+    IPEntryBox ip_entry_box;
 
 };
 

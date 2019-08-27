@@ -14,6 +14,8 @@ class NetworkManager
 
 public:
 
+    typedef std::function<void(int)> SockFunction;
+
     static const int PORT = 58000;
     static const int MSG_SIZE = 2048;
 
@@ -28,6 +30,8 @@ public:
     static void OnDisconnect(const NetworkDevice::SockFunction& callback);
     static void DetachOnConnect();
     static void DetachOnDisconnect();
+    static void CallOnConnect(int sock);
+    static void CallOnDisconnect(int sock);
 
 private:
 
@@ -46,6 +50,9 @@ private:
 
     NetworkDevice* device;
     NetworkMode mode;
+
+    SockFunction f_onConnect;
+    SockFunction f_onDisconnect;
 
 };
 

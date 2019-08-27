@@ -10,6 +10,8 @@
 #include <string>
 #include <Uno/GameObjects/CardColor.h>
 #include <random>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 struct RNG {
     int operator() (int n) {
@@ -85,6 +87,18 @@ public:
             color = CARD_COLORS[index];
         }
         return color;
+    }
+
+    static bool validateIPv4(const std::string& ip)
+    {
+        sockaddr_in sa;
+        return inet_pton(AF_INET, ip.c_str(), &(sa.sin_addr))!=0;
+    }
+
+    static bool validateIPv6(const std::string& str)
+    {
+        sockaddr_in6 sa;
+        return inet_pton(AF_INET6, str.c_str(), &(sa.sin6_addr))!=0;
     }
 
 };
