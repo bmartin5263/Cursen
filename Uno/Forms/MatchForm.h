@@ -78,6 +78,9 @@ public:
     void clickCard();
     void pressDraw();
 
+    void addPlayerToUno(PlayerTile* tile);
+    void removePlayerToUno(PlayerTile* tile);
+
     void enterPress(EVENT_ARG);
     void arrowPress(EVENT_ARG);
     void keyPress(EVENT_ARG);
@@ -112,8 +115,8 @@ private:
     LowerBorder lowerBorder;
     cursen::Box hand_box;
     HandCard leftCard;
-    HandCard rightCard;
     HandCard card_array[14];
+    HandCard rightCard;
     DeckMeter deckMeter;
     PlayerTile p0Tile;
     PlayerTile p1Tile;
@@ -123,6 +126,7 @@ private:
     GiantCard front_card;
     GiantCard back_card;
     std::vector<HandCard*> wild_cards;
+    std::unordered_set<PlayerTile*> uno_tiles;
 
     DealCardsEventAnimation dealCardsEventController;
     PlaceCardAnimation placeCardAnimation;
@@ -132,6 +136,7 @@ private:
     PointTallyAnimation point_tally_animation;
     cursen::Animation wildColorAnimation;
     cursen::Animation wild_hand_cards_animation;
+    cursen::Animation uno_animation;
     cursen::AlarmHandle ai_handle;
 
     cursen::Color wild_color;

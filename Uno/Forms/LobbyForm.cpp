@@ -431,7 +431,10 @@ void LobbyForm::tryJoin()
     mode_select_box.detachEnterPress();
 
     std::string address = mode_select_box.getIpAddress();
-    if (address == "" || address == "127.0.0.1" || address == "localhost") address = "::0";
+    if (address == "" || address == "127.0.0.1" || address == "localhost")
+    {
+        address = "::0";
+    };
 
     NetworkManager::SetMode(NetworkMode::Client);
     auto& device = (Client&) NetworkManager::GetDevice();

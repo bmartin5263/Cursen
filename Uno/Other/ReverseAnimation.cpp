@@ -18,6 +18,7 @@ ReverseAnimation::ReverseAnimation()
 
     reverse_animation.onEnd([this]() {
         matchForm->advanceTurn(first_card ? 0 : 1);
+        matchForm->getMatchEventQueue().popEvent();
     });
 }
 

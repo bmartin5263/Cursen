@@ -32,6 +32,7 @@ void DeckMeter::initialize()
     addRelative(meter);
 
     low_deck.setFrameDuration(.6);
+    low_deck.setVariableTime(false);
     low_deck.add([&]() { border.setForeground(Color::MAGENTA); });
     low_deck.add([&]() { border.setForeground(Color::WHITE); });
 }

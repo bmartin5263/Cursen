@@ -8,6 +8,7 @@
 #include <Uno/Data/DataManager.h>
 #include <Uno/Match/MatchReturnData.h>
 #include <Uno/Match/Events/PlaceCardEvent.h>
+#include <Uno/Match/Events/WildColorChangeEvent.h>
 #include "MatchForm.h"
 #include "Cursen/CursenApplication.h"
 #include "Uno/Match/FSM/MatchInputState.h"
@@ -53,10 +54,6 @@ void MatchForm::initialize()
 {
     welcome.initialize();
     welcome.setPosition(Vect2(0,0));
-    welcome.setText("Welcome to the Match!");
-    welcome.onDeletePress([&](const Event e) {
-        front_card.shrink();
-    });
 
     console.initialize();
     console.setText("Welcome!");
@@ -160,9 +157,21 @@ void MatchForm::initialize()
     wildColorAnimation.onEnd([this]() {
         front_card.setForeground(Card::ConvertToColor(match.getPile().peekCard().getColor()));
         advanceTurn(match.getPile().size() == 1 ? 0 : 1);
+        event_queue.popEvent();
     });
 
     wild_color = Color::LAVENDER;
+
+    uno_animation.setVariableTime(false);
+    uno_animation.setInfinite(true);
+    uno_animation.setFrameDuration(.3);
+    uno_animation.add([this]() {
+        for (auto tile : uno_tiles)
+        {
+            tile->flash();
+        }
+    });
+    uno_animation.start();
 
     wild_cards.reserve(14);
     wild_hand_cards_animation.setFrameDuration(.06);
@@ -293,6 +302,10 @@ void MatchForm::interpretCard()
         if (match.getPile().size() == 1) skipped_turn = match.getCurrentTurn();
         else skipped_turn = match.peekNextTurn();
         console.setWarning("Skip Card Played! Skipping " + match.getPlayer(skipped_turn).getName() + "'s Turn");
+        if (match.getPlayer(skipped_turn).getHandSize() == 1)
+        {
+            removePlayerToUno(tile_array[skipped_turn]);
+        }
         AlarmManager::SetTimeout([this, skipped_turn]() { skip_animation.run(skipped_turn); }, 1.0);
     }
     else if (match.isReverseCard())
@@ -320,6 +333,7 @@ void MatchForm::interpretCard()
     }
     else {
         advanceTurn(match.getPile().size() == 1 ? 0 : 1);
+        event_queue.popEvent();
     }
 }
 
@@ -365,7 +379,6 @@ void MatchForm::advanceTurn(int amount)
             console.setMessage(match.getCurrentPlayerName() + "'s Turn");
         }
     }
-    event_queue.popEvent();
 }
 
 void MatchForm::setConsoleMessage(std::string msg)
@@ -415,7 +428,7 @@ void MatchForm::updateHand(int player_index, size_t max)
     Hand& hand = p.getHand();
     int start = 14 * hand_index;
     size_t hand_size = hand.size();
-    while (start > hand_size && hand_index > 0)
+    while (start >= hand_size && hand_index > 0)
     {
         --hand_index;
         start = 14 * hand_index;
@@ -483,7 +496,9 @@ void MatchForm::drawCard(int index, Card drawn_card)
     player.getHand().add(drawn_card);
     player.decrementForceDraws();
 
-    tile_array[index]->setCardCount(match.getPlayers()[index].getHandSize());
+    size_t hand_size = match.getPlayers()[index].getHandSize();
+    tile_array[index]->setCardCount(hand_size);
+    removePlayerToUno(tile_array[index]);
     tile_array[index]->flash();
 
     setDeckMeterCount(match.getDeckSize());
@@ -520,19 +535,36 @@ void MatchForm::playCard(int index, int played_card_index, Card played_card)
         back_card.setValuesFrom(front_card, match.isTurnOrderReversed());
     }
     front_card.injectCard(match.getPile().peekCard(), match.isTurnOrderReversed());
+    size_t hand_size = match.getPlayer(index).getHandSize();
+    if (hand_size == 1)
+    {
+        addPlayerToUno(tile_array[index]);
+    }
+    else if (hand_size == 0)
+    {
+        removePlayerToUno(tile_array[index]);
+    }
     if (index != -1)
     {
-        size_t hand_size = match.getPlayers()[index].getHandSize();
         tile_array[index]->setCardCount(hand_size);
         if (index == match.getMyIndex())
         {
+            int original_hand_index = hand_index;
             updateHand(index);
             if (played_card_index == hand_size)
             {
                 card_array[card_index].hoverOff();
                 if (hand_size > 0)
                 {
-                    card_array[--card_index].hoverOn();
+                    if (original_hand_index != hand_index)
+                    {
+                        card_index = 13;
+                    }
+                    else
+                    {
+                        --card_index;
+                    }
+                    card_array[card_index].hoverOn();
                 }
             }
         }
@@ -684,7 +716,7 @@ void MatchForm::passTurn(CardColor new_color)
     match.pass();
     if (new_color != CardColor::WHITE)
     {
-        wildColorChange(new_color);
+        event_queue.pushEvent(new WildColorChangeEvent(new_color));
     }
     else
     {
@@ -694,6 +726,7 @@ void MatchForm::passTurn(CardColor new_color)
 
 void MatchForm::runWinnerAnimation(int winner)
 {
+    uno_tiles.clear();
     if (card_index != -1)
     {
         card_array[card_index].hoverOff();
@@ -721,4 +754,14 @@ void MatchForm::tallyPoints(int winner)
 MatchEventQueue& MatchForm::getMatchEventQueue()
 {
     return event_queue;
+}
+
+void MatchForm::addPlayerToUno(PlayerTile* tile)
+{
+    uno_tiles.insert(tile);
+}
+
+void MatchForm::removePlayerToUno(PlayerTile* tile)
+{
+    uno_tiles.erase(tile);
 }
