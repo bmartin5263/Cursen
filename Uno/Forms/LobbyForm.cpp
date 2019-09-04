@@ -560,9 +560,10 @@ void LobbyForm::sendChatMessage()
     controller->sendChat();
 }
 
-void LobbyForm::changeColor(int playerId, PlayerColor color)
+void LobbyForm::changeColor(int playerIndex, PlayerColor color)
 {
-    lobby->changePlayerColorById(playerId, color);
+    //lobby->changePlayerColorById(playerIndex, color);
+    lobby->changePlayerColor(playerIndex, color);
     chat_box.update(lobby->getMessages());
 }
 
@@ -620,6 +621,7 @@ void LobbyForm::requestClient(int sock_id, std::string name)
 
     Lobby client_lobby = *this->lobby;
     client_lobby.setMyId(new_player.getId());
+    client_lobby.setMyIndex(lobby->getNumPlayers());
 
     DataMessage* join_msg = new LobbyUpdate(client_lobby);
     join_msg->setSendType(SendType::Network);

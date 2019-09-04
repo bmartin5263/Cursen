@@ -33,7 +33,8 @@ public:
     Player& getPlayerByIndex(int index);
     Player* getPlayers();
 
-    void changePlayerColorById(int id, PlayerColor color);
+    void changePlayerColor(int index, PlayerColor color);
+
     PlayerColor getPlayerColor(int id) const;
     int getNumPlayers() const;
 
@@ -50,6 +51,9 @@ public:
     int getMyId();
     void setMyId(int id);
 
+    void setMyIndex(int index);
+    int getMyIndex();
+
     PlayerColor getAvailableColor() const;
     PlayerColor getAvailableColorRGBY() const;
 
@@ -64,6 +68,7 @@ private:
     Player players[MAX_PLAYERS];
     ChatEntry chat_messages[MAX_CHAT];
     int my_id;
+    int my_index;
     int numPlayers;
     bool searching;
 

@@ -57,7 +57,7 @@ void LocalController::clickClose()
 
 void LocalController::clickChangeColor()
 {
-    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyId());
+    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyIndex());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }

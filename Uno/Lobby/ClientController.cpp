@@ -54,7 +54,7 @@ void ClientController::clickClose()
 
 void ClientController::clickChangeColor()
 {
-    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyId());
+    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyIndex());
     msg->setSendType(SendType::Network);
     DataManager::PushMessage(msg);
 }

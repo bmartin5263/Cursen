@@ -7,7 +7,7 @@
 #include "../Constants.h"
 
 Lobby::Lobby() :
-    my_id(-1), numPlayers(0), searching(false)
+    my_id(-1), my_index(-1), numPlayers(0), searching(false)
 {
 }
 
@@ -141,6 +141,7 @@ size_t Lobby::serialize(char* const buffer) const
     }
     written += Serializable::Serialize(buffer + written, searching);
     written += Serializable::Serialize(buffer + written, my_id);
+    written += Serializable::Serialize(buffer + written, my_index);
     return written;
 }
 
@@ -158,6 +159,7 @@ size_t Lobby::deserialize(const char* const buffer)
     }
     read += Serializable::Deserialize(buffer + read, searching);
     read += Serializable::Deserialize(buffer + read, my_id);
+    read += Serializable::Deserialize(buffer + read, my_index);
     return read;
 }
 
@@ -190,21 +192,15 @@ ChatEntry* Lobby::getMessages()
     return chat_messages;
 }
 
-void Lobby::changePlayerColorById(int id, PlayerColor color)
+void Lobby::changePlayerColor(int index, PlayerColor color)
 {
-    for (auto& player : players)
-    {
-        if (player.getId() == id)
-        {
-            player.setColor(color);
-            for (auto& message : chat_messages) {
-                if (message.getId() == id)
-                {
-                    message.setColor(color);
-                }
-            }
-        }
-    }
+    players[index].setColor(color);
+//    for (auto& message : chat_messages) {
+//        if (message.getId() == id)
+//        {
+//            message.setColor(color);
+//        }
+//    }
 }
 
 int Lobby::getMyId()
@@ -264,4 +260,14 @@ bool Lobby::hasId(int id)
 Player* Lobby::getPlayers()
 {
     return players;
+}
+
+void Lobby::setMyIndex(int index)
+{
+    my_index = index;
+}
+
+int Lobby::getMyIndex()
+{
+    return my_index;
 }

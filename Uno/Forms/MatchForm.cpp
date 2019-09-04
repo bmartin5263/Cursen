@@ -540,10 +540,6 @@ void MatchForm::playCard(int index, int played_card_index, Card played_card)
     {
         addPlayerToUno(tile_array[index]);
     }
-    else if (hand_size == 0)
-    {
-        removePlayerToUno(tile_array[index]);
-    }
     if (index != -1)
     {
         tile_array[index]->setCardCount(hand_size);

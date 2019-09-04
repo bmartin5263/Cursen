@@ -63,7 +63,7 @@ void HostController::clickClose()
 
 void HostController::clickChangeColor()
 {
-    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyId());
+    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyIndex());
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }

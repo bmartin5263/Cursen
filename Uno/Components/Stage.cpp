@@ -49,7 +49,8 @@ void Stage::initialize() {
     offCursor([&]() { this->hoverOff(); });
 }
 
-void Stage::setStageColor(const cursen::Color &stageColor) {
+void Stage::setStageColor(const cursen::Color &stageColor)
+{
     this->stage_color = stageColor;
 }
 
@@ -82,7 +83,8 @@ void Stage::clear() {
 }
 
 void Stage::setPlayer(const Player & player) {
-    playerName.setText(player.getName() + " : " + std::to_string(player.getId()));
+    //playerName.setText(player.getName() + " : " + std::to_string(player.getId()));
+    playerName.setText(player.getName());
     points.setText("Points: " + std::to_string(player.getPoints()));
 
     setStageColor(Player::ConvertColor(player.getColor()));

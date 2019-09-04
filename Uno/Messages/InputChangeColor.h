@@ -16,11 +16,11 @@ class InputChangeColor : public DataMessage
 public:
 
     InputChangeColor() :
-        id(-1)
+        pIndex(-1)
     {}
 
-    InputChangeColor(int id) :
-        id(id)
+    InputChangeColor(int pIndex) :
+        pIndex(pIndex)
     {
     }
 
@@ -36,7 +36,7 @@ public:
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             PlayerColor new_color = lobbyForm->getLobby().getAvailableColor();
 
-            DataMessage* msg = new ChangeColor(id, new_color);
+            DataMessage* msg = new ChangeColor(pIndex, new_color);
             msg->setSendType(SendType::Both);
             DataManager::PushMessage(msg);
 
@@ -62,7 +62,7 @@ public:
     {
         size_t written =  DataMessage::serialize(buffer);
 
-        written += Serializable::Serialize(buffer + written, id);
+        written += Serializable::Serialize(buffer + written, pIndex);
 
         return written;
     }
@@ -71,14 +71,14 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += Serializable::Deserialize(buffer + read, id);
+        read += Serializable::Deserialize(buffer + read, pIndex);
 
         return read;
     }
 
 private:
 
-    int id;
+    int pIndex;
 
 };
 

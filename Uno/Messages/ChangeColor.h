@@ -16,8 +16,8 @@ public:
 
     ChangeColor() = default;
 
-    ChangeColor(int id, PlayerColor color) :
-        id(id), new_color(color)
+    ChangeColor(int player_index, PlayerColor color) :
+        player_index(player_index), new_color(color)
     {}
 
     MessageType getType() override
@@ -35,7 +35,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             LobbyForm* lobby = GetCurrentForm<LobbyForm>();
-            lobby->changeColor(id, new_color);
+            lobby->changeColor(player_index, new_color);
 
         CONTEXT_CHECK_END
     }
@@ -54,7 +54,7 @@ public:
     {
         size_t written =  DataMessage::serialize(buffer);
 
-        written += Serializable::Serialize(buffer + written, id);
+        written += Serializable::Serialize(buffer + written, player_index);
         written += Serializable::Serialize(buffer + written, (int)new_color);
 
         return written;
@@ -64,7 +64,7 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += Serializable::Deserialize(buffer + read, id);
+        read += Serializable::Deserialize(buffer + read, player_index);
 
         int raw_color;
         read += Serializable::Deserialize(buffer + read, raw_color);
@@ -75,7 +75,7 @@ public:
 
 private:
 
-    int id;
+    int player_index;
     PlayerColor new_color;
 
 };
