@@ -5,13 +5,13 @@
 #include "ChatEntry.h"
 
 ChatEntry::ChatEntry() :
-    id(-1), color(PlayerColor::GRAY), message("")
+    index(-1), color(PlayerColor::GRAY), message("")
 {
 
 }
 
-ChatEntry::ChatEntry(int id, std::string message, PlayerColor color) :
-    id(id), color(color), message(message)
+ChatEntry::ChatEntry(int index, std::string message, PlayerColor color) :
+    index(index), color(color), message(message)
 {
 
 }
@@ -23,14 +23,14 @@ void ChatEntry::setColor(PlayerColor color)
 
 void ChatEntry::setNull()
 {
-    this->id = -1;
+    this->index = -1;
     this->color = PlayerColor::GRAY;
 }
 
 size_t ChatEntry::serialize(char* const buffer) const
 {
     size_t written = 0;
-    written += Serializable::Serialize(buffer + written, id);
+    written += Serializable::Serialize(buffer + written, index);
     written += Serializable::Serialize(buffer + written, (int)color);
     written += Serializable::Serialize(buffer + written, message.length());
     written += Serializable::Serialize(buffer + written, message.c_str(), message.length());
@@ -40,7 +40,7 @@ size_t ChatEntry::serialize(char* const buffer) const
 size_t ChatEntry::deserialize(const char* const buffer)
 {
     size_t read = 0;
-    read += Serializable::Deserialize(buffer + read, id);
+    read += Serializable::Deserialize(buffer + read, index);
 
     int raw_color;
     read += Serializable::Deserialize(buffer + read, raw_color);

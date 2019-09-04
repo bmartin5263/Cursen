@@ -35,7 +35,7 @@ public:
 
     void changePlayerColor(int index, PlayerColor color);
 
-    PlayerColor getPlayerColor(int id) const;
+    PlayerColor getPlayerColor(int player_index) const;
     int getNumPlayers() const;
 
     void pushMessage(ChatEntry msg);

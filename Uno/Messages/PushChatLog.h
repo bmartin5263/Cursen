@@ -14,8 +14,8 @@ class PushChatLog : public DataMessage {
 public:
 
     PushChatLog() = default;
-    PushChatLog(int id, std::string msg) :
-            message(msg), id(id)
+    PushChatLog(int player_index, std::string msg) :
+            message(msg), player_index(player_index)
     {}
 
     MessageType getType() override
@@ -33,7 +33,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
-            lobbyForm->pushChatMessage(id, message);
+            lobbyForm->pushChatMessage(player_index, message);
 
         CONTEXT_CHECK_END
     }
@@ -52,7 +52,7 @@ public:
     {
         size_t bytes_written = DataMessage::serialize(buffer);
 
-        bytes_written += Serialize(buffer + bytes_written, id);
+        bytes_written += Serialize(buffer + bytes_written, player_index);
         bytes_written += Serialize(buffer + bytes_written, message);
 
         return bytes_written;
@@ -62,7 +62,7 @@ public:
     {
         size_t bytes_read = DataMessage::deserialize(buffer);
 
-        bytes_read += Deserialize(buffer + bytes_read, id);
+        bytes_read += Deserialize(buffer + bytes_read, player_index);
         bytes_read += Deserialize(buffer + bytes_read, message);
 
         return bytes_read;
@@ -71,7 +71,7 @@ public:
 private:
 
     std::string message;
-    int id;
+    int player_index;
 
 };
 

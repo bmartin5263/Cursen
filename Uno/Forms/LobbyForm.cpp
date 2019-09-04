@@ -168,6 +168,7 @@ void LobbyForm::initializeForLocal()
     Player my_player = lobby->createPlayer(mode_select_box.getPlayerName(), PlayerColor::BLUE);
     lobby->setMyId(my_player.getId());
     lobby->addPlayer(my_player);
+    lobby->setMyIndex(0);
 
     NetworkManager::SetMode(NetworkMode::Local);
 
@@ -215,6 +216,7 @@ void LobbyForm::initializeForHost()
     Player host_player = lobby->createPlayer(mode_select_box.getPlayerName(), PlayerColor::BLUE);
     lobby->addPlayer(host_player);
     lobby->setMyId(host_player.getId());
+    lobby->setMyIndex(0);
 
     NetworkManager::SetMode(NetworkMode::Host);
 
@@ -562,15 +564,14 @@ void LobbyForm::sendChatMessage()
 
 void LobbyForm::changeColor(int playerIndex, PlayerColor color)
 {
-    //lobby->changePlayerColorById(playerIndex, color);
     lobby->changePlayerColor(playerIndex, color);
     chat_box.update(lobby->getMessages());
 }
 
-void LobbyForm::pushChatMessage(int playerId, std::string message)
+void LobbyForm::pushChatMessage(int player_index, std::string message)
 {
-    PlayerColor color = lobby->getPlayerColor(playerId);
-    ChatEntry entry(playerId, message, color);
+    PlayerColor color = lobby->getPlayerColor(player_index);
+    ChatEntry entry(player_index, message, color);
     lobby->pushMessage(entry);
     chat_box.update(lobby->getMessages());
 }

@@ -88,7 +88,7 @@ public:
     void sendChatMessage();
 
     void changeColor(int playerId, PlayerColor color);
-    void pushChatMessage(int playerId, std::string message);
+    void pushChatMessage(int player_index, std::string message);
     void addPlayer(Player p, int sock);
 
     void enterMatch();

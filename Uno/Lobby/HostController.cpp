@@ -75,7 +75,7 @@ void HostController::sendChat()
     std::string text = Constants::rtrim(chatBox.getMessage());
     if (!text.empty())
     {
-        DataMessage* msg = new InputChat(lobbyForm->getLobby().getMyId(), text);
+        DataMessage* msg = new InputChat(lobbyForm->getLobby().getMyIndex(), text);
         msg->setSendType(SendType::Local);
         DataManager::PushMessage(msg);
 

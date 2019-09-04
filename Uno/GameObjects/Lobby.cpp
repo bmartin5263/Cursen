@@ -57,15 +57,9 @@ Player& Lobby::getPlayerByIndex(int index)
     return players[index];
 }
 
-PlayerColor Lobby::getPlayerColor(int id) const
+PlayerColor Lobby::getPlayerColor(int player_index) const
 {
-    for (auto& player : players)
-    {
-        if (player.getId() == id)
-        {
-            return player.getColor();
-        }
-    }
+    if (player_index != -1) return players[player_index].getColor();
     return PlayerColor::GRAY;
 }
 
@@ -180,7 +174,7 @@ void Lobby::pushMessage(ChatEntry msg)
 void Lobby::removeMessageById(int id)
 {
     for (int i = 0; i < 9; i++) {
-        if (chat_messages[i].getId() == id)
+        if (chat_messages[i].getIndex() == id)
         {
             chat_messages[i].setNull();
         }
@@ -195,12 +189,12 @@ ChatEntry* Lobby::getMessages()
 void Lobby::changePlayerColor(int index, PlayerColor color)
 {
     players[index].setColor(color);
-//    for (auto& message : chat_messages) {
-//        if (message.getId() == id)
-//        {
-//            message.setColor(color);
-//        }
-//    }
+    for (auto& message : chat_messages) {
+        if (message.getIndex() == index)
+        {
+            message.setColor(color);
+        }
+    }
 }
 
 int Lobby::getMyId()

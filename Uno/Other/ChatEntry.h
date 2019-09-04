@@ -16,15 +16,16 @@ class ChatEntry : public Serializable
 public:
 
     ChatEntry();
-    ChatEntry(int id, std::string message, PlayerColor color);
+    ChatEntry(int index, std::string message, PlayerColor color);
 
     void setColor(PlayerColor color);
 
     void setNull();
-    bool isNull() { return id == -1; }
+    bool isNull() { return index == -1; }
     PlayerColor getColor() { return color; }
     std::string& getMessage() { return message; }
-    int getId() { return id; }
+
+    int getIndex() { return index; }
 
     size_t serialize(char* const buffer) const override;
     size_t deserialize(const char* const buffer) override;
@@ -32,7 +33,7 @@ public:
 
 private:
 
-    int id;
+    int index;
     PlayerColor color;
     std::string message;
 
