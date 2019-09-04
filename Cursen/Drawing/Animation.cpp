@@ -117,7 +117,8 @@ namespace cursen
 
     void Animation::nextFrame()
     {
-        assert(running);
+        int changes = 0;
+        //assert(running);
         callCurrentFrame();
         double time = frames[currentFrame].getDuration();   // get the time before we change the frame
         currentFrame = (currentFrame + 1) % numFrames;
@@ -135,6 +136,7 @@ namespace cursen
                     if (variable_time)
                     {
                         animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
+                        ++changes;
                     }
                 }
                 else
@@ -149,15 +151,21 @@ namespace cursen
                         if (variable_time)
                         {
                             animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
+                            ++changes;
                         }
                     }
                 }
             }
             else
             {
-                if (variable_time) animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
+                if (variable_time)
+                {
+                    animationHandle = AlarmManager::SetTimeout([&]() { this->nextFrame(); }, time);
+                    ++changes;
+                }
             }
         }
+        assert(changes <= 1);
     }
 
     void Animation::setFrameDuration(double time)

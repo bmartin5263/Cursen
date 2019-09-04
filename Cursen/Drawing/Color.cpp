@@ -46,9 +46,9 @@ namespace cursen {
     Color Color::RandomColor() {
         int randNum = (rand() % 4);
         if (randNum == 0) return BLUE;
-        if (randNum == 1) return MAGENTA;
-        if (randNum == 2) return GREEN;
-        if (randNum == 3) return YELLOW;
+        else if (randNum == 1) return MAGENTA;
+        else if (randNum == 2) return GREEN;
+        else if (randNum == 3) return YELLOW;
         return Color();
     }
 

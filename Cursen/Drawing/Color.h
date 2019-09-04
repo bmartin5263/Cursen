@@ -52,7 +52,7 @@ namespace cursen {
     };
 
     struct color_hash {
-        size_t operator()(const Color &name ) const
+        size_t operator()(const Color &name) const
         {
             return std::hash<short>()(name.val);
         }
