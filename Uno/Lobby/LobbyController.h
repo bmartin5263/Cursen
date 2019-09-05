@@ -5,6 +5,13 @@
 #ifndef CURSEN_LOBBYCONTROLLER_H
 #define CURSEN_LOBBYCONTROLLER_H
 
+#ifndef UNUSED_VAR
+    #define UNUSED_VAR(x) (void)x;
+#endif
+
+#ifndef UNUSED_PTR
+    #define UNUSED_PTR(x) (void*)x;
+#endif
 
 #include "../Forms/LobbyForm.h"
 
@@ -27,11 +34,12 @@ public:
     virtual void sendChat() = 0;           // HOST, CLIENT
     virtual void selectPlayerToKick(int id) = 0;
 
+    virtual void handleInputColorChange(int sender) = 0;
+
     virtual void handleClose(std::string msg, bool kicked) = 0;
     virtual void handleStartSearch() = 0;
     virtual void handleStopSearch() = 0;
 
-    virtual void handleAddAi(Player new_ai) = 0;
     virtual void handleAddPlayer(Player new_player) = 0;
     virtual void handleRequestJoinLobby(const std::string& name, int sock_fd) = 0;
     virtual void handleUpdatePlayer(const Player& player, int index) = 0;

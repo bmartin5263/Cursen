@@ -145,17 +145,6 @@ void HostController::handleStopSearch()
     lobbyForm->getSearchButton().setText("Search");
 }
 
-void HostController::handleAddAi(Player new_ai)
-{
-    lobbyForm->getLobby().addPlayer(new_ai);
-    lobbyForm->getConsole().setMessage("Welcome, " + new_ai.getName() + "!");
-
-    if (lobbyForm->getLobby().isSearching() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MAX_PLAYERS)
-    {
-        handleStopSearch();
-    }
-}
-
 void HostController::putSocket(int sock, int index)
 {
     socket_map.insert({sock, index});
@@ -298,4 +287,25 @@ void HostController::handleUpdatePlayer(const Player& player, int index)
     lobby.setPlayer(player, index);
 
     if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
+}
+
+void HostController::handleInputColorChange(int sender)
+{
+    int player_index = getPlayerIndex(sender);
+
+    if (player_index != -1)
+    {
+        PlayerColor new_color = lobbyForm->getLobby().getAvailableColor();
+        DataMessage* msg = new ChangeColor(player_index, new_color);
+        msg->setSendType(SendType::Both);
+        DataManager::PushMessage(msg);
+    }
+}
+
+int HostController::getPlayerIndex(int sock)
+{
+    if (sock == 0) return 0;
+    std::map<int, int>::const_iterator it = socket_map.find(sock);
+    if (it != socket_map.end()) return it->second;
+    return -1;
 }

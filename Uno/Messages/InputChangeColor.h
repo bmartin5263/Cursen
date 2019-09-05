@@ -34,11 +34,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
-            PlayerColor new_color = lobbyForm->getLobby().getAvailableColor();
-
-            DataMessage* msg = new ChangeColor(pIndex, new_color);
-            msg->setSendType(SendType::Both);
-            DataManager::PushMessage(msg);
+            lobbyForm->getController().handleInputColorChange(getSender());
 
         CONTEXT_CHECK_END
     }
@@ -61,18 +57,12 @@ public:
     size_t serialize(char* const buffer) const override
     {
         size_t written =  DataMessage::serialize(buffer);
-
-        written += Serializable::Serialize(buffer + written, pIndex);
-
         return written;
     }
 
     size_t deserialize(const char* const buffer) override
     {
         size_t read = DataMessage::deserialize(buffer);
-
-        read += Serializable::Deserialize(buffer + read, pIndex);
-
         return read;
     }
 

@@ -51,6 +51,7 @@ public:
     void changeColor(int playerId, PlayerColor color);
     void pushChatMessage(int player_index, std::string message);
     //void addPlayer(Player p, int sock);
+    void kickPlayer(int id);
 
     void enterMatch();
 
@@ -60,10 +61,6 @@ public:
     LobbyController& getController() { return *this->controller; }
     PlayerStaging& getPlayerStaging() { return playerStaging; }
     cursen::Button& getSearchButton() { return search_button; }
-
-    void requestAI();
-    void requestClient(int sock_id, std::string name);
-    void kickPlayer(int id);
 
 private:
 

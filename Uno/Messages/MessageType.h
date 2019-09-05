@@ -12,7 +12,6 @@ enum class MessageType {
     ChangeColor,
     InputChat,
     PushChatLog,
-    AddAI,
     InputAddAi,
     InputKick,
     KickPlayer,

@@ -86,12 +86,6 @@ void LocalController::handleStopSearch()
     assert(false);
 }
 
-void LocalController::handleAddAi(Player new_ai)
-{
-    lobbyForm->getLobby().addPlayer(new_ai);
-    lobbyForm->getConsole().setMessage("Welcome, " + new_ai.getName() + "!");
-}
-
 void LocalController::handleKickPlayer(int id)
 {
     lobbyForm->kickPlayer(id);
@@ -164,4 +158,14 @@ void LocalController::handleUpdatePlayer(const Player& player, int index)
     lobby.setPlayer(player, index);
 
     if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
+}
+
+void LocalController::handleInputColorChange(int sender)
+{
+    UNUSED_VAR(sender)
+
+    PlayerColor new_color = lobbyForm->getLobby().getAvailableColor();
+    DataMessage* msg = new ChangeColor(0, new_color);
+    msg->setSendType(SendType::Both);
+    DataManager::PushMessage(msg);
 }

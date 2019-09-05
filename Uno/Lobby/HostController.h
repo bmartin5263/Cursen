@@ -27,9 +27,9 @@ public:
     void handleClose(std::string msg, bool kicked) override;
     void handleStartSearch() override ;
     void handleStopSearch() override ;
-    void handleAddAi(Player new_ai) override;
 
     void putSocket(int sock, int index);
+    int getPlayerIndex(int sock);
 
     void handleKickPlayer(int id) override;
     void sendKickMessages(int id) override;
@@ -39,6 +39,7 @@ public:
     void handleAddPlayer(Player new_player) override;
     void handleRequestJoinLobby(const std::string& name, int sock_fd) override;
     void handleUpdatePlayer(const Player& player, int index) override;
+    void handleInputColorChange(int sender) override;
 
 private:
 

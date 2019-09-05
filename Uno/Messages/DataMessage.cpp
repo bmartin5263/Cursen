@@ -16,7 +16,6 @@
 #include <Uno/Match/Messages/InputEndGame.h>
 
 #include "DataMessage.h"
-#include "AddAI.h"
 #include "ChangeColor.h"
 #include "CloseRoom.h"
 #include "InputAddAi.h"
@@ -54,9 +53,6 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::PushChatLog:
             msg = new PushChatLog;
-            break;
-        case MessageType::AddAI:
-            msg = new AddAI;
             break;
         case MessageType::InputAddAi:
             msg = new InputAddAi;

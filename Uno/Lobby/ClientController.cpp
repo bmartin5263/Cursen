@@ -93,17 +93,6 @@ void ClientController::handleStopSearch()
     lobbyForm->getPlayerStaging().stopSearching();
 }
 
-void ClientController::handleAddAi(Player new_ai)
-{
-    lobbyForm->getLobby().addPlayer(new_ai);
-    lobbyForm->getConsole().setMessage("Welcome, " + new_ai.getName() + "!");
-
-    if (lobbyForm->getLobby().isSearching() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MAX_PLAYERS)
-    {
-        handleStopSearch();
-    }
-}
-
 void ClientController::handleKickPlayer(int id)
 {
     lobbyForm->kickPlayer(id);
@@ -185,4 +174,9 @@ void ClientController::handleUpdatePlayer(const Player& player, int index)
     lobby.setPlayer(player, index);
 
     if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
+}
+
+void ClientController::handleInputColorChange(int sender)
+{
+    assert(false);
 }

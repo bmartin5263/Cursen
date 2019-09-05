@@ -16,7 +16,6 @@
 #include "Uno/Lobby/LocalController.h"
 #include "Uno/Lobby/ClientController.h"
 #include "Uno/Data/DataManager.h"
-#include "Uno/Messages/AddAI.h"
 #include "Uno/Messages/InputKick.h"
 #include "Uno/Messages/RequestJoinLobby.h"
 #include "Uno/Network/Client.h"
@@ -451,22 +450,6 @@ void LobbyForm::pushChatMessage(int player_index, std::string message)
     chat_box.update(lobby->getMessages());
 }
 
-void LobbyForm::requestAI()
-{
-    if (lobby->getNumPlayers() < Lobby::MAX_PLAYERS)
-    {
-
-        std::string computer_name = Player::GetComputerName();
-        PlayerColor computer_color = lobby->getAvailableColorRGBY();
-
-        Player new_ai = lobby->createAI(computer_name, computer_color);
-
-        DataMessage* msg = new AddAI(new_ai);
-        msg->setSendType(SendType::Both);
-        DataManager::PushMessage(msg);
-    }
-}
-
 void LobbyForm::kickPlayer(int id)
 {
     Player p = lobby->getPlayer(id);
@@ -474,49 +457,6 @@ void LobbyForm::kickPlayer(int id)
     chat_box.update(lobby->getMessages());
     console.setWarning("Later, " + p.getName());
 }
-
-//void LobbyForm::addPlayer(Player p, int sock)
-//{
-//    HostController* host_controller = (HostController*) controller;
-//    host_controller->putSocket(sock, p.getId());
-//    lobby->addPlayer(p);
-//    console.setMessage("Welcome, " + p.getName() + "!");
-//
-//    if (lobby->isSearching() && lobby->getNumPlayers() >= Lobby::MAX_PLAYERS)
-//    {
-//        controller->handleStopSearch();
-//    }
-//}
-
-//void LobbyForm::requestClient(int sock_id, std::string name)
-//{
-//    assert(lobby->getNumPlayers() < Lobby::MAX_PLAYERS);
-//    PlayerColor color = lobby->getAvailableColorRGBY();
-//
-//    Player new_player = lobby->createPlayer(name, color);
-//
-//    Lobby client_lobby = *this->lobby;
-//    client_lobby.setMyId(new_player.getId());
-//    client_lobby.setMyIndex(lobby->getNumPlayers());
-//
-//    DataMessage* join_msg = new LobbyUpdate(client_lobby);
-//    join_msg->setSendType(SendType::Network);
-//    join_msg->setRecipient(sock_id);
-//    join_msg->setRecipientType(RecipientType::Single);
-//    DataManager::PushMessage(join_msg);
-//
-//    DataMessage* add_ai_msg = new AddAI(new_player);
-//    add_ai_msg->setSendType(SendType::Network);
-//    add_ai_msg->setRecipient(sock_id);
-//    add_ai_msg->setRecipientType(RecipientType::Broadcast);
-//    DataManager::PushMessage(add_ai_msg);
-//
-//    DataMessage* add_player_msg = new AddPlayer(new_player, sock_id);
-//    add_player_msg->setSendType(SendType::Local);
-//    add_player_msg->setRecipient(sock_id);
-//    add_player_msg->setRecipientType(RecipientType::Broadcast);
-//    DataManager::PushMessage(add_player_msg);
-//}
 
 Lobby& LobbyForm::getLobby()
 {
