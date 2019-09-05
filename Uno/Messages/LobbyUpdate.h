@@ -6,6 +6,7 @@
 #define CURSEN_LOBBYUPDATE_H
 
 #include "DataMessage.h"
+#include "Uno/Data/DataManager.h"
 #include "Uno/GameObjects/Lobby.h"
 
 class LobbyUpdate : public DataMessage
