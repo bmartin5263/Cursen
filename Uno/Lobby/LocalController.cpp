@@ -53,7 +53,7 @@ void LocalController::clickClose()
 
 void LocalController::clickChangeColor()
 {
-    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyIndex());
+    DataMessage* msg = new InputChangeColor;
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
@@ -61,13 +61,6 @@ void LocalController::clickChangeColor()
 void LocalController::sendChat()
 {
     assert(false);
-}
-
-void LocalController::selectPlayerToKick(int id)
-{
-    DataMessage* msg = new InputKick(id);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
 }
 
 void LocalController::handleClose(std::string msg, bool kicked)
@@ -86,16 +79,24 @@ void LocalController::handleStopSearch()
     assert(false);
 }
 
-void LocalController::handleKickPlayer(int id)
+void LocalController::handleKickPlayer(int index)
 {
-    lobbyForm->kickPlayer(id);
+    Lobby& lobby = lobbyForm->getLobby();
+    Player p = lobby.getPlayerByIndex(index);
+    lobby.removePlayerByIndex(index);
+    lobbyForm->getChatBox().update(lobby.getMessages());
+    lobbyForm->getConsole().setWarning("Later, " + p.getName());
 }
 
-void LocalController::sendKickMessages(int id)
+void LocalController::handleInputKick(int index)
 {
-    DataMessage* msg = new KickPlayer(id);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
+    int numPlayers = lobbyForm->getLobby().getNumPlayers();
+    if (index > 0 && index < numPlayers)
+    {
+        DataMessage* msg = new KickPlayer(index);
+        msg->setSendType(SendType::Local);
+        DataManager::PushMessage(msg);
+    }
 }
 
 void LocalController::handleDisconnect(int sock)
@@ -168,4 +169,11 @@ void LocalController::handleInputColorChange(int sender)
     DataMessage* msg = new ChangeColor(0, new_color);
     msg->setSendType(SendType::Both);
     DataManager::PushMessage(msg);
+}
+
+void LocalController::handleChatInput(int sender, const std::string& message)
+{
+    UNUSED_VAR(sender);
+    UNUSED_VAR(message);
+    assert(false);
 }

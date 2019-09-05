@@ -26,6 +26,7 @@ public:
     std::string& getMessage() { return message; }
 
     int getIndex() { return index; }
+    void setIndex(int index) { this->index = index; }
 
     size_t serialize(char* const buffer) const override;
     size_t deserialize(const char* const buffer) override;

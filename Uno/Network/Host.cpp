@@ -100,14 +100,14 @@ void Host::processNetworkMessages()
             {
                 /* Send a message that the socket disconnected */
                 removeSock(sock);
-                if (DataManager::GetContext() == Context::ContextLobby) {
-                    ((LobbyForm*)cursen::CursenApplication::GetCurrentForm())->getConsole().setWarning("Buh Bye");
-                    DataMessage* msg = new ConnectionSevered(sock_fd);
-                    msg->setSender(sock_fd);
-                    msg->setSendType(SendType::Local);
-                    DataManager::PushMessage(msg);
-                }
-                //callOnDisconnect(sock.fd());
+//                if (DataManager::GetContext() == Context::ContextLobby) {
+//                    ((LobbyForm*)cursen::CursenApplication::GetCurrentForm())->getConsole().setWarning("Buh Bye");
+//                    DataMessage* msg = new ConnectionSevered(sock_fd);
+//                    msg->setSender(sock_fd);
+//                    msg->setSendType(SendType::Local);
+//                    DataManager::PushMessage(msg);
+//                }
+                NetworkManager::CallOnDisconnect(sock.fd());
 
             }
             else

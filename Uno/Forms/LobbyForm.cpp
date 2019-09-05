@@ -196,17 +196,18 @@ void LobbyForm::initializeForLocal()
 
     mode_select_box.setHidden(true);
     glowBorder.setEnabled(false);
-    lobby_cursor.moveTo(&add_ai_button);
-    lobby_cursor.setEnabled(true);
     chat_box.setEnabled(true);
     start_button.enableIf([&]() { return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START; });
     search_button.setEnabled(false);
     add_ai_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
+    add_ai_button.setEnabled(true);
     kick_button.enableIf([&]() { return lobby->getNumPlayers() > 1; });
     chat_button.setEnabled(false);
     change_color_button.setEnabled(true);
     close_button.setEnabled(true);
 
+    lobby_cursor.moveTo(&add_ai_button);
+    lobby_cursor.setEnabled(true);
 }
 
 void LobbyForm::initializeForHost()
@@ -225,17 +226,19 @@ void LobbyForm::initializeForHost()
     console.setMessage("Welcome To Uno!");
     mode_select_box.setHidden(true);
     glowBorder.setEnabled(false);
-    lobby_cursor.moveTo(&add_ai_button);
-    lobby_cursor.setEnabled(true);
     chat_box.setEnabled(true);
 
     start_button.enableIf([&]() { return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START; });
     search_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
     add_ai_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
+    add_ai_button.setEnabled(true);
     kick_button.enableIf([&]() { return lobby->getNumPlayers() > 1; });
     chat_button.setEnabled(true);
     change_color_button.setEnabled(true);
     close_button.setEnabled(true);
+
+    lobby_cursor.moveTo(&add_ai_button);
+    lobby_cursor.setEnabled(true);
 }
 
 void LobbyForm::initializeForClient()
@@ -362,20 +365,6 @@ void LobbyForm::enableRemovePlayerCursor()
     console.setMessage("Select Player to Kick");
 }
 
-void LobbyForm::removePlayer(int playerNum)
-{
-    if (playerNum != 0)
-    {
-        Player p = lobby->getPlayer(playerNum);
-        lobby->removePlayer(playerNum);
-        console.setWarning("Later, " + p.getName());
-    }
-    else
-    {
-        console.setMessage("OK, Nevermind");
-    }
-}
-
 void LobbyForm::setMainPlayerName()
 {
     TextField& field = mode_select_box.getMainPlayerStage().getTextField();
@@ -401,17 +390,23 @@ void LobbyForm::selectPlayerToRemove(int playerNum)
 {
     lobby_cursor.setEnabled(true);
     playerStaging.disableCursor();
+    sendInputRemovePlayer(playerNum);
+}
 
-    if (playerNum != 0)
+void LobbyForm::sendInputRemovePlayer(int index)
+{
+    if (index != 0)
     {
-        int id = lobby->getPlayerByIndex(playerNum).getId();
-        controller->selectPlayerToKick(id);
+        DataMessage* msg = new InputKick(index);
+        msg->setSendType(SendType::Local);
+        DataManager::PushMessage(msg);
     }
     else
     {
         console.setMessage("Okay, Never mind");
     }
 }
+
 
 void LobbyForm::startChat()
 {
@@ -450,10 +445,10 @@ void LobbyForm::pushChatMessage(int player_index, std::string message)
     chat_box.update(lobby->getMessages());
 }
 
-void LobbyForm::kickPlayer(int id)
+void LobbyForm::kickPlayer(int index)
 {
-    Player p = lobby->getPlayer(id);
-    lobby->removePlayer(id);
+    Player p = lobby->getPlayerByIndex(index);
+    lobby->removePlayerByIndex(index);
     chat_box.update(lobby->getMessages());
     console.setWarning("Later, " + p.getName());
 }

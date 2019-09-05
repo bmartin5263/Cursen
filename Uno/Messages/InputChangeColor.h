@@ -15,14 +15,7 @@ class InputChangeColor : public DataMessage
 {
 public:
 
-    InputChangeColor() :
-        pIndex(-1)
-    {}
-
-    InputChangeColor(int pIndex) :
-        pIndex(pIndex)
-    {
-    }
+    InputChangeColor() = default;
 
     MessageType getType() override
     {
@@ -65,10 +58,6 @@ public:
         size_t read = DataMessage::deserialize(buffer);
         return read;
     }
-
-private:
-
-    int pIndex;
 
 };
 

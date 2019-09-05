@@ -32,9 +32,10 @@ public:
     virtual void clickClose() = 0;          // HOST, CLIENT, LOCAL
     virtual void clickChangeColor() = 0;    // HOST, CLIENT, LOCAL
     virtual void sendChat() = 0;           // HOST, CLIENT
-    virtual void selectPlayerToKick(int id) = 0;
 
     virtual void handleInputColorChange(int sender) = 0;
+    virtual void handleChatInput(int sender, const std::string& message) = 0;
+    virtual void handleInputKick(int index) = 0;
 
     virtual void handleClose(std::string msg, bool kicked) = 0;
     virtual void handleStartSearch() = 0;
@@ -44,8 +45,7 @@ public:
     virtual void handleRequestJoinLobby(const std::string& name, int sock_fd) = 0;
     virtual void handleUpdatePlayer(const Player& player, int index) = 0;
 
-    virtual void sendKickMessages(int id) = 0;
-    virtual void handleKickPlayer(int id) = 0;
+    virtual void handleKickPlayer(int index) = 0;
     virtual void handleDisconnect(int sock) = 0;
     virtual void sendCloseMessages() = 0;
 

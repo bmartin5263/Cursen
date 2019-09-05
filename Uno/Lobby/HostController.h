@@ -22,7 +22,6 @@ public:
     void clickClose() override;
     void clickChangeColor() override;
     void sendChat() override;
-    void selectPlayerToKick(int id) override;
 
     void handleClose(std::string msg, bool kicked) override;
     void handleStartSearch() override ;
@@ -31,8 +30,8 @@ public:
     void putSocket(int sock, int index);
     int getPlayerIndex(int sock);
 
-    void handleKickPlayer(int id) override;
-    void sendKickMessages(int id) override;
+    void handleKickPlayer(int index) override;
+    void handleInputKick(int index) override;
     void handleDisconnect(int sock) override;
     void sendCloseMessages() override;
     void handleEnterMatch() override;
@@ -40,6 +39,7 @@ public:
     void handleRequestJoinLobby(const std::string& name, int sock_fd) override;
     void handleUpdatePlayer(const Player& player, int index) override;
     void handleInputColorChange(int sender) override;
+    void handleChatInput(int sender, const std::string& message) override;
 
 private:
 

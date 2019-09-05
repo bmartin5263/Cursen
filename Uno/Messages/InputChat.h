@@ -16,8 +16,8 @@ public:
 
     InputChat() = default;
 
-    InputChat(int player_index, std::string msg) :
-        message(msg), player_index(player_index)
+    InputChat(std::string msg) :
+        message(msg)
     {}
 
     MessageType getType() override
@@ -34,9 +34,8 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            DataMessage* msg = new PushChatLog(player_index, message);
-            msg->setSendType(SendType::Both);
-            DataManager::PushMessage(msg);
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
+            lobbyForm->getController().handleChatInput(getSender(), message);
 
         CONTEXT_CHECK_END
     }
@@ -55,7 +54,6 @@ public:
     {
         size_t bytes_written = DataMessage::serialize(buffer);
 
-        bytes_written += Serialize(buffer + bytes_written, player_index);
         bytes_written += Serialize(buffer + bytes_written, message);
 
         return bytes_written;
@@ -65,7 +63,6 @@ public:
     {
         size_t bytes_read = DataMessage::deserialize(buffer);
 
-        bytes_read += Deserialize(buffer + bytes_read, player_index);
         bytes_read += Deserialize(buffer + bytes_read, message);
 
         return bytes_read;
@@ -74,7 +71,6 @@ public:
 private:
 
     std::string message;
-    int player_index;
 
 };
 

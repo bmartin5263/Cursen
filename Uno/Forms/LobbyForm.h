@@ -37,7 +37,8 @@ public:
 
     void enableRemovePlayerCursor();
     void selectPlayerToRemove(int index);
-    void removePlayer(int index);
+    void sendInputRemovePlayer(int index);
+    void kickPlayer(int index);
 
     void setMainPlayerName();
 
@@ -51,7 +52,6 @@ public:
     void changeColor(int playerId, PlayerColor color);
     void pushChatMessage(int player_index, std::string message);
     //void addPlayer(Player p, int sock);
-    void kickPlayer(int id);
 
     void enterMatch();
 

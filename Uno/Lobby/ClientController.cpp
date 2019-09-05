@@ -46,7 +46,7 @@ void ClientController::clickClose()
 
 void ClientController::clickChangeColor()
 {
-    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyIndex());
+    DataMessage* msg = new InputChangeColor;
     msg->setSendType(SendType::Network);
     DataManager::PushMessage(msg);
 }
@@ -58,7 +58,7 @@ void ClientController::sendChat()
     std::string text = Constants::rtrim(chatBox.getMessage());
     if (!text.empty())
     {
-        DataMessage* msg = new InputChat(lobbyForm->getLobby().getMyIndex(), text);
+        DataMessage* msg = new InputChat(text);
         msg->setSendType(SendType::Network);
         DataManager::PushMessage(msg);
 
@@ -68,11 +68,6 @@ void ClientController::sendChat()
     {
         lobbyForm->stopChat();
     }
-}
-
-void ClientController::selectPlayerToKick(int id)
-{
-    assert(false);
 }
 
 void ClientController::handleClose(std::string msg, bool kicked)
@@ -93,14 +88,18 @@ void ClientController::handleStopSearch()
     lobbyForm->getPlayerStaging().stopSearching();
 }
 
-void ClientController::handleKickPlayer(int id)
+void ClientController::handleKickPlayer(int index)
 {
-    lobbyForm->kickPlayer(id);
+    Lobby& lobby = lobbyForm->getLobby();
+    Player p = lobby.getPlayerByIndex(index);
+    lobby.removePlayerByIndex(index);
+    lobbyForm->getChatBox().update(lobby.getMessages());
+    lobbyForm->getConsole().setWarning("Later, " + p.getName());
 }
 
-void ClientController::sendKickMessages(int id)
+void ClientController::handleInputKick(int index)
 {
-    //(void*)id;
+    UNUSED_VAR(index)
     assert(false);
 }
 
@@ -163,6 +162,8 @@ void ClientController::handleAddPlayer(Player new_player)
 
 void ClientController::handleRequestJoinLobby(const std::string& name, int sock_fd)
 {
+    UNUSED_VAR(name);
+    UNUSED_VAR(sock_fd);
     assert(false);
 }
 
@@ -178,5 +179,13 @@ void ClientController::handleUpdatePlayer(const Player& player, int index)
 
 void ClientController::handleInputColorChange(int sender)
 {
+    UNUSED_VAR(sender);
+    assert(false);
+}
+
+void ClientController::handleChatInput(int sender, const std::string& message)
+{
+    UNUSED_VAR(sender);
+    UNUSED_VAR(message);
     assert(false);
 }

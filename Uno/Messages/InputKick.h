@@ -17,8 +17,8 @@ public:
 
     InputKick() = default;
 
-    InputKick(int player_id) :
-            id_to_kick(player_id)
+    InputKick(int player_index) :
+            index_to_kick(player_index)
     {}
 
     MessageType getType() override
@@ -35,10 +35,10 @@ public:
     {
         CONTEXT_CHECK_BEGIN
 
-            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
-            if (lobbyForm->getLobby().hasId(id_to_kick))
+            if (getSender() == 0)
             {
-                lobbyForm->getController().sendKickMessages(id_to_kick);
+                LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
+                lobbyForm->getController().handleInputKick(index_to_kick);
             }
 
         CONTEXT_CHECK_END
@@ -58,7 +58,7 @@ public:
     {
         size_t written = DataMessage::serialize(buffer);
 
-        written += Serializable::Serialize(buffer + written, id_to_kick);
+        written += Serializable::Serialize(buffer + written, index_to_kick);
 
         return written;
     }
@@ -67,14 +67,14 @@ public:
     {
         size_t read = DataMessage::deserialize(buffer);
 
-        read += Serializable::Deserialize(buffer + read, id_to_kick);
+        read += Serializable::Deserialize(buffer + read, index_to_kick);
 
         return read;
     }
 
 private:
 
-    int id_to_kick;
+    int index_to_kick;
 
 };
 

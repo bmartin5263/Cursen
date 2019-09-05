@@ -46,7 +46,7 @@ void HostController::initialize()
     });
     NetworkManager::OnDisconnect([this](int sock_fd)
     {
-        // to be decided
+        handleDisconnect(sock_fd);
     });
 }
 
@@ -80,7 +80,7 @@ void HostController::clickClose()
 
 void HostController::clickChangeColor()
 {
-    DataMessage* msg = new InputChangeColor(lobbyForm->getLobby().getMyIndex());
+    DataMessage* msg = new InputChangeColor;
     msg->setSendType(SendType::Local);
     DataManager::PushMessage(msg);
 }
@@ -92,7 +92,7 @@ void HostController::sendChat()
     std::string text = Constants::rtrim(chatBox.getMessage());
     if (!text.empty())
     {
-        DataMessage* msg = new InputChat(lobbyForm->getLobby().getMyIndex(), text);
+        DataMessage* msg = new InputChat(text);
         msg->setSendType(SendType::Local);
         DataManager::PushMessage(msg);
 
@@ -102,13 +102,6 @@ void HostController::sendChat()
     {
         lobbyForm->stopChat();
     }
-}
-
-void HostController::selectPlayerToKick(int id)
-{
-    DataMessage* msg = new InputKick(id);
-    msg->setSendType(SendType::Local);
-    DataManager::PushMessage(msg);
 }
 
 void HostController::handleClose(std::string msg, bool kicked)
@@ -150,52 +143,70 @@ void HostController::putSocket(int sock, int index)
     socket_map.insert({sock, index});
 }
 
-void HostController::handleKickPlayer(int id)
+void HostController::handleKickPlayer(int index)
 {
-    lobbyForm->kickPlayer(id);
-}
+    Lobby& lobby = lobbyForm->getLobby();
+    Player p = lobby.getPlayerByIndex(index);
+    lobby.removePlayerByIndex(index);
+    lobbyForm->getChatBox().update(lobby.getMessages());
+    lobbyForm->getConsole().setWarning("Later, " + p.getName());
 
-void HostController::sendKickMessages(int id)
-{
-    int sock_to_disconnect = -1;
     for (auto& pair : socket_map)
     {
-        if (pair.second == id)
+        if (pair.second > index)
         {
-            sock_to_disconnect = pair.first;
+            --pair.second;
             break;
         }
     }
+}
 
-    if (sock_to_disconnect != -1)
+void HostController::handleInputKick(int index)
+{
+    int numPlayers = lobbyForm->getLobby().getNumPlayers();
+    if (numPlayers > 0 && index < numPlayers)
     {
-        DataMessage* kick_message = new KickPlayer(id);
-        kick_message->setSendType(SendType::Both);
-        kick_message->setRecipient(sock_to_disconnect);
-        kick_message->setRecipientType(RecipientType::Broadcast_Except_Recipient);
-        DataManager::PushMessage(kick_message);
+        int sock_to_disconnect = -1;
+        for (auto& pair : socket_map)
+        {
+            if (pair.second == index)
+            {
+                sock_to_disconnect = pair.first;
+                break;
+            }
+        }
+        if (sock_to_disconnect != -1)
+        {
+            DataMessage* kick_message = new KickPlayer(index);
+            kick_message->setSendType(SendType::Both);
+            kick_message->setRecipient(sock_to_disconnect);
+            kick_message->setRecipientType(RecipientType::Broadcast_Except_Recipient);
+            DataManager::PushMessage(kick_message);
 
-        DataMessage* disconnect_msg = new CloseRoom("Kicked From Lobby!", true);
-        disconnect_msg->setSendType(SendType::Network);
-        disconnect_msg->setRecipient(sock_to_disconnect);
-        disconnect_msg->setRecipientType(RecipientType::Single);
-        DataManager::PushMessage(disconnect_msg);
-    }
-    else
-    {
-        DataMessage* kick_message = new KickPlayer(id);
-        kick_message->setSendType(SendType::Both);
-        DataManager::PushMessage(kick_message);
+            DataMessage* disconnect_msg = new CloseRoom("Kicked From Lobby!", true);
+            disconnect_msg->setSendType(SendType::Network);
+            disconnect_msg->setRecipient(sock_to_disconnect);
+            disconnect_msg->setRecipientType(RecipientType::Single);
+            DataManager::PushMessage(disconnect_msg);
+
+            socket_map.erase(sock_to_disconnect);
+        }
+        else
+        {
+            DataMessage* kick_message = new KickPlayer(index);
+            kick_message->setSendType(SendType::Both);
+            DataManager::PushMessage(kick_message);
+        }
     }
 }
 
 void HostController::handleDisconnect(int sock)
 {
     int playerId = socket_map[sock];
-    bool suddenDisconnect = lobbyForm->getLobby().hasId(playerId);
-    if (suddenDisconnect)
+    if (socket_map.find(sock) != socket_map.end())
     {
-        selectPlayerToKick(playerId);
+        // Sudden Disconnect
+        lobbyForm->sendInputRemovePlayer(playerId);
         socket_map.erase(sock);
     }
 }
@@ -306,6 +317,18 @@ int HostController::getPlayerIndex(int sock)
 {
     if (sock == 0) return 0;
     std::map<int, int>::const_iterator it = socket_map.find(sock);
-    if (it != socket_map.end()) return it->second;
+    if (it != socket_map.cend()) return it->second;
     return -1;
+}
+
+void HostController::handleChatInput(int sender, const std::string& message)
+{
+    int player_index = getPlayerIndex(sender);
+
+    if (player_index != -1)
+    {
+        DataMessage* msg = new PushChatLog(player_index, message);
+        msg->setSendType(SendType::Both);
+        DataManager::PushMessage(msg);
+    }
 }

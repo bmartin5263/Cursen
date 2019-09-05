@@ -29,6 +29,7 @@ public:
     void setPlayer(const Player& player, int index);
 
     void removePlayer(int id);
+    void removePlayerByIndex(int index);
     bool hasId(int id);
 
     Player& getPlayer(int id);
@@ -41,7 +42,7 @@ public:
     int getNumPlayers() const;
 
     void pushMessage(ChatEntry msg);
-    void removeMessageById(int id);
+    void removeMessages(int index);
     ChatEntry* getMessages();
 
     void startSearch();

@@ -18,6 +18,19 @@ void Lobby::addPlayer(Player player) {
     players[numPlayers++] = player;
 }
 
+void Lobby::removePlayerByIndex(int index)
+{
+    players[index] = Player();
+    numPlayers--;
+
+    for (int j = index + 1; j < MAX_PLAYERS; j++) {
+        players[j-1] = players[j];
+    }
+    if (my_index > index) --my_index;
+    removeMessages(index);
+}
+
+
 void Lobby::removePlayer(int id) {
     if (numPlayers <= 0) {
         assert(false);
@@ -36,7 +49,7 @@ void Lobby::removePlayer(int id) {
             }
         }
     }
-    removeMessageById(id);
+    removeMessages(id);
 }
 
 Player& Lobby::getPlayer(int id) {
@@ -171,12 +184,17 @@ void Lobby::pushMessage(ChatEntry msg)
     chat_messages[8] = msg;
 }
 
-void Lobby::removeMessageById(int id)
+void Lobby::removeMessages(int index)
 {
     for (int i = 0; i < 9; i++) {
-        if (chat_messages[i].getIndex() == id)
+        int chat_index = chat_messages[i].getIndex();
+        if (chat_index == index)
         {
             chat_messages[i].setNull();
+        }
+        else if (chat_index > index)
+        {
+            chat_messages[i].setIndex(--chat_index);
         }
     }
 }
