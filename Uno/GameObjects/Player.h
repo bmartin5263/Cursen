@@ -17,7 +17,7 @@ class Player : public Serializable {
 public:
 
     Player();
-    Player(const std::string& name, const PlayerColor& color, int id, bool ai);
+    Player(const std::string& name, const PlayerColor& color, int id, bool ai, bool dummy);
 
     void setName(const std::string& name);
     std::string getName() const;
@@ -31,7 +31,8 @@ public:
     int getId() const;
     void clear();
 
-    bool isAI();
+    bool isAI() const;
+    bool isDummy() const;
     bool hasPlayableCard(const Card& card);
     int getPlayableCardIndex(const Card& card);
 
@@ -66,6 +67,7 @@ private:
     int id;
     int force_draws;
     bool ai;
+    bool dummy;
 
 };
 

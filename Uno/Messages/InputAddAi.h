@@ -9,6 +9,7 @@
 #include "Uno/Data/DataManager.h"
 #include "Uno/Forms/LobbyForm.h"
 #include "Cursen/CursenApplication.h"
+#include "AddPlayer.h"
 
 class InputAddAi : public DataMessage {
 public:
@@ -28,7 +29,19 @@ public:
         CONTEXT_CHECK_BEGIN
 
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
-            lobbyForm->requestAI();
+            Lobby& lobby = lobbyForm->getLobby();
+
+            if (lobby.getNumPlayers() < Lobby::MAX_PLAYERS)
+            {
+                std::string computer_name = Player::GetComputerName();
+                PlayerColor computer_color = lobby.getAvailableColorRGBY();
+
+                Player new_ai = lobby.createAI(computer_name, computer_color);
+
+                DataMessage* msg = new AddPlayer(new_ai);
+                msg->setSendType(SendType::Both);
+                DataManager::PushMessage(msg);
+            }
 
         CONTEXT_CHECK_END
     }

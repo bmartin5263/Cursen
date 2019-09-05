@@ -7,6 +7,9 @@
 #include <Uno/Forms/MatchForm.h>
 #include <Uno/Messages/InputEnterMatch.h>
 #include <Uno/Match/MatchReturnData.h>
+#include <Uno/Messages/AddPlayer.h>
+#include <Uno/Messages/LobbyUpdate.h>
+#include <Uno/Messages/UpdatePlayer.h>
 #include "Uno/Network/Host.h"
 #include "Uno/Network/NetworkManager.h"
 #include "HostController.h"
@@ -25,12 +28,26 @@ HostController::HostController(LobbyForm* lobbyForm) : LobbyController(lobbyForm
 
 void HostController::initialize()
 {
-    lobbyForm->initializeForHost();
-}
+    NetworkManager::SetMode(NetworkMode::Host);
+    NetworkManager::OnConnect([this](int sock_fd)
+    {
+        Lobby& lobby = lobbyForm->getLobby();
+        int new_player_index = lobby.getNumPlayers();
 
-void HostController::destroy()
-{
-    lobbyForm->leaveHost();
+        putSocket(sock_fd, new_player_index);
+        dummy_players.insert(new_player_index);
+        Player player_placeholder = lobby.createDummy();
+
+        DataMessage* msg = new AddPlayer(player_placeholder);
+        msg->setSendType(SendType::Both);
+        msg->setRecipientType(RecipientType::Broadcast_Except_Recipient);
+        msg->setRecipient(sock_fd);
+        DataManager::PushMessage(msg);
+    });
+    NetworkManager::OnDisconnect([this](int sock_fd)
+    {
+        // to be decided
+    });
 }
 
 void HostController::clickStart()
@@ -96,7 +113,8 @@ void HostController::selectPlayerToKick(int id)
 
 void HostController::handleClose(std::string msg, bool kicked)
 {
-    lobbyForm->leaveHost();
+    NetworkManager::Destroy();
+    lobbyForm->cleanLobby("Welcome to Uno!", false);
 }
 
 void HostController::handleStartSearch()
@@ -138,9 +156,9 @@ void HostController::handleAddAi(Player new_ai)
     }
 }
 
-void HostController::putSocket(int sock, int playerId)
+void HostController::putSocket(int sock, int index)
 {
-    socket_map.insert({sock, playerId});
+    socket_map.insert({sock, index});
 }
 
 void HostController::handleKickPlayer(int id)
@@ -235,7 +253,49 @@ void HostController::handleEnterMatch()
     lobbyForm->openForm(matchForm);
 }
 
-void HostController::handleAddPlayer(Player new_player, int sock)
+void HostController::handleAddPlayer(Player new_player)
 {
+    lobbyForm->getLobby().addPlayer(new_player);
+    if (!new_player.isDummy()) lobbyForm->getConsole().setMessage("Welcome, " + new_player.getName() + "!");
+    if (lobbyForm->getLobby().isSearching() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MAX_PLAYERS)
+    {
+        handleStopSearch();
+    }
+}
 
+void HostController::handleRequestJoinLobby(const std::string& name, int sock_fd)
+{
+    int player_index = socket_map[sock_fd];
+    if (dummy_players.find(player_index) != dummy_players.end())
+    {
+        dummy_players.erase(player_index);
+        Lobby& lobby = lobbyForm->getLobby();
+        PlayerColor color = lobby.getAvailableColorRGBY();
+        Player new_player = lobby.createPlayer(name, color);
+
+        Lobby client_lobby = lobby;
+        client_lobby.setMyId(new_player.getId());
+        client_lobby.setMyIndex(player_index);
+
+        DataMessage* join_msg = new LobbyUpdate(client_lobby);
+        join_msg->setSendType(SendType::Network);
+        join_msg->setRecipient(sock_fd);
+        join_msg->setRecipientType(RecipientType::Single);
+        DataManager::PushMessage(join_msg);
+
+        DataMessage* update_player_msg = new UpdatePlayer(new_player, player_index);
+        update_player_msg->setSendType(SendType::Both);
+        update_player_msg->setRecipientType(RecipientType::Broadcast);
+        DataManager::PushMessage(update_player_msg);
+    }
+}
+
+void HostController::handleUpdatePlayer(const Player& player, int index)
+{
+    Lobby& lobby = lobbyForm->getLobby();
+    bool was_dummy = lobby.getPlayerByIndex(index).isDummy();
+
+    lobby.setPlayer(player, index);
+
+    if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
 }

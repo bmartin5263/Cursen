@@ -20,13 +20,8 @@ ClientController::ClientController(LobbyForm* form) : LobbyController(form)
 
 void ClientController::initialize()
 {
-    lobbyForm->initializeForClient();
 }
 
-void ClientController::destroy()
-{
-    lobbyForm->leaveClient(std::string(), false);
-}
 
 void ClientController::clickStart()
 {
@@ -45,9 +40,6 @@ void ClientController::clickSearch()
 
 void ClientController::clickClose()
 {
-    //DataMessage* msg = new InputCloseRoom(lobbyForm->getLobby().getMyId());
-    //msg->setSendType(SendType::Local);
-    //DataManager::PushMessage(msg);
     ((Client&)NetworkManager::GetDevice()).closeConnection();
     handleClose("Goodbye!", false);
 }
@@ -85,7 +77,8 @@ void ClientController::selectPlayerToKick(int id)
 
 void ClientController::handleClose(std::string msg, bool kicked)
 {
-    lobbyForm->leaveClient(msg, kicked);
+    NetworkManager::Destroy();
+    lobbyForm->cleanLobby(msg, kicked);
 }
 
 void ClientController::handleStartSearch()
@@ -150,7 +143,8 @@ void ClientController::handleEnterMatch()
     }
 
     MatchForm* matchForm = new MatchForm(LobbyType::JOIN, Match(players, num_players, my_id, my_index));
-    matchForm->onClosed([this](void* return_val) {
+    matchForm->onClosed([this](void* return_val)
+    {
         assert(return_val != nullptr);
         MatchReturnData* returnData = (MatchReturnData*) return_val;
         if (returnData->kicked)
@@ -168,7 +162,27 @@ void ClientController::handleEnterMatch()
     lobbyForm->openForm(matchForm);
 }
 
-void ClientController::handleAddPlayer(Player new_player, int sock)
+void ClientController::handleAddPlayer(Player new_player)
 {
+    lobbyForm->getLobby().addPlayer(new_player);
+    if (!new_player.isDummy()) lobbyForm->getConsole().setMessage("Welcome, " + new_player.getName() + "!");
+    if (lobbyForm->getLobby().isSearching() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MAX_PLAYERS)
+    {
+        handleStopSearch();
+    }
+}
 
+void ClientController::handleRequestJoinLobby(const std::string& name, int sock_fd)
+{
+    assert(false);
+}
+
+void ClientController::handleUpdatePlayer(const Player& player, int index)
+{
+    Lobby& lobby = lobbyForm->getLobby();
+    bool was_dummy = lobby.getPlayerByIndex(index).isDummy();
+
+    lobby.setPlayer(player, index);
+
+    if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
 }

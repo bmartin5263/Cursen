@@ -6,6 +6,7 @@
 #define CURSEN_HOSTCONTROLLER_H
 
 #include <map>
+#include <set>
 
 #include "LobbyController.h"
 
@@ -15,7 +16,6 @@ public:
 
     HostController(LobbyForm* lobbyForm);
     void initialize() override;
-    void destroy() override;
     void clickStart() override;
     void clickAddAI() override;
     void clickSearch() override;
@@ -29,18 +29,21 @@ public:
     void handleStopSearch() override ;
     void handleAddAi(Player new_ai) override;
 
-    void putSocket(int playerId, int sock);
+    void putSocket(int sock, int index);
 
     void handleKickPlayer(int id) override;
     void sendKickMessages(int id) override;
     void handleDisconnect(int sock) override;
     void sendCloseMessages() override;
     void handleEnterMatch() override;
-    void handleAddPlayer(Player new_player, int sock) override;
+    void handleAddPlayer(Player new_player) override;
+    void handleRequestJoinLobby(const std::string& name, int sock_fd) override;
+    void handleUpdatePlayer(const Player& player, int index) override;
 
 private:
 
     std::map<int, int> socket_map;
+    std::set<int> dummy_players;
 
 };
 

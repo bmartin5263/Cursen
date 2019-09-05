@@ -34,7 +34,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
-            lobbyForm->requestClient(getSender(), name);
+            lobbyForm->getController().handleRequestJoinLobby(name, getSender());
 
         CONTEXT_CHECK_END
     }

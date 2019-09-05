@@ -32,10 +32,6 @@ public:
     void initializeForHost();
     void initializeForClient();
 
-    void leaveLocal();
-    void leaveHost();
-    void leaveClient(std::string msg, bool kicked);
-
     void startSearch();
     void stopSearch();
 
@@ -45,51 +41,16 @@ public:
 
     void setMainPlayerName();
 
-    void clickStart();
-    void clickAddAI();
-    void clickSearch();
-    void clickKick();
-    void clickClose();
-    void clickSettings();
-    void clickLocal();
-    void clickHost();
-    void clickJoin();
-    void clickExit();
-    void clickChangeColor();
-    void clickChat();
-
     void tryJoin();
 
-    // Inline because CLion is reporting non-existent errors
-    void updateLobby(Lobby& lobby)
-    {
-        if (this->lobby == nullptr)
-        {
-            this->lobby = new Lobby(lobby);
-            initializeForClient();
-        }
-        else {
-            *this->lobby = lobby;
-        }
-
-        chat_box.update(lobby.getMessages());
-        playerStaging.update(lobby);
-        if (lobby.isSearching())
-        {
-            startSearch();
-        }
-        else {
-            stopSearch();
-        }
-    };
+    void updateLobby(Lobby& lobby);
 
     void startChat();
     void stopChat();
-    void sendChatMessage();
 
     void changeColor(int playerId, PlayerColor color);
     void pushChatMessage(int player_index, std::string message);
-    void addPlayer(Player p, int sock);
+    //void addPlayer(Player p, int sock);
 
     void enterMatch();
 

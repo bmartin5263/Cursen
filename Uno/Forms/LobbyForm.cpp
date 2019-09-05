@@ -2,7 +2,6 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
-#include <Uno/Messages/AddPlayer.h>
 #include <Uno/Messages/LobbyUpdate.h>
 #include <Demo/TestForm.h>
 #include "Uno/Constants.h"
@@ -27,12 +26,10 @@ using namespace cursen;
 LobbyForm::LobbyForm() :
         Form(Vect2(70, 33)), lobby(nullptr)
 {
-
 }
 
 void LobbyForm::initialize()
 {
-
     border.initialize();
     border.setSize(getSize() - Vect2(0, 1));
 
@@ -41,49 +38,49 @@ void LobbyForm::initialize()
     start_button.setLength(34);
     start_button.setText("Start Game");
     start_button.setEnabled(false);
-    start_button.onClick([this]() { clickStart(); });
+    start_button.onClick([this]() { controller->clickStart(); });
 
     add_ai_button.initialize();
     add_ai_button.setPosition(Vect2(1, 19));
     add_ai_button.setLength(17);
     add_ai_button.setText("Add AI");
     add_ai_button.setEnabled(false);
-    add_ai_button.onClick([this]() { clickAddAI(); });
+    add_ai_button.onClick([this]() { controller->clickAddAI(); });
 
     search_button.initialize();
     search_button.setPosition(Vect2(18, 19));
     search_button.setLength(17);
     search_button.setText("Search");
     search_button.setEnabled(false);
-    search_button.onClick([this]() { clickSearch(); });
+    search_button.onClick([this]() { controller->clickSearch(); });
 
     kick_button.initialize();
     kick_button.setPosition(Vect2(1, 22));
     kick_button.setLength(34);
     kick_button.setText("Kick Player");
     kick_button.setEnabled(false);
-    kick_button.onClick([this]() { clickKick(); });
+    kick_button.onClick([this]() { enableRemovePlayerCursor(); });
 
     close_button.initialize();
     close_button.setPosition(Vect2(1, 25));
     close_button.setLength(34);
     close_button.setText("Close Lobby");
     close_button.setEnabled(false);
-    close_button.onClick([this]() { clickClose(); });
+    close_button.onClick([this]() { controller->clickClose(); });
 
     change_color_button.initialize();
     change_color_button.setPosition(Vect2(1, 28));
     change_color_button.setLength(17);
     change_color_button.setText("Change Color");
     change_color_button.setEnabled(false);
-    change_color_button.onClick([this]() { clickChangeColor(); });
+    change_color_button.onClick([this]() { controller->clickChangeColor(); });
 
     chat_button.initialize();
     chat_button.setPosition(Vect2(18, 28));
     chat_button.setLength(17);
     chat_button.setText("Chat");
     chat_button.setEnabled(false);
-    chat_button.onClick([this]() { clickChat(); });
+    chat_button.onClick([this]() { startChat(); });
 
     console.initialize();
 
@@ -98,10 +95,10 @@ void LobbyForm::initialize()
 
     mode_select_box.initialize();
     mode_select_box.setPosition(Vect2(17, 7));
-    mode_select_box.onLocalClick([this]() { clickLocal(); });
-    mode_select_box.onHostClick([this]() { clickHost(); });
-    mode_select_box.onJoinClick([this]() { clickJoin(); });
-    mode_select_box.onExitClick([this]() { clickExit(); });
+    mode_select_box.onLocalClick([this]() { initializeForLocal(); });
+    mode_select_box.onHostClick([this]() { initializeForHost(); });
+    mode_select_box.onJoinClick([this]() { mode_select_box.startIpEntry([&](const Event& e) { this->tryJoin(); }); });
+    mode_select_box.onExitClick([this]() { closeForm(nullptr); });
     mode_select_box.setLobby(this);
 
     chat_box.initialize();
@@ -129,7 +126,8 @@ void LobbyForm::initialize()
 
     console.setEnabled(true);
 
-    onUpdate([&]() {
+    onUpdate([&]()
+    {
         if (lobby != nullptr)
         {
             playerStaging.update(*lobby);
@@ -156,62 +154,67 @@ void LobbyForm::initialize()
                 [&](const Event& event) { this->setMainPlayerName(); });
     }
 
-    onOpen([this]() {
+    onOpen([this]()
+    {
         DataManager::SetContext(Context::ContextLobby);
     });
+}
+
+void LobbyForm::updateLobby(Lobby& lobby)
+{
+    if (this->lobby == nullptr)
+    {
+        this->lobby = new Lobby(lobby);
+        initializeForClient();
+    }
+    else {
+        *this->lobby = lobby;
+    }
+
+    chat_box.update(lobby.getMessages());
+    playerStaging.update(lobby);
+    if (lobby.isSearching())
+    {
+        startSearch();
+    }
+    else {
+        stopSearch();
+    }
 }
 
 void LobbyForm::initializeForLocal()
 {
     lobby = new Lobby;
+    controller = new LocalController(this);
+    controller->initialize();
 
     Player my_player = lobby->createPlayer(mode_select_box.getPlayerName(), PlayerColor::BLUE);
     lobby->setMyId(my_player.getId());
     lobby->addPlayer(my_player);
     lobby->setMyIndex(0);
 
-    NetworkManager::SetMode(NetworkMode::Local);
-
     console.setMessage("Welcome To Uno!");
+
     mode_select_box.setHidden(true);
     glowBorder.setEnabled(false);
     lobby_cursor.moveTo(&add_ai_button);
     lobby_cursor.setEnabled(true);
     chat_box.setEnabled(true);
-
-    start_button.enableIf([&]() {
-        return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START;
-    });
-
-    search_button.enableIf([&]() {
-        return false;
-    });
-
-    add_ai_button.enableIf([&]() {
-        return lobby->getNumPlayers() < Lobby::MAX_PLAYERS;
-    });
-
-    kick_button.enableIf([&]() {
-        return lobby->getNumPlayers() > 1;
-    });
-
-    chat_button.enableIf([&]() {
-        return false;
-    });
-
-    change_color_button.enableIf([&]() {
-        return true;
-    });
-
-    close_button.enableIf([&]() {
-        return true;
-    });
+    start_button.enableIf([&]() { return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START; });
+    search_button.setEnabled(false);
+    add_ai_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
+    kick_button.enableIf([&]() { return lobby->getNumPlayers() > 1; });
+    chat_button.setEnabled(false);
+    change_color_button.setEnabled(true);
+    close_button.setEnabled(true);
 
 }
 
 void LobbyForm::initializeForHost()
 {
     lobby = new Lobby;
+    controller = new HostController(this);
+    controller->initialize();
 
     Player host_player = lobby->createPlayer(mode_select_box.getPlayerName(), PlayerColor::BLUE);
     lobby->addPlayer(host_player);
@@ -227,41 +230,20 @@ void LobbyForm::initializeForHost()
     lobby_cursor.setEnabled(true);
     chat_box.setEnabled(true);
 
-    start_button.enableIf([&]() {
-        return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START;
-    });
-
-    search_button.enableIf([&]() {
-        return lobby->getNumPlayers() < Lobby::MAX_PLAYERS;
-    });
-
-    add_ai_button.enableIf([&]() {
-        return lobby->getNumPlayers() < Lobby::MAX_PLAYERS;
-    });
-
-    kick_button.enableIf([&]() {
-        return lobby->getNumPlayers() > 1;
-    });
-
-    chat_button.enableIf([&]() {
-        return true;
-    });
-
-    change_color_button.enableIf([&]() {
-        return true;
-    });
-
-    close_button.enableIf([&]() {
-        return true;
-    });
+    start_button.enableIf([&]() { return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START; });
+    search_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
+    add_ai_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
+    kick_button.enableIf([&]() { return lobby->getNumPlayers() > 1; });
+    chat_button.setEnabled(true);
+    change_color_button.setEnabled(true);
+    close_button.setEnabled(true);
 }
 
 void LobbyForm::initializeForClient()
 {
-
     controller = new ClientController(this);
+    controller->initialize();
 
-    //console.setMessage("Welcome To Uno!");
     mode_select_box.setHidden(true);
     glowBorder.setEnabled(false);
     lobby_cursor.moveTo(&close_button);
@@ -269,33 +251,13 @@ void LobbyForm::initializeForClient()
     chat_box.setEnabled(true);
     close_button.setText("Leave Lobby");
 
-    start_button.enableIf([&]() {
-        return false;
-    });
-
-    search_button.enableIf([&]() {
-        return false;
-    });
-
-    add_ai_button.enableIf([&]() {
-        return false;
-    });
-
-    kick_button.enableIf([&]() {
-        return false;
-    });
-
-    chat_button.enableIf([&]() {
-        return true;
-    });
-
-    change_color_button.enableIf([&]() {
-        return true;
-    });
-
-    close_button.enableIf([&]() {
-        return true;
-    });
+    start_button.setEnabled(false);
+    search_button.setEnabled(false);
+    add_ai_button.setEnabled(false);
+    kick_button.setEnabled(false);
+    chat_button.setEnabled(true);
+    change_color_button.setEnabled(true);
+    close_button.setEnabled(true);
 }
 
 void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
@@ -346,40 +308,6 @@ void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
     //glowBorder.setEnabled(true);
 }
 
-void LobbyForm::leaveLocal()
-{
-    NetworkManager::Destroy();
-    cleanLobby("Welcome to Uno!", false);
-}
-
-void LobbyForm::leaveHost()
-{
-    NetworkManager::Destroy();
-    cleanLobby("Welcome to Uno!", false);
-}
-
-void LobbyForm::leaveClient(std::string msg, bool kicked)
-{
-    NetworkManager::Destroy();
-    cleanLobby(msg, kicked);
-}
-
-
-void LobbyForm::clickStart()
-{
-    controller->clickStart();
-}
-
-void LobbyForm::clickAddAI()
-{
-    controller->clickAddAI();
-}
-
-void LobbyForm::clickSearch()
-{
-    controller->clickSearch();
-}
-
 void LobbyForm::startSearch()
 {
     lobby->startSearch();
@@ -393,39 +321,6 @@ void LobbyForm::stopSearch()
     lobby->stopSearch();
     playerStaging.stopSearching();
     search_button.setText("Search");
-}
-
-
-void LobbyForm::clickKick()
-{
-    enableRemovePlayerCursor();
-}
-
-void LobbyForm::clickClose()
-{
-    controller->clickClose();
-}
-
-void LobbyForm::clickSettings()
-{
-    console.setMessage("Settings Clicked!");
-}
-
-void LobbyForm::clickLocal()
-{
-    controller = new LocalController(this);
-    controller->initialize();
-}
-
-void LobbyForm::clickHost()
-{
-    controller = new HostController(this);
-    controller->initialize();
-}
-
-void LobbyForm::clickJoin()
-{
-    mode_select_box.startIpEntry([&](const Event& e) { this->tryJoin(); });
 }
 
 void LobbyForm::tryJoin()
@@ -461,11 +356,6 @@ void LobbyForm::tryJoin()
 
 }
 
-void LobbyForm::clickExit()
-{
-    closeForm(nullptr);
-}
-
 void LobbyForm::enableRemovePlayerCursor()
 {
     lobby_cursor.setEnabled(false);
@@ -494,7 +384,7 @@ void LobbyForm::setMainPlayerName()
     {
         std::string name = field.getText();
         mode_select_box.setPlayerName(name);
-        mode_select_box.getMainPlayerStage().setPlayer(Player(name, PlayerColor::BLUE, 0, false));
+        mode_select_box.getMainPlayerStage().setPlayer(Player(name, PlayerColor::BLUE, 0, false, false));
         field.setEnabled(false);
         mode_select_box.start();
 
@@ -506,16 +396,6 @@ void LobbyForm::setMainPlayerName()
         CursesManager::Beep();
         mode_select_box.setWarning("Name Must Have 1 Character");
     }
-}
-
-void LobbyForm::clickChat()
-{
-    startChat();
-}
-
-void LobbyForm::clickChangeColor()
-{
-    controller->clickChangeColor();
 }
 
 void LobbyForm::selectPlayerToRemove(int playerNum)
@@ -542,7 +422,7 @@ void LobbyForm::startChat()
         lobby_cursor.setEnabled(false);
         chat_button.setForeground(Color::GREEN);
         console.setMessage("Press Escape to Finish Chatting");
-        chat_box.onEnterPress([&](const Event& e) { this->sendChatMessage(); });
+        chat_box.onEnterPress([&](const Event& e) { controller->sendChat(); });
     }
 }
 
@@ -555,11 +435,6 @@ void LobbyForm::stopChat()
         lobby_cursor.setEnabled(true);
         chat_button.setForeground(Color::WHITE);
     }
-}
-
-void LobbyForm::sendChatMessage()
-{
-    controller->sendChat();
 }
 
 void LobbyForm::changeColor(int playerIndex, PlayerColor color)
@@ -600,48 +475,48 @@ void LobbyForm::kickPlayer(int id)
     console.setWarning("Later, " + p.getName());
 }
 
-void LobbyForm::addPlayer(Player p, int sock)
-{
-    HostController* host_controller = (HostController*) controller;
-    host_controller->putSocket(sock, p.getId());
-    lobby->addPlayer(p);
-    console.setMessage("Welcome, " + p.getName() + "!");
+//void LobbyForm::addPlayer(Player p, int sock)
+//{
+//    HostController* host_controller = (HostController*) controller;
+//    host_controller->putSocket(sock, p.getId());
+//    lobby->addPlayer(p);
+//    console.setMessage("Welcome, " + p.getName() + "!");
+//
+//    if (lobby->isSearching() && lobby->getNumPlayers() >= Lobby::MAX_PLAYERS)
+//    {
+//        controller->handleStopSearch();
+//    }
+//}
 
-    if (lobby->isSearching() && lobby->getNumPlayers() >= Lobby::MAX_PLAYERS)
-    {
-        controller->handleStopSearch();
-    }
-}
-
-void LobbyForm::requestClient(int sock_id, std::string name)
-{
-    assert(lobby->getNumPlayers() < Lobby::MAX_PLAYERS);
-    PlayerColor color = lobby->getAvailableColorRGBY();
-
-    Player new_player = lobby->createPlayer(name, color);
-
-    Lobby client_lobby = *this->lobby;
-    client_lobby.setMyId(new_player.getId());
-    client_lobby.setMyIndex(lobby->getNumPlayers());
-
-    DataMessage* join_msg = new LobbyUpdate(client_lobby);
-    join_msg->setSendType(SendType::Network);
-    join_msg->setRecipient(sock_id);
-    join_msg->setRecipientType(RecipientType::Single);
-    DataManager::PushMessage(join_msg);
-
-    DataMessage* add_ai_msg = new AddAI(new_player);
-    add_ai_msg->setSendType(SendType::Network);
-    add_ai_msg->setRecipient(sock_id);
-    add_ai_msg->setRecipientType(RecipientType::Broadcast);
-    DataManager::PushMessage(add_ai_msg);
-
-    DataMessage* add_player_msg = new AddPlayer(new_player, sock_id);
-    add_player_msg->setSendType(SendType::Local);
-    add_player_msg->setRecipient(sock_id);
-    add_player_msg->setRecipientType(RecipientType::Broadcast);
-    DataManager::PushMessage(add_player_msg);
-}
+//void LobbyForm::requestClient(int sock_id, std::string name)
+//{
+//    assert(lobby->getNumPlayers() < Lobby::MAX_PLAYERS);
+//    PlayerColor color = lobby->getAvailableColorRGBY();
+//
+//    Player new_player = lobby->createPlayer(name, color);
+//
+//    Lobby client_lobby = *this->lobby;
+//    client_lobby.setMyId(new_player.getId());
+//    client_lobby.setMyIndex(lobby->getNumPlayers());
+//
+//    DataMessage* join_msg = new LobbyUpdate(client_lobby);
+//    join_msg->setSendType(SendType::Network);
+//    join_msg->setRecipient(sock_id);
+//    join_msg->setRecipientType(RecipientType::Single);
+//    DataManager::PushMessage(join_msg);
+//
+//    DataMessage* add_ai_msg = new AddAI(new_player);
+//    add_ai_msg->setSendType(SendType::Network);
+//    add_ai_msg->setRecipient(sock_id);
+//    add_ai_msg->setRecipientType(RecipientType::Broadcast);
+//    DataManager::PushMessage(add_ai_msg);
+//
+//    DataMessage* add_player_msg = new AddPlayer(new_player, sock_id);
+//    add_player_msg->setSendType(SendType::Local);
+//    add_player_msg->setRecipient(sock_id);
+//    add_player_msg->setRecipientType(RecipientType::Broadcast);
+//    DataManager::PushMessage(add_player_msg);
+//}
 
 Lobby& LobbyForm::getLobby()
 {

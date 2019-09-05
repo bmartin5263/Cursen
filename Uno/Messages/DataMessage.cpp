@@ -17,7 +17,6 @@
 
 #include "DataMessage.h"
 #include "AddAI.h"
-#include "AddPlayer.h"
 #include "ChangeColor.h"
 #include "CloseRoom.h"
 #include "InputAddAi.h"
@@ -33,6 +32,8 @@
 #include "DisconnectFromHost.h"
 #include "ConnectionSevered.h"
 #include "InputEnterMatch.h"
+#include "AddPlayer.h"
+#include "UpdatePlayer.h"
 
 DataMessage* DataMessage::Parse(MessageType type)
 {
@@ -74,9 +75,6 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::RequestJoinLobby:
             msg = new RequestJoinLobby;
-            break;
-        case MessageType::AddPlayer:
-            msg = new AddPlayer;
             break;
         case MessageType::LobbyUpdate:
             msg = new LobbyUpdate;
@@ -164,6 +162,12 @@ DataMessage* DataMessage::Parse(MessageType type)
             break;
         case MessageType::EndGame:
             msg = new EndGame;
+            break;
+        case MessageType::AddPlayer:
+            msg = new AddPlayer;
+            break;
+        case MessageType::UpdatePlayer:
+            msg = new UpdatePlayer;
             break;
     }
     assert(msg != nullptr);

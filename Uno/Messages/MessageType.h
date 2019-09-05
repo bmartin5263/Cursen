@@ -20,7 +20,6 @@ enum class MessageType {
     CloseRoom,
     RequestJoinLobby,
     RequestLeaveLobby,
-    AddPlayer,
     LobbyUpdate,
     InputSearch,
     StartSearch,
@@ -49,6 +48,8 @@ enum class MessageType {
     GameOver,
     InputEndGame,
     EndGame,
+    AddPlayer,
+    UpdatePlayer
 };
 
 #endif //CURSEN_MESSAGETYPES_H

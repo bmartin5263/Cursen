@@ -8,12 +8,12 @@
 const std::string Player::COMP_NAMES[] = { "SkyNet", "Hal 9000", "Metal Gear", "Watson" };
 
 Player::Player() :
-    name("Null"), color(PlayerColor::GRAY), points(-1), id(-1), force_draws(0), ai(false)
+    name("Null"), color(PlayerColor::GRAY), points(-1), id(-1), force_draws(0), ai(false), dummy(false)
 {
 }
 
-Player::Player(const std::string &name, const PlayerColor& color, int id, bool ai) :
-    name(name), color(color), points(0), id(id), force_draws(0), ai(ai)
+Player::Player(const std::string &name, const PlayerColor& color, int id, bool ai, bool dummy) :
+    name(name), color(color), points(0), id(id), force_draws(0), ai(ai), dummy(dummy)
 {
 }
 
@@ -96,12 +96,12 @@ cursen::Color Player::ConvertColorLight(const PlayerColor &color) {
 size_t Player::serialize(char* const buffer) const
 {
     size_t written = 0;
-    written += Serializable::Serialize(buffer, name.length());
-    written += Serializable::Serialize(buffer + written, name.c_str(), name.length());
+    written += Serializable::Serialize(buffer + written, name);
     written += Serializable::Serialize(buffer + written, (int)color);
     written += Serializable::Serialize(buffer + written, points);
     written += Serializable::Serialize(buffer + written, id);
     written += Serializable::Serialize(buffer + written, ai);
+    written += Serializable::Serialize(buffer + written, dummy);
     written += Serializable::Serialize(buffer + written, force_draws);
     written += hand.serialize(buffer + written);
     return written;
@@ -110,18 +110,14 @@ size_t Player::serialize(char* const buffer) const
 size_t Player::deserialize(const char* const buffer)
 {
     size_t read = 0;
-    size_t len;
-    read += Serializable::Deserialize(buffer, len);
-    char raw_name[len + 1];
-    read += Serializable::Deserialize(buffer + read, raw_name, len);
-    raw_name[len] = '\0';
-    name = std::string(raw_name);
+    read += Serializable::Deserialize(buffer + read, name);
     int col;
     read += Serializable::Deserialize(buffer + read, col);
     color = (PlayerColor)col;
     read += Serializable::Deserialize(buffer + read, points);
     read += Serializable::Deserialize(buffer + read, id);
     read += Serializable::Deserialize(buffer + read, ai);
+    read += Serializable::Deserialize(buffer + read, dummy);
     read += Serializable::Deserialize(buffer + read, force_draws);
     read += hand.deserialize(buffer + read);
     return read;
@@ -156,13 +152,14 @@ size_t Player::safeSerialize(char* const buffer, bool safe_serialize_hand) const
     written += Serializable::Serialize(buffer + written, points);
     written += Serializable::Serialize(buffer + written, -1);
     written += Serializable::Serialize(buffer + written, ai);
+    written += Serializable::Serialize(buffer + written, dummy);
     written += Serializable::Serialize(buffer + written, force_draws);
     if (safe_serialize_hand) written += hand.safe_serialize(buffer + written);
     else written += hand.serialize(buffer + written);
     return written;
 }
 
-bool Player::isAI()
+bool Player::isAI() const
 {
     return ai;
 }
@@ -236,4 +233,9 @@ CardColor Player::getWildColor()
 void Player::clearForceDraws()
 {
     force_draws = 0;
+}
+
+bool Player::isDummy() const
+{
+    return dummy;
 }

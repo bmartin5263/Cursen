@@ -13,7 +13,6 @@ public:
 
     LocalController(LobbyForm* form);
     void initialize() override;
-    void destroy() override;
     void clickStart() override;
     void clickAddAI() override;
     void clickSearch() override;
@@ -31,7 +30,9 @@ public:
     void handleDisconnect(int sock) override;
     void sendCloseMessages() override;
     void handleEnterMatch() override;
-    void handleAddPlayer(Player new_player, int sock) override;
+    void handleAddPlayer(Player new_player) override;
+    void handleRequestJoinLobby(const std::string& name, int sock_fd) override;
+    void handleUpdatePlayer(const Player& player, int index) override;
 };
 
 

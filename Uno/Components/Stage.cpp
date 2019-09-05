@@ -84,10 +84,18 @@ void Stage::clear() {
 
 void Stage::setPlayer(const Player & player) {
     //playerName.setText(player.getName() + " : " + std::to_string(player.getId()));
-    playerName.setText(player.getName());
-    points.setText("Points: " + std::to_string(player.getPoints()));
-
-    setStageColor(Player::ConvertColor(player.getColor()));
+    if (player.isDummy())
+    {
+        playerName.setText("Player Joining...");
+        points.setText("");
+        setStageColor(cursen::Color::GRAY);
+    }
+    else
+    {
+        playerName.setText(player.getName());
+        points.setText("Points: " + std::to_string(player.getPoints()));
+        setStageColor(Player::ConvertColor(player.getColor()));
+    }
     setForeground(stage_color);
     if (search_progress.isSpinning()) {
         search_progress.stop();

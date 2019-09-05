@@ -23,8 +23,10 @@ public:
 
     Player createPlayer(std::string name, PlayerColor color);
     Player createAI(std::string name, PlayerColor color);
+    Player createDummy();
 
     void addPlayer(Player player);
+    void setPlayer(const Player& player, int index);
 
     void removePlayer(int id);
     bool hasId(int id);

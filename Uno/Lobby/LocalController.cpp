@@ -4,6 +4,7 @@
 
 #include <Uno/Messages/InputEnterMatch.h>
 #include <Uno/Match/MatchReturnData.h>
+#include <Uno/Network/NetworkManager.h>
 #include "LocalController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Messages/InputAddAi.h"
@@ -20,12 +21,7 @@ LocalController::LocalController(LobbyForm* form) : LobbyController(form)
 
 void LocalController::initialize()
 {
-    lobbyForm->initializeForLocal();
-}
-
-void LocalController::destroy()
-{
-    lobbyForm->leaveLocal();
+    NetworkManager::SetMode(NetworkMode::Local);
 }
 
 
@@ -76,7 +72,8 @@ void LocalController::selectPlayerToKick(int id)
 
 void LocalController::handleClose(std::string msg, bool kicked)
 {
-    lobbyForm->leaveLocal();
+    NetworkManager::Destroy();
+    lobbyForm->cleanLobby("Welcome to Uno!", false);
 }
 
 void LocalController::handleStartSearch()
@@ -148,7 +145,23 @@ void LocalController::handleEnterMatch()
     lobbyForm->openForm(matchForm);
 }
 
-void LocalController::handleAddPlayer(Player new_player, int sock)
+void LocalController::handleAddPlayer(Player new_player)
 {
+    lobbyForm->getLobby().addPlayer(new_player);
+    if (!new_player.isDummy()) lobbyForm->getConsole().setMessage("Welcome, " + new_player.getName() + "!");
+}
 
+void LocalController::handleRequestJoinLobby(const std::string& name, int sock_fd)
+{
+    assert(false);
+}
+
+void LocalController::handleUpdatePlayer(const Player& player, int index)
+{
+    Lobby& lobby = lobbyForm->getLobby();
+    bool was_dummy = lobby.getPlayerByIndex(index).isDummy();
+
+    lobby.setPlayer(player, index);
+
+    if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
 }

@@ -215,7 +215,7 @@ Player Lobby::createPlayer(std::string name, PlayerColor color)
         id = rand();
     }
     while (idTaken(id));
-    return Player(name, color, id, false);
+    return Player(name, color, id, false, false);
 }
 
 Player Lobby::createAI(std::string name, PlayerColor color)
@@ -226,8 +226,14 @@ Player Lobby::createAI(std::string name, PlayerColor color)
         id = rand();
     }
     while (idTaken(id));
-    return Player(name, color, id, true);
+    return Player(name, color, id, true, false);
 }
+
+Player Lobby::createDummy()
+{
+    return Player("dummy", PlayerColor::GRAY, -1, false, true);
+}
+
 
 
 bool Lobby::idTaken(int id)
@@ -264,4 +270,9 @@ void Lobby::setMyIndex(int index)
 int Lobby::getMyIndex()
 {
     return my_index;
+}
+
+void Lobby::setPlayer(const Player& player, int index)
+{
+    players[index] = player;
 }

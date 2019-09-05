@@ -19,7 +19,6 @@ public:
     virtual ~LobbyController() = default;
 
     virtual void initialize() = 0;
-    virtual void destroy() = 0;
     virtual void clickStart() = 0;          // HOST, LOCAL
     virtual void clickAddAI() = 0;          // HOST, LOCAL
     virtual void clickSearch() = 0;         // HOST
@@ -33,7 +32,9 @@ public:
     virtual void handleStopSearch() = 0;
 
     virtual void handleAddAi(Player new_ai) = 0;
-    virtual void handleAddPlayer(Player new_player, int sock) = 0;
+    virtual void handleAddPlayer(Player new_player) = 0;
+    virtual void handleRequestJoinLobby(const std::string& name, int sock_fd) = 0;
+    virtual void handleUpdatePlayer(const Player& player, int index) = 0;
 
     virtual void sendKickMessages(int id) = 0;
     virtual void handleKickPlayer(int id) = 0;
