@@ -3,6 +3,8 @@
 //
 
 #include <cassert>
+#include <Cursen/CursenApplication.h>
+#include <Uno/Forms/LobbyForm.h>
 #include "Cursen/Drawing/CursesManager.h"
 #include "TextField.h"
 
@@ -19,6 +21,7 @@ namespace cursen {
     void TextField::initialize() {
         StandardComponent::initialize();
         Component::setEnabled(false);
+        Component::setSilenced(true);
         VisualComponent::setHidden(true);
 
         onKeyPress([&](const Event& event) { this->keyPress(event); });
@@ -71,7 +74,7 @@ namespace cursen {
     }
 
     void TextField::deletePress(const Event &e) {
-        if (!text.empty()) {
+        if (!text.empty() && cursor_x > 0) {
             text.erase(text.begin() + (cursor_x - 1));
             cursor_x -= 1;
             invalidate();
