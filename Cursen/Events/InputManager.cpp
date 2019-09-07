@@ -52,6 +52,10 @@ namespace cursen {
                     event.key.code = key;
                 }
                 EventManager::PushEvent(event);
+                Event any_key_press_event;
+                any_key_press_event.type = EventType::AnyKeyPressed;
+                any_key_press_event.key.code = key;
+                EventManager::PushEvent(any_key_press_event);
             }
             key = getch();
         }

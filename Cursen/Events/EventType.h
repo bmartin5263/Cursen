@@ -17,7 +17,8 @@ namespace cursen {
         AlarmInterval = 32,
         AlarmExpire = 64,
         Update = 128,
-        Null = 256
+        Null = 256,
+        AnyKeyPressed = 512
     };
 
 }

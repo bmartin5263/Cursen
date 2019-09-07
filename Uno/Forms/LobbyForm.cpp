@@ -141,6 +141,11 @@ void LobbyForm::initialize()
         }
     });
 
+    onAnyKeyPress([&](EVENT_ARG)
+    {
+        CursesManager::Write(console.getText(), 0, 0, ColorPair(Color::MAGENTA));
+    });
+
     if (CursenApplication::GetArgc() > 1)
     {
         mode_select_box.getMainPlayerStage().setText(CursenApplication::GetArgv()[1]);

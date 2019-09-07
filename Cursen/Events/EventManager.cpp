@@ -79,6 +79,13 @@ namespace cursen {
                     (*listItem)->CallArrowPress(event);
                 }
                 break;
+            case EventType::AnyKeyPressed:
+                componentList = dispatchMap[EventType::AnyKeyPressed];
+                for (ComponentList::const_iterator listItem = componentList.cbegin();
+                     listItem != componentList.cend(); ++listItem) {
+                    (*listItem)->CallAnyKeyPress(event);
+                }
+                break;
             case EventType::AlarmInterval:
                 event.alarm.alarmEntry->callInterval();
                 break;

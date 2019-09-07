@@ -61,7 +61,15 @@ namespace cursen {
         // Event Functions
 
         /**
-         * @brief Set the callback for when a key is pressed.
+         * @brief Set the callback for when any key is pressed.
+         *
+         * @param f Key Press Function
+         * @note This method automatically registers this component for Any Key Presses.
+         */
+        void onAnyKeyPress(std::function<void(const Event &)> f);
+
+        /**
+         * @brief Set the callback for when a key is pressed that isn't the escape key, the delete key, an arrow key, or the enter key.
          *
          * @param f Key Press Function
          * @note This method automatically registers this component for Key Presses.
@@ -143,6 +151,11 @@ namespace cursen {
         void onUpdate(std::function<void()> f);
 
         /**
+         * @brief Removes the callback for Any Key Presses and deregisters itself from Key Events
+         */
+        void detachAnyKeyPress();
+
+        /**
          * @brief Removes the callback for Key Presses and deregisters itself from Key Events
          */
         void detachKeyPress();
@@ -192,6 +205,7 @@ namespace cursen {
          */
         void detachUpdate();
 
+        void CallAnyKeyPress(const Event& event) const;
         void CallKeyPress(const Event& event) const;
         void CallEscapePress(const Event& event) const;
         void CallEnterPress(const Event& event) const;
@@ -212,6 +226,7 @@ namespace cursen {
     private:
 
         std::function<void(const Event&)> f_keyPress;
+        std::function<void(const Event&)> f_anyKeyPress;
         std::function<void(const Event&)> f_escapePress;
         std::function<void(const Event&)> f_enterPress;
         std::function<void(const Event&)> f_deletePress;

@@ -14,14 +14,14 @@ namespace cursen
 {
 
     Component::Component() :
-            id("n/a"), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
+            id("n/a"), f_anyKeyPress(), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
             f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr),
             enabled(true), silenced(false), registeredForUpdates(false)
     {
     }
 
     Component::Component(const Vect2& pos) :
-            id("n/a"), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
+            id("n/a"), f_anyKeyPress(), f_keyPress(), f_escapePress(), f_enterPress(), f_deletePress(), f_arrowPress(), f_update(),
             f_onCursor(), f_offCursor(), f_onClick(), f_enableIf(), parent(nullptr),
             enabled(true), silenced(false), registeredForUpdates(false)
     {
@@ -30,6 +30,12 @@ namespace cursen
     void Component::setParent(Component* component)
     {
         this->parent = component;
+    }
+
+    void Component::onAnyKeyPress(std::function<void(const Event&)> f)
+    {
+        EventManager::Register(*this, EventType::AnyKeyPressed);
+        f_anyKeyPress = f;
     }
 
     void Component::onKeyPress(std::function<void(const Event&)> f)
@@ -107,6 +113,14 @@ namespace cursen
         return enabled;
     }
 
+    void Component::CallAnyKeyPress(const Event& event) const
+    {
+        if (!isSilenced())
+        {
+            if (f_anyKeyPress) f_anyKeyPress(event);;
+        }
+    }
+
     void Component::CallKeyPress(const Event& e) const
     {
         if (!isSilenced())
@@ -170,6 +184,12 @@ namespace cursen
     const std::function<void()>& Component::GetUpdate() const
     {
         return f_update;
+    }
+
+    void Component::detachAnyKeyPress()
+    {
+        EventManager::Deregister(*this, EventType::AnyKeyPressed);
+        f_anyKeyPress = 0;
     }
 
     void Component::detachKeyPress()
