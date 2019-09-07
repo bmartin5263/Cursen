@@ -59,11 +59,9 @@ namespace cursen {
 
         static int GetChar();
 
-        static short GetColorPair(const ColorPair& color) {
+        static short GetColorPair(const ColorPair& color)
+        {
             return Instance().privGetColorPair(color);
-        }
-        static short GetPairNumber(const ColorPair& color) {
-            return Instance().privGetPairNumber(color);
         }
 
         static void Beep() { Instance().doBeep(); }
@@ -99,7 +97,6 @@ namespace cursen {
         void doBeep();
         void doFlash();
         short privGetColorPair(const ColorPair&);
-        short privGetPairNumber(const ColorPair&);
         void privMoveCursor(const Vect2& dim);
         void privSetCursor(int level);
 

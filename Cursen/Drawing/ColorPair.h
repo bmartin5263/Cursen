@@ -27,6 +27,9 @@ namespace cursen {
         bool operator==(const ColorPair &other) const;
         bool operator!=(const ColorPair &other) const;
 
+        bool hasNoneColor() const;
+        void reset();
+
         Color fg;
         Color bg;
 

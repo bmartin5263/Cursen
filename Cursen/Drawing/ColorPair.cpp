@@ -2,6 +2,7 @@
 // Created by Brandon Martin on 3/19/19.
 //
 
+#include <Cursen/CursenApplication.h>
 #include "ColorPair.h"
 #include "CursesManager.h"
 
@@ -49,14 +50,24 @@ namespace cursen {
         return CursesManager::GetColorPair(*this);
     }
 
+    bool ColorPair::hasNoneColor() const
+    {
+        return fg == Color::NONE || bg == Color::NONE;
+    }
+
+    void ColorPair::reset()
+    {
+        if (fg == Color::NONE) fg = CursenApplication::GetColorPalette().getForeground();
+        if (bg == Color::NONE) bg = CursenApplication::GetColorPalette().getBackground();
+    }
 
     chtype operator|(chtype c, const ColorPair &n) {
-        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
+        if (n.hasNoneColor() || c == Content::TRANSPARENT) return c;
         return c | n.getColorPair();
     }
 
     chtype operator|(const ColorPair &n, chtype c) {
-        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
+        if (n.hasNoneColor() || c == Content::TRANSPARENT) return c;
         return c | n.getColorPair();
     }
 
@@ -69,7 +80,7 @@ namespace cursen {
     }
 
     chtype& operator |= (chtype& c, const cursen::ColorPair &n) {
-        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
+        if (n.fg == Color::NONE || n.fg == Color::NONE || c == Content::TRANSPARENT) return c;
         c |= n.getColorPair();
         return c;
     }

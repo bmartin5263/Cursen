@@ -6,7 +6,7 @@
 
 namespace cursen {
 
-    const ColorPalette ColorPalette::DARK = ColorPalette();
+    const ColorPalette ColorPalette::DARK = ColorPalette(Color::WHITE, Color::BLACK, Color::YELLOW, Color::GRAY);
     const ColorPalette ColorPalette::LIGHT = ColorPalette(Color::BLACK, Color::WHITE, Color::GRAY, Color::YELLOW);
 
     ColorPalette::ColorPalette() :

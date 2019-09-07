@@ -158,8 +158,7 @@ namespace cursen
     {
         size_t len = strlen(string);
         chtype converted[len + 1];
-        auto c = ColorPair(Color::WHITE, Color::NONE);
-        short pair = c.getColorPair();
+        short pair = color.getColorPair();
         for (int i = 0; i < len; i++) {
             converted[i] = ((chtype) string[i]) | pair;
         }
@@ -205,39 +204,22 @@ namespace cursen
 
     short CursesManager::privGetColorPair(const ColorPair& colorPair)
     {
-        ColorPairMap::const_iterator it;
-        it = colorPairMap.find(colorPair);
+        ColorPair pair_to_check = colorPair;
+        pair_to_check.reset();
+        ColorPairMap::const_iterator it = colorPairMap.find(pair_to_check);;
         if (it != colorPairMap.cend())
         {
-            return COLOR_PAIR(colorPairMap[colorPair]);
+            return COLOR_PAIR(colorPairMap[pair_to_check]);
         }
         else
         {
             short pairNum = (short) (colorPairMap.size() + 1);
-            short fg = colorPair.fg.val != -1 ? colorPair.fg.val : static_cast<short>(0);
-            short bg = colorPair.bg.val != -1 ? colorPair.bg.val : static_cast<short>(0);
+            short fg = pair_to_check.fg.val;
+            short bg = pair_to_check.bg.val;
 
             init_pair(pairNum, fg, bg);
-            colorPairMap[colorPair] = pairNum;
+            colorPairMap[pair_to_check] = pairNum;
             return COLOR_PAIR(pairNum);
-        }
-    }
-
-    short CursesManager::privGetPairNumber(const ColorPair& colorPair)
-    {
-        ColorPairMap::iterator it;
-
-        it = colorPairMap.find(colorPair);
-        if (it != colorPairMap.end())
-        {
-            return colorPairMap[colorPair];
-        }
-        else
-        {
-            short pairNum = (short) (colorPairMap.size() + 1);
-            init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
-            colorPairMap[colorPair] = pairNum;
-            return pairNum;
         }
     }
 
