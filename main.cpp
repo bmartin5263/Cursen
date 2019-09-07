@@ -23,7 +23,7 @@ int main(int argc, char **argv)
         DataManager::ProcessDataMessages();
     });
 
-    std::this_thread::sleep_for(std::chrono::seconds(7));
+    //std::this_thread::sleep_for(std::chrono::seconds(7));
     LobbyForm* lobbyForm = new LobbyForm;
     //LobbyForm lobbyForm1;
     CursenApplication::Run(lobbyForm);

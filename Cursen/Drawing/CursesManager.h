@@ -48,13 +48,13 @@ namespace cursen {
         static void Initialize(const Vect2& dim);
 
         static void DrawChar(int c) { Instance().putCharacter(c); }
-        static void DrawString(const std::string &string) { Instance().drawString(string.c_str()); }
-        static void DrawString(const char *string) { Instance().drawString(string); }
-        static void DrawString(const std::string &string, int x, int y) { Instance().drawString(string.c_str(), x, y); }
-        static void DrawString(const char *string, int x, int y) { Instance().drawString(string, x, y); }
+        static void Write(const std::string& string) { Write(string.c_str(), 0, 0); }
+        static void Write(const char* string) { Write(string, 0, 0); }
+        static void Write(const std::string& string, int x, int y) { Write(string.c_str(), x, y); }
+        static void Write(const char* string, int x, int y);
 
-        static void DrawStringBottomRight(const std::string &string) { Instance().privDrawStringBottomRight(string.c_str()); }
-        static void DrawStringBottomLeft(const std::string &string) { Instance().privDrawStringBottomLeft(string.c_str()); }
+        static void WriteBottomRight(const std::string& string);
+        static void WriteBottomLeft(const std::string& string);
 
         static int GetChar();
 
@@ -89,9 +89,9 @@ namespace cursen {
         ColorPairMap colorPairMap;
 
         chtype* buffer;
+        chtype* constant_buffer;
 
         // Static to Instance Methods
-        int getCharacter();
         void putCharacter(int c);
         void drawString(const char *string);
         void drawString(const char *string, int x, int y);
@@ -105,7 +105,8 @@ namespace cursen {
         void privSetCursor(int level);
 
         void drawComponent(TextComponent& component);
-        void clearBuffer();
+        void clearBuffer(chtype* buffer_to_clear);
+        void nullBuffer(chtype* buffer_to_clear);
 
         // Static Data
 

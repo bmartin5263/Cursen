@@ -36,11 +36,13 @@ namespace cursen
         auto& debugger = CursenApplication::GetDebugger();
         auto& instance = Instance();
         auto buffer = instance.buffer;
+        auto constant_buffer = instance.constant_buffer;
         auto dimensions = instance.dimensions;
+        auto buff_size = instance.buff_size;
 
         // Clear the old screen
         erase();
-        instance.clearBuffer();
+        instance.clearBuffer(instance.buffer);
 
         for (auto& pair : componentMap)
         {
@@ -57,13 +59,15 @@ namespace cursen
         for (int y = 0; y < dimensions.y; ++y)
         {
             mvaddchnstr(y, 0, &buffer[y*dimensions.x], dimensions.x);
-//            for (int x = 0; x < dimensions.x; ++x)
-//            {
-//                int index = (y * dimensions.x) + x;
-//                //mvaddchnstr(y, 0, &buffer[index], dimensions.x);
-//                chtype c = buffer[index];
-//                addch(c);
-//            }
+        }
+        for (int i = 0; i < buff_size; ++i)
+        {
+            if (constant_buffer[i] != ' ')
+            {
+                int x = i % dimensions.x;
+                int y = i / dimensions.x;
+                mvaddch(y, x, constant_buffer[i]);
+            }
         }
 
         //        if (debugger.getInspectionPointer() != nullptr)
@@ -82,8 +86,6 @@ namespace cursen
 //        }
 
         move(instance.cursor_pos.y, instance.cursor_pos.x);
-
-        //refresh();
     }
 
     void CursesManager::Initialize(const cursen::Vect2& dim){
@@ -152,6 +154,34 @@ namespace cursen
         attroff(i);
     }
 
+    void CursesManager::Write(const char* string, int x, int y)
+    {
+
+        Vect2 dimensions = Instance().dimensions;
+        const Vect2 dim = Vect2((int)strlen(string), 1);
+
+        int offset = 0;
+        if (x < 0)
+        {
+            offset = -x;
+        }
+        if (offset < dim.x)
+        {
+            int i = 0;
+            for (int currentX = offset; currentX < dim.x; ++currentX)
+            {
+                const char c = string[currentX];
+                if (c != Content::TRANSPARENT)
+                {
+                    int x_pos = x + i;
+                    int index = (dimensions.x * y) + x_pos;
+                    if (index >= 0 && index < Instance().buff_size) Instance().constant_buffer[index] = (chtype)c;
+                }
+                i++;
+            }
+        }
+    }
+
     short CursesManager::privGetColorPair(const ColorPair& colorPair)
     {
         ColorPairMap::const_iterator it;
@@ -197,12 +227,15 @@ namespace cursen
         if (instance.buffer != nullptr)
         {
             delete[] instance.buffer;
+            delete[] instance.constant_buffer;
         }
 
         instance.dimensions = dim;
         instance.buff_size = (size_t)instance.dimensions.x * instance.dimensions.y;
         instance.buffer = new chtype[instance.buff_size];
-        instance.clearBuffer();
+        instance.constant_buffer = new chtype[instance.buff_size];
+        instance.clearBuffer(instance.buffer);
+        instance.clearBuffer(instance.constant_buffer);
     }
 
     void CursesManager::drawComponent(TextComponent& component)
@@ -247,17 +280,16 @@ namespace cursen
         }
     }
 
-    void CursesManager::privDrawStringBottomRight(const char* string)
+    void CursesManager::WriteBottomRight(const std::string& string)
     {
-        int x = (int) (dimensions.x - strlen(string));
-        int y = dimensions.y - 1;
-        drawString(string, x, y);
+        int y = Instance().dimensions.y - 1;
+        Write(string.c_str(), 0, y);
     }
 
-    void CursesManager::privDrawStringBottomLeft(const char* string)
+    void CursesManager::WriteBottomLeft(const std::string& string)
     {
-        int y = dimensions.y - 1;
-        drawString(string, 0, y);
+        int y = Instance().dimensions.y - 1;
+        Write(string.c_str(), 0, y);
     }
 
     void CursesManager::privMoveCursor(const Vect2& dim)
@@ -275,11 +307,19 @@ namespace cursen
         return CursenApplication::GetCursesManager();
     }
 
-    void CursesManager::clearBuffer()
+    void CursesManager::clearBuffer(chtype* buffer_to_clear)
     {
         for (int i = 0; i < buff_size; ++i)
         {
-            buffer[i] = ' ';
+            buffer_to_clear[i] = ' ';
+        }
+    }
+
+    void CursesManager::nullBuffer(chtype* buffer_to_clear)
+    {
+        for (int i = 0; i < buff_size; ++i)
+        {
+            buffer_to_clear[i] = ' ';
         }
     }
 }
