@@ -43,7 +43,7 @@ public:
                 lobbyForm->getController().sendCloseMessages();
             }
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

@@ -137,7 +137,7 @@ void MatchForm::initialize()
     onArrowPress([&](EVENT_ARG) { this->arrowPress(event); });
     onKeyPress([&](EVENT_ARG) { this->keyPress(event); });
 
-    onOpen([]() { DataManager::SetContext(Context::ContextMatch); });
+    onOpen([]() { DataManager::SetContext(Context::Match); });
 
     placeCardAnimation.setForm(this);
     skip_animation.setForm(this);

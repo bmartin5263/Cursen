@@ -18,7 +18,7 @@ void Lobby::addPlayer(Player player) {
     players[numPlayers++] = player;
 }
 
-void Lobby::removePlayerByIndex(int index)
+void Lobby::removePlayer(int index)
 {
     players[index] = Player();
     numPlayers--;
@@ -30,41 +30,7 @@ void Lobby::removePlayerByIndex(int index)
     removeMessages(index);
 }
 
-
-void Lobby::removePlayer(int id) {
-    if (numPlayers <= 0) {
-        assert(false);
-    }
-
-    int i;
-    for (i = 0; i < numPlayers; ++i)
-    {
-        if (players[i].getId() == id)
-        {
-            players[i] = Player();
-            numPlayers--;
-
-            for (int j = i + 1; j < MAX_PLAYERS; j++) {
-                players[j-1] = players[j];
-            }
-        }
-    }
-    removeMessages(id);
-}
-
-Player& Lobby::getPlayer(int id) {
-    for (auto& player : players)
-    {
-        if (player.getId() == id)
-        {
-            return player;
-        }
-    }
-    assert(false);
-    return players[0];
-}
-
-Player& Lobby::getPlayerByIndex(int index)
+Player& Lobby::getPlayer(int index)
 {
     assert(index >= 0 && index <= MAX_PLAYERS);
     return players[index];
@@ -259,18 +225,6 @@ bool Lobby::idTaken(int id)
     for (int i = 0; i < numPlayers; i++)
     {
         if (players[i].getId() == id) return true;
-    }
-    return false;
-}
-
-bool Lobby::hasId(int id)
-{
-    for (auto& player : players)
-    {
-        if (player.getId() == id)
-        {
-            return true;
-        }
     }
     return false;
 }

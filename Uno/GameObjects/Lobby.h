@@ -28,12 +28,9 @@ public:
     void addPlayer(Player player);
     void setPlayer(const Player& player, int index);
 
-    void removePlayer(int id);
-    void removePlayerByIndex(int index);
-    bool hasId(int id);
+    void removePlayer(int index);
 
-    Player& getPlayer(int id);
-    Player& getPlayerByIndex(int index);
+    Player& getPlayer(int index);
     Player* getPlayers();
 
     void changePlayerColor(int index, PlayerColor color);

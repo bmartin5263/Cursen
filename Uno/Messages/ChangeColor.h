@@ -37,7 +37,7 @@ public:
             LobbyForm* lobby = GetCurrentForm<LobbyForm>();
             lobby->changeColor(player_index, new_color);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     size_t sizeOf() const override

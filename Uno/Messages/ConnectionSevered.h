@@ -35,7 +35,7 @@ public:
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->getController().handleDisconnect(sock);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

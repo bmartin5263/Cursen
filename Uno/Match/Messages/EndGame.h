@@ -22,7 +22,7 @@ public:
 
     Context getContext() override
     {
-        return Context::ContextMatch;
+        return Context::Match;
     }
 
     void execute() override
@@ -31,7 +31,7 @@ public:
 
             GetCurrentForm<MatchForm>()->getController()->handleClose("Closed", false);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

@@ -8,6 +8,7 @@
 #include "DataMessage.h"
 #include "Uno/Data/DataManager.h"
 #include "Uno/GameObjects/Lobby.h"
+#include "Uno/Forms/LobbyForm.h"
 
 class LobbyUpdate : public DataMessage
 {
@@ -31,12 +32,11 @@ public:
 
     void execute() override
     {
-        CONTEXT_CHECK_BEGIN
-
+        if (DataManager::GetContext() == Context::ContextLobby || DataManager::GetContext() == Context::ModeSelect)
+        {
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->updateLobby(lobby);
-
-        CONTEXT_CHECK_END
+        }
     }
 
     DataMessage* clone() override

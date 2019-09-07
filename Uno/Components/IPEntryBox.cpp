@@ -61,6 +61,12 @@ void IPEntryBox::initialize()
     ipv6.setText("IPv6");
     addRelative(ipv6);
 
+    ipv8.initialize();
+    ipv8.setPosition(Vect2(22, 8));
+    ipv8.setText("Host Game?");
+    ipv8.setHidden(true);
+    addRelative(ipv8);
+
     entry_field.onKeyPress([this](EVENT_ARG) {
         entry_field.keyPress(event);
         checkField(entry_field.getText());
@@ -77,6 +83,7 @@ void IPEntryBox::checkField(const std::string& text)
 {
     ipv4.uncheck();
     ipv6.uncheck();
+    ipv8.uncheck();
     if (Constants::validateIPv6(text))
     {
         ipv6.check();
@@ -84,6 +91,11 @@ void IPEntryBox::checkField(const std::string& text)
     else if (Constants::validateIPv4(text))
     {
         ipv4.check();
+    }
+    else if (text == "Host's IP Address")
+    {
+        ipv8.setHidden(false);
+        ipv8.check();
     }
     else
     {
@@ -100,6 +112,7 @@ void IPEntryBox::checkField(const std::string& text)
 void IPEntryBox::setHidden(bool value)
 {
     AggregateComponent::setHidden(value);
+    ipv8.setHidden(true);
     entry_field.setEnabled(!value);
     ipv4.uncheck();
     ipv6.uncheck();

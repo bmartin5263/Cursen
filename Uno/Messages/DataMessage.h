@@ -9,12 +9,15 @@
 #include "MessageType.h"
 #include "SendType.h"
 #include "Serializable.h"
+#include "Cursen/CursenApplication.h"
 #include "Uno/Forms/LobbyForm.h"
 #include "Uno/Lobby/LobbyController.h"
-#include "Cursen/CursenApplication.h"
 
 #define CONTEXT_CHECK_BEGIN if (DataManager::GetContext() == getContext()) {
-#define CONTEXT_CHECK_END }
+#define CONTEXT_END }
+#define CONTEXT_LOBBY_BEGIN if (DataManager::GetContext() == Context::ContextLobby) {
+#define CONTEXT_MATCH_BEGIN if (DataManager::GetContext() == Context::Match) {
+#define CONTEXT_MODE_BEGIN if (DataManager::GetContext() == Context::ModeSelect) {
 
 class DataMessage : public Serializable
 {

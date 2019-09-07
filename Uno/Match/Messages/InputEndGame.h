@@ -22,7 +22,7 @@ public:
 
     Context getContext() override
     {
-        return Context::ContextMatch;
+        return Context::Match;
     }
 
     void execute() override
@@ -33,7 +33,7 @@ public:
         msg->setSendType(SendType::Both);
         DataManager::PushMessage(msg);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

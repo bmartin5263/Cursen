@@ -36,7 +36,7 @@ public:
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->getController().handleKickPlayer(id_to_kick);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

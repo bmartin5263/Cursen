@@ -26,7 +26,7 @@ public:
 
     Context getContext() override
     {
-        return Context::ContextMatch;
+        return Context::Match;
     }
 
     void execute() override
@@ -36,7 +36,7 @@ public:
             MatchForm* matchForm = GetCurrentForm<MatchForm>();
             matchForm->getController()->handleGameOver(match_state, winner_index);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

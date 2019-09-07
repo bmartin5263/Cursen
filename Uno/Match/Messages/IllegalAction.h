@@ -26,7 +26,7 @@ public:
 
     Context getContext() override
     {
-        return Context::ContextMatch;
+        return Context::Match;
     }
 
     void execute() override
@@ -37,7 +37,7 @@ public:
         cursen::CursesManager::Beep();
         matchForm->setConsoleWarning(msg);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

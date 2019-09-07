@@ -29,7 +29,7 @@ public:
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->getController().handleInputColorChange(getSender());
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     size_t sizeOf() const override

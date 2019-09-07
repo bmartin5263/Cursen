@@ -146,8 +146,8 @@ void HostController::putSocket(int sock, int index)
 void HostController::handleKickPlayer(int index)
 {
     Lobby& lobby = lobbyForm->getLobby();
-    Player p = lobby.getPlayerByIndex(index);
-    lobby.removePlayerByIndex(index);
+    Player p = lobby.getPlayer(index);
+    lobby.removePlayer(index);
     lobbyForm->getChatBox().update(lobby.getMessages());
     lobbyForm->getConsole().setWarning("Later, " + p.getName());
 
@@ -245,7 +245,7 @@ void HostController::handleEnterMatch()
         else
         {
             lobbyForm->getConsole().setMessage(returnData->message);
-            for (int i = 0; i < lobbyForm->getLobby().getNumPlayers(); ++i) lobbyForm->getLobby().getPlayerByIndex(i) = returnData->players[i];
+            for (int i = 0; i < lobbyForm->getLobby().getNumPlayers(); ++i) lobbyForm->getLobby().getPlayer(i) = returnData->players[i];
         }
         delete returnData;
     });
@@ -293,7 +293,7 @@ void HostController::handleRequestJoinLobby(const std::string& name, int sock_fd
 void HostController::handleUpdatePlayer(const Player& player, int index)
 {
     Lobby& lobby = lobbyForm->getLobby();
-    bool was_dummy = lobby.getPlayerByIndex(index).isDummy();
+    bool was_dummy = lobby.getPlayer(index).isDummy();
 
     lobby.setPlayer(player, index);
 

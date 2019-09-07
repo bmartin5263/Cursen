@@ -41,7 +41,7 @@ void Stage::initialize() {
     textField.setPosition(cursen::Vect2(1,1));
     textField.setForeground(stage_color);
     textField.setSize(cursen::Vect2(Constants::MAX_NAME_LEN, 1));
-    textField.setHidden(true);
+    //textField.setEnabled(false);
     //textField.setActiveBackgroundColor(cursen::Color::RED);
     addRelative(textField);
 

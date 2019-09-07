@@ -153,12 +153,13 @@ void Client::connectionLost()
     {
         case Context::None:
             break;
+        case Context::ModeSelect:
         case Context::ContextLobby:
             msg = new ConnectionSevered(host_sock.fd());
             msg->setSendType(SendType::Local);
             DataManager::PushMessage(msg);
             break;
-        case Context::ContextMatch:
+        case Context::Match:
             msg = new MatchConnectionSevered(host_sock.fd());
             msg->setSendType(SendType::Local);
             DataManager::PushMessage(msg);

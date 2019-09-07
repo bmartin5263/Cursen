@@ -32,6 +32,7 @@ private:
     cursen::TextField entry_field;
     cursen::CheckBox ipv4;
     cursen::CheckBox ipv6;
+    cursen::CheckBox ipv8;
 
 };
 

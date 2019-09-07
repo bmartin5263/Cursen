@@ -31,7 +31,7 @@ public:
             LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
             lobbyForm->getController().handleStopSearch();
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

@@ -155,7 +155,8 @@ void LobbyForm::initialize()
 
     onOpen([this]()
     {
-        DataManager::SetContext(Context::ContextLobby);
+        if (lobby != nullptr) DataManager::SetContext(Context::ContextLobby);
+        else DataManager::SetContext(Context::ModeSelect);
     });
 }
 
@@ -183,6 +184,7 @@ void LobbyForm::updateLobby(Lobby& lobby)
 
 void LobbyForm::initializeForLocal()
 {
+    DataManager::SetContext(Context::ContextLobby);
     lobby = new Lobby;
     controller = new LocalController(this);
     controller->initialize();
@@ -212,6 +214,7 @@ void LobbyForm::initializeForLocal()
 
 void LobbyForm::initializeForHost()
 {
+    DataManager::SetContext(Context::ContextLobby);
     lobby = new Lobby;
     controller = new HostController(this);
     controller->initialize();
@@ -230,19 +233,22 @@ void LobbyForm::initializeForHost()
 
     start_button.enableIf([&]() { return lobby->getNumPlayers() >= Lobby::MIN_PLAYERS_TO_START; });
     search_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
+    search_button.setEnabled(true);
     add_ai_button.enableIf([&]() { return lobby->getNumPlayers() < Lobby::MAX_PLAYERS; });
-    add_ai_button.setEnabled(true);
     kick_button.enableIf([&]() { return lobby->getNumPlayers() > 1; });
     chat_button.setEnabled(true);
     change_color_button.setEnabled(true);
     close_button.setEnabled(true);
 
-    lobby_cursor.moveTo(&add_ai_button);
+    lobby_cursor.moveTo(&search_button);
     lobby_cursor.setEnabled(true);
+
+    controller->clickSearch();
 }
 
 void LobbyForm::initializeForClient()
 {
+    DataManager::SetContext(Context::ContextLobby);
     controller = new ClientController(this);
     controller->initialize();
 
@@ -264,6 +270,7 @@ void LobbyForm::initializeForClient()
 
 void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
 {
+    DataManager::SetContext(Context::ModeSelect);
     mode_select_box.setHidden(false);
     lobby_cursor.setEnabled(false);
     chat_box.setEnabled(false);
@@ -330,31 +337,47 @@ void LobbyForm::tryJoin()
     mode_select_box.detachEnterPress();
 
     std::string address = mode_select_box.getIpAddress();
-    if (address == "" || address == "127.0.0.1" || address == "localhost")
+
+    if (address != "")
     {
-        address = "::0";
-    };
+        if (address == "127.0.0.1" || address == "localhost")
+        {
+            address = "::0";
+        };
 
-    NetworkManager::SetMode(NetworkMode::Client);
-    auto& device = (Client&) NetworkManager::GetDevice();
-    device.initialize();
+        if (address == "Host's IP Address")
+        {
+            mode_select_box.enableCursor();
+            mode_select_box.cleanIpEntry();
+            initializeForHost();
+            return;
+        }
 
-    if (device.openConnection(address.c_str()))
-    {
-        mode_select_box.setText("Waiting for Lobby Info...");
+        NetworkManager::SetMode(NetworkMode::Client);
+        auto& device = (Client&) NetworkManager::GetDevice();
+        device.initialize();
 
-        std::string name = mode_select_box.getPlayerName();
-        DataMessage* msg = new RequestJoinLobby(name);
-        msg->setSendType(SendType::Network);
-        DataManager::PushMessage(msg);
+        if (device.openConnection(address.c_str()))
+        {
+            mode_select_box.setText("Waiting for Lobby Info...");
+
+            std::string name = mode_select_box.getPlayerName();
+            DataMessage* msg = new RequestJoinLobby(name);
+            msg->setSendType(SendType::Network);
+            DataManager::PushMessage(msg);
+        }
+        else
+        {
+            mode_select_box.setWarning("Unable To Join :(");
+            mode_select_box.enableCursor();
+        }
+        mode_select_box.cleanIpEntry();
     }
     else
     {
-        mode_select_box.setWarning("Unable To Join :(");
         mode_select_box.enableCursor();
+        mode_select_box.cleanIpEntry();
     }
-
-    mode_select_box.cleanIpEntry();
 
 }
 
@@ -447,8 +470,8 @@ void LobbyForm::pushChatMessage(int player_index, std::string message)
 
 void LobbyForm::kickPlayer(int index)
 {
-    Player p = lobby->getPlayerByIndex(index);
-    lobby->removePlayerByIndex(index);
+    Player p = lobby->getPlayer(index);
+    lobby->removePlayer(index);
     chat_box.update(lobby->getMessages());
     console.setWarning("Later, " + p.getName());
 }

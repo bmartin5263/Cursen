@@ -28,7 +28,7 @@ public:
 
     Context getContext() override
     {
-        return Context::ContextMatch;
+        return Context::Match;
     }
 
     void execute() override
@@ -86,7 +86,7 @@ public:
                 DataManager::PushMessage(data_msg);
             }
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

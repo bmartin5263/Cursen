@@ -60,6 +60,7 @@ public:
     ChatBox& getChatBox() { return this->chat_box; };
     LobbyController& getController() { return *this->controller; }
     PlayerStaging& getPlayerStaging() { return playerStaging; }
+    ModeSelectBox& getModeSelectBox() { return mode_select_box; }
     cursen::Button& getSearchButton() { return search_button; }
 
 private:

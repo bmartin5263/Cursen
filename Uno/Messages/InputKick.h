@@ -41,7 +41,7 @@ public:
                 lobbyForm->getController().handleInputKick(index_to_kick);
             }
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override

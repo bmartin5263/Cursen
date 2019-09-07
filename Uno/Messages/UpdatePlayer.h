@@ -30,12 +30,12 @@ public:
 
     void execute() override
     {
-        CONTEXT_CHECK_BEGIN
+        CONTEXT_LOBBY_BEGIN
 
-        LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
-        lobbyForm->getController().handleUpdatePlayer(new_player, index);
+            LobbyForm* lobbyForm = GetCurrentForm<LobbyForm>();
+            lobbyForm->getController().handleUpdatePlayer(new_player, index);
 
-        CONTEXT_CHECK_END
+        CONTEXT_END
     }
 
     DataMessage* clone() override
