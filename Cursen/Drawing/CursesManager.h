@@ -48,10 +48,11 @@ namespace cursen {
         static void Initialize(const Vect2& dim);
 
         static void DrawChar(int c) { Instance().putCharacter(c); }
-        static void Write(const std::string& string) { Write(string.c_str(), 0, 0); }
-        static void Write(const char* string) { Write(string, 0, 0); }
-        static void Write(const std::string& string, int x, int y) { Write(string.c_str(), x, y); }
-        static void Write(const char* string, int x, int y);
+
+        static void Write(const std::string& string, int x, int y, const ColorPair& color = ColorPair::NONE) { Write(string.c_str(), x, y, color); }
+        static void Write(const char* string, int x, int y, const ColorPair& color = ColorPair::NONE);
+        static void Write(const chtype* string, int x, int y);
+        static void Write(const chtype* string, int x, int y, size_t len);
 
         static void WriteBottomRight(const std::string& string);
         static void WriteBottomLeft(const std::string& string);
@@ -95,8 +96,6 @@ namespace cursen {
         void putCharacter(int c);
         void drawString(const char *string);
         void drawString(const char *string, int x, int y);
-        void privDrawStringBottomRight(const char *string);
-        void privDrawStringBottomLeft(const char *string);
         void doBeep();
         void doFlash();
         short privGetColorPair(const ColorPair&);

@@ -154,11 +154,32 @@ namespace cursen
         attroff(i);
     }
 
-    void CursesManager::Write(const char* string, int x, int y)
+    void CursesManager::Write(const char* string, int x, int y, const ColorPair& color)
     {
+        size_t len = strlen(string);
+        chtype converted[len + 1];
+        auto c = ColorPair(Color::WHITE, Color::NONE);
+        short pair = c.getColorPair();
+        for (int i = 0; i < len; i++) {
+            converted[i] = ((chtype) string[i]) | pair;
+        }
+        converted[len] = Content::NULL_CHAR;
+        Write(&converted[0], x, y, len);
+    }
 
-        Vect2 dimensions = Instance().dimensions;
-        const Vect2 dim = Vect2((int)strlen(string), 1);
+    void CursesManager::Write(const chtype* string, int x, int y)
+    {
+        Write(string, x, y, strlen((char*)string));
+    }
+
+    void CursesManager::Write(const chtype* string, int x, int y, size_t len)
+    {
+        auto& instance = Instance();
+        Vect2 dimensions = instance.dimensions;
+        const Vect2 dim = Vect2((int)len, 1);
+
+        auto constant_buffer = instance.constant_buffer;
+        auto buff_size = instance.buff_size;
 
         int offset = 0;
         if (x < 0)
@@ -170,12 +191,12 @@ namespace cursen
             int i = 0;
             for (int currentX = offset; currentX < dim.x; ++currentX)
             {
-                const char c = string[currentX];
+                const chtype c = string[currentX];
                 if (c != Content::TRANSPARENT)
                 {
                     int x_pos = x + i;
                     int index = (dimensions.x * y) + x_pos;
-                    if (index >= 0 && index < Instance().buff_size) Instance().constant_buffer[index] = (chtype)c;
+                    if (index >= 0 && index < buff_size) constant_buffer[index] = c;
                 }
                 i++;
             }
@@ -193,7 +214,10 @@ namespace cursen
         else
         {
             short pairNum = (short) (colorPairMap.size() + 1);
-            init_pair(pairNum, colorPair.fg.val, colorPair.bg.val);
+            short fg = colorPair.fg.val != -1 ? colorPair.fg.val : static_cast<short>(0);
+            short bg = colorPair.bg.val != -1 ? colorPair.bg.val : static_cast<short>(0);
+
+            init_pair(pairNum, fg, bg);
             colorPairMap[colorPair] = pairNum;
             return COLOR_PAIR(pairNum);
         }
@@ -288,6 +312,7 @@ namespace cursen
 
     void CursesManager::WriteBottomLeft(const std::string& string)
     {
+
         int y = Instance().dimensions.y - 1;
         Write(string.c_str(), 0, y);
     }
