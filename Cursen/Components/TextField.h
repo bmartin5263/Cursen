@@ -28,16 +28,18 @@ namespace cursen {
         void cursorOn() override;
         void setSize(const Vect2 &size) override;
         void setText(const std::string &text) override;
-        std::string getText() override;
+        std::string getText() const override;
         void setEnabled(bool value) override;
 
-        void setActiveBackgroundColor(const Color& color);
+        void setPlaceholderText(const std::string& text);
+        std::string getPlaceholderText();
 
 
     private:
 
-        Color active_bg_color;
+        cursen::ColorPair placeholder_color;
         std::string text;
+        std::string placeholder_text;
         int max_len;
         int cursor_x;
         bool stretch;
