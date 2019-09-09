@@ -24,9 +24,9 @@ namespace cursen {
         bool isSpinning();
         void initialize() override;
         void setForeground(const Color &color) override;
-        Color getForeground() override;
+        Color getForeground() const override;
         void setBackground(const Color &color) override;
-        Color getBackground() override;
+        Color getBackground() const override;
         void setPosition(const Vect2 &size) override;
 
     private:

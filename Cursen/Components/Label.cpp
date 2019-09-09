@@ -50,7 +50,7 @@ namespace cursen {
         return alignment;
     }
 
-    std::string Label::getText() {
+    std::string Label::getText() const {
         return text;
     }
 

@@ -118,7 +118,7 @@ namespace cursen
     void Animation::nextFrame()
     {
         int changes = 0;
-        assert(running);
+        //assert(running);
         callCurrentFrame();
         double time = frames[currentFrame].getDuration();   // get the time before we change the frame
         currentFrame = (currentFrame + 1) % numFrames;

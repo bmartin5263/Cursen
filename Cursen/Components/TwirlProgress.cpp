@@ -63,7 +63,7 @@ namespace cursen {
         twirl_label.setForeground(color);
     }
 
-    Color TwirlProgress::getForeground() {
+    Color TwirlProgress::getForeground() const {
         return twirl_label.getForeground();
     }
 
@@ -71,7 +71,7 @@ namespace cursen {
         twirl_label.setBackground(color);
     }
 
-    Color TwirlProgress::getBackground() {
+    Color TwirlProgress::getBackground() const {
         return twirl_label.getBackground();
     }
 

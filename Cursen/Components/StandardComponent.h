@@ -24,10 +24,10 @@ namespace cursen {
         virtual void initialize() override;
 
         virtual void setForeground(const Color &color) override;
-        virtual Color getForeground() override;
+        virtual Color getForeground() const override;
 
         virtual void setBackground(const Color &color) override;
-        virtual Color getBackground() override;
+        virtual Color getBackground() const override;
 
         ColorPair& getCurrentDrawColor();
 
@@ -37,10 +37,10 @@ namespace cursen {
         void setEnabled(bool value) override;
 
         void setHighlight(const ColorPair &color) override;
-        ColorPair getHighlight() override;
+        ColorPair getHighlight() const override;
 
         void setDisabled(const ColorPair &color) override;
-        ColorPair getDisabled() override;
+        ColorPair getDisabled() const override;
 
         virtual void render() override;
 

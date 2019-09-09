@@ -85,6 +85,8 @@ namespace cursen {
 
     private:
 
+        Vect2 dimensions;
+
         VoidFunction fOpen;
         VoidFunction fBeforeClose;
         CloseFunction fClose;
@@ -97,7 +99,6 @@ namespace cursen {
         EventComponentMap dispatchMap;
         ComponentRegistrationMap eventRegistrationMap;
 
-        Vect2 dimensions;
 
     };
 

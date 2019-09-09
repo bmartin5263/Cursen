@@ -36,7 +36,7 @@ namespace cursen
         /////////////////////////////////////////////////////////////////////////////////////////////////////
 
         virtual void setText(const std::string& text) {};
-        virtual std::string getText() { return ""; };
+        virtual std::string getText() const { return ""; };
 
         /**
          * @brief Set the Foreground Color of the Component
@@ -58,7 +58,7 @@ namespace cursen
          * of Component should override this in a manner that makes sense for that Component's
          * function.
          */
-        virtual Color getForeground() { return Color::NONE; };
+        virtual Color getForeground() const { return Color::NONE; };
 
         /**
          * @brief Set the Background Color of the Component
@@ -80,7 +80,7 @@ namespace cursen
          * of Component should override this in a manner that makes sense for that Component's
          * function.
          */
-        virtual Color getBackground() { return Color::NONE; };
+        virtual Color getBackground() const { return Color::NONE; };
 
         /**
          * @brief Set the ColorPair to be used for when a Cursor highlights this Component
@@ -102,7 +102,7 @@ namespace cursen
          * of Component should override this in a manner that makes sense for that Component's
          * function.
          */
-        virtual ColorPair getHighlight() { return ColorPair::NONE; };
+        virtual ColorPair getHighlight() const { return ColorPair::NONE; };
 
         /**
          * @brief Set the ColorPair to be used for when this Component is disabled.
@@ -124,7 +124,7 @@ namespace cursen
          * of Component should override this in a manner that makes sense for that Component's
          * function.
          */
-        virtual ColorPair getDisabled() { return ColorPair::NONE; };
+        virtual ColorPair getDisabled() const { return ColorPair::NONE; };
 
         /**
          * @brief Enable or Disable drawing of this Component

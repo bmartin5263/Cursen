@@ -26,7 +26,7 @@ namespace cursen {
         void setTextAlignment(const TextAlignment new_alignment);
         TextAlignment getTextAlignment();
 
-        std::string getText() override;
+        std::string getText() const override;
 
     private:
 

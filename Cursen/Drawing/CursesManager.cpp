@@ -21,7 +21,7 @@ namespace cursen
     chtype CursesManager::RTEE = '?';
 
     CursesManager::CursesManager() :
-        buff_size(0), buffer(nullptr)
+        buffer_size(0), component_layer(nullptr)
     {
     }
 
@@ -35,14 +35,13 @@ namespace cursen
     {
         auto& debugger = CursenApplication::GetDebugger();
         auto& instance = Instance();
-        auto buffer = instance.buffer;
-        auto constant_buffer = instance.constant_buffer;
+        auto buffer = instance.component_layer;
+        auto constant_buffer = instance.text_layer;
         auto dimensions = instance.dimensions;
-        auto buff_size = instance.buff_size;
+        auto buff_size = instance.buffer_size;
 
         // Clear the old screen
-        erase();
-        instance.clearBuffer(instance.buffer);
+        instance.clearScreen();
 
         for (auto& pair : componentMap)
         {
@@ -51,7 +50,7 @@ namespace cursen
                 TextComponent& component = *componentIter;
                 if (!component.isHidden())
                 {
-                    instance.drawComponent(component);
+                    instance.render(component);
                 }
             }
         }
@@ -177,8 +176,8 @@ namespace cursen
         Vect2 dimensions = instance.dimensions;
         const Vect2 dim = Vect2((int)len, 1);
 
-        auto constant_buffer = instance.constant_buffer;
-        auto buff_size = instance.buff_size;
+        auto constant_buffer = instance.text_layer;
+        auto buff_size = instance.buffer_size;
 
         int offset = 0;
         if (x < 0)
@@ -219,6 +218,7 @@ namespace cursen
 
             init_pair(pairNum, fg, bg);
             colorPairMap[pair_to_check] = pairNum;
+
             return COLOR_PAIR(pairNum);
         }
     }
@@ -230,21 +230,21 @@ namespace cursen
         //printf("%s", resizeString.c_str());
         fflush(stdout);
 
-        if (instance.buffer != nullptr)
+        if (instance.component_layer != nullptr)
         {
-            delete[] instance.buffer;
-            delete[] instance.constant_buffer;
+            delete[] instance.component_layer;
+            delete[] instance.text_layer;
         }
 
         instance.dimensions = dim;
-        instance.buff_size = (size_t)instance.dimensions.x * instance.dimensions.y;
-        instance.buffer = new chtype[instance.buff_size];
-        instance.constant_buffer = new chtype[instance.buff_size];
-        instance.clearBuffer(instance.buffer);
-        instance.clearBuffer(instance.constant_buffer);
+        instance.buffer_size = (size_t)instance.dimensions.x * instance.dimensions.y;
+        instance.component_layer = new chtype[instance.buffer_size];
+        instance.text_layer = new chtype[instance.buffer_size];
+        instance.clearBuffer(instance.component_layer);
+        instance.clearBuffer(instance.text_layer);
     }
 
-    void CursesManager::drawComponent(TextComponent& component)
+    void CursesManager::render(TextComponent& component)
     {
         /* Check if component needs a redraw */
         if (component.isInvalid())
@@ -278,7 +278,7 @@ namespace cursen
                         int y_pos = position.y + y;
                         int x_pos = position.x + i;
                         int index = (dimensions.x * y_pos) + x_pos;
-                        if (index >= 0 && index < buff_size) buffer[index] = c;
+                        if (index >= 0 && index < buffer_size) component_layer[index] = c;
                     }
                     i++;
                 }
@@ -316,7 +316,7 @@ namespace cursen
 
     void CursesManager::clearBuffer(chtype* buffer_to_clear)
     {
-        for (int i = 0; i < buff_size; ++i)
+        for (int i = 0; i < buffer_size; ++i)
         {
             buffer_to_clear[i] = ' ';
         }
@@ -324,9 +324,15 @@ namespace cursen
 
     void CursesManager::nullBuffer(chtype* buffer_to_clear)
     {
-        for (int i = 0; i < buff_size; ++i)
+        for (int i = 0; i < buffer_size; ++i)
         {
             buffer_to_clear[i] = ' ';
         }
+    }
+
+    void CursesManager::clearScreen()
+    {
+        erase();
+        clearBuffer(component_layer);
     }
 }

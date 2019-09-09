@@ -83,7 +83,7 @@ namespace cursen
         invalidate();
     }
 
-    Color StandardComponent::getForeground()
+    Color StandardComponent::getForeground() const
     {
         return foreground;
     }
@@ -94,7 +94,7 @@ namespace cursen
         invalidate();
     }
 
-    Color StandardComponent::getBackground()
+    Color StandardComponent::getBackground() const
     {
         return background;
     }
@@ -130,7 +130,7 @@ namespace cursen
         invalidate();
     }
 
-    ColorPair StandardComponent::getHighlight()
+    ColorPair StandardComponent::getHighlight() const
     {
         return ColorPair(highlight_foreground, highlight_background);
     }
@@ -142,7 +142,7 @@ namespace cursen
         invalidate();
     }
 
-    ColorPair StandardComponent::getDisabled()
+    ColorPair StandardComponent::getDisabled() const
     {
         return ColorPair(disabled_foreground, disabled_background);
     }

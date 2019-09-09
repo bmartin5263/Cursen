@@ -83,12 +83,12 @@ namespace cursen {
         Vect2 dimensions;
         Vect2 cursor_pos;
         int inputTimeout;
-        size_t buff_size;
+        size_t buffer_size;
         ColorMap colorMap;
         ColorPairMap colorPairMap;
 
-        chtype* buffer;
-        chtype* constant_buffer;
+        chtype* component_layer;
+        chtype* text_layer;
 
         // Static to Instance Methods
         void putCharacter(int c);
@@ -100,9 +100,11 @@ namespace cursen {
         void privMoveCursor(const Vect2& dim);
         void privSetCursor(int level);
 
-        void drawComponent(TextComponent& component);
+        void render(TextComponent& component);
         void clearBuffer(chtype* buffer_to_clear);
         void nullBuffer(chtype* buffer_to_clear);
+
+        void clearScreen();
 
         // Static Data
 
