@@ -46,44 +46,50 @@ namespace cursen {
         switch (event.type) {
             case EventType::KeyPressed:
                 componentList = dispatchMap[EventType::KeyPressed];
-                for (ComponentList::const_iterator listItem = componentList.cbegin();
-                     listItem != componentList.cend(); ++listItem) {
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallKeyPress(event);
                 }
                 break;
             case EventType::EscPressed:
                 componentList = dispatchMap[EventType::EscPressed];
-                for (ComponentList::const_iterator listItem = componentList.cbegin();
-                     listItem != componentList.cend(); ++listItem) {
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallEscapePress(event);
                 }
                 break;
             case EventType::DeletePressed:
                 componentList = dispatchMap[EventType::DeletePressed];
-                for (ComponentList::const_iterator listItem = componentList.cbegin();
-                     listItem != componentList.cend(); ++listItem) {
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallDeletePress(event);
                 }
                 break;
             case EventType::EnterPressed:
                 componentList = dispatchMap[EventType::EnterPressed];
-                for (ComponentList::const_iterator listItem = componentList.cbegin();
-                     listItem != componentList.cend(); ++listItem) {
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallEnterPress(event);
                 }
                 break;
             case EventType::ArrowPressed:
                 componentList = dispatchMap[EventType::ArrowPressed];
-                for (ComponentList::const_iterator listItem = componentList.cbegin();
-                     listItem != componentList.cend(); ++listItem) {
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallArrowPress(event);
                 }
                 break;
             case EventType::AnyKeyPressed:
                 componentList = dispatchMap[EventType::AnyKeyPressed];
-                for (ComponentList::const_iterator listItem = componentList.cbegin();
-                     listItem != componentList.cend(); ++listItem) {
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
                     (*listItem)->CallAnyKeyPress(event);
+                }
+                break;
+            case EventType::KeyDown:
+                componentList = dispatchMap[EventType::KeyDown];
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
+                    (*listItem)->CallKeyDown(event);
+                }
+                break;
+            case EventType::KeyUp:
+                componentList = dispatchMap[EventType::KeyUp];
+                for (auto listItem = componentList.cbegin(); listItem != componentList.cend(); ++listItem) {
+                    (*listItem)->CallKeyUp(event);
                 }
                 break;
             case EventType::AlarmInterval:

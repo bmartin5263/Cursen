@@ -76,6 +76,9 @@ namespace cursen {
          */
         void onKeyPress(std::function<void(const Event &)> f);
 
+        void onKeyDown(std::function<void(const Event &)> fn);
+        void onKeyUp(std::function<void(const Event &)> fn);
+
         /**
          * @brief Set the callback for when escape is pressed.
          *
@@ -155,6 +158,9 @@ namespace cursen {
          */
         void detachAnyKeyPress();
 
+        void detachKeyDown();
+        void detachKeyUp();
+
         /**
          * @brief Removes the callback for Key Presses and deregisters itself from Key Events
          */
@@ -211,6 +217,8 @@ namespace cursen {
         void CallEnterPress(const Event& event) const;
         void CallDeletePress(const Event& event) const;
         void CallArrowPress(const Event& event) const;
+        void CallKeyUp(const Event& event) const;
+        void CallKeyDown(const Event& event) const;
         void CallOnCursor() const;
         void CallOffCursor() const;
         void CallOnClick() const;
@@ -226,6 +234,8 @@ namespace cursen {
     private:
 
         std::function<void(const Event&)> f_keyPress;
+        std::function<void(const Event&)> f_keyDown;
+        std::function<void(const Event&)> f_keyUp;
         std::function<void(const Event&)> f_anyKeyPress;
         std::function<void(const Event&)> f_escapePress;
         std::function<void(const Event&)> f_enterPress;

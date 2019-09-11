@@ -18,7 +18,9 @@ namespace cursen {
         AlarmExpire = 64,
         Update = 128,
         Null = 256,
-        AnyKeyPressed = 512
+        AnyKeyPressed = 512,
+        KeyDown = 1024,
+        KeyUp = 2048
     };
 
 }

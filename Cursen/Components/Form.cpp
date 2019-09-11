@@ -62,7 +62,7 @@ namespace cursen {
             currentFlags = 0;
         }
 
-        for (BitFlags flag = (BitFlags) EventType::KeyPressed; flag <= (BitFlags) EventType::AnyKeyPressed; flag = flag << 1) {
+        for (BitFlags flag = (BitFlags) EventType::KeyPressed; flag <= (BitFlags) EventType::KeyUp; flag = flag << 1) {
             if (flag & ~currentFlags & (BitFlags) events) {
                 dispatchMap[(EventType) flag].insert(component);
                 eventRegistrationMap[component] += flag;
@@ -78,7 +78,7 @@ namespace cursen {
         if (it != eventRegistrationMap.end()) {
             BitFlags currentFlags = it->second;
 
-            for (BitFlags flag = (BitFlags) EventType::KeyPressed; flag <= (BitFlags) EventType::AnyKeyPressed; flag = flag << 1) {
+            for (BitFlags flag = (BitFlags) EventType::KeyPressed; flag <= (BitFlags) EventType::KeyUp; flag = flag << 1) {
                 if (flag & currentFlags & (BitFlags) events) {
                     dispatchMap[(EventType) flag].erase(component);
                     it->second -= flag;

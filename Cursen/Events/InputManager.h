@@ -5,6 +5,9 @@
 #ifndef CURSEN_INPUTMANAGER_H
 #define CURSEN_INPUTMANAGER_H
 
+#include <unordered_set>
+#include <chrono>
+
 namespace cursen {
 
     class InputManager {
@@ -17,11 +20,15 @@ namespace cursen {
 
         void privProcessInput();
 
+        std::chrono::system_clock::time_point last_update;
+
+        //std::unordered_set<int> keys_pressed;
+        //std::unordered_set<int> keys_pressed_previous;
 
         friend class CursenApplication;
         static InputManager& Instance();
 
-        InputManager() = default;
+        InputManager();
         InputManager(const InputManager& other) = delete;
         InputManager(InputManager&& other) noexcept = delete;
         InputManager& operator = (const InputManager& other) = delete;

@@ -21,7 +21,7 @@ namespace cursen
     chtype CursesManager::RTEE = '?';
 
     CursesManager::CursesManager() :
-        buffer_size(0), component_layer(nullptr)
+            component_layer(nullptr), type_pos(0), buffer_size(0)
     {
     }
 
@@ -334,5 +334,51 @@ namespace cursen
     {
         erase();
         clearBuffer(component_layer);
+    }
+
+    void CursesManager::Type(const char* string, size_t len, const ColorPair& color)
+    {
+        chtype converted[len + 1];
+        short pair = color.getColorPair();
+        for (int i = 0; i < len; i++) {
+            converted[i] = ((chtype) string[i]) | pair;
+        }
+        converted[len] = Content::NULL_CHAR;
+        Type(&converted[0], len);
+    }
+
+    void CursesManager::Type(const std::string& string, const ColorPair& color)
+    {
+        Type(string.c_str(), string.length(), color);
+    }
+
+    void CursesManager::Type(const chtype* string, size_t len)
+    {
+        auto text_layer = Instance().text_layer;
+        auto buffer_size = Instance().buffer_size;
+        auto& type_pos = Instance().type_pos;
+        for (int i = 0; i < len; ++i)
+        {
+            text_layer[type_pos++] = string[i];
+            if (type_pos >= buffer_size) type_pos = 0;
+        }
+    }
+
+    void CursesManager::Type(char character)
+    {
+        auto text_layer = Instance().text_layer;
+        auto buffer_size = Instance().buffer_size;
+        auto& type_pos = Instance().type_pos;
+        text_layer[type_pos++] = static_cast<chtype>(character);
+        if (type_pos >= buffer_size) type_pos = 0;
+    }
+
+    void CursesManager::Type(chtype character)
+    {
+        auto text_layer = Instance().text_layer;
+        auto buffer_size = Instance().buffer_size;
+        auto& type_pos = Instance().type_pos;
+        text_layer[type_pos++] = character;
+        if (type_pos >= buffer_size) type_pos = 0;
     }
 }

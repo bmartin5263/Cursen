@@ -32,6 +32,18 @@ namespace cursen
         this->parent = component;
     }
 
+    void Component::onKeyDown(std::function<void(const Event&)> fn)
+    {
+        EventManager::Register(*this, EventType::KeyDown);
+        f_keyDown = fn;
+    }
+
+    void Component::onKeyUp(std::function<void(const Event&)> fn)
+    {
+        EventManager::Register(*this, EventType::KeyUp);
+        f_keyUp = fn;
+    }
+
     void Component::onAnyKeyPress(std::function<void(const Event&)> f)
     {
         EventManager::Register(*this, EventType::AnyKeyPressed);
@@ -161,6 +173,22 @@ namespace cursen
         }
     }
 
+    void Component::CallKeyUp(const Event& event) const
+    {
+        if (!isSilenced())
+        {
+            if (f_keyUp) f_keyUp(event);
+        }
+    }
+
+    void Component::CallKeyDown(const Event& event) const
+    {
+        if (!isSilenced())
+        {
+            if (f_keyDown) f_keyDown(event);
+        }
+    }
+
     void Component::CallOnCursor() const
     {
         if (f_onCursor) f_onCursor();
@@ -196,6 +224,18 @@ namespace cursen
     {
         EventManager::Deregister(*this, EventType::KeyPressed);
         f_keyPress = 0;
+    }
+
+    void Component::detachKeyDown()
+    {
+        EventManager::Deregister(*this, EventType::KeyDown);
+        f_keyDown = 0;
+    }
+
+    void Component::detachKeyUp()
+    {
+        EventManager::Deregister(*this, EventType::KeyUp);
+        f_keyUp = 0;
     }
 
     void Component::detachEscapePress()
@@ -275,6 +315,5 @@ namespace cursen
     {
         return this->registeredForm;
     }
-
 
 }

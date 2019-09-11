@@ -44,10 +44,15 @@ namespace cursen {
         static chtype VLINE;
         static chtype HLINE;
 
-
         static void Initialize(const Vect2& dim);
 
         static void DrawChar(int c) { Instance().putCharacter(c); }
+
+        static void Type(const char* string, size_t len, const ColorPair& color = ColorPair::NONE);
+        static void Type(const std::string& string, const ColorPair& color = ColorPair::NONE);
+        static void Type(const chtype* string, size_t len);
+        static void Type(chtype character);
+        static void Type(char character);
 
         static void Write(const std::string& string, int x, int y, const ColorPair& color = ColorPair::NONE) { Write(string.c_str(), x, y, color); }
         static void Write(const char* string, int x, int y, const ColorPair& color = ColorPair::NONE);
@@ -80,15 +85,17 @@ namespace cursen {
         typedef std::unordered_map<ColorPair, short, color_pair_hash> ColorPairMap;
 
         // Instance Data
+        chtype* component_layer;
+        chtype* text_layer;
+
         Vect2 dimensions;
         Vect2 cursor_pos;
         int inputTimeout;
+        int type_pos;
         size_t buffer_size;
         ColorMap colorMap;
         ColorPairMap colorPairMap;
 
-        chtype* component_layer;
-        chtype* text_layer;
 
         // Static to Instance Methods
         void putCharacter(int c);
