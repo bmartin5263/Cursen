@@ -122,7 +122,7 @@ void HostController::handleStartSearch()
     {
         auto& lobby = lobbyForm->getLobby();
         lobby.startSearch();
-        lobbyForm->getPlayerStaging().startSearching();
+        lobbyForm->getPlayerStaging().startSearching(lobby.getNumPlayers());
         lobbyForm->getSearchButton().setText("Stop Search");
         lobbyForm->getConsole().setWarning("Searching For Players...");
     }
@@ -133,8 +133,9 @@ void HostController::handleStopSearch()
     auto& host_device = (Host&)NetworkManager::GetDevice();
     host_device.stopListening();
 
-    lobbyForm->getLobby().stopSearch();
-    lobbyForm->getPlayerStaging().stopSearching();
+    auto& lobby = lobbyForm->getLobby();
+    lobby.stopSearch();
+    lobbyForm->getPlayerStaging().stopSearching(lobby.getNumPlayers());
     lobbyForm->getSearchButton().setText("Search");
 }
 
@@ -148,6 +149,7 @@ void HostController::handleKickPlayer(int index)
     Lobby& lobby = lobbyForm->getLobby();
     Player p = lobby.getPlayer(index);
     lobby.removePlayer(index);
+    lobbyForm->removePlayerFromStaging(index);
     lobbyForm->getChatBox().update(lobby.getMessages());
     lobbyForm->getConsole().setWarning("Later, " + p.getName());
 
@@ -256,6 +258,7 @@ void HostController::handleEnterMatch()
 void HostController::handleAddPlayer(Player new_player)
 {
     lobbyForm->getLobby().addPlayer(new_player);
+    lobbyForm->addPlayerToStaging(new_player);
     if (!new_player.isDummy()) lobbyForm->getConsole().setMessage("Welcome, " + new_player.getName() + "!");
     if (lobbyForm->getLobby().isSearching() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MAX_PLAYERS)
     {
@@ -296,6 +299,7 @@ void HostController::handleUpdatePlayer(const Player& player, int index)
     bool was_dummy = lobby.getPlayer(index).isDummy();
 
     lobby.setPlayer(player, index);
+    lobbyForm->setPlayerToStaging(player, index);
 
     if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
 }

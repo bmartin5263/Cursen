@@ -18,9 +18,13 @@ public:
     SimpleForm();
     void initialize() override;
 
+    void keyUp(EVENT_ARG);
+    void keyDown(EVENT_ARG);
+
 private:
 
     cursen::Button hello;
+    cursen::Label count;
 
 };
 

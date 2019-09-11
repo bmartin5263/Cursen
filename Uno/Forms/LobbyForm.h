@@ -49,6 +49,10 @@ public:
     void startChat();
     void stopChat();
 
+    void addPlayerToStaging(const Player& player);
+    void removePlayerFromStaging(int index);
+    void setPlayerToStaging(const Player& player, int index);
+
     void changeColor(int playerId, PlayerColor color);
     void pushChatMessage(int player_index, std::string message);
     //void addPlayer(Player p, int sock);

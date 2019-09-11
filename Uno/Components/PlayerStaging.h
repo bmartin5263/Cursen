@@ -29,8 +29,10 @@ public:
     void enableCursor();
     void disableCursor();
 
-    void startSearching();
-    void stopSearching();
+    void startSearching(int start);
+    void stopSearching(int start);
+
+    Stage& getStage(int index);
 
 private:
 

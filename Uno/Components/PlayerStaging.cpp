@@ -34,23 +34,19 @@ void PlayerStaging::initialize()
     }
 
     stages[0].setPosition(cursen::Vect2(1, 1));
-    stages[0].setEnabled(false);
-    stages[0].setStageColor(cursen::Color::DARK_BLUE);
+    stages[0].setStageColor(cursen::Color::GRAY);
     addRelative(stages[0]);
 
     stages[1].setPosition(cursen::Vect2(35, 1));
-    stages[1].setEnabled(false);
-    stages[1].setStageColor(cursen::Color::DARK_BLUE);
+    stages[1].setStageColor(cursen::Color::GRAY);
     addRelative(stages[1]);
 
     stages[2].setPosition(cursen::Vect2(1, 5));
-    stages[2].setEnabled(false);
-    stages[2].setStageColor(cursen::Color::DARK_BLUE);
+    stages[2].setStageColor(cursen::Color::GRAY);
     addRelative(stages[2]);
 
     stages[3].setPosition(cursen::Vect2(35, 5));
-    stages[3].setEnabled(false);
-    stages[3].setStageColor(cursen::Color::DARK_BLUE);
+    stages[3].setStageColor(cursen::Color::GRAY);
     addRelative(stages[3]);
 
     stageCursor.mapComponent(&stages[0], cursen::ArrowMap(&stages[1], &stages[2], &stages[1], &stages[2]));
@@ -68,19 +64,19 @@ void PlayerStaging::clear()
     }
 }
 
-void PlayerStaging::startSearching()
+void PlayerStaging::startSearching(int start)
 {
-    for (Stage& s : stages)
+    for (int i = start; i < Lobby::MAX_PLAYERS; ++i)
     {
-        s.searchIfEmtpy();
+        stages[i].searchIfEmtpy();
     }
 }
 
-void PlayerStaging::stopSearching()
+void PlayerStaging::stopSearching(int start)
 {
-    for (Stage& s : stages)
+    for (int i = start; i < Lobby::MAX_PLAYERS; ++i)
     {
-        s.stopSearch();
+        stages[i].stopSearch();
     }
 }
 
@@ -126,4 +122,9 @@ void PlayerStaging::setCallBacks(LobbyForm* lobby)
 void PlayerStaging::disableCursor()
 {
     stageCursor.setEnabled(false);
+}
+
+Stage& PlayerStaging::getStage(int index)
+{
+    return stages[index];
 }

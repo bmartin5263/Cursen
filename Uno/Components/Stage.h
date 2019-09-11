@@ -21,6 +21,8 @@ public:
     Stage();
     Stage(const cursen::Vect2& pos);
 
+    Stage& operator = (const Stage& other);
+
     void initialize() override;
 
     void clear();
@@ -41,9 +43,7 @@ public:
 
     cursen::TextField& getTextField();
 
-    std::string getText() override;
-
-    void setEnabled(bool value) override;
+    std::string getText() const override;
 
 private:
 
@@ -53,6 +53,7 @@ private:
     cursen::TwirlProgress search_progress;
     cursen::TextField textField;
     cursen::Color stage_color;
+    bool searching;
 
 };
 

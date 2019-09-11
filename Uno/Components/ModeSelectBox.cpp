@@ -44,6 +44,7 @@ void ModeSelectBox::initialize() {
     player_stage.setPosition(Vect2(1,1));
     player_stage.setForeground(Color::GRAY);
     player_stage.setStageColor(Color::BLUE);
+    player_stage.getTextField().setPlaceholderText("Your Name");
     addRelative(player_stage);
 
     local_button.initialize();
@@ -87,7 +88,7 @@ void ModeSelectBox::initialize() {
     addRelative(join_progress);
 
     ip_entry_box.initialize();
-    ip_entry_box.setPosition(Vect2(11,10));
+    ip_entry_box.setPosition(Vect2(11,12));
     ip_entry_box.setDrawOrder(20);
     ip_entry_box.setHidden(true);
 

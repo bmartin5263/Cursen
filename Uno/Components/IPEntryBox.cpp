@@ -12,7 +12,7 @@ void IPEntryBox::initialize()
 {
 
     border.initialize();
-    border.setSize(Vect2(48, 10));
+    border.setSize(Vect2(48, 7));
     border.setPosition(Vect2(0,0));
     addRelative(border);
 
@@ -24,14 +24,14 @@ void IPEntryBox::initialize()
     addRelative(title_border);
 
     window_label.initialize();
-    window_label.setText("IP Entry");
-    window_label.setPosition(Vect2(20,1));
+    window_label.setText("Host IP Address");
+    window_label.setPosition(Vect2(17,1));
     window_label.setForeground(Color::YELLOW);
     addRelative(window_label);
 
     entry_border.initialize();
     entry_border.setSize(Vect2(48, 3));
-    entry_border.setPosition(Vect2(0,5));
+    entry_border.setPosition(Vect2(0,2));
     entry_border.setFill(Content::TRANSPARENT);
     entry_border.setLowerRight(CursesManager::RTEE);
     entry_border.setUpperRight(CursesManager::RTEE);
@@ -39,30 +39,31 @@ void IPEntryBox::initialize()
     entry_border.setUpperLeft(CursesManager::LTEE);
     addRelative(entry_border);
 
-    ip_entry_label.initialize();
-    ip_entry_label.setText("Please Enter Host's IP Address");
-    ip_entry_label.setPosition(Vect2(9,4));
-    addRelative(ip_entry_label);
+//    ip_entry_label.initialize();
+//    ip_entry_label.setText("Please Enter Host's IP Address");
+//    ip_entry_label.setPosition(Vect2(9,4));
+//    addRelative(ip_entry_label);
 
     entry_field.initialize();
-    entry_field.setPosition(Vect2(1, 6));
+    entry_field.setPosition(Vect2(1, 3));
     entry_field.setSize(Vect2(46, 1));
     entry_field.setEnabled(true);
-    entry_field.setBackground(Color::DARK_BLUE);
+    entry_field.setForeground(Color(84));
+    entry_field.setPlaceholderText("e.g. 127.0.0.1");
     addRelative(entry_field);
 
     ipv4.initialize();
-    ipv4.setPosition(Vect2(1, 8));
+    ipv4.setPosition(Vect2(1, 5));
     ipv4.setText("IPv4");
     addRelative(ipv4);
 
     ipv6.initialize();
-    ipv6.setPosition(Vect2(12, 8));
+    ipv6.setPosition(Vect2(12, 5));
     ipv6.setText("IPv6");
     addRelative(ipv6);
 
     ipv8.initialize();
-    ipv8.setPosition(Vect2(22, 8));
+    ipv8.setPosition(Vect2(22, 5));
     ipv8.setText("Host Game?");
     ipv8.setHidden(true);
     addRelative(ipv8);
@@ -118,7 +119,7 @@ void IPEntryBox::setHidden(bool value)
     ipv6.uncheck();
 }
 
-std::string IPEntryBox::getText()
+std::string IPEntryBox::getText() const
 {
     return entry_field.getText();
 }

@@ -19,7 +19,7 @@ public:
     void initialize() override;
     void checkField(const std::string& text);
     void setHidden(bool value) override;
-    std::string getText() override;
+    std::string getText() const override;
     void setText(const std::string& text) override;
 
 private:

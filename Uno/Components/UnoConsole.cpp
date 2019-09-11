@@ -49,7 +49,7 @@ void UnoConsole::setText(const std::string &text) {
     setMessage(text);
 }
 
-std::string UnoConsole::getText() {
+std::string UnoConsole::getText() const {
     return console_message.getText();
 }
 

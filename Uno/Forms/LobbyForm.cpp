@@ -129,7 +129,7 @@ void LobbyForm::initialize()
     {
         if (lobby != nullptr)
         {
-            playerStaging.update(*lobby);
+            //playerStaging.update(*lobby);
             if (start_button.isEnabled())
             {
                 start_button.emphasize();
@@ -139,11 +139,6 @@ void LobbyForm::initialize()
                 start_button.demphasize();
             }
         }
-    });
-
-    onAnyKeyPress([&](EVENT_ARG)
-    {
-        CursesManager::Write(console.getText(), 0, 0, ColorPair(Color::MAGENTA));
     });
 
     if (CursenApplication::GetArgc() > 1)
@@ -198,6 +193,7 @@ void LobbyForm::initializeForLocal()
     lobby->setMyId(my_player.getId());
     lobby->addPlayer(my_player);
     lobby->setMyIndex(0);
+    addPlayerToStaging(my_player);
 
     console.setMessage("Welcome To Uno!");
 
@@ -228,6 +224,7 @@ void LobbyForm::initializeForHost()
     lobby->addPlayer(host_player);
     lobby->setMyId(host_player.getId());
     lobby->setMyIndex(0);
+    addPlayerToStaging(host_player);
 
     NetworkManager::SetMode(NetworkMode::Host);
 
@@ -296,7 +293,7 @@ void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
     change_color_button.detachEnableIf();
     chat_button.detachEnableIf();
 
-    playerStaging.stopSearching();
+    playerStaging.stopSearching(1);
     playerStaging.clear();
 
     stopChat();
@@ -325,7 +322,7 @@ void LobbyForm::cleanLobby(std::string exit_message, bool was_kicked)
 void LobbyForm::startSearch()
 {
     lobby->startSearch();
-    playerStaging.startSearching();
+    playerStaging.startSearching(lobby->getNumPlayers());
     search_button.setText("Stop Search");
     console.setWarning("Searching For Players...");
 }
@@ -333,7 +330,7 @@ void LobbyForm::startSearch()
 void LobbyForm::stopSearch()
 {
     lobby->stopSearch();
-    playerStaging.stopSearching();
+    playerStaging.stopSearching(lobby->getNumPlayers());
     search_button.setText("Search");
 }
 
@@ -418,6 +415,7 @@ void LobbyForm::selectPlayerToRemove(int playerNum)
 {
     lobby_cursor.setEnabled(true);
     playerStaging.disableCursor();
+    playerStaging.getStage(0).setPlayer(lobby->getPlayer(0));
     sendInputRemovePlayer(playerNum);
 }
 
@@ -463,6 +461,7 @@ void LobbyForm::changeColor(int playerIndex, PlayerColor color)
 {
     lobby->changePlayerColor(playerIndex, color);
     chat_box.update(lobby->getMessages());
+    setPlayerToStaging(lobby->getPlayer(playerIndex), playerIndex);
 }
 
 void LobbyForm::pushChatMessage(int player_index, std::string message)
@@ -489,4 +488,31 @@ Lobby& LobbyForm::getLobby()
 void LobbyForm::enterMatch()
 {
     controller->handleEnterMatch();
+}
+
+void LobbyForm::addPlayerToStaging(const Player& player)
+{
+    setPlayerToStaging(player, lobby->getNumPlayers() - 1);
+}
+
+void LobbyForm::removePlayerFromStaging(int index)
+{
+    for (int i = index; i < Lobby::MAX_PLAYERS - 1; ++i)
+    {
+        playerStaging.getStage(i) = playerStaging.getStage(i + 1);
+    }
+    if (lobby->isSearching())
+    {
+        playerStaging.startSearching(lobby->getNumPlayers());
+    }
+    else
+    {
+        playerStaging.getStage(Lobby::MAX_PLAYERS - 1).clear();
+    }
+}
+
+void LobbyForm::setPlayerToStaging(const Player& player, int index)
+{
+    Stage& stage = playerStaging.getStage(index);
+    stage.setPlayer(player);
 }

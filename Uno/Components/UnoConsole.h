@@ -21,7 +21,7 @@ public:
     void initialize() override;
 
     void setText(const std::string &text) override;
-    std::string getText() override;
+    std::string getText() const override;
 
     void setMessage(const std::string &text);
     void setWarning(const std::string &text);

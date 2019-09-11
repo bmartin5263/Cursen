@@ -78,14 +78,16 @@ void ClientController::handleClose(std::string msg, bool kicked)
 
 void ClientController::handleStartSearch()
 {
-    lobbyForm->getLobby().startSearch();
-    lobbyForm->getPlayerStaging().startSearching();
+    auto& lobby = lobbyForm->getLobby();
+    lobby.startSearch();
+    lobbyForm->getPlayerStaging().startSearching(lobby.getNumPlayers());
 }
 
 void ClientController::handleStopSearch()
 {
-    lobbyForm->getLobby().stopSearch();
-    lobbyForm->getPlayerStaging().stopSearching();
+    auto& lobby = lobbyForm->getLobby();
+    lobby.stopSearch();
+    lobbyForm->getPlayerStaging().stopSearching(lobby.getNumPlayers());
 }
 
 void ClientController::handleKickPlayer(int index)
@@ -93,6 +95,7 @@ void ClientController::handleKickPlayer(int index)
     Lobby& lobby = lobbyForm->getLobby();
     Player p = lobby.getPlayer(index);
     lobby.removePlayer(index);
+    lobbyForm->removePlayerFromStaging(index);
     lobbyForm->getChatBox().update(lobby.getMessages());
     lobbyForm->getConsole().setWarning("Later, " + p.getName());
 }
@@ -153,6 +156,7 @@ void ClientController::handleEnterMatch()
 void ClientController::handleAddPlayer(Player new_player)
 {
     lobbyForm->getLobby().addPlayer(new_player);
+    lobbyForm->addPlayerToStaging(new_player);
     if (!new_player.isDummy()) lobbyForm->getConsole().setMessage("Welcome, " + new_player.getName() + "!");
     if (lobbyForm->getLobby().isSearching() && lobbyForm->getLobby().getNumPlayers() >= Lobby::MAX_PLAYERS)
     {
@@ -173,6 +177,7 @@ void ClientController::handleUpdatePlayer(const Player& player, int index)
     bool was_dummy = lobby.getPlayer(index).isDummy();
 
     lobby.setPlayer(player, index);
+    lobbyForm->setPlayerToStaging(player, index);
 
     if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
 }

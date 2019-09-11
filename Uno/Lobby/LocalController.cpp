@@ -84,6 +84,7 @@ void LocalController::handleKickPlayer(int index)
     Lobby& lobby = lobbyForm->getLobby();
     Player p = lobby.getPlayer(index);
     lobby.removePlayer(index);
+    lobbyForm->removePlayerFromStaging(index);
     lobbyForm->getChatBox().update(lobby.getMessages());
     lobbyForm->getConsole().setWarning("Later, " + p.getName());
 }
@@ -143,6 +144,7 @@ void LocalController::handleEnterMatch()
 void LocalController::handleAddPlayer(Player new_player)
 {
     lobbyForm->getLobby().addPlayer(new_player);
+    lobbyForm->addPlayerToStaging(new_player);
     if (!new_player.isDummy()) lobbyForm->getConsole().setMessage("Welcome, " + new_player.getName() + "!");
 }
 
@@ -157,6 +159,7 @@ void LocalController::handleUpdatePlayer(const Player& player, int index)
     bool was_dummy = lobby.getPlayer(index).isDummy();
 
     lobby.setPlayer(player, index);
+    lobbyForm->setPlayerToStaging(player, index);
 
     if (was_dummy) lobbyForm->getConsole().setMessage("Welcome, " + player.getName() + "!");
 }

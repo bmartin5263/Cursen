@@ -29,7 +29,7 @@ void Stage::initialize() {
     addRelative(playerName);
 
     points.initialize();
-    points.setText("Points: 0");
+    points.setText("");
     points.setPosition(cursen::Vect2(1, 2));
     addRelative(points);
 
@@ -41,13 +41,30 @@ void Stage::initialize() {
     textField.setPosition(cursen::Vect2(1,1));
     textField.setForeground(stage_color);
     textField.setSize(cursen::Vect2(Constants::MAX_NAME_LEN, 1));
-    //textField.setEnabled(false);
-    //textField.setActiveBackgroundColor(cursen::Color::RED);
     addRelative(textField);
 
     onCursor([&]() { this->hoverOn(); });
     offCursor([&]() { this->hoverOff(); });
+
+    stage_color = cursen::Color::GRAY;
+    setForeground(stage_color);
+
+    this->searching = false;
 }
+
+Stage& Stage::operator=(const Stage& other)
+{
+    if (this != &other)
+    {
+        this->playerName.setText(other.playerName.getText());
+        this->points.setText(other.points.getText());
+        this->stage_color = other.stage_color;
+        setCursable(other.isCursable());
+        setForeground(stage_color);
+    }
+    return *this;
+}
+
 
 void Stage::setStageColor(const cursen::Color &stageColor)
 {
@@ -55,18 +72,20 @@ void Stage::setStageColor(const cursen::Color &stageColor)
 }
 
 void Stage::searchIfEmtpy() {
-    if (!isEnabled()) {
+    if (!searching) {
         search_progress.start();
         playerName.setText("Searching");
         points.setText("");
+        searching = true;
     }
 }
 
 void Stage::stopSearch() {
-    if (search_progress.isSpinning()) {
+    if (searching) {
         search_progress.stop();
         playerName.setText("No Player");
-        points.setText("Points: 0");
+        points.setText("");
+        searching = false;
     }
 }
 
@@ -77,9 +96,11 @@ void Stage::setHidden(bool value) {
 }
 
 void Stage::clear() {
-    setEnabled(false);
+    setCursable(false);
     playerName.setText("No Player");
-    points.setText("Points: 0");
+    points.setText("");
+    stage_color = cursen::Color::GRAY;
+    setForeground(stage_color);
 }
 
 void Stage::setPlayer(const Player & player) {
@@ -100,8 +121,8 @@ void Stage::setPlayer(const Player & player) {
     if (search_progress.isSpinning()) {
         search_progress.stop();
     }
-
-    setEnabled(true);
+    searching = false;
+    setCursable(true);
 }
 
 void Stage::hoverOn() {
@@ -133,14 +154,6 @@ cursen::TextField &Stage::getTextField() {
     return textField;
 }
 
-std::string Stage::getText() {
+std::string Stage::getText() const {
     return playerName.getText();
-}
-
-void Stage::setEnabled(bool value) {
-    Component::setEnabled(value);
-    border.setEnabled(value);
-    playerName.setEnabled(value);
-    points.setEnabled(value);
-    search_progress.setEnabled(value);
 }
