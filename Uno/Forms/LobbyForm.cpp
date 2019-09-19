@@ -97,7 +97,7 @@ void LobbyForm::initialize()
     mode_select_box.onLocalClick([this]() { initializeForLocal(); });
     mode_select_box.onHostClick([this]() { initializeForHost(); });
     mode_select_box.onJoinClick([this]() { mode_select_box.startIpEntry([&](const Event& e) { this->tryJoin(); }); });
-    mode_select_box.onExitClick([this]() { closeForm(nullptr); });
+    mode_select_box.onExitClick([this]() { close(nullptr); });
     mode_select_box.setLobby(this);
 
     chat_box.initialize();

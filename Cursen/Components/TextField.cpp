@@ -47,15 +47,15 @@ namespace cursen {
 
         std::string* text_to_display;
         ColorPair* color_to_display;
-        if (text.length() > 0)
-        {
-            text_to_display = &text;
-            color_to_display = &color;
-        }
-        else
+        if (text.length() == 0 && placeholder_text.size() > 0)
         {
             text_to_display = &placeholder_text;
             color_to_display = &placeholder_color;
+        }
+        else
+        {
+            text_to_display = &text;
+            color_to_display = &color;
         }
 
         unsigned long padding = len - (*text_to_display).length();

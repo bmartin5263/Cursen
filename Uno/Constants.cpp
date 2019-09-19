@@ -32,3 +32,8 @@ int Constants::getRandomNumber()
 {
     return distribution(generator);
 }
+
+int Constants::GetRandomNumber()
+{
+    return Instance().getRandomNumber();
+}

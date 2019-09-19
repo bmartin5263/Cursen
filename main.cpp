@@ -4,6 +4,7 @@
 #include <bitset>
 #include <Uno/Serverus/NetDevice.h>
 #include <Uno/Serverus/Serverus.h>
+#include <Simon/SimonForm.h>
 #include "Cursen/Drawing/CursesManager.h"
 #include "Demo/TestForm.h"
 #include "Cursen/CursenApplication.h"

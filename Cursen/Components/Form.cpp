@@ -170,12 +170,12 @@ namespace cursen {
         if (fClose) fClose(return_value);
     }
 
-    void Form::closeForm(void* return_value)
+    void Form::close(void* return_value)
     {
         cursen::CursenApplication::CloseForm(return_value);
     }
 
-    void Form::openForm(Form* form)
+    void Form::open(Form* form)
     {
         cursen::CursenApplication::OpenForm(form);
     }

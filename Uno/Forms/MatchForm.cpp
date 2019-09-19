@@ -47,7 +47,7 @@ void MatchForm::exit(std::string message, bool kicked)
         match.getPlayer(i).getHand().clear();
         returnData->setPlayer(i, match.getPlayer(i));
     }
-    closeForm(returnData);
+    close(returnData);
 }
 
 void MatchForm::initialize()

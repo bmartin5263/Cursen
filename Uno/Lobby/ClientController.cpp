@@ -7,6 +7,7 @@
 #include <Uno/GameObjects/Match.h>
 #include <Uno/Forms/MatchForm.h>
 #include <Uno/Match/MatchReturnData.h>
+#include <Simon/SimonForm.h>
 #include "ClientController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Constants.h"
@@ -150,7 +151,7 @@ void ClientController::handleEnterMatch()
         delete returnData;
     });
 
-    lobbyForm->openForm(matchForm);
+    lobbyForm->open(matchForm);
 }
 
 void ClientController::handleAddPlayer(Player new_player)

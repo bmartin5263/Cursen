@@ -5,6 +5,7 @@
 #include <Uno/Messages/InputEnterMatch.h>
 #include <Uno/Match/MatchReturnData.h>
 #include <Uno/Network/NetworkManager.h>
+#include <Simon/SimonForm.h>
 #include "LocalController.h"
 #include "Uno/Messages/InputChangeColor.h"
 #include "Uno/Messages/InputAddAi.h"
@@ -138,7 +139,7 @@ void LocalController::handleEnterMatch()
         }
         delete returnData;
     });
-    lobbyForm->openForm(matchForm);
+    lobbyForm->open(matchForm);
 }
 
 void LocalController::handleAddPlayer(Player new_player)

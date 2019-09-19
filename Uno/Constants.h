@@ -32,6 +32,7 @@ public:
 
     Constants();
     int getRandomNumber();
+    static int GetRandomNumber();
 
     static Constants& Instance() {
         static Constants instance;

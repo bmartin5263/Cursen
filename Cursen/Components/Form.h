@@ -53,8 +53,8 @@ namespace cursen {
         void registerForEvents(Component* component, EventType events);
         void deregisterForEvents(Component* component, EventType events);
 
-        void closeForm(void* return_value);
-        void openForm(Form* form);
+        void close(void* return_value);
+        void open(Form* form);
 
         // Open is called when this form returns to the top of the form stack
         virtual void onOpen(VoidFunction f);

@@ -10,6 +10,7 @@
 #include <Uno/Messages/AddPlayer.h>
 #include <Uno/Messages/LobbyUpdate.h>
 #include <Uno/Messages/UpdatePlayer.h>
+#include <Simon/SimonForm.h>
 #include "Uno/Network/Host.h"
 #include "Uno/Network/NetworkManager.h"
 #include "HostController.h"
@@ -252,7 +253,7 @@ void HostController::handleEnterMatch()
         delete returnData;
     });
 
-    lobbyForm->openForm(matchForm);
+    lobbyForm->open(matchForm);
 }
 
 void HostController::handleAddPlayer(Player new_player)
