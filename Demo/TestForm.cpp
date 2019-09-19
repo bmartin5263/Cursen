@@ -151,13 +151,13 @@ void TestForm::quitGame() {
 void TestForm::flash() {
     cursen::CursesManager::Flash();
     messageLabel.setText("Flashy Flash");
-    openForm(new LobbyForm);
+    open(new LobbyForm);
 }
 
 void TestForm::beep() {
     //cursen::CursesManager::Beep();
     messageLabel.setText("Beep Boop");
-    openForm(new TestForm);
+    open(new TestForm);
 }
 
 void TestForm::moveComponent(const cursen::Event &event) {
