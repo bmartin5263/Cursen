@@ -5,6 +5,7 @@
 #include <Uno/Serverus/NetDevice.h>
 #include <Uno/Serverus/Serverus.h>
 #include <Simon/SimonForm.h>
+#include <Tetris/Forms/GameForm.h>
 #include "Cursen/Drawing/CursesManager.h"
 #include "Demo/TestForm.h"
 #include "Cursen/CursenApplication.h"
@@ -25,7 +26,7 @@ int main(int argc, char **argv)
     });
 
     //std::this_thread::sleep_for(std::chrono::seconds(7));
-    Form* lobbyForm = new LobbyForm;
+    Form* lobbyForm = new GameForm;
     //LobbyForm lobbyForm1;
     CursenApplication::Run(lobbyForm);
 
