@@ -8,6 +8,9 @@
 
 #include <Cursen/Components/Form.h>
 #include <Cursen/Components/BitMap.h>
+#include <Tetris/Components/TetrisBoard.h>
+#include <Tetris/GameObjects/Tetris.h>
+#include <Cursen/Components/Label.h>
 
 class GameForm : public cursen::Form
 {
@@ -16,10 +19,17 @@ public:
     GameForm();
 
     void initialize() override;
+    void update();
 
 private:
 
-    cursen::BitMap bitmap;
+    TetrisBoard leftBoard;
+    TetrisBoard rightBoard;
+
+    Tetris left_game;
+    Tetris right_game;
+
+    cursen::Label x;
 
 };
 
