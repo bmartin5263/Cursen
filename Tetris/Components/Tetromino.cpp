@@ -24,19 +24,19 @@ const Tetromino Tetromino::T_1({Vect2(1,0), Vect2(2,0), Vect2(2,1), Vect2(2,-1)}
 const Tetromino Tetromino::T_2({Vect2(0,1), Vect2(1,1), Vect2(1,0), Vect2(2,1)}, Tetromino::T_1, Tetromino::T_3);
 const Tetromino Tetromino::T_3({Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(0,-1)}, Tetromino::T_2, Tetromino::T_0);
 
-const Tetromino Tetromino::S_0({Vect2(0,0), Vect2(1,0), Vect2(1,1), Vect2(2,1)}, Tetromino::S_1, Tetromino::S_1);
-const Tetromino Tetromino::S_1({Vect2(0,1), Vect2(0,2), Vect2(1,1), Vect2(1,2)}, Tetromino::S_0, Tetromino::S_0);
+const Tetromino Tetromino::Z_0({Vect2(0,0), Vect2(1,0), Vect2(1,1), Vect2(2,1)}, Tetromino::Z_1, Tetromino::Z_1);
+const Tetromino Tetromino::Z_1({Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(1,-1)}, Tetromino::Z_0, Tetromino::Z_0);
 
-const Tetromino Tetromino::Z_0({Vect2(0,1), Vect2(1,1), Vect2(1,0), Vect2(2,0)}, Tetromino::Z_1, Tetromino::Z_1);
-const Tetromino Tetromino::Z_1({Vect2(0,0), Vect2(0,1), Vect2(1,1), Vect2(1,2)}, Tetromino::Z_0, Tetromino::Z_0);
+const Tetromino Tetromino::S_0({Vect2(0,1), Vect2(1,1), Vect2(1,0), Vect2(2,0)}, Tetromino::S_1, Tetromino::S_1);
+const Tetromino Tetromino::S_1({Vect2(0,0), Vect2(0,-1), Vect2(1,1), Vect2(1,0)}, Tetromino::S_0, Tetromino::S_0);
 
-const Tetromino Tetromino::I_0({Vect2(0,0), Vect2(1,0), Vect2(2,0), Vect2(3,0)}, Tetromino::I_1, Tetromino::I_1);
-const Tetromino Tetromino::I_1({Vect2(2,0), Vect2(2,1), Vect2(2,2), Vect2(2,3)}, Tetromino::I_0, Tetromino::I_0);
+const Tetromino Tetromino::I_0({Vect2(0,1), Vect2(1,1), Vect2(2,1), Vect2(3,1)}, Tetromino::I_1, Tetromino::I_1);
+const Tetromino Tetromino::I_1({Vect2(2,1), Vect2(2,0), Vect2(2,-1), Vect2(2,-2)}, Tetromino::I_0, Tetromino::I_0);
 
 const ColorPair Tetromino::YELLOW_BLOCK(Color::BLACK, Color::YELLOW);
 const ColorPair Tetromino::BLUE_BLOCK(Color::BLACK, Color(39));
 const ColorPair Tetromino::GREEN_BLOCK(Color::BLACK, Color::GREEN);
-const ColorPair Tetromino::PURPLE_BLOCK(Color::BLACK, Color::LAVENDER);
+const ColorPair Tetromino::PURPLE_BLOCK(Color::BLACK, Color::Color(201));
 const ColorPair Tetromino::ORANGE_BLOCK(Color::BLACK, Color::ORANGE);
 const ColorPair Tetromino::CYAN_BLOCK(Color::BLACK, Color::BLUE);
 const ColorPair Tetromino::RED_BLOCK(Color::BLACK, Color(203));

@@ -16,7 +16,7 @@ Tetris::Tetris(const cursen::Vect2 size) :
     size(size)
 {
     block_generator = new BlockGenerator;
-    this->current_block = &Tetromino::L_0;
+    this->current_block = &Tetromino::I_0;
     this->block_pos = Vect2(3,0);
     this->field = new chtype*[size.y];
     for (int y = 0; y < size.y; ++y)
