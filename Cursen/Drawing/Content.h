@@ -65,8 +65,11 @@ namespace cursen {
         inline void assertX(int x) const;
         inline void assertY(int y) const;
 
+        static chtype** CreateBody(chtype** original, const Vect2& original_dim, const Vect2& new_dim);
+        static void DeleteBody(chtype**& body, const Vect2& dim);
+
         void deleteBody();
-        void initializeBody();
+        void createBody();
 
         chtype** body;
         Vect2 dimensions;

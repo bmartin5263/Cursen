@@ -80,7 +80,7 @@ namespace cursen {
     }
 
     chtype& operator |= (chtype& c, const cursen::ColorPair &n) {
-        if (n.fg == Color::NONE || n.fg == Color::NONE || c == Content::TRANSPARENT) return c;
+        if (n.fg == Color::NONE || n.bg == Color::NONE || c == Content::TRANSPARENT) return c;
         c |= n.getColorPair();
         return c;
     }

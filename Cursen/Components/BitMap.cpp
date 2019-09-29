@@ -63,6 +63,7 @@ Vect2 BitMap::getSize() const
 
 chtype*& BitMap::operator[](int row)
 {
+    invalidate();
     return unscaled_content[row];
 }
 
@@ -80,6 +81,18 @@ cursen::Vect2 BitMap::getScale() const
 cursen::Vect2 BitMap::getCombinedSize()
 {
     return TextComponent::getSize();
+}
+
+void BitMap::setBitMap(chtype** data, const Vect2& size)
+{
+    for (int y = 0; y < size.y; ++y)
+    {
+        for (int x = 0; x < size.x; ++x)
+        {
+            unscaled_content[y][x] = data[y][x];
+        }
+    }
+    invalidate();
 }
 
 

@@ -30,6 +30,8 @@ namespace cursen
 
         cursen::Vect2 getCombinedSize();
 
+        void setBitMap(chtype** data, const Vect2& size);
+
         chtype*& operator [](int row);
 
     private:

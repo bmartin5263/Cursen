@@ -17,20 +17,20 @@ namespace cursen {
     }
 
     Content::Content() :
-            body(nullptr), dimensions(), empty(dimensions.x <= 0 || dimensions.y <= 0)
+            body(), dimensions(), empty(dimensions.x <= 0 || dimensions.y <= 0)
     {
         assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
-        initializeBody();
+        this->body = CreateBody(body, Vect2(), dimensions);
     }
 
     Content::Content(const Vect2 &dimensions) :
             body(nullptr), dimensions(dimensions), empty(dimensions.x <= 0 || dimensions.y <= 0)
     {
         assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
-        initializeBody();
+        this->body = CreateBody(body, Vect2(), dimensions);
     }
 
-    void Content::initializeBody() {
+    void Content::createBody() {
         body = new chtype *[dimensions.y + 1];           // +1 for NULL
         for (int i = 0; i < dimensions.y; i++) {
             body[i] = new chtype[dimensions.x + 1];         // +1 for NULL
@@ -52,12 +52,26 @@ namespace cursen {
         }
     }
 
-    void Content::resize(const Vect2& dimensions) {
+//    void Content::resize(const Vect2& dimensions) {
+//        assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
+//        deleteBody();
+//        this->dimensions = dimensions;
+//        this->empty = dimensions.x <= 0 || dimensions.y <= 0;
+//        createBody();
+//    }
+
+    void Content::resize(const Vect2& new_dimensions)
+    {
         assert(dimensions.isPositive() && "Content dimensions cannot contain negative values.");
-        deleteBody();
-        this->dimensions = dimensions;
-        this->empty = dimensions.x <= 0 || dimensions.y <= 0;
-        initializeBody();
+        chtype** new_body = CreateBody(body, dimensions, new_dimensions);
+        this->empty = new_dimensions.x <= 0 || new_dimensions.y <= 0;
+        if (body != nullptr)
+        {
+            DeleteBody(body, dimensions);
+        }
+        this->dimensions = new_dimensions;
+        this->body = new_body;
+
     }
 
     void Content::deleteBody() {
@@ -216,6 +230,40 @@ namespace cursen {
     Content::Line& Content::operator[](int y)
     {
         return body[y];
+    }
+
+    chtype** Content::CreateBody(chtype** original, const Vect2& original_dim, const Vect2& new_dim)
+    {
+        chtype** body = new chtype *[new_dim.y + 1];           // +1 for NULL
+        for (int i = 0; i < new_dim.y; ++i) {
+            body[i] = new chtype[new_dim.x + 1];         // +1 for NULL
+            for (int j = 0; j < new_dim.x; ++j) {
+                body[i][j] = TRANSPARENT;
+            }
+            body[i][new_dim.x] = NULL_CHAR;
+        }
+
+        // copy existing content
+        if (original != nullptr)
+        {
+            for (int i = 0; i < original_dim.y && i < new_dim.y; ++i) {
+                for (int j = 0; j < original_dim.x && j < new_dim.x; ++j) {
+                    body[i][j] = original[i][j];
+                }
+            }
+        }
+
+        return body;
+    }
+
+    void Content::DeleteBody(chtype**& body, const Vect2& dim)
+    {
+        if (body != nullptr) {
+            for (int i = 0; i < dim.y; i++) {
+                delete[] body[i];
+            }
+            delete[] body;
+        }
     }
 
 }
