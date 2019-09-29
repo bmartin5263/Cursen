@@ -9,15 +9,15 @@ using namespace cursen;
 
 const Tetromino Tetromino::O_0({Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(1,1)}, Tetromino::O_0, Tetromino::O_0);
 
-const Tetromino Tetromino::L_0({Vect2(0,0), Vect2(0,1), Vect2(1,1), Vect2(2,1)}, Tetromino::L_3, Tetromino::L_1);
-const Tetromino Tetromino::L_1({Vect2(0,0), Vect2(0,1), Vect2(0,2), Vect2(1,0)}, Tetromino::L_0, Tetromino::L_2);
-const Tetromino Tetromino::L_2({Vect2(0,0), Vect2(1,0), Vect2(2,0), Vect2(2,1)}, Tetromino::L_1, Tetromino::L_3);
-const Tetromino Tetromino::L_3({Vect2(0,2), Vect2(1,2), Vect2(1,1), Vect2(1,0)}, Tetromino::L_2, Tetromino::L_0);
+const Tetromino Tetromino::J_0({Vect2(0,0), Vect2(1,0), Vect2(2,0), Vect2(2,1)}, Tetromino::J_3, Tetromino::J_1);
+const Tetromino Tetromino::J_1({Vect2(0,1), Vect2(1,1), Vect2(1,0), Vect2(1,-1)}, Tetromino::J_0, Tetromino::J_2);
+const Tetromino Tetromino::J_2({Vect2(0,0), Vect2(0,1), Vect2(1,1), Vect2(2,1)}, Tetromino::J_1, Tetromino::J_3);
+const Tetromino Tetromino::J_3({Vect2(0,0), Vect2(0,-1), Vect2(1,-1), Vect2(0,1)}, Tetromino::J_2, Tetromino::J_0);
 
-const Tetromino Tetromino::J_0({Vect2(0,1), Vect2(1,1), Vect2(2,0), Vect2(2,1)}, Tetromino::J_3, Tetromino::J_1);
-const Tetromino Tetromino::J_1({Vect2(0,0), Vect2(0,1), Vect2(0,2), Vect2(1,2)}, Tetromino::J_0, Tetromino::J_2);
-const Tetromino Tetromino::J_2({Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(2,0)}, Tetromino::J_1, Tetromino::J_3);
-const Tetromino Tetromino::J_3({Vect2(0,0), Vect2(1,0), Vect2(1,1), Vect2(1,2)}, Tetromino::J_2, Tetromino::J_0);
+const Tetromino Tetromino::L_0({Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(2,0)}, Tetromino::L_3, Tetromino::L_1);
+const Tetromino Tetromino::L_1({Vect2(0,-1), Vect2(1,-1), Vect2(1,0), Vect2(1,1)}, Tetromino::L_0, Tetromino::L_2);
+const Tetromino Tetromino::L_2({Vect2(0,1), Vect2(1,1), Vect2(2,0), Vect2(2,1)}, Tetromino::L_1, Tetromino::L_3);
+const Tetromino Tetromino::L_3({Vect2(0,0), Vect2(0,1), Vect2(0,-1), Vect2(1,1)}, Tetromino::L_2, Tetromino::L_0);
 
 const Tetromino Tetromino::T_0({Vect2(0,0), Vect2(1,0), Vect2(2,0), Vect2(1,1)}, Tetromino::T_3, Tetromino::T_1);
 const Tetromino Tetromino::T_1({Vect2(1,0), Vect2(2,0), Vect2(2,1), Vect2(2,-1)}, Tetromino::T_0, Tetromino::T_2);
@@ -51,15 +51,15 @@ void Tetromino::InitializeGraphics()
 
     O_0.setGraphic(' ' | ColorPair(Color::BLACK, Color::YELLOW));
 
-    L_0.setGraphic(' ' | ORANGE_BLOCK);
-    L_1.setGraphic(' ' | ORANGE_BLOCK);
-    L_2.setGraphic(' ' | ORANGE_BLOCK);
-    L_3.setGraphic(' ' | ORANGE_BLOCK);
+    L_0.setGraphic(' ' | BLUE_BLOCK);
+    L_1.setGraphic(' ' | BLUE_BLOCK);
+    L_2.setGraphic(' ' | BLUE_BLOCK);
+    L_3.setGraphic(' ' | BLUE_BLOCK);
 
-    J_0.setGraphic(' ' | BLUE_BLOCK);
-    J_1.setGraphic(' ' | BLUE_BLOCK);
-    J_2.setGraphic(' ' | BLUE_BLOCK);
-    J_3.setGraphic(' ' | BLUE_BLOCK);
+    J_0.setGraphic(' ' | ORANGE_BLOCK);
+    J_1.setGraphic(' ' | ORANGE_BLOCK);
+    J_2.setGraphic(' ' | ORANGE_BLOCK);
+    J_3.setGraphic(' ' | ORANGE_BLOCK);
 
     T_0.setGraphic(' ' | CYAN_BLOCK);
     T_1.setGraphic(' ' | CYAN_BLOCK);
