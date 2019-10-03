@@ -5,20 +5,20 @@
 #include <Cursen/Drawing/Color.h>
 #include <Cursen/Drawing/ColorPair.h>
 #include <Cursen/Drawing/Content.h>
+#include "Tetris/Utilities/UpdateStrategy.h"
 #include "Tetris.h"
 
 using namespace cursen;
 
-chtype Tetris::BLANK = ' ';
-chtype Tetris::BLOCKED = 'X';
+const chtype Tetris::BLANK = ' ';
+const chtype Tetris::BLOCKED = 'X';
+const Vect2 Tetris::SPAWN_POSITION = Vect2(3, 0);
 
-Tetris::Tetris(const cursen::Vect2 size) :
-    size(size)
+Tetris::Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy) :
+    field(new chtype*[size.y]), current_block(nullptr), block_generator(new BlockGenerator), update_strategy(update_strategy),
+    size(size), position(SPAWN_POSITION)
 {
-    block_generator = new BlockGenerator;
-    this->current_block = &Tetromino::I_0;
-    this->block_pos = Vect2(3,0);
-    this->field = new chtype*[size.y];
+    current_block = block_generator->next();
     for (int y = 0; y < size.y; ++y)
     {
         this->field[y] = new chtype[size.x];
@@ -38,10 +38,10 @@ Tetris::Tetris(const cursen::Vect2 size) :
 
 bool Tetris::update()
 {
-    return false;
+    return update_strategy->update(*this);
 }
 
-chtype** Tetris::getField()
+Tetris::Board Tetris::getField()
 {
     return this->field;
 }
@@ -53,34 +53,36 @@ cursen::Vect2 Tetris::getSize()
 
 void Tetris::removeBlock()
 {
-    for (auto& pair : current_block->body())
-    {
-        field[block_pos.y + pair.y][block_pos.x + pair.x] = BLANK;
-    }
+    current_block->removeFrom(field, position, BLANK);
 }
 
 void Tetris::placeBlock()
 {
-    for (auto& pair : current_block->body())
-    {
-        field[block_pos.y + pair.y][block_pos.x + pair.x] = current_block->getGraphic();
-    }
-    //field[block_pos.y][block_pos.x] = 'X' | Tetromino::CYAN_BLOCK;
+    current_block->placeOnto(field, position);
 }
 
 void Tetris::drop()
 {
     removeBlock();
-    if (canDrop())
+    bool can_drop = canDrop();
+    if (can_drop)
     {
-        this->block_pos += Vect2(0, 1);
+        this->position += Vect2(0, 1);
+        update_strategy->reset();
     }
     placeBlock();
+    if (!can_drop)
+    {
+        this->current_block = block_generator->next();
+        this->position = Vect2(3,0);
+        this->update_strategy->reset();
+        placeBlock();
+    }
 }
 
 bool Tetris::canDrop()
 {
-    return canPlaceBlock(current_block, block_pos + Vect2(0,1));
+    return canPlaceBlock(current_block, position + Vect2(0,1));
 }
 
 bool Tetris::canPlaceBlock(const Tetromino* block, const cursen::Vect2& offset)
@@ -98,14 +100,14 @@ void Tetris::moveLeft()
     removeBlock();
     if (canMoveLeft())
     {
-        this->block_pos += Vect2(-1, 0);
+        this->position += Vect2(-1, 0);
     }
     placeBlock();
 }
 
 bool Tetris::canMoveLeft()
 {
-    return canPlaceBlock(current_block, Vect2(-1, 0) + block_pos);
+    return canPlaceBlock(current_block, Vect2(-1, 0) + position);
 }
 
 void Tetris::moveRight()
@@ -113,14 +115,14 @@ void Tetris::moveRight()
     removeBlock();
     if (canMoveRight())
     {
-        this->block_pos += Vect2(1, 0);
+        this->position += Vect2(1, 0);
     }
     placeBlock();
 }
 
 bool Tetris::canMoveRight()
 {
-    return canPlaceBlock(current_block, Vect2(1, 0) + block_pos);
+    return canPlaceBlock(current_block, Vect2(1, 0) + position);
 }
 
 void Tetris::reset()
@@ -147,7 +149,7 @@ void Tetris::rotateRight()
 
 bool Tetris::canRotateRight()
 {
-    return canPlaceBlock(&current_block->rotateRight(), block_pos);
+    return canPlaceBlock(&current_block->rotateRight(), position);
 }
 
 void Tetris::rotateLeft()
@@ -162,11 +164,11 @@ void Tetris::rotateLeft()
 
 bool Tetris::canRotateLeft()
 {
-    return canPlaceBlock(&current_block->rotateLeft(), block_pos);
+    return canPlaceBlock(&current_block->rotateLeft(), position);
 }
 
 cursen::Vect2 Tetris::getBlockPosition()
 {
-    return block_pos;
+    return position;
 }
 

@@ -17,7 +17,12 @@ const Tetromino* BlockGenerator::TETROMINOS[7] {
 BlockGenerator::BlockGenerator() :
     generator(rd()), distribution(0,6)
 {
+}
 
+BlockGenerator::BlockGenerator(unsigned int seed) :
+        generator(rd()), distribution(0,6)
+{
+    generator.seed(seed);
 }
 
 const Tetromino* BlockGenerator::next()

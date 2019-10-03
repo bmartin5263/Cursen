@@ -17,6 +17,7 @@ class Tetromino
 public:
 
     typedef std::array<cursen::Vect2, 4> BlockArray;
+    typedef chtype** Board;
 
     /*
      *   XX
@@ -66,13 +67,16 @@ public:
     static const cursen::ColorPair PURPLE_BLOCK;
     static const cursen::ColorPair ORANGE_BLOCK;
 
+    static void InitializeGraphics();
+
+    const void placeOnto(Board& board, cursen::Vect2 position) const;
+    const void removeFrom(Board& board, cursen::Vect2 position, chtype clear_value) const;
+
     const BlockArray& body() const;
     const Tetromino& rotateLeft() const;
     const Tetromino& rotateRight() const;
 
     const chtype getGraphic() const;
-
-    static void InitializeGraphics();
 
 
 private:

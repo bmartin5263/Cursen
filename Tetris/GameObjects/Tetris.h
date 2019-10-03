@@ -6,17 +6,21 @@
 #define CURSEN_TETRIS_H
 
 #include <Cursen/Drawing/Vect2.h>
-#include <Tetris/Components/Tetromino.h>
+#include <Tetris/GameObjects/Tetromino.h>
 #include <ncurses.h>
 #include <Tetris/Utilities/BlockGenerator.h>
+
+class UpdateStrategy;
 
 class Tetris
 {
 
 public:
 
+    typedef chtype** Board;
+
     Tetris() = default;
-    Tetris(const cursen::Vect2 size);
+    Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy);
 
     void reset();
 
@@ -39,25 +43,27 @@ public:
 
     bool canPlaceBlock(const Tetromino* block, const cursen::Vect2& offset);
 
-    chtype** getField();
+    Board getField();
     cursen::Vect2 getSize();
     cursen::Vect2 getBlockPosition();
 
 private:
 
-    static chtype BLANK;
-    static chtype BLOCKED;
+    static const chtype BLANK;
+    static const chtype BLOCKED;
+    static const cursen::Vect2 SPAWN_POSITION;
 
     void removeBlock();
     void placeBlock();
 
-    chtype** field;
+    Board field;
     const Tetromino* current_block;
 
     BlockGenerator* block_generator;
+    UpdateStrategy* update_strategy;
 
     cursen::Vect2 size;
-    cursen::Vect2 block_pos;
+    cursen::Vect2 position;
 
 
 };

@@ -30,6 +30,11 @@ private:
     Tetris right_game;
 
     cursen::Label x;
+    cursen::Box box;
+    cursen::Box box2;
+    cursen::Box next_box_1;
+    cursen::Box next_box_2;
+    cursen::BitMap next_bitmap_1;
 
 };
 

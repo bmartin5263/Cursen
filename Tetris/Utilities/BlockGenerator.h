@@ -6,7 +6,7 @@
 #define CURSEN_BLOCKGENERATOR_H
 
 
-#include <Tetris/Components/Tetromino.h>
+#include <Tetris/GameObjects/Tetromino.h>
 #include <random>
 
 class BlockGenerator
@@ -17,6 +17,7 @@ public:
     static const Tetromino* TETROMINOS[7];
 
     BlockGenerator();
+    BlockGenerator(unsigned int seed);
     BlockGenerator(const BlockGenerator& other) = default;
 
     const Tetromino* next();
