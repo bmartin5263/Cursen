@@ -36,7 +36,7 @@ void GameForm::initialize()
     next_block_bitmap.initialize();
     next_block_bitmap.setPosition(next_box_1.getPosition() + Vect2(1,1));
     next_block_bitmap.drawOnTopOf(next_box_1);
-    next_block_bitmap.setTetromino(&Tetromino::L_0, Vect2(0,0));
+    next_block_bitmap.setTetromino(Tetromino::L_0, Vect2(0,0));
 
     x.initialize();
     x.setText("XX");

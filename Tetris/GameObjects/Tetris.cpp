@@ -18,7 +18,7 @@ Tetris::Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy) :
     field(new chtype*[size.y]), current_block(nullptr), block_generator(new BlockGenerator), update_strategy(update_strategy),
     size(size), position(SPAWN_POSITION)
 {
-    current_block = block_generator->next();
+    current_block = &block_generator->next();
     for (int y = 0; y < size.y; ++y)
     {
         this->field[y] = new chtype[size.x];
@@ -73,7 +73,7 @@ void Tetris::drop()
     placeBlock();
     if (!can_drop)
     {
-        this->current_block = block_generator->next();
+        this->current_block = &block_generator->next();
         this->position = Vect2(3,0);
         this->update_strategy->reset();
         placeBlock();

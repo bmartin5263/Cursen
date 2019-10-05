@@ -9,6 +9,7 @@
 #include <Tetris/GameObjects/Tetromino.h>
 #include <random>
 
+class Tetromino;
 class BlockGenerator
 {
 
@@ -20,9 +21,9 @@ public:
     BlockGenerator(unsigned int seed);
     BlockGenerator(const BlockGenerator& other) = default;
 
-    const Tetromino* next();
-    const Tetromino* peekNext();
-    const Tetromino* peekAfter();
+    const Tetromino& next();
+    const Tetromino& peekNext();
+    const Tetromino& peekAfter();
 
 private:
 

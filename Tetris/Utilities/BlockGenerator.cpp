@@ -29,20 +29,20 @@ BlockGenerator::BlockGenerator(unsigned int seed) :
     next_blocks[1] = TETROMINOS[distribution(generator)];
 }
 
-const Tetromino* BlockGenerator::next()
+const Tetromino& BlockGenerator::next()
 {
-    const Tetromino* return_block = next_blocks[0];
+    const Tetromino& return_block = *next_blocks[0];
     next_blocks[0] = next_blocks[1];
     next_blocks[1] = TETROMINOS[distribution(generator)];
     return return_block;
 }
 
-const Tetromino* BlockGenerator::peekNext()
+const Tetromino& BlockGenerator::peekNext()
 {
-    return next_blocks[0];
+    return *next_blocks[0];
 }
 
-const Tetromino* BlockGenerator::peekAfter()
+const Tetromino& BlockGenerator::peekAfter()
 {
-    return next_blocks[1];
+    return *next_blocks[1];
 }

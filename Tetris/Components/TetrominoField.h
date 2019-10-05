@@ -20,7 +20,7 @@ public:
     void initialize();
 
     void setField(chtype** field, const cursen::Vect2& size);
-    void setTetromino(const Tetromino* tetromino, const cursen::Vect2& location);
+    void setTetromino(const Tetromino& tetromino, const cursen::Vect2& location);
 
     cursen::Vect2 getScale();
 

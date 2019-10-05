@@ -38,7 +38,7 @@ void TetrominoField::setField(chtype** field, const cursen::Vect2& size)
     }
 }
 
-void TetrominoField::setTetromino(const Tetromino* tetromino, const cursen::Vect2& location)
+void TetrominoField::setTetromino(const Tetromino& tetromino, const cursen::Vect2& location)
 {
     Vect2 size = field.getSize();
     for (int y = 0; y < size.y; ++y)
@@ -49,7 +49,7 @@ void TetrominoField::setTetromino(const Tetromino* tetromino, const cursen::Vect
         }
     }
     chtype** body = field.getUnscaledContent().getText();
-    tetromino->placeOnto(body, location);
+    tetromino.placeOnto(body, location);
 }
 
 cursen::Vect2 TetrominoField::getScale()
