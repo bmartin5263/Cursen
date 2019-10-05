@@ -23,6 +23,7 @@ public:
     Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy);
 
     void reset();
+    void clearRows();
 
     bool update();
 
@@ -59,6 +60,10 @@ private:
     static const chtype BLANK;
     static const chtype BLOCKED;
     static const cursen::Vect2 SPAWN_POSITION;
+    static const cursen::Vect2 LEFT_OFFSET;
+    static const cursen::Vect2 RIGHT_OFFSET;
+    static const cursen::Vect2 DOWN_OFFSET;
+    static void clearRow(chtype* row, int len);
 
     void removeBlock();
     void placeBlock();

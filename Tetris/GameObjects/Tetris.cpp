@@ -13,6 +13,9 @@ using namespace cursen;
 const chtype Tetris::BLANK = ' ';
 const chtype Tetris::BLOCKED = 'X';
 const Vect2 Tetris::SPAWN_POSITION = Vect2(3, 0);
+const Vect2 Tetris::LEFT_OFFSET = Vect2(-1, 0);
+const Vect2 Tetris::RIGHT_OFFSET = Vect2(1, 0);
+const Vect2 Tetris::DOWN_OFFSET = Vect2(0, 1);
 
 Tetris::Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy) :
     field(new chtype*[size.y]), current_block(nullptr), block_generator(new BlockGenerator), update_strategy(update_strategy),
@@ -23,14 +26,6 @@ Tetris::Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy) :
     {
         this->field[y] = new chtype[size.x];
         for (int x = 0; x < size.x; ++x) this->field[y][x] = BLANK;
-    }
-    for (int y = 0; y < 2; ++y)
-    {
-        this->field[y][0] = Content::TRANSPARENT;
-        this->field[y][1] = Content::TRANSPARENT;
-        this->field[y][7] = Content::TRANSPARENT;
-        this->field[y][8] = Content::TRANSPARENT;
-        this->field[y][9] = Content::TRANSPARENT;
     }
 
     placeBlock();
@@ -67,14 +62,16 @@ void Tetris::drop()
     bool can_drop = privCanDrop();
     if (can_drop)
     {
-        this->position += Vect2(0, 1);
+        this->position += DOWN_OFFSET;
         update_strategy->reset();
     }
     placeBlock();
     if (!can_drop)
     {
+        // New Block
+        clearRows();
         this->current_block = &block_generator->next();
-        this->position = Vect2(3,0);
+        this->position = SPAWN_POSITION;
         this->update_strategy->reset();
         placeBlock();
     }
@@ -93,7 +90,8 @@ bool Tetris::canPlaceBlock(const Tetromino* block, const cursen::Vect2& offset)
     for (auto& pair : block->body())
     {
         Vect2 new_pos = pair + offset;
-        if (new_pos.x < 0 || new_pos.x >= size.x || new_pos.y < 0 || new_pos.y >= size.y || field[new_pos.y][new_pos.x] != BLANK) return false;
+        if (new_pos.x < 0 || new_pos.x >= size.x || new_pos.y < 0 || new_pos.y >= size.y || field[new_pos.y][new_pos.x] != BLANK
+                || (new_pos.y < 2 && (new_pos.x < 2 || new_pos.x > 6))) return false;
     }
     return true;
 }
@@ -103,7 +101,7 @@ void Tetris::moveLeft()
     removeBlock();
     if (privCanMoveLeft())
     {
-        this->position += Vect2(-1, 0);
+        this->position += LEFT_OFFSET;
     }
     placeBlock();
 }
@@ -111,7 +109,7 @@ void Tetris::moveLeft()
 bool Tetris::canMoveLeft()
 {
     removeBlock();
-    bool result = canPlaceBlock(current_block, Vect2(-1, 0) + position);
+    bool result = canPlaceBlock(current_block, LEFT_OFFSET + position);
     placeBlock();
     return result;
 }
@@ -121,7 +119,7 @@ void Tetris::moveRight()
     removeBlock();
     if (privCanMoveRight())
     {
-        this->position += Vect2(1, 0);
+        this->position += RIGHT_OFFSET;
     }
     placeBlock();
 }
@@ -129,7 +127,7 @@ void Tetris::moveRight()
 bool Tetris::canMoveRight()
 {
     removeBlock();
-    bool result = canPlaceBlock(current_block, Vect2(1, 0) + position);
+    bool result = canPlaceBlock(current_block, RIGHT_OFFSET + position);
     placeBlock();
     return result;
 }
@@ -194,7 +192,7 @@ BlockGenerator* Tetris::getBlockGenerator()
 
 bool Tetris::privCanDrop()
 {
-    return canPlaceBlock(current_block, position + Vect2(0,1));
+    return canPlaceBlock(current_block, position + DOWN_OFFSET);
 }
 
 bool Tetris::privCanRotateRight()
@@ -209,11 +207,44 @@ bool Tetris::privCanRotateLeft()
 
 bool Tetris::privCanMoveRight()
 {
-    return canPlaceBlock(current_block, Vect2(1, 0) + position);
+    return canPlaceBlock(current_block, RIGHT_OFFSET + position);
 }
 
 bool Tetris::privCanMoveLeft()
 {
-    return canPlaceBlock(current_block, Vect2(-1, 0) + position);
+    return canPlaceBlock(current_block, LEFT_OFFSET + position);
+}
+
+void Tetris::clearRows()
+{
+    // Check if each block contributed to row clearing
+    for (auto& block : current_block->body())
+    {
+        int block_row = block.y + position.y;
+        bool can_be_cleared = true;
+        for (int i = 0; i < size.x; ++i)
+        {
+            if (field[block_row][i] == Tetris::BLANK) {
+                can_be_cleared = false;
+                break;
+            }
+        }
+        if (can_be_cleared)
+        {
+            // Clear the row and bubble it to the top
+            clearRow(field[block_row], size.x);
+            for (int y = block_row - 1; y >= 0; --y)
+            {
+                chtype* temp = field[y];
+                field[y] = field[y+1];
+                field[y+1] = temp;
+            }
+        }
+    }
+}
+
+void Tetris::clearRow(chtype* row, int len)
+{
+    for (int i = 0; i < len; ++i) row[i] = Tetris::BLANK;
 }
 
