@@ -7,7 +7,8 @@
 
 using namespace cursen;
 
-TetrisBoard::TetrisBoard()
+TetrisBoard::TetrisBoard() :
+    tetrominoField(Vect2(10,22))
 {
 
 }
@@ -27,11 +28,9 @@ void TetrisBoard::initialize()
     upper_boarder.setLowerLeft(CursesManager::LRCORNER);
     addRelative(upper_boarder);
 
-    field.initialize();
-    field.setSize(Vect2(10,22));
-    field.setScale(Vect2(2,1));
-    field.setPosition(Vect2(1,1));
-    addRelative(field);
+    tetrominoField.initialize();
+    tetrominoField.setPosition(Vect2(1,1));
+    addRelative(tetrominoField);
 
 //    field[0][0] = ' ' | ColorPair(Color::WHITE, Color::MAGENTA);
 //    field[0][1] = ' ' | ColorPair(Color::WHITE, Color::MAGENTA);
@@ -47,23 +46,10 @@ void TetrisBoard::initialize()
 
 void TetrisBoard::setField(chtype** field, const cursen::Vect2& size)
 {
-    for (int y = 0; y < size.y; ++y)
-    {
-        for (int x = 0; x < size.x; ++x)
-        {
-            if (y < 2 && (x < 2 || x > 6))
-            {
-                this->field[y][x] = Content::TRANSPARENT;
-            }
-            else
-            {
-                this->field[y][x] = field[y][x];
-            }
-        }
-    }
+    tetrominoField.setField(field, size);
 }
 
 cursen::Vect2 TetrisBoard::getScale()
 {
-    return field.getScale();
+    return tetrominoField.getScale();
 }

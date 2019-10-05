@@ -95,4 +95,9 @@ void BitMap::setBitMap(chtype** data, const Vect2& size)
     invalidate();
 }
 
+Content& BitMap::getUnscaledContent()
+{
+    return unscaled_content;
+}
+
 

@@ -21,12 +21,16 @@ public:
     BlockGenerator(const BlockGenerator& other) = default;
 
     const Tetromino* next();
+    const Tetromino* peekNext();
+    const Tetromino* peekAfter();
 
 private:
 
     std::random_device rd;
     std::default_random_engine generator;
     std::uniform_int_distribution<int> distribution;
+
+    const Tetromino* next_blocks[2];
 
 };
 

@@ -7,7 +7,7 @@
 bool UpdateTimerStrategy::update(Tetris& tetris)
 {
     bool update = false;
-    Duration elapsed_seconds = std::chrono::system_clock::now() - last_update;
+    Duration elapsed_seconds = SystemClock::now() - last_update;
     if (elapsed_seconds.count() >= 1.0) {
         update = true;
         tetris.drop();
@@ -16,11 +16,11 @@ bool UpdateTimerStrategy::update(Tetris& tetris)
 }
 
 UpdateTimerStrategy::UpdateTimerStrategy() :
-    last_update(std::chrono::system_clock::now())
+    last_update(SystemClock::now())
 {
 }
 
 void UpdateTimerStrategy::reset()
 {
-    last_update = std::chrono::system_clock::now();
+    last_update = SystemClock::now();
 }

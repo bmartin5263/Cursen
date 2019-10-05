@@ -34,7 +34,7 @@ private:
     cursen::Box box2;
     cursen::Box next_box_1;
     cursen::Box next_box_2;
-    cursen::BitMap next_bitmap_1;
+    TetrominoField next_block_bitmap;
 
 };
 

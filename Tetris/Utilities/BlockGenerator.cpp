@@ -15,17 +15,34 @@ const Tetromino* BlockGenerator::TETROMINOS[7] {
 };
 
 BlockGenerator::BlockGenerator() :
-    generator(rd()), distribution(0,6)
+    generator(std::random_device()()), distribution(0,6)
 {
+    next_blocks[0] = TETROMINOS[distribution(generator)];
+    next_blocks[1] = TETROMINOS[distribution(generator)];
 }
 
 BlockGenerator::BlockGenerator(unsigned int seed) :
-        generator(rd()), distribution(0,6)
+        generator(std::random_device()()), distribution(0,6)
 {
     generator.seed(seed);
+    next_blocks[0] = TETROMINOS[distribution(generator)];
+    next_blocks[1] = TETROMINOS[distribution(generator)];
 }
 
 const Tetromino* BlockGenerator::next()
 {
-    return TETROMINOS[distribution(generator)];
+    const Tetromino* return_block = next_blocks[0];
+    next_blocks[0] = next_blocks[1];
+    next_blocks[1] = TETROMINOS[distribution(generator)];
+    return return_block;
+}
+
+const Tetromino* BlockGenerator::peekNext()
+{
+    return next_blocks[0];
+}
+
+const Tetromino* BlockGenerator::peekAfter()
+{
+    return next_blocks[1];
 }

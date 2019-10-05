@@ -19,7 +19,8 @@ public:
 
 private:
 
-    typedef std::chrono::system_clock::time_point TimePoint;
+    typedef std::chrono::system_clock SystemClock;
+    typedef SystemClock::time_point TimePoint;
     typedef std::chrono::duration<double> Duration;
 
     TimePoint last_update;

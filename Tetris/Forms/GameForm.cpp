@@ -9,7 +9,7 @@
 
 using namespace cursen;
 
-GameForm::GameForm() : Form(Vect2(70,70))
+GameForm::GameForm() : Form(Vect2(70,70)), next_block_bitmap(Vect2(5,2))
 {}
 
 void GameForm::initialize()
@@ -33,15 +33,10 @@ void GameForm::initialize()
     next_box_1.setPosition(Vect2(0,2));
     next_box_1.setSize(Vect2(12, 4));
 
-    next_bitmap_1.initialize();
-    next_bitmap_1.setSize(Vect2(10,2));
-    next_bitmap_1.setPosition(next_box_1.getPosition() + Vect2(1,1));
-    next_bitmap_1.drawOnTopOf(next_box_1);
-    next_bitmap_1.setScale(Vect2(2,1));
-    next_bitmap_1[0][1] = ' ' | ColorPair(Color::BLACK, Color::BLUE);
-    next_bitmap_1[0][2] = ' ' | ColorPair(Color::BLACK, Color::BLUE);
-    next_bitmap_1[0][3] = ' ' | ColorPair(Color::BLACK, Color::BLUE);
-    next_bitmap_1[1][3] = ' ' | ColorPair(Color::BLACK, Color::BLUE);
+    next_block_bitmap.initialize();
+    next_block_bitmap.setPosition(next_box_1.getPosition() + Vect2(1,1));
+    next_block_bitmap.drawOnTopOf(next_box_1);
+    next_block_bitmap.setTetromino(&Tetromino::L_0, Vect2(0,0));
 
     x.initialize();
     x.setText("XX");
@@ -53,6 +48,7 @@ void GameForm::initialize()
 
     left_game = Tetris(cursen::Vect2(10,22), new UpdateTimerStrategy);
     right_game = Tetris(cursen::Vect2(10,22), new UpdateTimerStrategy);
+    next_block_bitmap.setTetromino(left_game.getBlockGenerator()->peekNext(), Vect2(1,0));
 
     leftBoard.setField(left_game.getField(), left_game.getSize());
     rightBoard.setField(right_game.getField(), right_game.getSize());
@@ -89,6 +85,10 @@ void GameForm::update()
     if (left_game.update())
     {
         leftBoard.setField(left_game.getField(), left_game.getSize());
+        if (!left_game.canDrop())
+        {
+            next_block_bitmap.setTetromino(left_game.getBlockGenerator()->peekNext(), Vect2(1,0));
+        }
     }
     if (right_game.update())
     {

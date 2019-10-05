@@ -9,6 +9,7 @@
 #include <Cursen/Components/AggregateComponent.h>
 #include <Cursen/Components/Box.h>
 #include <Cursen/Components/BitMap.h>
+#include "TetrominoField.h"
 
 class TetrisBoard : public cursen::AggregateComponent
 {
@@ -26,7 +27,7 @@ private:
 
     cursen::Box border;
     cursen::Box upper_boarder;
-    cursen::BitMap field;
+    TetrominoField tetrominoField;
 
 };
 

@@ -21,6 +21,7 @@ namespace cursen
 
         void render() override;
         void initialize() override;
+        Content& getUnscaledContent();
 
         void setSize(const cursen::Vect2& size) override;
         cursen::Vect2 getSize() const override;

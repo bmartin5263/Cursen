@@ -172,3 +172,8 @@ cursen::Vect2 Tetris::getBlockPosition()
     return position;
 }
 
+BlockGenerator* Tetris::getBlockGenerator()
+{
+    return block_generator;
+}
+

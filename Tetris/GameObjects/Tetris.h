@@ -46,6 +46,7 @@ public:
     Board getField();
     cursen::Vect2 getSize();
     cursen::Vect2 getBlockPosition();
+    BlockGenerator* getBlockGenerator();
 
 private:
 
