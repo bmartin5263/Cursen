@@ -64,7 +64,7 @@ void Tetris::placeBlock()
 void Tetris::drop()
 {
     removeBlock();
-    bool can_drop = canDrop();
+    bool can_drop = privCanDrop();
     if (can_drop)
     {
         this->position += Vect2(0, 1);
@@ -82,7 +82,10 @@ void Tetris::drop()
 
 bool Tetris::canDrop()
 {
-    return canPlaceBlock(current_block, position + Vect2(0,1));
+    removeBlock();
+    bool result = canPlaceBlock(current_block, position + Vect2(0,1));
+    placeBlock();
+    return result;
 }
 
 bool Tetris::canPlaceBlock(const Tetromino* block, const cursen::Vect2& offset)
@@ -98,7 +101,7 @@ bool Tetris::canPlaceBlock(const Tetromino* block, const cursen::Vect2& offset)
 void Tetris::moveLeft()
 {
     removeBlock();
-    if (canMoveLeft())
+    if (privCanMoveLeft())
     {
         this->position += Vect2(-1, 0);
     }
@@ -107,13 +110,16 @@ void Tetris::moveLeft()
 
 bool Tetris::canMoveLeft()
 {
-    return canPlaceBlock(current_block, Vect2(-1, 0) + position);
+    removeBlock();
+    bool result = canPlaceBlock(current_block, Vect2(-1, 0) + position);
+    placeBlock();
+    return result;
 }
 
 void Tetris::moveRight()
 {
     removeBlock();
-    if (canMoveRight())
+    if (privCanMoveRight())
     {
         this->position += Vect2(1, 0);
     }
@@ -122,7 +128,10 @@ void Tetris::moveRight()
 
 bool Tetris::canMoveRight()
 {
-    return canPlaceBlock(current_block, Vect2(1, 0) + position);
+    removeBlock();
+    bool result = canPlaceBlock(current_block, Vect2(1, 0) + position);
+    placeBlock();
+    return result;
 }
 
 void Tetris::reset()
@@ -140,7 +149,7 @@ void Tetris::reset()
 void Tetris::rotateRight()
 {
     removeBlock();
-    if (canRotateRight())
+    if (privCanRotateRight())
     {
         this->current_block = &current_block->rotateRight();
     }
@@ -149,13 +158,16 @@ void Tetris::rotateRight()
 
 bool Tetris::canRotateRight()
 {
-    return canPlaceBlock(&current_block->rotateRight(), position);
+    removeBlock();
+    bool result = canPlaceBlock(&current_block->rotateRight(), position);
+    placeBlock();
+    return result;
 }
 
 void Tetris::rotateLeft()
 {
     removeBlock();
-    if (canRotateLeft())
+    if (privCanRotateLeft())
     {
         this->current_block = &current_block->rotateLeft();
     }
@@ -164,7 +176,10 @@ void Tetris::rotateLeft()
 
 bool Tetris::canRotateLeft()
 {
-    return canPlaceBlock(&current_block->rotateLeft(), position);
+    removeBlock();
+    bool result = canPlaceBlock(&current_block->rotateLeft(), position);
+    placeBlock();
+    return result;
 }
 
 cursen::Vect2 Tetris::getBlockPosition()
@@ -175,5 +190,30 @@ cursen::Vect2 Tetris::getBlockPosition()
 BlockGenerator* Tetris::getBlockGenerator()
 {
     return block_generator;
+}
+
+bool Tetris::privCanDrop()
+{
+    return canPlaceBlock(current_block, position + Vect2(0,1));
+}
+
+bool Tetris::privCanRotateRight()
+{
+    return canPlaceBlock(&current_block->rotateRight(), position);
+}
+
+bool Tetris::privCanRotateLeft()
+{
+    return canPlaceBlock(&current_block->rotateLeft(), position);
+}
+
+bool Tetris::privCanMoveRight()
+{
+    return canPlaceBlock(current_block, Vect2(1, 0) + position);
+}
+
+bool Tetris::privCanMoveLeft()
+{
+    return canPlaceBlock(current_block, Vect2(-1, 0) + position);
 }
 

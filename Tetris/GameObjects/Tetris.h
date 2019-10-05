@@ -50,6 +50,12 @@ public:
 
 private:
 
+    bool privCanDrop();
+    bool privCanRotateRight();
+    bool privCanRotateLeft();
+    bool privCanMoveRight();
+    bool privCanMoveLeft();
+
     static const chtype BLANK;
     static const chtype BLOCKED;
     static const cursen::Vect2 SPAWN_POSITION;
