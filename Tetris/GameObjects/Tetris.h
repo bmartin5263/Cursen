@@ -9,6 +9,7 @@
 #include <Tetris/GameObjects/Tetromino.h>
 #include <ncurses.h>
 #include <Tetris/Utilities/BlockGenerator.h>
+#include <Tetris/Utilities/DropResult.h>
 
 class UpdateStrategy;
 
@@ -23,11 +24,11 @@ public:
     Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy);
 
     void reset();
-    void clearRows();
+    void clearRows(DropResult& result);
 
     bool update();
 
-    void drop();
+    DropResult drop();
     bool canDrop();
 
     void moveLeft();

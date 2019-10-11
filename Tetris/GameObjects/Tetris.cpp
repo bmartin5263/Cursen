@@ -17,11 +17,12 @@ const Vect2 Tetris::LEFT_OFFSET = Vect2(-1, 0);
 const Vect2 Tetris::RIGHT_OFFSET = Vect2(1, 0);
 const Vect2 Tetris::DOWN_OFFSET = Vect2(0, 1);
 
-Tetris::Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy) :
+Tetris::Tetris(const Vect2 size, UpdateStrategy* update_strategy) :
     field(new chtype*[size.y]), current_block(nullptr), block_generator(new BlockGenerator), update_strategy(update_strategy),
     size(size), position(SPAWN_POSITION)
 {
     current_block = &block_generator->next();
+    //current_block = &Tetromino::I_0;
     for (int y = 0; y < size.y; ++y)
     {
         this->field[y] = new chtype[size.x];
@@ -41,7 +42,7 @@ Tetris::Board Tetris::getField()
     return this->field;
 }
 
-cursen::Vect2 Tetris::getSize()
+Vect2 Tetris::getSize()
 {
     return this->size;
 }
@@ -56,8 +57,9 @@ void Tetris::placeBlock()
     current_block->placeOnto(field, position);
 }
 
-void Tetris::drop()
+DropResult Tetris::drop()
 {
+    DropResult result;
     removeBlock();
     bool can_drop = privCanDrop();
     if (can_drop)
@@ -69,12 +71,14 @@ void Tetris::drop()
     if (!can_drop)
     {
         // New Block
-        clearRows();
+        clearRows(result);
+        result.nextPiece = true;
         this->current_block = &block_generator->next();
         this->position = SPAWN_POSITION;
         this->update_strategy->reset();
         placeBlock();
     }
+    return result;
 }
 
 bool Tetris::canDrop()
@@ -85,7 +89,7 @@ bool Tetris::canDrop()
     return result;
 }
 
-bool Tetris::canPlaceBlock(const Tetromino* block, const cursen::Vect2& offset)
+bool Tetris::canPlaceBlock(const Tetromino* block, const Vect2& offset)
 {
     for (auto& pair : block->body())
     {
@@ -180,7 +184,7 @@ bool Tetris::canRotateLeft()
     return result;
 }
 
-cursen::Vect2 Tetris::getBlockPosition()
+Vect2 Tetris::getBlockPosition()
 {
     return position;
 }
@@ -215,9 +219,10 @@ bool Tetris::privCanMoveLeft()
     return canPlaceBlock(current_block, LEFT_OFFSET + position);
 }
 
-void Tetris::clearRows()
+void Tetris::clearRows(DropResult& result)
 {
     // Check if each block contributed to row clearing
+    int cleared_rows = 0;
     for (auto& block : current_block->body())
     {
         int block_row = block.y + position.y;
@@ -239,6 +244,7 @@ void Tetris::clearRows()
                 field[y] = field[y+1];
                 field[y+1] = temp;
             }
+            result.rowsToClear[cleared_rows++] = block_row;
         }
     }
 }

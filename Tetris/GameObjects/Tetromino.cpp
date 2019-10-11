@@ -7,31 +7,31 @@
 
 using namespace cursen;
 
-const Tetromino Tetromino::O_0({{Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(1,1)}}, Tetromino::O_0, Tetromino::O_0);
+const Tetromino Tetromino::O_0({{Vect2(0,0), Vect2(1,0), Vect2(0,1), Vect2(1,1)}}, Tetromino::O_0, Tetromino::O_0);
 
 const Tetromino Tetromino::J_0({{Vect2(0,0), Vect2(1,0), Vect2(2,0), Vect2(2,1)}}, Tetromino::J_3, Tetromino::J_1);
-const Tetromino Tetromino::J_1({{Vect2(0,1), Vect2(1,1), Vect2(1,0), Vect2(1,-1)}}, Tetromino::J_0, Tetromino::J_2);
+const Tetromino Tetromino::J_1({{Vect2(1,-1), Vect2(1,0), Vect2(0,1), Vect2(1,1)}}, Tetromino::J_0, Tetromino::J_2);
 const Tetromino Tetromino::J_2({{Vect2(0,0), Vect2(0,1), Vect2(1,1), Vect2(2,1)}}, Tetromino::J_1, Tetromino::J_3);
-const Tetromino Tetromino::J_3({{Vect2(0,0), Vect2(0,-1), Vect2(1,-1), Vect2(0,1)}}, Tetromino::J_2, Tetromino::J_0);
+const Tetromino Tetromino::J_3({{Vect2(0,-1), Vect2(1,-1), Vect2(0,0), Vect2(0,1)}}, Tetromino::J_2, Tetromino::J_0);
 
-const Tetromino Tetromino::L_0({{Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(2,0)}}, Tetromino::L_3, Tetromino::L_1);
+const Tetromino Tetromino::L_0({{Vect2(0,0), Vect2(1,0), Vect2(2,0), Vect2(0,1)}}, Tetromino::L_3, Tetromino::L_1);
 const Tetromino Tetromino::L_1({{Vect2(0,-1), Vect2(1,-1), Vect2(1,0), Vect2(1,1)}}, Tetromino::L_0, Tetromino::L_2);
-const Tetromino Tetromino::L_2({{Vect2(0,1), Vect2(1,1), Vect2(2,0), Vect2(2,1)}}, Tetromino::L_1, Tetromino::L_3);
-const Tetromino Tetromino::L_3({{Vect2(0,0), Vect2(0,1), Vect2(0,-1), Vect2(1,1)}}, Tetromino::L_2, Tetromino::L_0);
+const Tetromino Tetromino::L_2({{Vect2(2,0), Vect2(0,1), Vect2(1,1), Vect2(2,1)}}, Tetromino::L_1, Tetromino::L_3);
+const Tetromino Tetromino::L_3({{Vect2(0,-1), Vect2(0,0), Vect2(0,1), Vect2(1,1)}}, Tetromino::L_2, Tetromino::L_0);
 
 const Tetromino Tetromino::T_0({{Vect2(0,0), Vect2(1,0), Vect2(2,0), Vect2(1,1)}}, Tetromino::T_3, Tetromino::T_1);
-const Tetromino Tetromino::T_1({{Vect2(1,0), Vect2(2,0), Vect2(2,1), Vect2(2,-1)}}, Tetromino::T_0, Tetromino::T_2);
-const Tetromino Tetromino::T_2({{Vect2(0,1), Vect2(1,1), Vect2(1,0), Vect2(2,1)}}, Tetromino::T_1, Tetromino::T_3);
-const Tetromino Tetromino::T_3({{Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(0,-1)}}, Tetromino::T_2, Tetromino::T_0);
+const Tetromino Tetromino::T_1({{Vect2(2,-1), Vect2(1,0), Vect2(2,0), Vect2(2,1)}}, Tetromino::T_0, Tetromino::T_2);
+const Tetromino Tetromino::T_2({{Vect2(1,0), Vect2(0,1), Vect2(1,1), Vect2(2,1)}}, Tetromino::T_1, Tetromino::T_3);
+const Tetromino Tetromino::T_3({{Vect2(0,-1), Vect2(1,0), Vect2(0,0), Vect2(0,1)}}, Tetromino::T_2, Tetromino::T_0);
 
 const Tetromino Tetromino::Z_0({{Vect2(0,0), Vect2(1,0), Vect2(1,1), Vect2(2,1)}}, Tetromino::Z_1, Tetromino::Z_1);
-const Tetromino Tetromino::Z_1({{Vect2(0,0), Vect2(0,1), Vect2(1,0), Vect2(1,-1)}}, Tetromino::Z_0, Tetromino::Z_0);
+const Tetromino Tetromino::Z_1({{Vect2(1,-1), Vect2(1,0), Vect2(0,0), Vect2(0,1)}}, Tetromino::Z_0, Tetromino::Z_0);
 
-const Tetromino Tetromino::S_0({{Vect2(0,1), Vect2(1,1), Vect2(1,0), Vect2(2,0)}}, Tetromino::S_1, Tetromino::S_1);
-const Tetromino Tetromino::S_1({{Vect2(0,0), Vect2(0,-1), Vect2(1,1), Vect2(1,0)}}, Tetromino::S_0, Tetromino::S_0);
+const Tetromino Tetromino::S_0({{Vect2(1,0), Vect2(2,0), Vect2(0,1), Vect2(1,1)}}, Tetromino::S_1, Tetromino::S_1);
+const Tetromino Tetromino::S_1({{Vect2(0,-1), Vect2(0,0), Vect2(1,0), Vect2(1,1)}}, Tetromino::S_0, Tetromino::S_0);
 
 const Tetromino Tetromino::I_0({{Vect2(0,1), Vect2(1,1), Vect2(2,1), Vect2(3,1)}}, Tetromino::I_1, Tetromino::I_1);
-const Tetromino Tetromino::I_1({{Vect2(2,1), Vect2(2,0), Vect2(2,-1), Vect2(2,-2)}}, Tetromino::I_0, Tetromino::I_0);
+const Tetromino Tetromino::I_1({{Vect2(2,-2), Vect2(2,-1), Vect2(2,0), Vect2(2,1)}}, Tetromino::I_0, Tetromino::I_0);
 
 const ColorPair Tetromino::YELLOW_BLOCK(Color::BLACK, Color::YELLOW);
 const ColorPair Tetromino::BLUE_BLOCK(Color::BLACK, Color(33));
