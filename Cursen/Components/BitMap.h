@@ -21,7 +21,9 @@ namespace cursen
 
         void render() override;
         void initialize() override;
+
         Content& getUnscaledContent();
+        const Content& getUnscaledContentReadOnly();
 
         void setSize(const cursen::Vect2& size) override;
         cursen::Vect2 getSize() const override;
@@ -34,6 +36,7 @@ namespace cursen
         void setBitMap(chtype** data, const Vect2& size);
 
         chtype*& operator [](int row);
+        chtype at(int row, int column);
 
     private:
 

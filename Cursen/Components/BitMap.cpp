@@ -97,6 +97,17 @@ void BitMap::setBitMap(chtype** data, const Vect2& size)
 
 Content& BitMap::getUnscaledContent()
 {
+    invalidate();
+    return unscaled_content;
+}
+
+chtype BitMap::at(int row, int column)
+{
+    return unscaled_content[row][column];
+}
+
+const Content& BitMap::getUnscaledContentReadOnly()
+{
     return unscaled_content;
 }
 

@@ -4,10 +4,10 @@
 
 #include "NullUpdateStrategy.h"
 
-bool NullUpdateStrategy::update(Tetris& tetris)
+int NullUpdateStrategy::update(Tetris& tetris)
 {
     (void)tetris;
-    return false;
+    return 0;
 }
 
 void NullUpdateStrategy::reset()

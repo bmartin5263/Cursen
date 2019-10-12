@@ -16,6 +16,8 @@ public:
     void pressLeft() override;
     void pressRight() override;
 
+    void handleDrop() override;
+
 };
 
 

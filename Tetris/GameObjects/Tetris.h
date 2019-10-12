@@ -25,8 +25,11 @@ public:
 
     void reset();
     void clearRows(DropResult& result);
+    void checkForRowClears(DropResult& result);
+    void spawnNextBlock();
 
-    bool update();
+    int update();
+    void pause();
 
     DropResult drop();
     bool canDrop();
@@ -58,13 +61,15 @@ private:
     bool privCanMoveRight();
     bool privCanMoveLeft();
 
+    static void clearRow(chtype* row, int len);
+    static bool contains(std::array<int, 4>& rows_to_clear, int val);
+
     static const chtype BLANK;
     static const chtype BLOCKED;
     static const cursen::Vect2 SPAWN_POSITION;
     static const cursen::Vect2 LEFT_OFFSET;
     static const cursen::Vect2 RIGHT_OFFSET;
     static const cursen::Vect2 DOWN_OFFSET;
-    static void clearRow(chtype* row, int len);
 
     void removeBlock();
     void placeBlock();

@@ -15,7 +15,7 @@ public:
 
     UpdateTimerStrategy();
     void reset() override;
-    bool update(Tetris& tetris) override;
+    int update(Tetris& tetris) override;
 
 private:
 

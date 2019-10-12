@@ -22,6 +22,8 @@ public:
     void setField(chtype** field, const cursen::Vect2& size);
     void setTetromino(const Tetromino& tetromino, const cursen::Vect2& location);
 
+    chtype*& operator [](int row);
+
     cursen::Vect2 getScale();
 
 private:

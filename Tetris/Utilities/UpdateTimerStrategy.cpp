@@ -4,15 +4,14 @@
 
 #include "UpdateTimerStrategy.h"
 
-bool UpdateTimerStrategy::update(Tetris& tetris)
+int UpdateTimerStrategy::update(Tetris& tetris)
 {
-    bool update = false;
+    int drops = 0;
     Duration elapsed_seconds = SystemClock::now() - last_update;
     if (elapsed_seconds.count() >= 1.0) {
-        update = true;
-        tetris.drop();
+        drops = (int)(elapsed_seconds.count() / 1.0);
     }
-    return update;
+    return drops;
 }
 
 UpdateTimerStrategy::UpdateTimerStrategy() :

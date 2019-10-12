@@ -5,7 +5,7 @@
 #include "DropResult.h"
 
 DropResult::DropResult() :
-    didLose(false), nextPiece(false)
+    didLose(false), nextPiece(false), didUpdate(false)
 {
     rowsToClear[0] = -1;
     rowsToClear[1] = -1;

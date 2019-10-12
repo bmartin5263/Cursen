@@ -6,6 +6,7 @@
 #include <Tetris/Utilities/UpdateTimerStrategy.h>
 #include <Tetris/Utilities/NullUpdateStrategy.h>
 #include <Tetris/Controllers/Controllers.h>
+#include "Tetris/InputFSM/TetrisFSM.h"
 #include "GameForm.h"
 
 using namespace cursen;
@@ -18,36 +19,25 @@ void GameForm::initialize()
     Tetromino::InitializeGraphics();
 
     controller = &Controllers::localTetrisController;
+    inputState = &TetrisFSM::gameplayState;
+    controller->setData(this, &left_game, &leftBoard);
+
     left_game = Tetris(cursen::Vect2(10,22), new UpdateTimerStrategy);
     right_game = Tetris(cursen::Vect2(10,22), new UpdateTimerStrategy);
 
     leftBoard.initialize();
-    leftBoard.setPosition(Vect2(12,0));
+    leftBoard.setPosition(Vect2(0,0));
 
     rightBoard.initialize();
-    rightBoard.setPosition(leftBoard.getPosition() + Vect2(29, 0));
+    rightBoard.setPosition(leftBoard.getPosition() + Vect2(41, 0));
 
-    left_next_block_field.initialize();
-    left_next_block_field.setPosition(Vect2(0,6));
-    left_next_block_field.setText("Next");
+    leftBoard.getNextBox().setTetromino(left_game.getBlockGenerator()->peekNext());
+    leftBoard.getAfterBox().setTetromino(left_game.getBlockGenerator()->peekAfter());
+    leftBoard.setGameForm(*this);
 
-    left_after_block_field.initialize();
-    left_after_block_field.setPosition(Vect2(0,2));
-    left_after_block_field.setText("After");
-
-    right_next_block_field.initialize();
-    right_next_block_field.setPosition(Vect2(63,6));
-    right_next_block_field.setText("Next");
-
-    right_after_block_field.initialize();
-    right_after_block_field.setPosition(Vect2(63,2));
-    right_after_block_field.setText("After");
-
-    left_next_block_field.setTetromino(left_game.getBlockGenerator()->peekNext());
-    left_after_block_field.setTetromino(left_game.getBlockGenerator()->peekAfter());
-
-    right_next_block_field.setTetromino(right_game.getBlockGenerator()->peekNext());
-    right_after_block_field.setTetromino(right_game.getBlockGenerator()->peekAfter());
+    rightBoard.getNextBox().setTetromino(right_game.getBlockGenerator()->peekNext());
+    rightBoard.getAfterBox().setTetromino(right_game.getBlockGenerator()->peekAfter());
+    rightBoard.setGameForm(*this);
 
     leftBoard.setField(left_game.getField(), left_game.getSize());
     rightBoard.setField(right_game.getField(), right_game.getSize());
@@ -58,28 +48,21 @@ void GameForm::initialize()
     right_meter.initialize();
     right_meter.setPosition(Vect2(38,2));
 
-    onUpdate([this]() { this->update(); });
+    onUpdate([this]() { this->inputState->update(*this); });
 
     onArrowPress([this](EVENT_ARG) {
-        DropResult result;
         if (event.arrowPress.right)
         {
-            left_game.moveRight();
+            inputState->pressRight(*this);
         }
         else if (event.arrowPress.left)
         {
-            left_game.moveLeft();
+            inputState->pressLeft(*this);
         }
         else if (event.arrowPress.down)
         {
-            result = left_game.drop();
-            if (result.nextPiece)
-            {
-                left_next_block_field.setTetromino(left_game.getBlockGenerator()->peekNext());
-                left_after_block_field.setTetromino(left_game.getBlockGenerator()->peekAfter());
-            }
+            inputState->pressDrop(*this);
         }
-        leftBoard.setField(left_game.getField(), left_game.getSize());
     });
 
     onKeyPress([this](EVENT_ARG) {
@@ -93,17 +76,66 @@ void GameForm::initialize()
 
 void GameForm::update()
 {
-    if (left_game.update())
+    int update_result = left_game.update();
+    if (update_result > 0)
     {
-        leftBoard.setField(left_game.getField(), left_game.getSize());
-        left_next_block_field.setTetromino(left_game.getBlockGenerator()->peekNext());
-        left_after_block_field.setTetromino(left_game.getBlockGenerator()->peekAfter());
+        drop(left_game, leftBoard, update_result);
     }
-    if (right_game.update())
+    update_result = right_game.update();
+    if (update_result > 0)
     {
-        rightBoard.setField(right_game.getField(), right_game.getSize());
-        right_next_block_field.setTetromino(right_game.getBlockGenerator()->peekNext());
-        right_after_block_field.setTetromino(right_game.getBlockGenerator()->peekAfter());
+        drop(right_game, rightBoard, update_result);
     }
+}
+
+void GameForm::pause()
+{
+
+}
+
+void GameForm::drop(Tetris& game, TetrisBoard& board, int amount)
+{
+    for (int i = 0; i < amount; ++i)
+    {
+        DropResult result = game.drop();
+        if (result.nextPiece)
+        {
+            if (result.rowsToClear[0] != -1)
+            {
+                board.runClearRowAnimation(result, game, amount - 1 - i);
+                inputState = &TetrisFSM::animationState;
+                return;
+            }
+            else
+            {
+                game.spawnNextBlock();
+                board.getNextBox().setTetromino(game.getBlockGenerator()->peekNext());
+                board.getAfterBox().setTetromino(game.getBlockGenerator()->peekAfter());
+            }
+        }
+    }
+    board.setField(game.getField(), game.getSize());
+}
+
+void GameForm::pressLeft(Tetris& game, TetrisBoard& board)
+{
+    game.moveLeft();
+    board.setField(game.getField(), game.getSize());
+}
+
+void GameForm::pressRight(Tetris& game, TetrisBoard& board)
+{
+    game.moveRight();
+    board.setField(game.getField(), game.getSize());
+}
+
+void GameForm::clearRows(Tetris& game, TetrisBoard& board, DropResult& dropResult)
+{
+    game.clearRows(dropResult);
+    game.spawnNextBlock();
+    board.getNextBox().setTetromino(game.getBlockGenerator()->peekNext());
+    board.getAfterBox().setTetromino(game.getBlockGenerator()->peekAfter());
+    board.setField(game.getField(), game.getSize());
+    inputState = &TetrisFSM::gameplayState;
 }
 

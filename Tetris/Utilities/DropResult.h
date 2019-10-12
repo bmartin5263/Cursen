@@ -5,15 +5,17 @@
 #ifndef CURSEN_DROPRESULT_H
 #define CURSEN_DROPRESULT_H
 
+#include <array>
 
 struct DropResult
 {
 
     DropResult();
 
-    int rowsToClear[4];
+    std::array<int, 4> rowsToClear;
     bool didLose;
     bool nextPiece;
+    bool didUpdate;
 
 };
 

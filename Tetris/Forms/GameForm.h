@@ -14,6 +14,7 @@
 #include <Tetris/Components/BlockBox.h>
 #include <Tetris/Components/BoardMeter.h>
 
+class InputState;
 class TetrisController;
 class GameForm : public cursen::Form
 {
@@ -24,7 +25,14 @@ public:
     void initialize() override;
     void update();
 
-    void drop();
+    void pause();
+
+    void drop(Tetris& game, TetrisBoard& board, int amount);
+    void pressLeft(Tetris& game, TetrisBoard& board);
+    void pressRight(Tetris& game, TetrisBoard& board);
+    void clearRows(Tetris& game, TetrisBoard& board, DropResult& dropResult);
+
+    TetrisController& getController() const { return *this->controller; }
 
 private:
 
@@ -32,18 +40,18 @@ private:
     TetrisBoard rightBoard;
 
     TetrisController* controller;
+    const InputState* inputState;
 
     Tetris left_game;
     Tetris right_game;
 
-    BlockBox left_next_block_field;
-    BlockBox left_after_block_field;
-    BlockBox right_next_block_field;
-    BlockBox right_after_block_field;
-
     BoardMeter left_meter;
     BoardMeter right_meter;
 
+    cursen::Label left_pause_label;
+    cursen::Label right_pause_label;
+
+    bool is_paused;
 };
 
 

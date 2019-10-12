@@ -12,7 +12,7 @@ class UpdateStrategy
 {
 public:
 
-    virtual bool update(Tetris& tetris) = 0;
+    virtual int update(Tetris& tetris) = 0;
     virtual void reset() = 0;
 
 };

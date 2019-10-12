@@ -12,7 +12,7 @@ class NullUpdateStrategy : public UpdateStrategy
 {
 public:
 
-    bool update(Tetris& tetris) override;
+    int update(Tetris& tetris) override;
     void reset() override;
 
 };

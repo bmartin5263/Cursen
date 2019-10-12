@@ -48,11 +48,16 @@ void TetrominoField::setTetromino(const Tetromino& tetromino, const cursen::Vect
             this->field[y][x] = Content::TRANSPARENT;
         }
     }
-    chtype** body = field.getUnscaledContent().getText();
+    chtype** body = field.getUnscaledContentReadOnly().getText();
     tetromino.placeOnto(body, location);
 }
 
 cursen::Vect2 TetrominoField::getScale()
 {
     return field.getScale();
+}
+
+chtype*& TetrominoField::operator[](int row)
+{
+    return field[row];
 }
