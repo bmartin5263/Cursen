@@ -70,6 +70,7 @@ public:
     static void InitializeGraphics();
 
     const void placeOnto(Board& board, cursen::Vect2 position) const;
+    const void ghostOnto(Board& board, cursen::Vect2 position) const;
     const void removeFrom(Board& board, cursen::Vect2 position, chtype clear_value) const;
 
     const BlockArray& body() const;

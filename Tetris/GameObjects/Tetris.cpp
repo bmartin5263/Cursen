@@ -13,6 +13,7 @@ using namespace cursen;
 const chtype Tetris::BLANK = ' ';
 const chtype Tetris::BLOCKED = 'X';
 const Vect2 Tetris::SPAWN_POSITION = Vect2(3, 0);
+const Vect2 Tetris::GHOST_POSITION = Vect2(3, 21);
 const Vect2 Tetris::LEFT_OFFSET = Vect2(-1, 0);
 const Vect2 Tetris::RIGHT_OFFSET = Vect2(1, 0);
 const Vect2 Tetris::DOWN_OFFSET = Vect2(0, 1);
@@ -21,7 +22,6 @@ Tetris::Tetris(const Vect2 size, UpdateStrategy* update_strategy) :
     field(new chtype*[size.y]), current_block(nullptr), block_generator(new BlockGenerator), update_strategy(update_strategy),
     size(size), position(SPAWN_POSITION)
 {
-    current_block = &block_generator->next();
     //current_block = &Tetromino::I_0;
     for (int y = 0; y < size.y; ++y)
     {
@@ -37,14 +37,16 @@ Tetris::Tetris(const Vect2 size, UpdateStrategy* update_strategy) :
 //        this->field[size.y - 4][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
 //    }
 
-    placeBlock();
+    spawnNextBlock();
 }
 
 void Tetris::spawnNextBlock()
 {
+    this->update_strategy->reset();
     this->current_block = &block_generator->next();
     this->position = SPAWN_POSITION;
-    this->update_strategy->reset();
+
+    updateGhost();
     placeBlock();
 }
 
@@ -73,10 +75,12 @@ Vect2 Tetris::getSize()
 void Tetris::removeBlock()
 {
     current_block->removeFrom(field, position, BLANK);
+    current_block->removeFrom(field, ghost_position, BLANK);
 }
 
 void Tetris::placeBlock()
 {
+    current_block->ghostOnto(field, ghost_position);
     current_block->placeOnto(field, position);
 }
 
@@ -125,6 +129,8 @@ void Tetris::moveLeft()
     if (privCanMoveLeft())
     {
         this->position += LEFT_OFFSET;
+        this->ghost_position += LEFT_OFFSET;
+        updateGhost();
     }
     placeBlock();
 }
@@ -143,6 +149,8 @@ void Tetris::moveRight()
     if (privCanMoveRight())
     {
         this->position += RIGHT_OFFSET;
+        this->ghost_position += RIGHT_OFFSET;
+        updateGhost();
     }
     placeBlock();
 }
@@ -173,6 +181,7 @@ void Tetris::rotateRight()
     if (privCanRotateRight())
     {
         this->current_block = &current_block->rotateRight();
+        updateGhost();
     }
     placeBlock();
 }
@@ -191,6 +200,7 @@ void Tetris::rotateLeft()
     if (privCanRotateLeft())
     {
         this->current_block = &current_block->rotateLeft();
+        updateGhost();
     }
     placeBlock();
 }
@@ -297,4 +307,17 @@ DropResult Tetris::fall()
     checkForRowClears(result);
     update_strategy->reset();
     return result;
+}
+
+void Tetris::placeGhost()
+{
+}
+
+void Tetris::updateGhost()
+{
+    ghost_position = position;
+    while (canPlaceBlock(current_block, ghost_position + Vect2(0, 1)))
+    {
+        this->ghost_position += Vect2(0, 1);
+    }
 }

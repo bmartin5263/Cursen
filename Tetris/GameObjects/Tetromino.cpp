@@ -122,3 +122,11 @@ const void Tetromino::removeFrom(Tetromino::Board& board, cursen::Vect2 position
         board[position.y + pair.y][position.x + pair.x] = clear_value;
     }
 }
+
+const void Tetromino::ghostOnto(Tetromino::Board& board, cursen::Vect2 position) const
+{
+    for (auto& pair : blocks)
+    {
+        board[position.y + pair.y][position.x + pair.x] = ' ' | ColorPair(Color::WHITE, Color::DARK_BLUE);
+    }
+}

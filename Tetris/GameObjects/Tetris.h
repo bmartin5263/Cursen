@@ -68,12 +68,15 @@ private:
     static const chtype BLANK;
     static const chtype BLOCKED;
     static const cursen::Vect2 SPAWN_POSITION;
+    static const cursen::Vect2 GHOST_POSITION;
     static const cursen::Vect2 LEFT_OFFSET;
     static const cursen::Vect2 RIGHT_OFFSET;
     static const cursen::Vect2 DOWN_OFFSET;
 
     void removeBlock();
     void placeBlock();
+    void placeGhost();
+    void updateGhost();
 
     Board field;
     const Tetromino* current_block;
@@ -83,6 +86,7 @@ private:
 
     cursen::Vect2 size;
     cursen::Vect2 position;
+    cursen::Vect2 ghost_position;
 
 
 };
