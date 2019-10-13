@@ -28,3 +28,8 @@ void TetrisAnimationState::update(GameForm& game_form) const
 {
 
 }
+
+void TetrisAnimationState::pressFall(const GameForm& game_form) const
+{
+
+}

@@ -29,13 +29,13 @@ Tetris::Tetris(const Vect2 size, UpdateStrategy* update_strategy) :
         for (int x = 0; x < size.x; ++x) this->field[y][x] = BLANK;
     }
 
-    for (int i = 0; i < 9; ++i)
-    {
-        this->field[size.y - 1][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
-        this->field[size.y - 2][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
-        this->field[size.y - 3][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
-        this->field[size.y - 4][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
-    }
+//    for (int i = 0; i < 9; ++i)
+//    {
+//        this->field[size.y - 1][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
+//        this->field[size.y - 2][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
+//        this->field[size.y - 3][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
+//        this->field[size.y - 4][i] = ' ' | ColorPair(Color::BLACK, Color::GREEN);
+//    }
 
     placeBlock();
 }
@@ -283,4 +283,18 @@ bool Tetris::contains(std::array<int, 4>& rows_to_clear, int val)
 {
     for (int i = 0; i < rows_to_clear.size(); ++i) if (rows_to_clear[i] == val) return true;
     return false;
+}
+
+DropResult Tetris::fall()
+{
+    DropResult result;
+    while (canDrop())
+    {
+        result = drop();
+    }
+    placeBlock();
+    result.nextPiece = true;
+    checkForRowClears(result);
+    update_strategy->reset();
+    return result;
 }

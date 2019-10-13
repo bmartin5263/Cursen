@@ -30,7 +30,6 @@ private:
     int row_offset;
     int remainingDrops;
     cursen::AlarmHandle alarmHandle;
-    bool running;
 
 };
 

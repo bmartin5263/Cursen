@@ -26,6 +26,7 @@ public:
     virtual void pressDrop() = 0;
     virtual void pressLeft() = 0;
     virtual void pressRight() = 0;
+    virtual void pressFall() = 0;
 
     virtual void handleDrop() = 0;
 

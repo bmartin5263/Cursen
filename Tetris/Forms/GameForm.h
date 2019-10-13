@@ -27,6 +27,7 @@ public:
 
     void pause();
 
+    void fall(Tetris& game, TetrisBoard& board);
     void drop(Tetris& game, TetrisBoard& board, int amount);
     void pressLeft(Tetris& game, TetrisBoard& board);
     void pressRight(Tetris& game, TetrisBoard& board);

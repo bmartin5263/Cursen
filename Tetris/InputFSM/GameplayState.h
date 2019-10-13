@@ -16,6 +16,7 @@ public:
     void pressRotate(const GameForm& game_form) const override;
     void pressLeft(const GameForm& game_form) const override;
     void pressRight(const GameForm& game_form) const override;
+    void pressFall(const GameForm& game_form) const override;
     void update(GameForm& game_form) const override;
 
 };

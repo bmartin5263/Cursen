@@ -10,21 +10,16 @@
 using namespace cursen;
 
 ClearRowAnimation::ClearRowAnimation(TetrisBoard& board) :
-    board(board), remainingDrops(0), running(false)
+    board(board), remainingDrops(0)
 {
 }
 
 void ClearRowAnimation::run(const DropResult& result, Tetris& game, int remainingDrops)
 {
-    CursesManager::Write(std::to_string(result.rowsToClear[0]), 0, 10);
-    CursesManager::Write(std::to_string(result.rowsToClear[1]), 0, 11);
-    CursesManager::Write(std::to_string(result.rowsToClear[2]), 0, 12);
-    CursesManager::Write(std::to_string(result.rowsToClear[3]), 0, 13);
     this->game = &game;
     this->result = result;
     this->col_offset = 0;
     this->row_offset = 0;
-    this->running = true;
     this->remainingDrops = remainingDrops;
     this->update();
 }

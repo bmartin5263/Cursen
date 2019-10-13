@@ -24,3 +24,8 @@ void LocalTetrisController::handleDrop()
 {
 
 }
+
+void LocalTetrisController::pressFall()
+{
+    gameForm->fall(*game, *board);
+}

@@ -30,3 +30,8 @@ void GameplayState::update(GameForm& game_form) const
 {
     game_form.update();
 }
+
+void GameplayState::pressFall(const GameForm& game_form) const
+{
+    game_form.getController().pressFall();
+}

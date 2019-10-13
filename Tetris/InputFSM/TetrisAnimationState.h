@@ -14,6 +14,8 @@ class TetrisAnimationState : public InputState
     void pressLeft(const GameForm& game_form) const override;
     void pressRight(const GameForm& game_form) const override;
     void update(GameForm& game_form) const override;
+public:
+    void pressFall(const GameForm& game_form) const override;
 
 };
 

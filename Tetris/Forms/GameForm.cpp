@@ -70,6 +70,10 @@ void GameForm::initialize()
         {
             left_game.rotateLeft();
         }
+        if (event.key.code == 'd' || event.key.code == 'D')
+        {
+            inputState->pressFall(*this);
+        }
         leftBoard.setField(left_game.getField(), left_game.getSize());
     });
 }
@@ -137,5 +141,26 @@ void GameForm::clearRows(Tetris& game, TetrisBoard& board, DropResult& dropResul
     board.getAfterBox().setTetromino(game.getBlockGenerator()->peekAfter());
     board.setField(game.getField(), game.getSize());
     inputState = &TetrisFSM::gameplayState;
+}
+
+void GameForm::fall(Tetris& game, TetrisBoard& board)
+{
+    DropResult result = game.fall();
+    if (result.nextPiece)
+    {
+        if (result.rowsToClear[0] != -1)
+        {
+            board.runClearRowAnimation(result, game, 0);
+            inputState = &TetrisFSM::animationState;
+            return;
+        }
+        else
+        {
+            game.spawnNextBlock();
+            board.getNextBox().setTetromino(game.getBlockGenerator()->peekNext());
+            board.getAfterBox().setTetromino(game.getBlockGenerator()->peekAfter());
+        }
+    }
+    board.setField(game.getField(), game.getSize());
 }
 

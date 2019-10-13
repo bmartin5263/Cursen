@@ -32,6 +32,7 @@ public:
     void pause();
 
     DropResult drop();
+    DropResult fall();
     bool canDrop();
 
     void moveLeft();
