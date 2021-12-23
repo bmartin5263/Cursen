@@ -36,7 +36,7 @@ const Tetromino Tetromino::I_1({{Vect2(2,-2), Vect2(2,-1), Vect2(2,0), Vect2(2,1
 const ColorPair Tetromino::YELLOW_BLOCK(Color::BLACK, Color::YELLOW);
 const ColorPair Tetromino::BLUE_BLOCK(Color::BLACK, Color(33));
 const ColorPair Tetromino::GREEN_BLOCK(Color::BLACK, Color::GREEN);
-const ColorPair Tetromino::PURPLE_BLOCK(Color::BLACK, Color::Color(201));
+const ColorPair Tetromino::PURPLE_BLOCK(Color::BLACK, Color(201));
 const ColorPair Tetromino::ORANGE_BLOCK(Color::BLACK, Color::ORANGE);
 const ColorPair Tetromino::CYAN_BLOCK(Color::BLACK, Color(87));
 const ColorPair Tetromino::RED_BLOCK(Color::BLACK, Color(196));

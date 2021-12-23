@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     });
 
     //std::this_thread::sleep_for(std::chrono::seconds(7));
-    Form* lobbyForm = new GameForm;
+    Form* lobbyForm = new LobbyForm;
     //LobbyForm lobbyForm1;
     CursenApplication::Run(lobbyForm);
 
