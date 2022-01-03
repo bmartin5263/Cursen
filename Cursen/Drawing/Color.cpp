@@ -3,7 +3,7 @@
 //
 
 #include "Color.h"
-#include "CursesManager.h"
+#include "TerminalManager.h"
 #include "Cursen/CursenApplication.h"
 
 namespace cursen {
@@ -65,36 +65,36 @@ namespace cursen {
 
 chtype operator|(chtype c, const cursen::Color &n) {
     if (n.val == -1) return c;
-    return c | cursen::CursesManager::GetColorPair(cursen::ColorPair(n));
+    return c | cursen::TerminalManager::GetColorPair(cursen::ColorPair(n));
 }
 
 chtype operator|(const cursen::Color &n, chtype c) {
     if (n.val == -1) return c;
-    return c | cursen::CursesManager::GetColorPair(cursen::ColorPair(n));
+    return c | cursen::TerminalManager::GetColorPair(cursen::ColorPair(n));
 }
 
 chtype& operator |= (chtype& c, const cursen::Color &n) {
-    if (n.val != -1) c |= cursen::CursesManager::GetColorPair(cursen::ColorPair(n));
+    if (n.val != -1) c |= cursen::TerminalManager::GetColorPair(cursen::ColorPair(n));
     return c;
 }
 
 chtype operator^(chtype c, const cursen::Color &n) {
     if (n.val == -1) return c;
-    short pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(n));
+    short pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(n));
     if ((pair & c) > 0) return c ^ pair;
     return c;
 }
 
 chtype operator^(const cursen::Color &n, chtype c) {
     if (n.val == -1) return c;
-    short pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(n));
+    short pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(n));
     if ((pair & c) > 0) return c ^ pair;
     return c;
 }
 
 chtype& operator ^= (chtype& c, const cursen::Color &n) {
     if (n.val == -1) return c;
-    short pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(n));
+    short pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(n));
     if ((pair & c) > 0) c ^= pair;
     return c;
 }

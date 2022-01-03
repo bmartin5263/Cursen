@@ -5,44 +5,38 @@
 #include "ClearRowAnimation.h"
 #include "Tetris/Forms/GameForm.h"
 #include <Tetris/Components/TetrisBoard.h>
-#include <Cursen/Drawing/CursesManager.h>
+#include <Tetris/GameObjects/Tetris.h>
+#include <Cursen/Drawing/TerminalManager.h>
 
 using namespace cursen;
 
-ClearRowAnimation::ClearRowAnimation(TetrisBoard& board) :
-    board(board), remainingDrops(0)
+void ClearRowAnimation::run(const DropResult& result, Tetris* game, int remainingDrops, const std::function<void()>& onComplete)
 {
-}
-
-void ClearRowAnimation::run(const DropResult& result, Tetris& game, int remainingDrops)
-{
-    this->game = &game;
+    this->game = game;
     this->result = result;
     this->col_offset = 0;
     this->row_offset = 0;
     this->remainingDrops = remainingDrops;
+    this->onComplete = onComplete;
     this->update();
 }
 
 void ClearRowAnimation::update()
 {
-    if (col_offset != 5)
-    {
+    if (col_offset != 5) {
         int row_num = result.rowsToClear[row_offset++];
         int left = 4 - col_offset;
         int right = 5 + col_offset;
-        board.getField()[row_num][left] = ' ' | ColorPair(Color::BLACK, Color::MAGENTA);
-        board.getField()[row_num][right] = ' ' | ColorPair(Color::BLACK, Color::MAGENTA);
+        game->getBoard().getField()[row_num][left] = ' ' | ColorPair(Color::BLACK, Color::MAGENTA);
+        game->getBoard().getField()[row_num][right] = ' ' | ColorPair(Color::BLACK, Color::MAGENTA);
 
-        if (row_offset == 4 || result.rowsToClear[row_offset] == -1)
-        {
+        if (row_offset == 4 || result.rowsToClear[row_offset] == -1) {
             ++col_offset;
             row_offset = 0;
         }
         alarmHandle = AlarmManager::SetTimeout([this]() { this->update(); }, .07);
     }
-    else
-    {
-        board.getGameForm()->clearRows(*game, board, result);
+    else {
+        onComplete();
     }
 }

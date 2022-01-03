@@ -2,7 +2,7 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
-#include <Cursen/Drawing/CursesManager.h>
+#include <Cursen/Drawing/TerminalManager.h>
 #include "SimpleForm.h"
 #include "Uno/GameObjects/Card.h"
 

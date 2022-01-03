@@ -5,33 +5,33 @@
 #include <ncurses.h>
 
 #include "Cursen/Components/TextComponent.h"
-#include "CursesManager.h"
+#include "TerminalManager.h"
 #include "Cursen/CursenApplication.h"
 
 namespace cursen
 {
 
-    chtype CursesManager::LLCORNER = '?';
-    chtype CursesManager::LRCORNER = '?';
-    chtype CursesManager::HLINE = '?';
-    chtype CursesManager::VLINE = '?';
-    chtype CursesManager::ULCORNER = '?';
-    chtype CursesManager::URCORNER = '?';
-    chtype CursesManager::LTEE = '?';
-    chtype CursesManager::RTEE = '?';
+    chtype TerminalManager::LLCORNER = '?';
+    chtype TerminalManager::LRCORNER = '?';
+    chtype TerminalManager::HLINE = '?';
+    chtype TerminalManager::VLINE = '?';
+    chtype TerminalManager::ULCORNER = '?';
+    chtype TerminalManager::URCORNER = '?';
+    chtype TerminalManager::LTEE = '?';
+    chtype TerminalManager::RTEE = '?';
 
-    CursesManager::CursesManager() :
+    TerminalManager::TerminalManager() :
             component_layer(nullptr), type_pos(0), buffer_size(0)
     {
     }
 
-    int CursesManager::GetChar()
+    int TerminalManager::GetChar()
     {
         int c = getch();
         return c;
     }
 
-    void CursesManager::Draw(ComponentMap& componentMap)
+    void TerminalManager::Draw(ComponentMap& componentMap)
     {
         auto& debugger = CursenApplication::GetDebugger();
         auto& instance = Instance();
@@ -87,7 +87,7 @@ namespace cursen
         move(instance.cursor_pos.y, instance.cursor_pos.x);
     }
 
-    void CursesManager::Initialize(const cursen::Vect2& dim){
+    void TerminalManager::Initialize(const cursen::Vect2& dim){
         Resize(dim);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
@@ -101,43 +101,43 @@ namespace cursen
         nodelay(stdscr, TRUE);
         notimeout(stdscr, TRUE);
 
-        CursesManager::LLCORNER = ACS_LLCORNER;
-        CursesManager::LRCORNER = ACS_LRCORNER;
-        CursesManager::HLINE = ACS_HLINE;
-        CursesManager::VLINE = ACS_VLINE;
-        CursesManager::ULCORNER = ACS_ULCORNER;
-        CursesManager::URCORNER = ACS_URCORNER;
-        CursesManager::LTEE = ACS_LTEE;
-        CursesManager::RTEE = ACS_RTEE;
+        TerminalManager::LLCORNER = ACS_LLCORNER;
+        TerminalManager::LRCORNER = ACS_LRCORNER;
+        TerminalManager::HLINE = ACS_HLINE;
+        TerminalManager::VLINE = ACS_VLINE;
+        TerminalManager::ULCORNER = ACS_ULCORNER;
+        TerminalManager::URCORNER = ACS_URCORNER;
+        TerminalManager::LTEE = ACS_LTEE;
+        TerminalManager::RTEE = ACS_RTEE;
 
         // Draw A box onto main window 'stdscr'
         box(stdscr, 0, 0);
         refresh();
     }
 
-    void CursesManager::putCharacter(int c)
+    void TerminalManager::putCharacter(int c)
     {
         addch((chtype) c);
         refresh();
     }
 
-    CursesManager::~CursesManager()
+    TerminalManager::~TerminalManager()
     {
         flushinp();     // Flush any remaining curses input
         endwin();       // End curses
     }
 
-    void CursesManager::doBeep()
+    void TerminalManager::doBeep()
     {
         beep();
     }
 
-    void CursesManager::doFlash()
+    void TerminalManager::doFlash()
     {
         flash();
     }
 
-    void CursesManager::drawString(const char* string)
+    void TerminalManager::drawString(const char* string)
     {
         short i = privGetColorPair(ColorPair());
         attron(i);
@@ -145,7 +145,7 @@ namespace cursen
         attroff(i);
     }
 
-    void CursesManager::drawString(const char* string, int x, int y)
+    void TerminalManager::drawString(const char* string, int x, int y)
     {
         short i = COLOR_PAIR(0);
         attron(i);
@@ -153,7 +153,7 @@ namespace cursen
         attroff(i);
     }
 
-    void CursesManager::Write(const char* string, int x, int y, const ColorPair& color)
+    void TerminalManager::Write(const char* string, int x, int y, const ColorPair& color)
     {
         size_t len = strlen(string);
         chtype converted[len + 1];
@@ -165,12 +165,12 @@ namespace cursen
         Write(&converted[0], x, y, len);
     }
 
-    void CursesManager::Write(const chtype* string, int x, int y)
+    void TerminalManager::Write(const chtype* string, int x, int y)
     {
         Write(string, x, y, strlen((char*)string));
     }
 
-    void CursesManager::Write(const chtype* string, int x, int y, size_t len)
+    void TerminalManager::Write(const chtype* string, int x, int y, size_t len)
     {
         auto& instance = Instance();
         Vect2 dimensions = instance.dimensions;
@@ -201,7 +201,7 @@ namespace cursen
         }
     }
 
-    short CursesManager::privGetColorPair(const ColorPair& colorPair)
+    short TerminalManager::privGetColorPair(const ColorPair& colorPair)
     {
         ColorPair pair_to_check = colorPair;
         pair_to_check.reset();
@@ -223,9 +223,9 @@ namespace cursen
         }
     }
 
-    void CursesManager::Resize(const Vect2& dim)
+    void TerminalManager::Resize(const Vect2& dim)
     {
-        CursesManager& instance = Instance();
+        TerminalManager& instance = Instance();
         std::string resizeString = "\e[8;" + std::to_string(dim.y) + ";" + std::to_string(dim.x) + "t";
         //printf("%s", resizeString.c_str());
         fflush(stdout);
@@ -244,7 +244,7 @@ namespace cursen
         instance.clearBuffer(instance.text_layer);
     }
 
-    void CursesManager::render(TextComponent& component)
+    void TerminalManager::render(TextComponent& component)
     {
         /* Check if component needs a redraw */
         if (component.isInvalid())
@@ -286,35 +286,35 @@ namespace cursen
         }
     }
 
-    void CursesManager::WriteBottomRight(const std::string& string)
+    void TerminalManager::WriteBottomRight(const std::string& string)
     {
         int y = Instance().dimensions.y - 1;
         Write(string.c_str(), 0, y);
     }
 
-    void CursesManager::WriteBottomLeft(const std::string& string)
+    void TerminalManager::WriteBottomLeft(const std::string& string)
     {
 
         int y = Instance().dimensions.y - 1;
         Write(string.c_str(), 0, y);
     }
 
-    void CursesManager::privMoveCursor(const Vect2& dim)
+    void TerminalManager::privMoveCursor(const Vect2& dim)
     {
         cursor_pos = dim;
     }
 
-    void CursesManager::privSetCursor(int level)
+    void TerminalManager::privSetCursor(int level)
     {
         curs_set(level);
     }
 
-    CursesManager& CursesManager::Instance()
+    TerminalManager& TerminalManager::Instance()
     {
         return CursenApplication::GetCursesManager();
     }
 
-    void CursesManager::clearBuffer(chtype* buffer_to_clear)
+    void TerminalManager::clearBuffer(chtype* buffer_to_clear)
     {
         for (int i = 0; i < buffer_size; ++i)
         {
@@ -322,7 +322,7 @@ namespace cursen
         }
     }
 
-    void CursesManager::nullBuffer(chtype* buffer_to_clear)
+    void TerminalManager::nullBuffer(chtype* buffer_to_clear)
     {
         for (int i = 0; i < buffer_size; ++i)
         {
@@ -330,13 +330,13 @@ namespace cursen
         }
     }
 
-    void CursesManager::clearScreen()
+    void TerminalManager::clearScreen()
     {
         erase();
         clearBuffer(component_layer);
     }
 
-    void CursesManager::Type(const char* string, size_t len, const ColorPair& color)
+    void TerminalManager::Type(const char* string, size_t len, const ColorPair& color)
     {
         chtype converted[len + 1];
         short pair = color.getColorPair();
@@ -347,12 +347,12 @@ namespace cursen
         Type(&converted[0], len);
     }
 
-    void CursesManager::Type(const std::string& string, const ColorPair& color)
+    void TerminalManager::Type(const std::string& string, const ColorPair& color)
     {
         Type(string.c_str(), string.length(), color);
     }
 
-    void CursesManager::Type(const chtype* string, size_t len)
+    void TerminalManager::Type(const chtype* string, size_t len)
     {
         auto text_layer = Instance().text_layer;
         auto buffer_size = Instance().buffer_size;
@@ -364,7 +364,7 @@ namespace cursen
         }
     }
 
-    void CursesManager::Type(char character)
+    void TerminalManager::Type(char character)
     {
         auto text_layer = Instance().text_layer;
         auto buffer_size = Instance().buffer_size;
@@ -373,7 +373,7 @@ namespace cursen
         if (type_pos >= buffer_size) type_pos = 0;
     }
 
-    void CursesManager::Type(chtype character)
+    void TerminalManager::Type(chtype character)
     {
         auto text_layer = Instance().text_layer;
         auto buffer_size = Instance().buffer_size;

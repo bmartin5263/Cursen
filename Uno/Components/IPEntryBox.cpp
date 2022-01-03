@@ -2,7 +2,7 @@
 // Created by Brandon Martin on 8/26/19.
 //
 
-#include <Cursen/Drawing/CursesManager.h>
+#include <Cursen/Drawing/TerminalManager.h>
 #include <Uno/Constants.h>
 #include "IPEntryBox.h"
 
@@ -19,8 +19,8 @@ void IPEntryBox::initialize()
     title_border.initialize();
     title_border.setSize(Vect2(48, 3));
     title_border.setPosition(Vect2(0,0));
-    title_border.setLowerLeft(CursesManager::LTEE);
-    title_border.setLowerRight(CursesManager::RTEE);
+    title_border.setLowerLeft(TerminalManager::LTEE);
+    title_border.setLowerRight(TerminalManager::RTEE);
     addRelative(title_border);
 
     window_label.initialize();
@@ -33,10 +33,10 @@ void IPEntryBox::initialize()
     entry_border.setSize(Vect2(48, 3));
     entry_border.setPosition(Vect2(0,2));
     entry_border.setFill(Content::TRANSPARENT);
-    entry_border.setLowerRight(CursesManager::RTEE);
-    entry_border.setUpperRight(CursesManager::RTEE);
-    entry_border.setLowerLeft(CursesManager::LTEE);
-    entry_border.setUpperLeft(CursesManager::LTEE);
+    entry_border.setLowerRight(TerminalManager::RTEE);
+    entry_border.setUpperRight(TerminalManager::RTEE);
+    entry_border.setLowerLeft(TerminalManager::LTEE);
+    entry_border.setUpperLeft(TerminalManager::LTEE);
     addRelative(entry_border);
 
 //    ip_entry_label.initialize();

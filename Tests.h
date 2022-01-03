@@ -123,7 +123,7 @@
 //}
 
 //std::this_thread::sleep_for(std::chrono::seconds(5));
-//    CursesManager::Initialize(Vect2(70,33));
+//    TerminalManager::Initialize(Vect2(70,33));
 //
 //    chtype c = 'X';
 //    c |= Color::ORANGE;
@@ -134,8 +134,8 @@
 //    chtype c5 = 'X' | Color::GREEN;
 //    chtype c6 = 'X' | Color::YELLOW;
 //
-//    chtype s1 = CursesManager::LLCORNER;
-//    chtype s2 = CursesManager::LLCORNER | Color::BLUE;
+//    chtype s1 = TerminalManager::LLCORNER;
+//    chtype s2 = TerminalManager::LLCORNER | Color::BLUE;
 //    chtype s3 = s2 ^ Color::BLUE;
 //
 //    std::string binary1 = std::bitset<32>(c).to_string();
@@ -214,7 +214,7 @@
 //    refresh();
 //    while (getch() != 'X');
 //
-//    CursesManager::Terminate();
+//    TerminalManager::Terminate();
 
 
 #endif //CURSEN_DEMOS_H

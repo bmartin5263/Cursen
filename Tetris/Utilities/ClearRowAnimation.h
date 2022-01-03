@@ -7,29 +7,26 @@
 
 
 #include <Cursen/Drawing/Animation.h>
-#include <Tetris/GameObjects/Tetris.h>
 #include "DropResult.h"
 
-class TetrisBoard;
+class Tetris;
 class ClearRowAnimation
 {
 
 public:
 
-    ClearRowAnimation(TetrisBoard& board);
-
-    void run(const DropResult& result, Tetris& game, int remainingDrops);
+    void run(const DropResult& result, Tetris* game, int remainingDrops, const std::function<void()>& onComplete);
     void update();
 
 private:
 
     DropResult result;
-    TetrisBoard& board;
     Tetris* game;
     int col_offset;
     int row_offset;
     int remainingDrops;
     cursen::AlarmHandle alarmHandle;
+    std::function<void()> onComplete;
 
 };
 

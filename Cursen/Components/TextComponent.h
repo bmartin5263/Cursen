@@ -32,14 +32,14 @@ namespace cursen {
         /**
          * @brief Sets 'invalid' flag to False, preventing Component from being re-rendered next Screen Draw
          *
-         * This method is automatically called by CursesManager after it is done with rendering the Component.
+         * This method is automatically called by TerminalManager after it is done with rendering the Component.
          */
         void validate();
 
         /**
          * @brief Tells if this Component is invalid and needs to be re-rendered.
          *
-         * This method is called by CursesManager to check if it needs to re-render this Component.
+         * This method is called by TerminalManager to check if it needs to re-render this Component.
          */
         bool isInvalid() const;
 

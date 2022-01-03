@@ -2,7 +2,7 @@
 // Created by Brandon Martin on 4/10/19.
 //
 
-#include <Cursen/Drawing/CursesManager.h>
+#include <Cursen/Drawing/TerminalManager.h>
 #include "UnoTitle.h"
 
 UnoTitle::UnoTitle() {
@@ -20,12 +20,12 @@ void UnoTitle::initialize() {
     redLit = false;
     greenLit = false;
 
-    blue_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(cursen::Color::BLUE));
-    green_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(cursen::Color::GREEN));
-    red_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(cursen::Color::MAGENTA));
-    lit_blue_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(159, cursen::Color(19)));
-    lit_green_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(121, cursen::Color(28)));
-    lit_red_pair = cursen::CursesManager::GetColorPair(cursen::ColorPair(219, cursen::Color(88)));
+    blue_pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(cursen::Color::BLUE));
+    green_pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(cursen::Color::GREEN));
+    red_pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(cursen::Color::MAGENTA));
+    lit_blue_pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(159, cursen::Color(19)));
+    lit_green_pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(121, cursen::Color(28)));
+    lit_red_pair = cursen::TerminalManager::GetColorPair(cursen::ColorPair(219, cursen::Color(88)));
 
     neonFlash.setFrameDuration(4.0);
     neonFlash.add([&]() { blueLit = false; redLit = false; greenLit = false; invalidate(); });

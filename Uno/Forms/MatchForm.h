@@ -62,7 +62,7 @@ public:
 
     void dealInitialCards();
     void dealCards();
-    void beginGame(Card initial_card);
+    void beginGame(const Card& initial_card);
     void waitToBegin();
     void runWinnerAnimation(int winner);
     void tallyPoints(int winner);

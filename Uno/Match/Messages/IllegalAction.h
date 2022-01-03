@@ -34,7 +34,7 @@ public:
         CONTEXT_CHECK_BEGIN
 
         MatchForm* matchForm = GetCurrentForm<MatchForm>();
-        cursen::CursesManager::Beep();
+        cursen::TerminalManager::Beep();
         matchForm->setConsoleWarning(msg);
 
         CONTEXT_END

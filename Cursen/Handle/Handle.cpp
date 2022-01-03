@@ -5,14 +5,14 @@
 #include <assert.h>
 
 #include "Handle.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "HandleManager.h"
 
 Handle::Handle()
 {
     HandleStatus status = HandleManager::ActivateHandle(this->id, this->index);
     assert(status == HandleStatus::Success);
-    cursen::CursesManager::Flash();
+    cursen::TerminalManager::Flash();
 }
 
 Handle::~Handle()

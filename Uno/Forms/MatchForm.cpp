@@ -79,10 +79,10 @@ void MatchForm::initialize()
     hand_box.initialize();
     hand_box.setPosition(Vect2(0, 23));
     hand_box.setSize(Vect2(70, 3));
-    hand_box.setUpperRight(CursesManager::RTEE);
-    hand_box.setLowerRight(CursesManager::RTEE);
-    hand_box.setLowerLeft(CursesManager::LTEE);
-    hand_box.setUpperLeft(CursesManager::LTEE);
+    hand_box.setUpperRight(TerminalManager::RTEE);
+    hand_box.setLowerRight(TerminalManager::RTEE);
+    hand_box.setLowerLeft(TerminalManager::LTEE);
+    hand_box.setUpperLeft(TerminalManager::LTEE);
     hand_box.setFill(Content::TRANSPARENT);
     hand_box.setDrawOrder(lowerBorder.getDrawOrder() + 1);
 
@@ -386,7 +386,7 @@ void MatchForm::setConsoleMessage(std::string msg)
     this->console.setText(msg);
 }
 
-void MatchForm::setConsoleWarning(std::string  msg)
+void MatchForm::setConsoleWarning(std::string msg)
 {
     this->console.setWarning(msg);
 }
@@ -411,7 +411,7 @@ void MatchForm::waitToBegin()
     controller->waitToBegin();
 }
 
-void MatchForm::beginGame(Card initial_card)
+void MatchForm::beginGame(const Card& initial_card)
 {
     match.getDeck().popCard();
     //initial_card = Card(CardColor::BLUE, CardValue::DRAW_2);

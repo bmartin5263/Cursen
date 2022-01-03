@@ -4,7 +4,7 @@
 
 #include "Cursen/CursenApplication.h"
 #include "Cursen/Components/Component.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "Cursen/Events/EventType.h"
 #include "AlarmManager.h"
 #include "EventManager.h"

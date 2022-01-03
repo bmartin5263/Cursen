@@ -3,7 +3,7 @@
 //
 
 #include <cassert>
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "AlarmManager.h"
 #include "AlarmHandle.h"
 #include "EventManager.h"

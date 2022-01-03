@@ -5,6 +5,8 @@
 #ifndef CURSEN_TETRISCONTROLLER_H
 #define CURSEN_TETRISCONTROLLER_H
 
+#include <cassert>
+
 class Tetris;
 class TetrisBoard;
 class BlockBox;
@@ -16,11 +18,11 @@ public:
 
     virtual ~TetrisController() = default;
 
-    void setData(GameForm* form, Tetris* game, TetrisBoard* board)
+    void setData(GameForm* form, Tetris* _game)
     {
+        assert(_game != nullptr);
         this->gameForm = form;
-        this->game = game;
-        this->board = board;
+        this->game = _game;
     }
 
     virtual void pressDrop() = 0;
@@ -34,7 +36,6 @@ protected:
 
     GameForm* gameForm;
     Tetris* game;
-    TetrisBoard* board;
 
 };
 

@@ -16,7 +16,7 @@ class CloseRoom : public DataMessage
 public:
 
     CloseRoom() = default;
-    CloseRoom(std::string msg, bool kick) :
+    CloseRoom(const std::string& msg, bool kick) :
         message(msg), kicked(kick)
     {};
 

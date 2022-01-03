@@ -19,7 +19,7 @@ namespace cursen {
         }
 
         ArrowMap(const ArrowMap& other) {
-            //CursesManager::Beep();
+            //TerminalManager::Beep();
             this->left = other.left;
             this->down = other.down;
             this->right = other.right;

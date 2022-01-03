@@ -4,7 +4,7 @@
 
 #include <Cursen/CursenApplication.h>
 #include "ColorPair.h"
-#include "CursesManager.h"
+#include "TerminalManager.h"
 
 namespace cursen {
 
@@ -47,7 +47,7 @@ namespace cursen {
 
     short ColorPair::getColorPair() const
     {
-        return CursesManager::GetColorPair(*this);
+        return TerminalManager::GetColorPair(*this);
     }
 
     bool ColorPair::hasNoneColor() const

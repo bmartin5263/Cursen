@@ -4,7 +4,7 @@
 
 #include <cassert>
 #include "Content.h"
-#include "CursesManager.h"
+#include "TerminalManager.h"
 
 namespace cursen {
 

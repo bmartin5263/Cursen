@@ -2,13 +2,13 @@
 // Created by Brandon Martin on 9/28/19.
 //
 
-#include <Cursen/Drawing/CursesManager.h>
+#include <Cursen/Drawing/TerminalManager.h>
 #include "TetrisBoard.h"
 
 using namespace cursen;
 
 TetrisBoard::TetrisBoard() :
-    tetrominoField(Vect2(10,22)), clearRowAnimation(*this)
+    tetrominoField(Vect2(10,22))
 {
 
 }
@@ -34,14 +34,13 @@ void TetrisBoard::initialize()
     upper_boarder.setPosition(Vect2(16, 0));
     upper_boarder.setSize(Vect2(12, 3));
     upper_boarder.setLower(' ');
-    upper_boarder.setLowerRight(CursesManager::LLCORNER);
-    upper_boarder.setLowerLeft(CursesManager::LRCORNER);
+    upper_boarder.setLowerRight(TerminalManager::LLCORNER);
+    upper_boarder.setLowerLeft(TerminalManager::LRCORNER);
     addRelative(upper_boarder);
 
     tetrominoField.initialize();
     tetrominoField.setPosition(Vect2(13,1));
     addRelative(tetrominoField);
-
 }
 
 void TetrisBoard::setField(chtype** field, const cursen::Vect2& size)
@@ -57,9 +56,4 @@ cursen::Vect2 TetrisBoard::getScale()
 TetrominoField& TetrisBoard::getField()
 {
     return tetrominoField;
-}
-
-void TetrisBoard::runClearRowAnimation(const DropResult& result, Tetris& game, int remainingDrops)
-{
-    clearRowAnimation.run(result, game, remainingDrops);
 }

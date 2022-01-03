@@ -10,6 +10,8 @@
 #include <ncurses.h>
 #include <Tetris/Utilities/BlockGenerator.h>
 #include <Tetris/Utilities/DropResult.h>
+#include "Tetris/Components/TetrisBoard.h"
+#include "Tetris/Utilities/ClearRowAnimation.h"
 
 class UpdateStrategy;
 
@@ -21,7 +23,7 @@ public:
     typedef chtype** Board;
 
     Tetris() = default;
-    Tetris(const cursen::Vect2 size, UpdateStrategy* update_strategy);
+    Tetris(const cursen::Vect2& size, UpdateStrategy* update_strategy, TetrisBoard* board);
 
     void reset();
     void clearRows(DropResult& result);
@@ -29,6 +31,7 @@ public:
     void spawnNextBlock();
 
     int update();
+    void updateField();
     void pause();
 
     DropResult drop();
@@ -47,9 +50,12 @@ public:
     void rotateLeft();
     bool canRotateLeft();
 
+    void runClearRowAnimation(const DropResult& result, int remainingDrops, const std::function<void()>& onComplete);
+
     bool canPlaceBlock(const Tetromino* block, const cursen::Vect2& offset);
 
     Board getField();
+    TetrisBoard& getBoard();
     cursen::Vect2 getSize();
     cursen::Vect2 getBlockPosition();
     BlockGenerator* getBlockGenerator();
@@ -79,15 +85,17 @@ private:
     void updateGhost();
 
     Board field;
+    TetrisBoard* board;
+
     const Tetromino* current_block;
 
     BlockGenerator* block_generator;
     UpdateStrategy* update_strategy;
+    ClearRowAnimation clearRowAnimation;
 
     cursen::Vect2 size;
     cursen::Vect2 position;
     cursen::Vect2 ghost_position;
-
 
 };
 #endif //CURSEN_TETRIS_H

@@ -8,7 +8,7 @@
 #include "Uno/Network/NetworkManager.h"
 #include "Cursen/CursenApplication.h"
 #include "Cursen/Events/EventManager.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "LobbyForm.h"
 #include "Uno/GameObjects/LobbyType.h"
 #include "Uno/Lobby/LobbyController.h"
@@ -406,7 +406,7 @@ void LobbyForm::setMainPlayerName()
     }
     else
     {
-        CursesManager::Beep();
+        TerminalManager::Beep();
         mode_select_box.setWarning("Name Must Have 1 Character");
     }
 }

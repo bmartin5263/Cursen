@@ -5,7 +5,7 @@
 #include <cassert>
 #include <Cursen/CursenApplication.h>
 #include <Uno/Forms/LobbyForm.h>
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "TextField.h"
 
 namespace cursen {
@@ -68,7 +68,7 @@ namespace cursen {
             content.writeLine(pad, Vect2((int)(*text_to_display).length(), 0), TextAlignment::LEFT, *color_to_display);
         }
 
-        CursesManager::MoveCursor(getPosition() + Vect2(cursor_x, 0));
+        TerminalManager::MoveCursor(getPosition() + Vect2(cursor_x, 0));
     }
 
     void TextField::cursorOn() {
@@ -136,12 +136,12 @@ namespace cursen {
             if (isEnabled()) {
                 setHidden(false);
                 setSilenced(false);
-                CursesManager::SetCursor(1);
-                CursesManager::MoveCursor(getPosition() + Vect2((int) text.length(), 0));
+                TerminalManager::SetCursor(1);
+                TerminalManager::MoveCursor(getPosition() + Vect2((int) text.length(), 0));
             } else {
                 setHidden(true);
                 setSilenced(true);
-                CursesManager::SetCursor(0);
+                TerminalManager::SetCursor(0);
             }
         }
     }

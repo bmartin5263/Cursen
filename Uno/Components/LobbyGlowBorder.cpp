@@ -3,7 +3,7 @@
 //
 
 #include <Cursen/Tools/StopWatch.h>
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "LobbyGlowBorder.h"
 
 using namespace cursen;
@@ -31,19 +31,19 @@ void LobbyGlowBorder::initialize()
     chtype X = Content::TRANSPARENT;
 
     /* Cache the pair values */
-    blue_pair = CursesManager::GetColorPair(ColorPair(Color::BLUE));
-    red_pair = CursesManager::GetColorPair(ColorPair(Color::MAGENTA));
-    green_pair = CursesManager::GetColorPair(ColorPair(Color::GREEN));
-    yellow_pair = CursesManager::GetColorPair(ColorPair(Color::YELLOW));
-    white_pair = CursesManager::GetColorPair(ColorPair(Color::WHITE));
+    blue_pair = TerminalManager::GetColorPair(ColorPair(Color::BLUE));
+    red_pair = TerminalManager::GetColorPair(ColorPair(Color::MAGENTA));
+    green_pair = TerminalManager::GetColorPair(ColorPair(Color::GREEN));
+    yellow_pair = TerminalManager::GetColorPair(ColorPair(Color::YELLOW));
+    white_pair = TerminalManager::GetColorPair(ColorPair(Color::WHITE));
 
     /* Create a table for fast lookups (no ifs) */
     COLOR_LUT[0] = blue_pair;
     COLOR_LUT[1] = red_pair;
     COLOR_LUT[2] = green_pair;
     COLOR_LUT[3] = yellow_pair;
-    COLOR_LUT[4] = CursesManager::GetColorPair(ColorPair(Color::VIOLET));
-    COLOR_LUT[5] = CursesManager::GetColorPair(ColorPair(Color::ORANGE));
+    COLOR_LUT[4] = TerminalManager::GetColorPair(ColorPair(Color::VIOLET));
+    COLOR_LUT[5] = TerminalManager::GetColorPair(ColorPair(Color::ORANGE));
 
     Content& content = getContent();
     content[0][0] = UL | white_pair;

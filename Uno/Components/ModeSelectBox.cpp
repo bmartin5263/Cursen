@@ -5,7 +5,7 @@
 #include "Uno/Network/NetworkManager.h"
 #include "Uno/Network/Client.h"
 #include "ModeSelectBox.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "Uno/Forms/LobbyForm.h"
 
 using namespace cursen;

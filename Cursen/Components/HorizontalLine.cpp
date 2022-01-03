@@ -3,7 +3,7 @@
 //
 
 #include <cassert>
-#include <Cursen/Drawing/CursesManager.h>
+#include <Cursen/Drawing/TerminalManager.h>
 
 #include "HorizontalLine.h"
 
@@ -24,9 +24,9 @@ namespace cursen {
     void HorizontalLine::initialize()
     {
         StandardComponent::initialize();
-        line_char = CursesManager::HLINE;
-        right_marker = CursesManager::RTEE;
-        left_marker = CursesManager::LTEE;
+        line_char = TerminalManager::HLINE;
+        right_marker = TerminalManager::RTEE;
+        left_marker = TerminalManager::LTEE;
     }
 
     void HorizontalLine::render()

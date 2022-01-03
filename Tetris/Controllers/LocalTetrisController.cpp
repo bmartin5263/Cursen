@@ -7,17 +7,17 @@
 
 void LocalTetrisController::pressDrop()
 {
-    gameForm->drop(*game, *board, 1);
+    gameForm->drop(*game, 1);
 }
 
 void LocalTetrisController::pressLeft()
 {
-    gameForm->pressLeft(*game, *board);
+    gameForm->pressLeft(*game);
 }
 
 void LocalTetrisController::pressRight()
 {
-    gameForm->pressRight(*game, *board);
+    gameForm->pressRight(*game);
 }
 
 void LocalTetrisController::handleDrop()
@@ -27,5 +27,5 @@ void LocalTetrisController::handleDrop()
 
 void LocalTetrisController::pressFall()
 {
-    gameForm->fall(*game, *board);
+    gameForm->fall(*game);
 }

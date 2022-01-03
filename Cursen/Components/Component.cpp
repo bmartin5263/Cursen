@@ -6,7 +6,7 @@
 #include <algorithm>
 
 #include "Cursen/CursenApplication.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "Cursen/Events/EventManager.h"
 #include "Component.h"
 

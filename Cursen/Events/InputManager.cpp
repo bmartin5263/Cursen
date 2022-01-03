@@ -5,7 +5,7 @@
 #include "InputManager.h"
 #include "EventManager.h"
 #include "Cursen/CursenApplication.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 
 namespace cursen {
 
@@ -29,25 +29,25 @@ namespace cursen {
                 EventManager::PushEvent(event);
             } else {
                 auto event = Event{};
-                if (key == CursesManager::ESCAPE) {
+                if (key == TerminalManager::ESCAPE) {
                     event.type = EventType::EscPressed;
                     event.key.code = key;
-                } else if (key == CursesManager::BACKSPACE) {
+                } else if (key == TerminalManager::BACKSPACE) {
                     event.type = EventType::DeletePressed;
                     event.key.code = key;
-                } else if (key == CursesManager::ENTER) {
+                } else if (key == TerminalManager::ENTER) {
                     event.type = EventType::EnterPressed;
                     event.key.code = key;
-                } else if (key == CursesManager::UP) {
+                } else if (key == TerminalManager::UP) {
                     event.type = EventType::ArrowPressed;
                     event.arrowPress.up = true;
-                } else if (key == CursesManager::DOWN) {
+                } else if (key == TerminalManager::DOWN) {
                     event.type = EventType::ArrowPressed;
                     event.arrowPress.down = true;
-                } else if (key == CursesManager::LEFT) {
+                } else if (key == TerminalManager::LEFT) {
                     event.type = EventType::ArrowPressed;
                     event.arrowPress.left = true;
-                } else if (key == CursesManager::RIGHT) {
+                } else if (key == TerminalManager::RIGHT) {
                     event.type = EventType::ArrowPressed;
                     event.arrowPress.right = true;
                 } else {

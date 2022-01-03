@@ -3,7 +3,7 @@
 //
 
 #include "Cursen/Events/EventManager.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "Cursor.h"
 #include "CursorManager.h"
 

@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Cursen/Events/AlarmManager.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "TwirlProgress.h"
 
 namespace cursen {

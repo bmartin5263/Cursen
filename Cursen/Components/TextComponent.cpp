@@ -4,7 +4,7 @@
 
 #include "Cursen/CursenApplication.h"
 #include "Cursen/Events/AlarmManager.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "TextComponent.h"
 
 namespace cursen {

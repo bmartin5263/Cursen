@@ -3,7 +3,7 @@
 //
 
 #include <Uno/Forms/LobbyForm.h>
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "Cursen/CursenApplication.h"
 #include "Cursen/Events/AlarmManager.h"
 #include "TestForm.h"
@@ -149,13 +149,13 @@ void TestForm::quitGame() {
 }
 
 void TestForm::flash() {
-    cursen::CursesManager::Flash();
+    cursen::TerminalManager::Flash();
     messageLabel.setText("Flashy Flash");
     open(new LobbyForm);
 }
 
 void TestForm::beep() {
-    //cursen::CursesManager::Beep();
+    //cursen::TerminalManager::Beep();
     messageLabel.setText("Beep Boop");
     open(new TestForm);
 }

@@ -12,7 +12,7 @@
 #include "Events/InputManager.h"
 #include "CursenApplication.h"
 #include "Events/EventManager.h"
-#include "Drawing/CursesManager.h"
+#include "Drawing/TerminalManager.h"
 #include "Components/Form.h"
 
 CURSEN_CLASS_START
@@ -22,7 +22,7 @@ CURSEN_CLASS_START
     CursenApplication::CursenApplication() :
             alarmManager(), eventManager(), cursesManager(), inputManager(), cursorManager(), form_stack(),
             currentForm(nullptr), nextForm(nullptr), UserUpdate([](){}), UserDraw([](){}), cursenDebugger(), palette(),
-            componentMap(), argc(0), argv(nullptr), close_args(nullptr), running(false), requestFormClose(false),
+            argc(0), argv(nullptr), close_args(nullptr), running(false), requestFormClose(false),
             requestFormOpen(false), requestFormSet(false), total_nano(0), frames(0)
     {
         initialize();
@@ -47,7 +47,7 @@ CURSEN_CLASS_START
         instance.running = true;
 
         /* Very Important! Curses must be initialized BEFORE we call initialize on a Form */
-        CursesManager::Initialize(startupForm->getSize());
+        TerminalManager::Initialize(startupForm->getSize());
         instance.OpenForm(startupForm);
         instance.doFormOpen();
 
@@ -76,8 +76,8 @@ CURSEN_CLASS_START
 //            Instance().total_nano += watch.getMicroseconds();
 //            Instance().frames++;
 //
-//            CursesManager::DrawStringBottomLeft(std::to_string(Instance().total_nano / Instance().frames));
-//            CursesManager::Refresh();
+//            TerminalManager::DrawStringBottomLeft(std::to_string(Instance().total_nano / Instance().frames));
+//            TerminalManager::Refresh();
 
             // Cheap Frame-rate limiter so I don't chug CPU cycles
             std::this_thread::sleep_for(std::chrono::milliseconds(17 - watch.getMilliseconds()));
@@ -98,9 +98,9 @@ CURSEN_CLASS_START
 
     void CursenApplication::Draw()
     {
-        CursesManager::Draw(GetCurrentForm()->getComponentDrawMap());
+        TerminalManager::Draw(GetCurrentForm()->getComponentDrawMap());
         Instance().UserDraw();
-        CursesManager::Refresh();
+        TerminalManager::Refresh();
     }
 
     void CursenApplication::Quit()
@@ -245,7 +245,7 @@ CURSEN_CLASS_START
         return Instance().eventManager;
     }
 
-    CursesManager& CursenApplication::GetCursesManager()
+    TerminalManager& CursenApplication::GetCursesManager()
     {
         return Instance().cursesManager;
     }

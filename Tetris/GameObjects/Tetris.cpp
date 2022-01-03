@@ -18,9 +18,14 @@ const Vect2 Tetris::LEFT_OFFSET = Vect2(-1, 0);
 const Vect2 Tetris::RIGHT_OFFSET = Vect2(1, 0);
 const Vect2 Tetris::DOWN_OFFSET = Vect2(0, 1);
 
-Tetris::Tetris(const Vect2 size, UpdateStrategy* update_strategy) :
-    field(new chtype*[size.y]), current_block(nullptr), block_generator(new BlockGenerator), update_strategy(update_strategy),
-    size(size), position(SPAWN_POSITION)
+Tetris::Tetris(const Vect2& size, UpdateStrategy* update_strategy, TetrisBoard* board) :
+    field(new chtype*[size.y]),
+    board(board),
+    current_block(nullptr),
+    block_generator(new BlockGenerator),
+    update_strategy(update_strategy),
+    size(size),
+    position(SPAWN_POSITION)
 {
     //current_block = &Tetromino::I_0;
     for (int y = 0; y < size.y; ++y)
@@ -38,6 +43,7 @@ Tetris::Tetris(const Vect2 size, UpdateStrategy* update_strategy) :
 //    }
 
     spawnNextBlock();
+    updateField();
 }
 
 void Tetris::spawnNextBlock()
@@ -48,6 +54,9 @@ void Tetris::spawnNextBlock()
 
     updateGhost();
     placeBlock();
+
+    board->getNextBox().setTetromino(block_generator->peekNext());
+    board->getAfterBox().setTetromino(block_generator->peekAfter());
 }
 
 
@@ -320,4 +329,17 @@ void Tetris::updateGhost()
     {
         this->ghost_position += Vect2(0, 1);
     }
+}
+
+TetrisBoard &Tetris::getBoard() {
+    return *this->board;
+}
+
+void Tetris::updateField() {
+    this->board->setField(this->field, this->size);
+}
+
+void Tetris::runClearRowAnimation(const DropResult& result, int remainingDrops, const std::function<void()>& onComplete)
+{
+    clearRowAnimation.run(result, this, remainingDrops, onComplete);
 }

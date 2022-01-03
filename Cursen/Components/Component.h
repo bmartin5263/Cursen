@@ -40,7 +40,7 @@ namespace cursen {
          *
          * @return Pointer to this Component's Content
          *
-         * @note Returning a nullptr will cause the CursesManager to skip over drawing/rendering this component.
+         * @note Returning a nullptr will cause the TerminalManager to skip over drawing/rendering this component.
          * This is utilized by AggregateComponent.
          */
         //virtual Content * getContent() = 0;

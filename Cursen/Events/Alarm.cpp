@@ -2,7 +2,7 @@
 // Created by Brandon Martin on 4/1/19.
 //
 
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "Alarm.h"
 
 namespace cursen {
@@ -59,7 +59,7 @@ namespace cursen {
     }
 
     Alarm::~Alarm() {
-        //CursesManager::Flash();
+        //TerminalManager::Flash();
     }
 
     void Alarm::pause()

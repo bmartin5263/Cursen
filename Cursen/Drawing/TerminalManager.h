@@ -2,8 +2,8 @@
 // Created by Brandon Martin on 3/7/19.
 //
 
-#ifndef CURSEN_CURSESMANAGER_H
-#define CURSEN_CURSESMANAGER_H
+#ifndef CURSEN_TERMINALMANAGER_H
+#define CURSEN_TERMINALMANAGER_H
 
 #include <ncurses.h>
 #include <queue>
@@ -20,7 +20,7 @@ class TextComponent;
 
 namespace cursen {
 
-    class CursesManager {
+    class TerminalManager {
 
     public:
 
@@ -116,18 +116,18 @@ namespace cursen {
         // Static Data
 
 
-        static CursesManager& Instance();
+        static TerminalManager& Instance();
         friend class CursenApplication;
 
-        CursesManager();
-        CursesManager(const CursesManager& other) = delete;
-        CursesManager(CursesManager&& other) noexcept = delete;
-        CursesManager& operator = (const CursesManager& other) = delete;
-        CursesManager& operator = (CursesManager&& other) = delete;
-        ~CursesManager();
+        TerminalManager();
+        TerminalManager(const TerminalManager& other) = delete;
+        TerminalManager(TerminalManager&& other) noexcept = delete;
+        TerminalManager& operator = (const TerminalManager& other) = delete;
+        TerminalManager& operator = (TerminalManager&& other) = delete;
+        ~TerminalManager();
 
     };
 
 }
 
-#endif //CURSEN_CURSESMANAGER_H
+#endif //CURSEN_TERMINALMANAGER_H

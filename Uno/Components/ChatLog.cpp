@@ -3,7 +3,7 @@
 //
 
 #include "ChatLog.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 
 using namespace cursen;
 

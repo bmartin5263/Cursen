@@ -2,7 +2,7 @@
 // Created by Brandon Martin on 5/31/19.
 //
 
-#include <Cursen/Drawing/CursesManager.h>
+#include <Cursen/Drawing/TerminalManager.h>
 #include "ChatBox.h"
 
 using namespace cursen;
@@ -30,15 +30,15 @@ void ChatBox::initialize()
     titleBox.initialize();
     titleBox.setSize(Vect2(34, 3));
     titleBox.setPosition(Vect2(0, 0));
-    titleBox.setLowerLeft(CursesManager::LTEE);
-    titleBox.setLowerRight(CursesManager::RTEE);
+    titleBox.setLowerLeft(TerminalManager::LTEE);
+    titleBox.setLowerRight(TerminalManager::RTEE);
     addRelative(titleBox);
 
     messageBox.initialize();
     messageBox.setSize(Vect2(34, 3));
     messageBox.setPosition(Vect2(0,12));
-    messageBox.setUpperRight(CursesManager::RTEE);
-    messageBox.setUpperLeft(CursesManager::LTEE);
+    messageBox.setUpperRight(TerminalManager::RTEE);
+    messageBox.setUpperLeft(TerminalManager::LTEE);
     addRelative(messageBox);
 
     title.initialize();

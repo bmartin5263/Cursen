@@ -14,7 +14,7 @@
 #include "Components/TextComponent.h"
 #include "Cursen/Events/AlarmManager.h"
 #include "Cursen/Events/InputManager.h"
-#include "Cursen/Drawing/CursesManager.h"
+#include "Cursen/Drawing/TerminalManager.h"
 #include "Cursen/Events/EventManager.h"
 #include "Cursen/Cursor/CursorManager.h"
 
@@ -79,8 +79,6 @@ CURSEN_CLASS_START
 
         static CursenDebugger& GetDebugger();
 
-        static ComponentMap& getComponentMap() { return Instance().componentMap; };
-
         static void Register(TextComponent* component);
         static void Deregister(TextComponent* component);
         static void SetDrawOrder(TextComponent* component, size_t order);
@@ -90,7 +88,7 @@ CURSEN_CLASS_START
 
         static AlarmManager& GetAlarmManager();
         static EventManager& GetEventManager();
-        static CursesManager& GetCursesManager();
+        static TerminalManager& GetCursesManager();
         static InputManager& GetInputManager();
         static CursorManager& GetCursorManager();
 
@@ -98,7 +96,7 @@ CURSEN_CLASS_START
 
         AlarmManager alarmManager;
         EventManager eventManager;
-        CursesManager cursesManager;
+        TerminalManager cursesManager;
         InputManager inputManager;
         CursorManager cursorManager;
 
@@ -110,7 +108,6 @@ CURSEN_CLASS_START
         UserFunction UserDraw;              /// User callback for after Draws
         CursenDebugger cursenDebugger;
         ColorPalette palette;
-        ComponentMap componentMap;
         int argc;
         char** argv;
         void* close_args;
